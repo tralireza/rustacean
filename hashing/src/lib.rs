@@ -36,6 +36,7 @@ mod tests {
 
     #[test]
     fn test_1346() {
-        assert_eq!(Solution1346::check_if_exist(vec![10, 2, 5, 3]), true)
+        assert_eq!(Solution1346::check_if_exist(vec![10, 2, 5, 3]), true);
+        assert_eq!(Solution1346::check_if_exist(vec![3, 1, 7, 11]), false);
     }
 }
