@@ -72,4 +72,23 @@ mod tests {
         let mset = Mandelbrot::calculate(1000, -2.0, 1.0, -1.0, 1.0, 100, 24);
         Mandelbrot::render(mset);
     }
+
+    #[test]
+    fn test_io() {
+        use std::fs::File;
+        use std::io::{BufRead, BufReader};
+
+        match File::open("src/lib.rs") {
+            Ok(f) => {
+                let rdr = BufReader::new(f);
+                for line in rdr.lines() {
+                    match line {
+                        Ok(line) => println!(" -> {}", line),
+                        Err(_) => (),
+                    }
+                }
+            }
+            Err(e) => println!(" -> Err: {}", e),
+        }
+    }
 }
