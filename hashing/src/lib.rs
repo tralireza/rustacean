@@ -30,6 +30,34 @@ impl Solution1346 {
     }
 }
 
+// 2554m Maximum Number of Integers to Choose From a Range I
+struct Solution2554 {}
+
+impl Solution2554 {
+    pub fn max_count(banned: Vec<i32>, n: i32, max_sum: i32) -> i32 {
+        use std::collections::HashSet;
+        let bset = banned.into_iter().collect::<HashSet<i32>>();
+        println!(" -> HashSet :: {:?}", bset);
+
+        let mut count = 0;
+        let mut rsum = 0;
+
+        for v in 1..=n {
+            if rsum + v > max_sum {
+                return count;
+            }
+            if bset.contains(&v) {
+                continue;
+            }
+
+            rsum += v;
+            count += 1;
+        }
+
+        count
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,6 +66,13 @@ mod tests {
     fn test_1346() {
         assert_eq!(Solution1346::check_if_exist(vec![10, 2, 5, 3]), true);
         assert_eq!(Solution1346::check_if_exist(vec![3, 1, 7, 11]), false);
+    }
+
+    #[test]
+    fn test_2554() {
+        assert_eq!(Solution2554::max_count(vec![1, 6, 5], 5, 6), 2);
+        assert_eq!(Solution2554::max_count(vec![1, 2, 3, 4, 5, 6, 7], 8, 1), 0);
+        assert_eq!(Solution2554::max_count(vec![11], 7, 50), 7);
     }
 
     #[test]
