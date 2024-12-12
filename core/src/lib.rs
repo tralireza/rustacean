@@ -1,5 +1,32 @@
 use num::complex::Complex;
 
+// 2558 Take Gifts From the Richest Pile
+struct Solution2558 {}
+
+impl Solution2558 {
+    pub fn pick_gifts(gifts: Vec<i32>, k: i32) -> i64 {
+        use std::collections::BinaryHeap;
+
+        let mut pq = BinaryHeap::new();
+        for n in gifts {
+            pq.push(n);
+        }
+
+        for _ in 0..k {
+            if let Some(g) = pq.pop() {
+                pq.push(f64::sqrt(g as f64) as i32);
+            }
+        }
+
+        let mut gtotal = 0i64;
+        for g in pq {
+            gtotal += g as i64;
+        }
+
+        gtotal
+    }
+}
+
 struct Mandelbrot {}
 
 impl Mandelbrot {
@@ -66,6 +93,13 @@ impl Mandelbrot {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_solution2558() {
+        assert_eq!(Solution2558::pick_gifts(vec![25, 64, 9, 4, 100], 4), 29);
+        println!("--");
+        assert_eq!(Solution2558::pick_gifts(vec![1, 1, 1, 1], 4), 4);
+    }
 
     #[test]
     fn test_mandelbrot() {
