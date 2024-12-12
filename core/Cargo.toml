@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 fmt = "0.1.0"
 num = "0.4.3"
+rand = "0.8.5"
+regex = "1.11.1"
