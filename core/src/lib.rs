@@ -125,4 +125,29 @@ mod tests {
             Err(e) => println!(" -> Err: {}", e),
         }
     }
+
+    #[derive(Debug)]
+    struct MockFile;
+
+    trait Read {
+        fn read(self: &Self, bfr: &mut Vec<u8>) -> Result<usize, String>;
+    }
+
+    impl Read for MockFile {
+        fn read(self: &MockFile, bfr: &mut Vec<u8>) -> Result<usize, String> {
+            bfr.push(1);
+            Ok(1)
+        }
+    }
+
+    #[test]
+    fn test_mockfile() {
+        let f = MockFile{};
+        let mut bfr = vec!();
+
+        match f.read(&mut bfr) {
+            Ok(bytes) => println!("{:?} -> {}", f, bytes),
+            Err(_) => (),
+        }
+    }
 }

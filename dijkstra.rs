@@ -27,7 +27,7 @@ struct Edge {
     cost: usize,
 }
 
-// Retruns the shortest path from `src` to `dst` in graph of `ladj`, if any
+// Returns the shortest path from `src` to `dst` in graph of `ladj`, if any
 fn shortest_path(ladj: &Vec<Vec<Edge>>, src: usize, dst: usize) -> Option<usize> {
     let mut dist: Vec<_> = (0..ladj.len()).map(|_| usize::MAX).collect();
     let mut pq = BinaryHeap::new();
