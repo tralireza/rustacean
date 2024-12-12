@@ -126,8 +126,29 @@ mod tests {
         }
     }
 
+    #[derive(Debug, PartialEq)]
+    enum MFileState {
+        Open,
+        Closed,
+    }
+
+    use std::fmt;
+    use std::fmt::Display;
+
+    impl Display for MFileState {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            match *self {
+                MFileState::Open => write!(f, "OPEN"),
+                MFileState::Closed => write!(f, "CLOSED"),
+            }
+        }
+    }
+
     #[derive(Debug)]
-    struct MockFile;
+    struct MockFile {
+        name: String,
+        state: MFileState,
+    }
 
     trait Read {
         fn read(self: &Self, bfr: &mut Vec<u8>) -> Result<usize, String>;
@@ -140,14 +161,32 @@ mod tests {
         }
     }
 
+    impl Display for MockFile {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "<{} ({})>", self.name, self.state)
+        }
+    }
+
+    impl MockFile {
+        fn new(name: &str) -> MockFile {
+            MockFile {
+                name: String::from(name),
+                state: MFileState::Closed,
+            }
+        }
+    }
+
     #[test]
     fn test_mockfile() {
-        let f = MockFile{};
+        let f = MockFile::new("file.mock");
         let mut bfr = vec!();
 
         match f.read(&mut bfr) {
-            Ok(bytes) => println!("{:?} -> {}", f, bytes),
+            Ok(bytes) => println!("{} -> {}", f, bytes),
             Err(_) => (),
         }
+
+        println!("-> {:?}", f);
+        println!("-> {}", f);
     }
 }
