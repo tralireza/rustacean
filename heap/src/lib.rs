@@ -58,6 +58,39 @@ impl Solution2593 {
     }
 }
 
+/// 2762m Continuous Subarrays
+struct Solution2762;
+
+impl Solution2762 {
+    pub fn continuous_subarrays(nums: Vec<i32>) -> i64 {
+        use std::collections::BTreeMap;
+
+        let mut frq = BTreeMap::new();
+        let mut count = 0i64;
+
+        let (mut left, mut right) = (0, 0);
+        while right < nums.len() {
+            frq.insert(nums[right], frq.get(&nums[right]).unwrap_or(&0) + 1);
+
+            while *frq.last_entry().unwrap().key() - *frq.first_entry().unwrap().key() > 2 {
+                frq.insert(nums[left], frq[&nums[left]] - 1);
+                if frq[&nums[left]] == 0 {
+                    frq.remove(&nums[left]);
+                }
+
+                left += 1;
+            }
+
+            right += 1;
+            count += (right - left) as i64;
+        }
+
+        println!(" -> BTreeMap :: {:?}", frq);
+
+        count
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -68,5 +101,12 @@ mod tests {
         assert_eq!(Solution2593::find_score(vec![2, 1, 3, 4, 5, 2]), 7);
         assert_eq!(Solution2593::find_score(vec![2, 3, 5, 1, 3, 2]), 5);
         assert_eq!(Solution2593::find_score(vec![8, 6, 1, 9, 2, 2, 8]), 19);
+    }
+
+    #[test]
+    /// 2762m Continuous Subarrays
+    fn test_solution2762() {
+        assert_eq!(Solution2762::continuous_subarrays(vec![5, 4, 2, 4]), 8);
+        assert_eq!(Solution2762::continuous_subarrays(vec![1, 2, 3]), 6);
     }
 }
