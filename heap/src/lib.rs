@@ -91,6 +91,35 @@ impl Solution2762 {
     }
 }
 
+/// 3264 Find Array State After K Multiplication Operations I
+struct Solution3264;
+
+impl Solution3264 {
+    pub fn get_final_state(nums: Vec<i32>, k: i32, multiplier: i32) -> Vec<i32> {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let mut pq = BinaryHeap::with_capacity(nums.len());
+
+        for (i, &n) in nums.iter().enumerate() {
+            pq.push(Reverse((n, i)));
+        }
+
+        for _ in 0..k {
+            if let Some(Reverse((n, i))) = pq.pop() {
+                pq.push(Reverse((multiplier * n, i)));
+            }
+        }
+
+        let mut nums = nums;
+        for Reverse((n, i)) in pq {
+            nums[i] = n;
+        }
+
+        nums
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -108,5 +137,15 @@ mod tests {
     fn test_solution2762() {
         assert_eq!(Solution2762::continuous_subarrays(vec![5, 4, 2, 4]), 8);
         assert_eq!(Solution2762::continuous_subarrays(vec![1, 2, 3]), 6);
+    }
+
+    #[test]
+    /// 3264 Final Array State After K Multiplication Operations I
+    fn test_solution3264() {
+        assert_eq!(
+            Solution3264::get_final_state(vec![2, 1, 3, 5, 6], 5, 2),
+            vec![8, 4, 6, 5, 6]
+        );
+        assert_eq!(Solution3264::get_final_state(vec![1, 2], 3, 4), vec![16, 8]);
     }
 }
