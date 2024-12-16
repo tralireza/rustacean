@@ -111,6 +111,8 @@ impl Solution3264 {
             }
         }
 
+        println!(" -> {:?}", pq);
+
         let mut nums = nums;
         for Reverse((n, i)) in pq {
             nums[i] = n;
