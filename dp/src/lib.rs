@@ -56,6 +56,40 @@ impl Solution44 {
     }
 }
 
+/// 91m Decode Ways
+struct Solution91;
+
+impl Solution91 {
+    pub fn num_decodings(s: String) -> i32 {
+        let mut dp = vec![0; s.len() + 1];
+
+        let s = s.as_bytes();
+        println!(" -> :: {:?}", s);
+
+        if s[0] == b'0' {
+            return 0;
+        }
+
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for i in 1..s.len() {
+            dp[i + 1] += match s[i] - b'0' {
+                1..=9 => dp[i],
+                _ => 0,
+            };
+            dp[i + 1] += match 10 * (s[i - 1] - b'0') + s[i] - b'0' {
+                10..=26 => dp[i - 1],
+                _ => 0,
+            };
+
+            println!("{} -> {:?}", i, dp);
+        }
+
+        dp[s.len()]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -73,5 +107,13 @@ mod tests {
         assert!(!Solution44::is_match("aa".to_string(), "a".to_string()));
         assert!(Solution44::is_match("aa".to_string(), "*".to_string()));
         assert!(!Solution44::is_match("cb".to_string(), "?a".to_string()));
+    }
+
+    #[test]
+    fn test_solution91() {
+        assert_eq!(Solution91::num_decodings("12".to_string()), 2);
+        assert_eq!(Solution91::num_decodings("226".to_string()), 3);
+        assert_eq!(Solution91::num_decodings("06".to_string()), 0);
+        assert_eq!(Solution91::num_decodings("2101".to_string()), 1);
     }
 }
