@@ -42,6 +42,8 @@ impl Solution2182 {
             }
         }
 
+        println!(" -> f# :: {:?}", freq);
+
         s
     }
 }
