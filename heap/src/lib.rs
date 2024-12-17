@@ -1,5 +1,51 @@
 //! Priority Queue
 
+/// 2182m Construct String With Repeat Limit
+struct Solution2182;
+
+impl Solution2182 {
+    pub fn repeat_limited_string(s: String, repeat_limit: i32) -> String {
+        use std::collections::BinaryHeap;
+
+        let s = s.as_bytes();
+        let mut freq = vec![0; 26];
+        for l in s {
+            freq[(l - b'a') as usize] += 1;
+        }
+
+        let mut pq = BinaryHeap::new();
+        for (l, &f) in freq.iter().enumerate() {
+            if f > 0 {
+                pq.push((l as u8 + b'a', f));
+            }
+        }
+
+        println!(" -> PQ :: {:?}", pq);
+
+        let mut s = String::new();
+        while let Some((l, mut f)) = pq.pop() {
+            for _ in 0..f.min(repeat_limit) {
+                s.push(l as char);
+            }
+            f -= repeat_limit;
+
+            if f > 0 {
+                if let Some((ll, mut lf)) = pq.pop() {
+                    s.push(ll as char);
+                    lf -= 1;
+                    if lf > 0 {
+                        pq.push((ll, lf));
+                    }
+
+                    pq.push((l, f));
+                }
+            }
+        }
+
+        s
+    }
+}
+
 /// 2593m Find Score of an Array After Marking All Elements
 struct Solution2593;
 
@@ -125,6 +171,19 @@ impl Solution3264 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    /// 2182m Construct String With Repeat Limit
+    fn test_solution2182() {
+        assert_eq!(
+            Solution2182::repeat_limited_string(String::from("cczazcc"), 3),
+            "zzcccac".to_string()
+        );
+        assert_eq!(
+            Solution2182::repeat_limited_string(String::from("aababab"), 2),
+            "bbabaa".to_string()
+        );
+    }
 
     #[test]
     /// 2593m Find Score of an Array After Marking All Elements
