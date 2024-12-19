@@ -9,7 +9,7 @@ impl Solution1475 {
 
         let mut rst = prices.clone();
         for i in 0..prices.len() {
-            while stack.len() > 0 && prices[stack[stack.len() - 1]] >= prices[i] {
+            while !stack.is_empty() && prices[stack[stack.len() - 1]] >= prices[i] {
                 if let Some(j) = stack.pop() {
                     rst[j] -= prices[i];
                 }
