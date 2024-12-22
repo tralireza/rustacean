@@ -95,32 +95,34 @@ struct Solution3393;
 
 impl Solution3393 {
     pub fn count_paths_with_xor_value(grid: Vec<Vec<i32>>, k: i32) -> i32 {
-        let (Rows, Cols) = (grid.len(), grid[0].len());
-        let mut dp = vec![vec![vec![0; 16]; Cols]; Rows];
+        let (rows, cols) = (grid.len(), grid[0].len());
+        const M: i32 = 1000_000_007;
+
+        let mut dp = vec![vec![vec![0; 16]; cols]; rows];
 
         dp[0][0][grid[0][0] as usize] = 1;
-        for r in 1..Rows {
+        for r in 1..rows {
             for x in 0..16 {
-                dp[r][0][(grid[r][0] ^ x) as usize] += dp[r-1][0][x as usize];
+                dp[r][0][grid[r][0] as usize ^ x] += dp[r - 1][0][x];
             }
         }
-        for c in 1..Cols {
+        for c in 1..cols {
             for x in 0..16 {
-                dp[0][c][(grid[0][c] ^ x) as usize] += dp[0][c-1][x as usize];
+                dp[0][c][grid[0][c] as usize ^ x] += dp[0][c - 1][x];
             }
         }
 
-        for r in 1..Rows {
-            for c in 1..Cols {
+        for r in 1..rows {
+            for c in 1..cols {
                 for x in 0..16 {
-                    dp[r][c][(grid[r][c] ^ x) as usize] += dp[r-1][c][x as usize] + dp[r][c-1][x as usize];
+                    dp[r][c][grid[r][c] as usize ^ x] += (dp[r - 1][c][x] + dp[r][c - 1][x]) % M;
                 }
             }
         }
 
         println!("{:?}", dp);
 
-        dp[Rows - 1][Cols - 1][k as usize]
+        dp[rows - 1][cols - 1][k as usize]
     }
 }
 
@@ -163,7 +165,7 @@ mod tests {
         println!();
         assert_eq!(
             Solution3393::count_paths_with_xor_value(
-                vec![vec![1, 3, 3, 3], vec![0, 3, 3, 2], vec![3,0,1,1]],
+                vec![vec![1, 3, 3, 3], vec![0, 3, 3, 2], vec![3, 0, 1, 1]],
                 2,
             ),
             5,
