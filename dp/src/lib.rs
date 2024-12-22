@@ -90,6 +90,40 @@ impl Solution91 {
     }
 }
 
+/// 3393m Count Paths With the Given XOR Value
+struct Solution3393;
+
+impl Solution3393 {
+    pub fn count_paths_with_xor_value(grid: Vec<Vec<i32>>, k: i32) -> i32 {
+        let (Rows, Cols) = (grid.len(), grid[0].len());
+        let mut dp = vec![vec![vec![0; 16]; Cols]; Rows];
+
+        dp[0][0][grid[0][0] as usize] = 1;
+        for r in 1..Rows {
+            for x in 0..16 {
+                dp[r][0][(grid[r][0] ^ x) as usize] += dp[r-1][0][x as usize];
+            }
+        }
+        for c in 1..Cols {
+            for x in 0..16 {
+                dp[0][c][(grid[0][c] ^ x) as usize] += dp[0][c-1][x as usize];
+            }
+        }
+
+        for r in 1..Rows {
+            for c in 1..Cols {
+                for x in 0..16 {
+                    dp[r][c][(grid[r][c] ^ x) as usize] += dp[r-1][c][x as usize] + dp[r][c-1][x as usize];
+                }
+            }
+        }
+
+        println!("{:?}", dp);
+
+        dp[Rows - 1][Cols - 1][k as usize]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -115,5 +149,24 @@ mod tests {
         assert_eq!(Solution91::num_decodings("226".to_string()), 3);
         assert_eq!(Solution91::num_decodings("06".to_string()), 0);
         assert_eq!(Solution91::num_decodings("2101".to_string()), 1);
+    }
+
+    #[test]
+    fn test_solution3393() {
+        assert_eq!(
+            Solution3393::count_paths_with_xor_value(
+                vec![vec![2, 1, 5], vec![7, 10, 0], vec![12, 6, 4]],
+                11,
+            ),
+            3,
+        );
+        println!();
+        assert_eq!(
+            Solution3393::count_paths_with_xor_value(
+                vec![vec![1, 3, 3, 3], vec![0, 3, 3, 2], vec![3,0,1,1]],
+                2,
+            ),
+            5,
+        );
     }
 }
