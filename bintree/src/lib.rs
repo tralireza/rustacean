@@ -11,12 +11,12 @@ impl Solution2872 {
         k: i32,
     ) -> i32 {
         if n == 1 {
-            return 1
+            return 1;
         }
-        
+
         let n = n as usize;
         let mut graph = vec![vec![]; n];
-        let mut ins = vec![0; n]; // v: In Degrees 
+        let mut ins = vec![0; n]; // v: In Degrees
 
         for e in edges {
             let (v, u) = (e[0] as usize, e[1] as usize);
@@ -34,15 +34,12 @@ impl Solution2872 {
                 queue.push_back(v);
             }
         }
-       
+
         let mut values = values;
         let mut cmps = 0;
-        while queue.len() > 0 {
+
+        while let Some(v) = queue.pop_front() {
             println!(" -> Q :: {:?}", queue);
-            
-            let Some(v) = queue.pop_front() else {
-                continue;
-            };
 
             ins[v] -= 1;
             let mut rval = 0;
@@ -54,19 +51,16 @@ impl Solution2872 {
 
             for u in &graph[v] {
                 let u = *u;
-                if ins[u] == 0 {
-                    continue;
-                }
+                if ins[u] > 0 {
+                    values[u] += rval % k;
 
-                ins[u] -= 1;
-                values[u] += rval%k;
-
-                if ins[u] == 1 {
-                    queue.push_back(u);
+                    ins[u] -= 1;
+                    if ins[u] == 1 {
+                        queue.push_back(u);
+                    }
                 }
             }
         }
-
 
         cmps
     }
@@ -86,6 +80,23 @@ mod tests {
                 6
             ),
             2
+        );
+        println!();
+        assert_eq!(
+            Solution2872::max_k_divisible_components(
+                7,
+                vec![
+                    vec![0, 1],
+                    vec![0, 2],
+                    vec![1, 3],
+                    vec![1, 4],
+                    vec![2, 5],
+                    vec![2, 6]
+                ],
+                vec![3, 0, 6, 1, 5, 2, 1],
+                3
+            ),
+            3
         );
     }
 }
