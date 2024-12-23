@@ -1,4 +1,4 @@
-use num::complex::Complex;
+//! Rust Core
 
 // 2558 Take Gifts From the Richest Pile
 struct Solution2558 {}
@@ -27,6 +27,7 @@ impl Solution2558 {
     }
 }
 
+use num::complex::Complex;
 struct Mandelbrot {}
 
 impl Mandelbrot {
@@ -90,6 +91,24 @@ impl Mandelbrot {
     }
 }
 
+/// 342 Power of Four
+struct Solution342;
+
+impl Solution342 {
+    pub fn is_power_of_four(n: i32) -> bool {
+        if n == 0 {
+            return false;
+        }
+
+        let mut n = n;
+        while n % 4 == 0 {
+            n /= 4;
+        }
+
+        n == 1
+    }
+}
+
 /// 3396 Minimum Number of Operations to Make Elements in Array Distinct
 struct Solution3396;
 
@@ -133,16 +152,23 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_mandelbrot() {
+        let mset = Mandelbrot::calculate(1000, -2.0, 1.0, -1.0, 1.0, 100, 24);
+        Mandelbrot::render(mset);
+    }
+
+    #[test]
+    fn test_solution342() {
+        assert!(Solution342::is_power_of_four(16));
+        assert!(!Solution342::is_power_of_four(5));
+        assert!(Solution342::is_power_of_four(1));
+    }
+
+    #[test]
     fn test_solution2558() {
         assert_eq!(Solution2558::pick_gifts(vec![25, 64, 9, 4, 100], 4), 29);
         println!("--");
         assert_eq!(Solution2558::pick_gifts(vec![1, 1, 1, 1], 4), 4);
-    }
-
-    #[test]
-    fn test_mandelbrot() {
-        let mset = Mandelbrot::calculate(1000, -2.0, 1.0, -1.0, 1.0, 100, 24);
-        Mandelbrot::render(mset);
     }
 
     #[test]
