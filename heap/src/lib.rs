@@ -139,6 +139,51 @@ impl Solution2762 {
     }
 }
 
+/// 2940h Find Building Where Alice and Bob Can Meet
+struct Solution2940;
+
+impl Solution2940 {
+    pub fn leftmost_building_queries(heights: Vec<i32>, queries: Vec<Vec<i32>>) -> Vec<i32> {
+        use std::cmp::Reverse;
+
+        let mut rst = vec![-1; queries.len()];
+        let mut xqueries = vec![vec![]; heights.len()];
+
+        for (i, query) in queries.iter().enumerate() {
+            let (mut a, mut b) = (query[0], query[1]);
+            if a > b {
+                std::mem::swap(&mut a, &mut b);
+            }
+
+            match heights[a as usize] < heights[b as usize] || a == b {
+                true => rst[i] = b,
+                _ => xqueries[b as usize].push((heights[a as usize], i)),
+            };
+        }
+
+        let mut pq = std::collections::BinaryHeap::new();
+        for (i, h) in heights.iter().enumerate() {
+            println!(" -> PQ :: {:?}", pq);
+
+            while let Some(Reverse((qh, qi))) = pq.peek() {
+                match qh < h {
+                    true => {
+                        rst[*qi] = i as i32;
+                        pq.pop();
+                    }
+                    _ => break,
+                };
+            }
+
+            for query in &xqueries[i] {
+                pq.push(Reverse(*query));
+            }
+        }
+
+        rst
+    }
+}
+
 /// 3264 Find Array State After K Multiplication Operations I
 struct Solution3264;
 
@@ -200,6 +245,25 @@ mod tests {
     fn test_solution2762() {
         assert_eq!(Solution2762::continuous_subarrays(vec![5, 4, 2, 4]), 8);
         assert_eq!(Solution2762::continuous_subarrays(vec![1, 2, 3]), 6);
+    }
+
+    #[test]
+    fn test_solution2940() {
+        assert_eq!(
+            Solution2940::leftmost_building_queries(
+                vec![6, 4, 8, 5, 2, 7],
+                vec![vec![0, 1], vec![0, 3], vec![2, 4], vec![3, 4], vec![2, 2]]
+            ),
+            vec![2, 5, -1, 5, 2]
+        );
+        println!();
+        assert_eq!(
+            Solution2940::leftmost_building_queries(
+                vec![5, 3, 8, 2, 6, 1, 4, 6],
+                vec![vec![0, 7], vec![3, 5], vec![5, 2], vec![3, 0], vec![1, 6]]
+            ),
+            vec![7, 6, -1, 4, 6]
+        );
     }
 
     #[test]

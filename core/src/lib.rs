@@ -90,6 +90,44 @@ impl Mandelbrot {
     }
 }
 
+/// 3396 Minimum Number of Operations to Make Elements in Array Distinct
+struct Solution3396;
+
+impl Solution3396 {
+    pub fn minimum_operations(nums: Vec<i32>) -> i32 {
+        let mut freq = vec![0; 101];
+        nums.iter().for_each(|n| freq[*n as usize] += 1);
+
+        let mut ops = 0;
+        let mut i = 0;
+
+        loop {
+            println!(" -> {:?}", freq);
+
+            let mut dups = false;
+            for f in &freq {
+                if f > &1 {
+                    dups = true;
+                    break;
+                }
+            }
+            if !dups {
+                break;
+            }
+
+            ops += 1;
+            (0..3).for_each(|_| {
+                if i < nums.len() {
+                    freq[nums[i] as usize] -= 1;
+                    i += 1;
+                }
+            });
+        }
+
+        ops
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -105,6 +143,18 @@ mod tests {
     fn test_mandelbrot() {
         let mset = Mandelbrot::calculate(1000, -2.0, 1.0, -1.0, 1.0, 100, 24);
         Mandelbrot::render(mset);
+    }
+
+    #[test]
+    fn test_solution3396() {
+        assert_eq!(
+            Solution3396::minimum_operations(vec![1, 2, 3, 4, 2, 3, 3, 5, 7]),
+            2
+        );
+        println!();
+        assert_eq!(Solution3396::minimum_operations(vec![4, 5, 6, 4, 4]), 2);
+        println!();
+        assert_eq!(Solution3396::minimum_operations(vec![6, 7, 8, 9]), 0);
     }
 
     #[test]
@@ -179,7 +229,7 @@ mod tests {
     #[test]
     fn test_mockfile() {
         let f = MockFile::new("file.mock");
-        let mut bfr = vec!();
+        let mut bfr = vec![];
 
         match f.read(&mut bfr) {
             Ok(bytes) => println!("{} -> {}", f, bytes),
