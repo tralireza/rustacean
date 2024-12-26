@@ -126,9 +126,44 @@ impl Solution3393 {
     }
 }
 
+/// 494m Target Sum
+struct Solution494;
+
+impl Solution494 {
+    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {
+        let tsum = nums.iter().fold(0, |acc, v| acc + v);
+        if target > tsum {
+            return 0;
+        }
+
+        let mut dp = vec![vec![0; (2 * tsum + 1) as usize]; nums.len()];
+        dp[0][(tsum + nums[0]) as usize] = 1;
+        dp[0][(tsum - nums[0]) as usize] = 1;
+
+        for i in 1..nums.len() {
+            for t in -tsum..=tsum {
+                if dp[i - 1][(tsum + t) as usize] > 0 {
+                    dp[i][(tsum + t + nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
+                    dp[i][(tsum + t - nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
+                }
+            }
+        }
+
+        println!(" -> {:?}", dp);
+
+        dp[nums.len() - 1][(tsum + target) as usize]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_solution494() {
+        assert_eq!(Solution494::find_target_sum_ways(vec![1, 1, 1, 1, 1], 3), 5);
+        assert_eq!(Solution494::find_target_sum_ways(vec![1], 1), 1);
+    }
 
     #[test]
     fn test_solution10() {
