@@ -131,7 +131,7 @@ struct Solution494;
 
 impl Solution494 {
     pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {
-        let tsum = nums.iter().fold(0, |acc, v| acc + v);
+        let tsum = nums.iter().sum();
         if target.abs() > tsum {
             return 0;
         }
