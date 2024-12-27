@@ -112,7 +112,7 @@ mod tests {
     fn test_complex() {
         assert_eq!(
             (Complex::new(1.0, 1.0) * Complex { re: 1.0, im: 1.0 }).norm(),
-            2,
+            2.0,
         )
     }
 }
