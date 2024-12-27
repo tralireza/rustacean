@@ -90,6 +90,52 @@ impl Solution91 {
     }
 }
 
+/// 494m Target Sum
+struct Solution494;
+
+impl Solution494 {
+    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {
+        let tsum = nums.iter().sum();
+        if target.abs() > tsum {
+            return 0;
+        }
+
+        let mut dp = vec![vec![0; (2 * tsum + 1) as usize]; nums.len()];
+        dp[0][(tsum + nums[0]) as usize] = 1;
+        dp[0][(tsum - nums[0]) as usize] += 1;
+
+        for i in 1..nums.len() {
+            for t in -tsum..=tsum {
+                if dp[i - 1][(tsum + t) as usize] > 0 {
+                    dp[i][(tsum + t + nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
+                    dp[i][(tsum + t - nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
+                }
+            }
+        }
+
+        println!(" -> {:?}", dp);
+
+        dp[nums.len() - 1][(tsum + target) as usize]
+    }
+}
+
+/// 1014m Best Sightseeing Pair
+struct Solution1014;
+
+impl Solution1014 {
+    pub fn max_score_sightseeing_pair(values: Vec<i32>) -> i32 {
+        let mut mscore = 0;
+
+        let mut lscore = values[0] + 0;
+        for i in 1..values.len() {
+            mscore = mscore.max(lscore + values[i] - i as i32);
+            lscore = lscore.max(values[i] + i as i32);
+        }
+
+        mscore
+    }
+}
+
 /// 3393m Count Paths With the Given XOR Value
 struct Solution3393;
 
@@ -126,48 +172,9 @@ impl Solution3393 {
     }
 }
 
-/// 494m Target Sum
-struct Solution494;
-
-impl Solution494 {
-    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {
-        let tsum = nums.iter().sum();
-        if target.abs() > tsum {
-            return 0;
-        }
-
-        let mut dp = vec![vec![0; (2 * tsum + 1) as usize]; nums.len()];
-        dp[0][(tsum + nums[0]) as usize] = 1;
-        dp[0][(tsum - nums[0]) as usize] += 1;
-
-        for i in 1..nums.len() {
-            for t in -tsum..=tsum {
-                if dp[i - 1][(tsum + t) as usize] > 0 {
-                    dp[i][(tsum + t + nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
-                    dp[i][(tsum + t - nums[i]) as usize] += dp[i - 1][(tsum + t) as usize];
-                }
-            }
-        }
-
-        println!(" -> {:?}", dp);
-
-        dp[nums.len() - 1][(tsum + target) as usize]
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_solution494() {
-        assert_eq!(Solution494::find_target_sum_ways(vec![1, 1, 1, 1, 1], 3), 5);
-        assert_eq!(Solution494::find_target_sum_ways(vec![1], 1), 1);
-        assert_eq!(
-            Solution494::find_target_sum_ways(vec![0, 0, 0, 0, 0, 0, 0, 0, 1], 1),
-            256
-        );
-    }
 
     #[test]
     fn test_solution10() {
@@ -190,6 +197,26 @@ mod tests {
         assert_eq!(Solution91::num_decodings("226".to_string()), 3);
         assert_eq!(Solution91::num_decodings("06".to_string()), 0);
         assert_eq!(Solution91::num_decodings("2101".to_string()), 1);
+    }
+
+    #[test]
+    fn test_solution494() {
+        assert_eq!(Solution494::find_target_sum_ways(vec![1, 1, 1, 1, 1], 3), 5);
+        assert_eq!(Solution494::find_target_sum_ways(vec![1], 1), 1);
+        assert_eq!(
+            Solution494::find_target_sum_ways(vec![0, 0, 0, 0, 0, 0, 0, 0, 1], 1),
+            256
+        );
+    }
+
+    #[test]
+    fn test_solution1014() {
+        // 2 <= Values.Length < 5*10^4, 1 <= Value_i <= 1000
+        assert_eq!(
+            Solution1014::max_score_sightseeing_pair(vec![8, 1, 5, 2, 6]),
+            11
+        );
+        assert_eq!(Solution1014::max_score_sightseeing_pair(vec![1, 2]), 2);
     }
 
     #[test]
