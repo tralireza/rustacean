@@ -135,10 +135,10 @@ mod tests {
                     _ => print!("{:02x} ", byte),
                 }
 
-                match byte {
-                    0x20..=0x7e => pline.push(*byte as char),
-                    _ => pline.push('.' as char),
-                }
+                pline.push(match byte {
+                    0x20..=0x7e => *byte as char,
+                    _ => '.',
+                });
             }
 
             println!("\t{}", pline);
