@@ -123,16 +123,26 @@ mod tests {
 
         let mut pos = 0;
         let mut bfr = [0; BYTES_PER_LINE];
+        let mut pline = String::with_capacity(BYTES_PER_LINE);
+
         while let Ok(_) = f.read_exact(&mut bfr) {
             print!("0x{:08x}\t", pos);
+
             for byte in &bfr {
                 match byte {
                     0x00 => print!(".  "),
                     0xff => print!("## "),
                     _ => print!("{:02x} ", byte),
                 }
+
+                match byte {
+                    0x20..=0x7e => pline.push(*byte as char),
+                    _ => pline.push('.' as char),
+                }
             }
-            println!();
+
+            println!("\t{}", pline);
+            pline.clear();
 
             pos += BYTES_PER_LINE;
         }
