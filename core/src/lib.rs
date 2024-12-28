@@ -114,6 +114,31 @@ mod tests {
     }
 
     #[test]
+    fn test_hexdump() {
+        use std::io::Read;
+
+        const BYTES_PER_LINE: usize = 16;
+
+        let mut f = std::fs::File::open("./src/lib.rs").expect("can't open file");
+
+        let mut pos = 0;
+        let mut bfr = [0; BYTES_PER_LINE];
+        while let Ok(_) = f.read_exact(&mut bfr) {
+            print!("0x{:08x}\t", pos);
+            for byte in &bfr {
+                match byte {
+                    0x00 => print!(".  "),
+                    0xff => print!("## "),
+                    _ => print!("{:02x} ", byte),
+                }
+            }
+            println!();
+
+            pos += BYTES_PER_LINE;
+        }
+    }
+
+    #[test]
     fn test_io() {
         use std::fs::File;
         use std::io::{BufRead, BufReader};
