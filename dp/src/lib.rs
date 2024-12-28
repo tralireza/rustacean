@@ -212,6 +212,11 @@ mod tests {
     #[test]
     fn test_solution1014() {
         // 2 <= Values.Length < 5*10^4, 1 <= Value_i <= 1000
+        let v: i64 = 42;
+        let ptr = &v as *const i64;
+        let addr: usize = unsafe { std::mem::transmute(ptr) };
+        println!(" -> |Value|Reference|Pointer|Address|   {}   {:p}   {:p}   0x{:x}", v, &v, ptr, addr);
+
         assert_eq!(
             Solution1014::max_score_sightseeing_pair(vec![8, 1, 5, 2, 6]),
             11
