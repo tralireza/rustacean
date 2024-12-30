@@ -119,6 +119,71 @@ impl Solution494 {
     }
 }
 
+/// 689h Maximum Sum of 3 Non-Overlapping Subarrays
+struct Solution689;
+
+impl Solution689 {
+    pub fn max_sum_of_three_subarrays(nums: Vec<i32>, k: i32) -> Vec<i32> {
+        let k = k as usize;
+
+        let mut ksums = vec![];
+        let mut rsum = 0;
+        for i in 0..nums.len() {
+            rsum += nums[i];
+            if i + 1 >= k {
+                ksums.push(rsum);
+                rsum -= nums[i + 1 - k];
+            }
+        }
+
+        println!(" -> kSums :: {:?} ->{}-> {:?}", nums, k, ksums);
+
+        let mut dp = vec![vec![0; 4]; ksums.len()];
+        let mut trace = vec![vec![0; 4]; ksums.len()];
+
+        for i in 0..ksums.len() {
+            for r in 1..=3 {
+                match i {
+                    0 => {
+                        dp[i][r] = ksums[i];
+                        trace[i][r] = i;
+                    }
+                    _ => {
+                        if i >= k {
+                            dp[i][r] = (ksums[i] + dp[i - k][r - 1]).max(dp[i - 1][r]);
+                            if dp[i][r] > dp[i - 1][r] {
+                                trace[i][r] = i;
+                            } else {
+                                trace[i][r] = trace[i - 1][r];
+                            }
+                        } else {
+                            dp[i][r] = ksums[i].max(dp[i - 1][r]);
+                            if ksums[i] > dp[i - 1][r] {
+                                trace[i][r] = i;
+                            } else {
+                                trace[i][r] = trace[i - 1][r];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        println!(" -> DP :: {:?}", dp);
+        println!(" -> Trace :: {:?}", trace);
+
+        let mut rst = vec![];
+        let mut i = trace[ksums.len() - 1][3];
+        for r in (1..=3).rev() {
+            rst.push(trace[i][r] as i32);
+            (i, _) = trace[i][r].overflowing_sub(k);
+        }
+        rst.reverse();
+
+        rst
+    }
+}
+
 /// 1014m Best Sightseeing Pair
 struct Solution1014;
 
@@ -210,12 +275,31 @@ mod tests {
     }
 
     #[test]
+    fn test_solution689() {
+        assert_eq!(
+            Solution689::max_sum_of_three_subarrays(vec![1, 2, 1, 2, 6, 7, 5, 1], 2),
+            vec![0, 3, 5]
+        );
+        assert_eq!(
+            Solution689::max_sum_of_three_subarrays(vec![1, 2, 1, 2, 1, 2, 1, 2, 1], 2),
+            vec![0, 2, 4]
+        );
+        assert_eq!(
+            Solution689::max_sum_of_three_subarrays(vec![7, 13, 20, 19, 19, 2, 10, 1, 1, 19], 3),
+            vec![1, 4, 7]
+        );
+    }
+
+    #[test]
     fn test_solution1014() {
         // 2 <= Values.Length < 5*10^4, 1 <= Value_i <= 1000
         let v: i64 = 42;
         let ptr = &v as *const i64;
         let addr: usize = unsafe { std::mem::transmute(ptr) };
-        println!(" -> |Value|Reference|Pointer|Address|   {}   {:p}   {:p}   0x{:x}", v, &v, ptr, addr);
+        println!(
+            " -> |Value|Reference|Pointer|Address|   {}   {:p}   {:p}   0x{:x}",
+            v, &v, ptr, addr
+        );
 
         assert_eq!(
             Solution1014::max_score_sightseeing_pair(vec![8, 1, 5, 2, 6]),
