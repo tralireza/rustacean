@@ -174,7 +174,7 @@ impl Solution689 {
         println!(" -> Trace :: {:?}", trace);
 
         let mut rst = vec![];
-        let mut i = trace[ksums.len() - 1][3];
+        let mut i = ksums.len() - 1;
         for r in (1..=3).rev() {
             rst.push(trace[i][r] as i32);
             (i, _) = trace[i][r].overflowing_sub(k);
