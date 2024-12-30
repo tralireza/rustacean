@@ -149,23 +149,24 @@ impl Solution689 {
                         trace[i][r] = i;
                     }
                     _ => {
-                        if i >= k {
-                            dp[i][r] = (ksums[i] + dp[i - k][r - 1]).max(dp[i - 1][r]);
-                            if dp[i][r] > dp[i - 1][r] {
+                        let take = ksums[i]
+                            + match i >= k {
+                                true => dp[i - k][r - 1],
+                                _ => 0,
+                            };
+
+                        match take > dp[i - 1][r] {
+                            true => {
+                                dp[i][r] = take;
                                 trace[i][r] = i;
-                            } else {
-                                trace[i][r] = trace[i - 1][r];
                             }
-                        } else {
-                            dp[i][r] = ksums[i].max(dp[i - 1][r]);
-                            if ksums[i] > dp[i - 1][r] {
-                                trace[i][r] = i;
-                            } else {
-                                trace[i][r] = trace[i - 1][r];
+                            _ => {
+                                dp[i][r] = dp[i - 1][r];
+                                trace[i][r] = trace[i - 1][r]
                             }
-                        }
+                        };
                     }
-                }
+                };
             }
         }
 
