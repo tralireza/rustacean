@@ -185,6 +185,35 @@ impl Solution689 {
     }
 }
 
+/// 983m Minimum Cost For Tickets
+struct Solution983;
+
+impl Solution983 {
+    pub fn mincost_tickets(days: Vec<i32>, costs: Vec<i32>) -> i32 {
+        let mut dp = [0; 365 + 1];
+
+        let mut tdays = std::collections::HashSet::new();
+        for day in &days {
+            tdays.insert(day);
+        }
+
+        let lday = days[days.len() - 1] as usize;
+        for d in 1..=lday {
+            match tdays.contains(&(d as i32)) {
+                true => {
+                    dp[d] = (dp[d - 1] + costs[0]).min(
+                        (dp[0.max(d.saturating_sub(7))] + costs[1])
+                            .min(dp[0.max(d.saturating_sub(30))] + costs[2]),
+                    )
+                }
+                _ => dp[d] = dp[d - 1],
+            }
+        }
+
+        dp[lday]
+    }
+}
+
 /// 1014m Best Sightseeing Pair
 struct Solution1014;
 
@@ -322,6 +351,21 @@ mod tests {
         assert_eq!(
             Solution689::max_sum_of_three_subarrays(vec![7, 13, 20, 19, 19, 2, 10, 1, 1, 19], 3),
             vec![1, 4, 7]
+        );
+    }
+
+    #[test]
+    fn test_solution983() {
+        assert_eq!(
+            Solution983::mincost_tickets(vec![1, 4, 6, 7, 8, 20], vec![2, 7, 15]),
+            11
+        );
+        assert_eq!(
+            Solution983::mincost_tickets(
+                vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31],
+                vec![2, 7, 15]
+            ),
+            17
         );
     }
 
