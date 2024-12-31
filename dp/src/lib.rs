@@ -192,10 +192,8 @@ impl Solution983 {
     pub fn mincost_tickets(days: Vec<i32>, costs: Vec<i32>) -> i32 {
         let mut dp = [0; 365 + 1];
 
-        let mut tdays = std::collections::HashSet::new();
-        for day in &days {
-            tdays.insert(day);
-        }
+        let tdays: std::collections::HashSet<_> = days.iter().collect();
+        println!(" -> {} {:?}", std::any::type_name_of_val(&tdays), tdays);
 
         let lday = days[days.len() - 1] as usize;
         for d in 1..=lday {
@@ -209,6 +207,8 @@ impl Solution983 {
                 _ => dp[d] = dp[d - 1],
             }
         }
+
+        println!(" -> {} {:?}", std::any::type_name_of_val(&dp), dp);
 
         dp[lday]
     }
@@ -366,6 +366,10 @@ mod tests {
                 vec![2, 7, 15]
             ),
             17
+        );
+        assert_eq!(
+            Solution983::mincost_tickets(vec![1, 4, 6, 7, 8, 365], vec![2, 7, 15]),
+            11
         );
     }
 
