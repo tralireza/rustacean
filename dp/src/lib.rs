@@ -202,6 +202,40 @@ impl Solution1014 {
     }
 }
 
+/// 2466m Count Ways to Build Good Strings
+struct Solution2466;
+
+impl Solution2466 {
+    pub fn count_good_strings(low: i32, high: i32, zero: i32, one: i32) -> i32 {
+        const MOD: i32 = 1000_000_007;
+
+        let mut dp = vec![0; high as usize + 1];
+        dp[0] = 1;
+
+        let (zero, one) = (zero as usize, one as usize);
+        for l in 1..=high as usize {
+            if l >= zero {
+                dp[l] += dp[l - zero];
+            }
+            if l >= one {
+                dp[l] += dp[l - one];
+            }
+
+            dp[l] %= MOD;
+        }
+
+        println!(" -> {:?}", dp);
+
+        let mut ways = 0;
+        for l in low as usize..=high as usize {
+            ways += dp[l];
+            ways %= MOD;
+        }
+
+        ways
+    }
+}
+
 /// 3393m Count Paths With the Given XOR Value
 struct Solution3393;
 
@@ -307,6 +341,12 @@ mod tests {
             11
         );
         assert_eq!(Solution1014::max_score_sightseeing_pair(vec![1, 2]), 2);
+    }
+
+    #[test]
+    fn test_solution2466() {
+        assert_eq!(Solution2466::count_good_strings(3, 3, 1, 1), 8);
+        assert_eq!(Solution2466::count_good_strings(2, 3, 1, 2), 5);
     }
 
     #[test]
