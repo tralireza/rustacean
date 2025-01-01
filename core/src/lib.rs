@@ -45,6 +45,34 @@ impl Solution342 {
     }
 }
 
+/// 405 Convert a Number to Hexadeciaml
+struct Solution405;
+
+impl Solution405 {
+    pub fn to_hex(num: i32) -> String {
+        let mut pval = num.abs() as u32;
+        if num < 0 {
+            pval ^= 0xffffffff;
+            pval += 1;
+        }
+
+        println!(" -> {}", pval);
+
+        let hmap = vec![
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+        ];
+
+        let mut hexs = vec![];
+        while pval >= 16 {
+            hexs.push(hmap[(pval & 0xf) as usize]);
+            pval >>= 4;
+        }
+        hexs.push(hmap[pval as usize]);
+
+        hexs.iter().rev().collect()
+    }
+}
+
 /// 3396 Minimum Number of Operations to Make Elements in Array Distinct
 struct Solution3396;
 
@@ -92,6 +120,14 @@ mod tests {
         assert!(Solution342::is_power_of_four(16));
         assert!(!Solution342::is_power_of_four(5));
         assert!(Solution342::is_power_of_four(1));
+    }
+
+    #[test]
+    fn test_solution405() {
+        assert_eq!(Solution405::to_hex(26), "1a");
+        assert_eq!(Solution405::to_hex(-1), "ffffffff");
+        assert_eq!(Solution405::to_hex(16), "10");
+        assert_eq!(Solution405::to_hex(0), "0");
     }
 
     #[test]
