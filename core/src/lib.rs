@@ -73,6 +73,39 @@ impl Solution405 {
     }
 }
 
+/// 415 Add Strings
+struct Solution415;
+
+impl Solution415 {
+    pub fn add_strings(num1: String, num2: String) -> String {
+        let mut num1 = num1.as_bytes();
+        let mut num2 = num2.as_bytes();
+
+        if num2.len() > num1.len() {
+            std::mem::swap(&mut num1, &mut num2);
+        }
+
+        let mut rst = vec![];
+        let mut carry = 0;
+        for (l, r) in num1
+            .iter()
+            .rev()
+            .zip(num2.iter().rev().chain(std::iter::repeat(&b'0')))
+        {
+            carry += l - b'0' + r - b'0';
+            rst.push((b'0' + (carry % 10)) as char);
+
+            carry /= 10;
+        }
+
+        if carry != 0 {
+            rst.push('1');
+        }
+
+        rst.iter().rev().collect()
+    }
+}
+
 /// 495 Teemo Attacking
 struct Solution495;
 
@@ -142,6 +175,22 @@ mod tests {
         assert_eq!(Solution405::to_hex(-1), "ffffffff");
         assert_eq!(Solution405::to_hex(16), "10");
         assert_eq!(Solution405::to_hex(0), "0");
+    }
+
+    #[test]
+    fn test_solution415() {
+        assert_eq!(
+            Solution415::add_strings("11".to_string(), "123".to_string()),
+            "134".to_string()
+        );
+        assert_eq!(
+            Solution415::add_strings("456".to_string(), "77".to_string()),
+            "533".to_string()
+        );
+        assert_eq!(
+            Solution415::add_strings("1".to_string(), "9".to_string()),
+            "10".to_string()
+        );
     }
 
     #[test]
