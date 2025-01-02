@@ -78,28 +78,27 @@ struct Solution415;
 
 impl Solution415 {
     pub fn add_strings(num1: String, num2: String) -> String {
-        let mut num1 = num1.as_bytes();
-        let mut num2 = num2.as_bytes();
-
-        if num2.len() > num1.len() {
-            std::mem::swap(&mut num1, &mut num2);
-        }
+        let (mut num1, mut num2) = (num1.as_bytes(), num2.as_bytes());
 
         let mut rst = vec![];
         let mut carry = 0;
         for (l, r) in num1
             .iter()
             .rev()
+            .chain(std::iter::repeat(&b'0'))
             .zip(num2.iter().rev().chain(std::iter::repeat(&b'0')))
+            .take(num1.len().max(num2.len()) + 1)
         {
-            carry += l - b'0' + r - b'0';
+            carry += l + r - 2 * b'0';
             rst.push((b'0' + (carry % 10)) as char);
 
             carry /= 10;
+
+            println!(" -> {} {} | {}", l, r, carry);
         }
 
-        if carry != 0 {
-            rst.push('1');
+        if Some(&'0') == rst.last() {
+            rst.pop();
         }
 
         rst.iter().rev().collect()
@@ -183,10 +182,12 @@ mod tests {
             Solution415::add_strings("11".to_string(), "123".to_string()),
             "134".to_string()
         );
+        println!();
         assert_eq!(
             Solution415::add_strings("456".to_string(), "77".to_string()),
             "533".to_string()
         );
+        println!();
         assert_eq!(
             Solution415::add_strings("1".to_string(), "9".to_string()),
             "10".to_string()
