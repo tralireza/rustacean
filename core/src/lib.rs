@@ -73,6 +73,20 @@ impl Solution405 {
     }
 }
 
+/// 495 Teemo Attacking
+struct Solution495;
+
+impl Solution495 {
+    pub fn find_poisoned_duration(time_series: Vec<i32>, duration: i32) -> i32 {
+        let mut td = 0;
+        for i in 0..time_series.len() - 1 {
+            td += duration.min(time_series[i + 1] - time_series[i]);
+        }
+
+        td + duration
+    }
+}
+
 /// 3396 Minimum Number of Operations to Make Elements in Array Distinct
 struct Solution3396;
 
@@ -128,6 +142,12 @@ mod tests {
         assert_eq!(Solution405::to_hex(-1), "ffffffff");
         assert_eq!(Solution405::to_hex(16), "10");
         assert_eq!(Solution405::to_hex(0), "0");
+    }
+
+    #[test]
+    fn test_solution495() {
+        assert_eq!(Solution495::find_poisoned_duration(vec![1, 4], 2), 4);
+        assert_eq!(Solution495::find_poisoned_duration(vec![1, 2], 2), 3);
     }
 
     #[test]
