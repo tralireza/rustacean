@@ -45,7 +45,7 @@ impl Solution342 {
     }
 }
 
-/// 405 Convert a Number to Hexadeciaml
+/// 405 Convert a Number to Hexadecimal
 struct Solution405;
 
 impl Solution405 {

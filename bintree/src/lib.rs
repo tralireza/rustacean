@@ -1,5 +1,52 @@
 //! Binary Tree
 
+use std::cell::RefCell;
+/// TreeNode
+use std::rc::Rc;
+
+#[derive(Debug, PartialEq, Eq)]
+struct TreeNode {
+    val: i32,
+    left: Option<Rc<RefCell<TreeNode>>>,
+    right: Option<Rc<RefCell<TreeNode>>>,
+}
+
+impl TreeNode {
+    #[inline]
+    fn new(val: i32) -> Self {
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
+    }
+}
+
+/// 563 Binary Tree Tilt
+struct Solution563;
+
+impl Solution563 {
+    pub fn find_tilt(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        fn postorder(node: &Option<Rc<RefCell<TreeNode>>>, tilt: &mut i32) -> i32 {
+            if let Some(node) = node {
+                let node = node.borrow();
+
+                let (left, right) = (postorder(&node.left, tilt), postorder(&node.right, tilt));
+
+                *tilt += (right - left).abs();
+                return node.val + left + right;
+            }
+
+            0
+        }
+
+        let mut tilt = 0;
+        postorder(&root, &mut tilt);
+
+        tilt
+    }
+}
+
 /// 2872h Maximum Number of K-Divisible Components
 struct Solution2872;
 
@@ -69,6 +116,24 @@ impl Solution2872 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_solution563() {
+        assert_eq!(
+            Solution563::find_tilt(Some(Rc::new(RefCell::new(TreeNode {
+                val: 1,
+                left: Some(Rc::new(RefCell::new(TreeNode::new(2)))),
+                right: Some(Rc::new(RefCell::new(TreeNode {
+                    val: 3,
+                    left: None,
+                    right: None
+                })))
+            })))),
+            1
+        );
+        //assert_eq!(Solution563::find_tilt(), 15);
+        //assert_eq!(Solution563::find_tilt(), 9);
+    }
 
     #[test]
     fn test_solution2872() {
