@@ -3,5 +3,5 @@
 resolver = "2"
 
 members = [
-  "bits", "math", "sorting", "string",
+  "bits", "math", "pq", "sorting", "string",
 ]
