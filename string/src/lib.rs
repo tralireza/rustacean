@@ -18,7 +18,7 @@ struct Sol1154;
 
 impl Sol1154 {
     pub fn day_of_year(date: String) -> i32 {
-        let mut days = vec![31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let mut days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
         let mut vs = vec![];
         for w in date.split('-') {
@@ -28,18 +28,15 @@ impl Sol1154 {
         println!(" -> {:?}", vs);
 
         let mut dy = 0;
-        match (&vs[0], &vs[1], &vs[2]) {
-            (Ok(year), Ok(month), Ok(day)) => {
-                dy += day;
-                if year % 4 == 0 && (year % 100 != 0 || year % 400 == 0) {
-                    days[1] += 1;
-                }
-
-                for m in 0..month - 1 {
-                    dy += days[m as usize];
-                }
+        if let (Ok(year), Ok(month), Ok(day)) = (&vs[0], &vs[1], &vs[2]) {
+            dy += day;
+            if year % 4 == 0 && (year % 100 != 0 || year % 400 == 0) {
+                days[1] += 1;
             }
-            _ => (),
+
+            for m in 0..month - 1 {
+                dy += days[m as usize];
+            }
         }
 
         dy
