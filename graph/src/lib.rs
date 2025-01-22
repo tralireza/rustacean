@@ -23,7 +23,10 @@ impl Sol1765 {
         let mut rst = vec![vec![0; cols]; rows];
         let dirs = vec![-1, 0, 1, 0, -1];
 
+        println!(" -> {:?}", q);
         while let Some((r, c, h)) = q.pop_front() {
+            println!(" -> {:?}", q);
+
             (0..4).for_each(|i| {
                 let (x, y) = (r + dirs[i], c + dirs[i + 1]);
                 if 0 <= x
