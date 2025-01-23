@@ -1,5 +1,37 @@
 //! # Graph (DFS, BFS)
 
+/// 1267m Count Servers that Communicate
+struct Sol1267;
+
+impl Sol1267 {
+    pub fn count_servers(grid: Vec<Vec<i32>>) -> i32 {
+        let (rows, cols) = (grid.len(), grid[0].len());
+
+        let (mut xcount, mut ycount) = (vec![0; cols], vec![0; rows]);
+        (0..rows).for_each(|x| {
+            (0..cols).for_each(|y| {
+                if grid[x][y] == 1 {
+                    xcount[y] += 1;
+                    ycount[x] += 1;
+                }
+            });
+        });
+
+        println!(" -> {:?} {:?}", xcount, ycount);
+
+        let mut servers = 0;
+        (0..rows).for_each(|x| {
+            (0..cols).for_each(|y| {
+                if grid[x][y] == 1 && (xcount[y] > 1 || ycount[x] > 1) {
+                    servers += 1;
+                }
+            })
+        });
+
+        servers
+    }
+}
+
 /// 1765m Map of Highest Peak
 struct Sol1765;
 
@@ -21,7 +53,7 @@ impl Sol1765 {
         });
 
         let mut rst = vec![vec![0; cols]; rows];
-        let dirs = vec![-1, 0, 1, 0, -1];
+        let dirs = [-1, 0, 1, 0, -1];
 
         println!(" -> {:?}", q);
         while let Some((r, c, h)) = q.pop_front() {
@@ -49,6 +81,20 @@ impl Sol1765 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_1267() {
+        assert_eq!(Sol1267::count_servers(vec![vec![1, 0], vec![0, 1]]), 0);
+        assert_eq!(
+            Sol1267::count_servers(vec![
+                vec![1, 1, 0, 0],
+                vec![0, 0, 1, 0],
+                vec![0, 0, 1, 0],
+                vec![0, 0, 0, 1]
+            ]),
+            4
+        );
+    }
 
     #[test]
     fn test_1765() {
