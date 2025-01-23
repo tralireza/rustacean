@@ -7,28 +7,20 @@ impl Sol1267 {
     pub fn count_servers(grid: Vec<Vec<i32>>) -> i32 {
         let (rows, cols) = (grid.len(), grid[0].len());
 
-        let (mut xcount, mut ycount) = (vec![0; cols], vec![0; rows]);
-        (0..rows).for_each(|x| {
-            (0..cols).for_each(|y| {
-                if grid[x][y] == 1 {
-                    xcount[y] += 1;
-                    ycount[x] += 1;
-                }
-            });
-        });
+        let rn: Vec<_> = (0..rows)
+            .map(|r| (0..cols).filter(|&c| grid[r][c] == 1).count())
+            .collect();
+        let cn: Vec<_> = (0..cols)
+            .map(|c| (0..rows).filter(|&r| grid[r][c] == 1).count())
+            .collect();
 
-        println!(" -> {:?} {:?}", xcount, ycount);
+        println!(" -> {:?} {:?}", rn, cn);
 
-        let mut servers = 0;
-        (0..rows).for_each(|x| {
-            (0..cols).for_each(|y| {
-                if grid[x][y] == 1 && (xcount[y] > 1 || ycount[x] > 1) {
-                    servers += 1;
-                }
-            })
-        });
-
-        servers
+        (0..rows)
+            .flat_map(|r| (0..cols).map(move |c| (r, c)))
+            .filter(|&(r, c)| rn[r] > 1 || cn[c] > 1)
+            .map(|(r, c)| grid[r][c])
+            .sum()
     }
 }
 
