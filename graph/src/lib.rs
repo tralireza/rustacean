@@ -1,4 +1,4 @@
-//! # Graph (DFS, BFS)
+//! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
 /// 802m Find Eventual Safe States
 struct Sol802;
@@ -24,9 +24,9 @@ impl Sol802 {
             .filter_map(|(v, &degree)| if degree == 0 { Some(v) } else { None })
             .collect();
 
-        let mut rst = vec![];
+        let mut rst = vec![false; n];
         while let Some(v) = q.pop() {
-            rst.push(v as i32);
+            rst[v] = true;
 
             for u in rvs[v].iter().cloned() {
                 ins[u] -= 1;
@@ -35,9 +35,11 @@ impl Sol802 {
                 }
             }
         }
-        rst.sort();
 
-        rst
+        rst.iter()
+            .enumerate()
+            .filter_map(|(v, &flag)| if flag { Some(v as i32) } else { None })
+            .collect()
     }
 }
 
