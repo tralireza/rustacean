@@ -1,5 +1,46 @@
 //! # Graph (DFS, BFS)
 
+/// 802m Find Eventual Safe States
+struct Sol802;
+
+impl Sol802 {
+    pub fn eventual_safe_nodes(graph: Vec<Vec<i32>>) -> Vec<i32> {
+        let n = graph.len();
+
+        let (mut rvs, mut ins) = (vec![vec![]; n], vec![0; n]);
+        (0..n).for_each(|v| {
+            graph[v].iter().for_each(|&u| {
+                ins[v as usize] += 1;
+                rvs[u as usize].push(v);
+            });
+        });
+
+        println!(" -> {:?} -> {:?}", graph, rvs);
+        println!(" -> {:?}", ins);
+
+        let mut q: Vec<_> = ins
+            .iter()
+            .enumerate()
+            .filter_map(|(v, &degree)| if degree == 0 { Some(v) } else { None })
+            .collect();
+
+        let mut rst = vec![];
+        while let Some(v) = q.pop() {
+            rst.push(v as i32);
+
+            for u in rvs[v].iter().cloned() {
+                ins[u] -= 1;
+                if ins[u] == 0 {
+                    q.push(u);
+                }
+            }
+        }
+        rst.sort();
+
+        rst
+    }
+}
+
 /// 1267m Count Servers that Communicate
 struct Sol1267;
 
@@ -14,7 +55,7 @@ impl Sol1267 {
             .map(|c| (0..rows).filter(|&r| grid[r][c] == 1).count())
             .collect();
 
-        println!(" -> {:?} {:?}", rn, cn);
+        println!(" -> R: {:?}   C: {:?}", rn, cn);
 
         (0..rows)
             .flat_map(|r| (0..cols).map(move |c| (r, c)))
@@ -75,8 +116,35 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_802() {
+        assert_eq!(
+            Sol802::eventual_safe_nodes(vec![
+                vec![1, 2],
+                vec![2, 3],
+                vec![5],
+                vec![0],
+                vec![5],
+                vec![],
+                vec![]
+            ]),
+            vec![2, 4, 5, 6]
+        );
+        assert_eq!(
+            Sol802::eventual_safe_nodes(vec![
+                vec![1, 2, 3, 4],
+                vec![1, 2],
+                vec![3, 4],
+                vec![0, 4],
+                vec![]
+            ]),
+            vec![4]
+        );
+    }
+
+    #[test]
     fn test_1267() {
         assert_eq!(Sol1267::count_servers(vec![vec![1, 0], vec![0, 1]]), 0);
+        assert_eq!(Sol1267::count_servers(vec![vec![1, 0], vec![1, 1]]), 3);
         assert_eq!(
             Sol1267::count_servers(vec![
                 vec![1, 1, 0, 0],
