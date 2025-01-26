@@ -84,10 +84,11 @@ impl Sol1368 {
 
         println!(" -> {:?}", pq);
         while let Some(Reverse((w, r, c))) = pq.pop() {
-            print!(" -> {:?} :: ", (w, r, c));
             if costs[r as usize][c as usize] < w {
                 continue;
             }
+
+            print!(" -> {:?} :: ", (w, r, c));
 
             [(0, 1), (0, -1), (1, 0), (-1, 0)]
                 .into_iter()
@@ -111,7 +112,49 @@ impl Sol1368 {
             println!(" -> {:?}", pq);
         }
 
-        println!(" :: {}", costs[rows - 2][cols - 1]);
+        println!(" :: {}", costs[rows - 1][cols - 1]);
+
+        costs[rows - 1][cols - 1]
+    }
+
+    fn min_cost_bfs01(grid: Vec<Vec<i32>>) -> i32 {
+        use std::collections::VecDeque;
+
+        let (rows, cols) = (grid.len(), grid[0].len());
+        let mut costs = vec![vec![i32::MAX; cols]; rows];
+
+        let mut q = VecDeque::new();
+
+        q.push_front((0i32, 0i32));
+        costs[0][0] = 0;
+
+        println!(" -> {:?}", q);
+
+        while let Some((r, c)) = q.pop_front() {
+            let curw = costs[r as usize][c as usize];
+
+            [(0, 1), (0, -1), (1, 0), (-1, 0)]
+                .into_iter()
+                .zip(1..=4)
+                .for_each(|((dx, dy), dir)| {
+                    let w = (grid[r as usize][c as usize] != dir) as i32;
+                    let (r, c) = (r + dx, c + dy);
+                    if 0 <= r
+                        && r < rows as i32
+                        && 0 <= c
+                        && c < cols as i32
+                        && curw + w < costs[r as usize][c as usize]
+                    {
+                        costs[r as usize][c as usize] = curw + w;
+                        match w {
+                            0 => q.push_front((r, c)),
+                            _ => q.push_back((r, c)),
+                        }
+                    }
+                });
+
+            println!(" -> {:?}", q);
+        }
 
         costs[rows - 1][cols - 1]
     }
@@ -210,20 +253,19 @@ mod tests {
 
     #[test]
     fn test_1368h() {
-        assert_eq!(
-            Sol1368::min_cost(vec![
-                vec![1, 1, 1, 1],
-                vec![2, 2, 2, 2],
-                vec![1, 1, 1, 1],
-                vec![2, 2, 2, 2]
-            ]),
-            3
-        );
-        assert_eq!(
-            Sol1368::min_cost(vec![vec![1, 1, 3], vec![3, 2, 2], vec![1, 1, 4]]),
-            0
-        );
-        assert_eq!(Sol1368::min_cost(vec![vec![1, 2], vec![4, 3]]), 1);
+        for f in [Sol1368::min_cost, Sol1368::min_cost_bfs01] {
+            assert_eq!(
+                f(vec![
+                    vec![1, 1, 1, 1],
+                    vec![2, 2, 2, 2],
+                    vec![1, 1, 1, 1],
+                    vec![2, 2, 2, 2]
+                ]),
+                3
+            );
+            assert_eq!(f(vec![vec![1, 1, 3], vec![3, 2, 2], vec![1, 1, 4]]), 0);
+            assert_eq!(f(vec![vec![1, 2], vec![4, 3]]), 1);
+        }
     }
 
     #[test]
