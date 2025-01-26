@@ -67,6 +67,56 @@ impl Sol1267 {
     }
 }
 
+/// 1368h Minimum Cost to Make at Least One Valid Path in a Grid
+struct Sol1368;
+
+impl Sol1368 {
+    pub fn min_cost(grid: Vec<Vec<i32>>) -> i32 {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let (rows, cols) = (grid.len(), grid[0].len());
+        let mut costs = vec![vec![i32::MAX; cols]; rows];
+
+        let mut pq = BinaryHeap::new();
+        pq.push(Reverse((0, 0i32, 0i32)));
+        costs[0][0] = 0;
+
+        println!(" -> {:?}", pq);
+        while let Some(Reverse((w, r, c))) = pq.pop() {
+            print!(" -> {:?} :: ", (w, r, c));
+            if costs[r as usize][c as usize] < w {
+                continue;
+            }
+
+            [(0, 1), (0, -1), (1, 0), (-1, 0)]
+                .into_iter()
+                .zip(1..=4)
+                .inspect(|o| print!(" {:?}", o))
+                .for_each(|((dx, dy), dir)| {
+                    let w = w + (dir != grid[r as usize][c as usize]) as i32;
+                    let (r, c) = (r + dx as i32, c + dy as i32);
+                    if 0 <= r
+                        && r < rows as i32
+                        && 0 <= c
+                        && c < cols as i32
+                        && w < costs[r as usize][c as usize]
+                    {
+                        costs[r as usize][c as usize] = w;
+                        pq.push(Reverse((w, r, c)));
+                    }
+                });
+
+            println!();
+            println!(" -> {:?}", pq);
+        }
+
+        println!(" :: {}", costs[rows - 2][cols - 1]);
+
+        costs[rows - 1][cols - 1]
+    }
+}
+
 /// 1765m Map of Highest Peak
 struct Sol1765;
 
@@ -156,6 +206,24 @@ mod tests {
             ]),
             4
         );
+    }
+
+    #[test]
+    fn test_1368h() {
+        assert_eq!(
+            Sol1368::min_cost(vec![
+                vec![1, 1, 1, 1],
+                vec![2, 2, 2, 2],
+                vec![1, 1, 1, 1],
+                vec![2, 2, 2, 2]
+            ]),
+            3
+        );
+        assert_eq!(
+            Sol1368::min_cost(vec![vec![1, 1, 3], vec![3, 2, 2], vec![1, 1, 4]]),
+            0
+        );
+        assert_eq!(Sol1368::min_cost(vec![vec![1, 2], vec![4, 3]]), 1);
     }
 
     #[test]
