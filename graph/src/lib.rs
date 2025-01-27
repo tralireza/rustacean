@@ -173,11 +173,28 @@ impl Sol1462 {
     ) -> Vec<bool> {
         let mut graph = vec![vec![]; num_courses as usize];
 
-        prerequisites.into_iter().for_each(|v| {
+        prerequisites.iter().for_each(|v| {
             graph[v[0] as usize].push(v[1] as usize);
         });
 
         println!(" -> {:?}", graph);
+
+        let mut floyd_warshall = vec![vec![false; num_courses as usize]; num_courses as usize];
+        prerequisites.iter().for_each(|v| {
+            floyd_warshall[v[0] as usize][v[1] as usize] = true;
+        });
+        (0..num_courses as usize).for_each(|v| floyd_warshall[v][v] = true);
+
+        (0..num_courses as usize).for_each(|src| {
+            (0..num_courses as usize).for_each(|dst| {
+                (0..num_courses as usize).for_each(|via| {
+                    floyd_warshall[src][dst] |=
+                        floyd_warshall[src][via] && floyd_warshall[via][dst];
+                })
+            })
+        });
+
+        println!(" -> {:?}", floyd_warshall);
 
         let mut memory = vec![vec![false; num_courses as usize]; num_courses as usize];
 
@@ -194,6 +211,8 @@ impl Sol1462 {
                 });
             }
         });
+
+        assert_eq!(memory, floyd_warshall);
 
         queries.into_iter().fold(vec![], |mut rst, qry| {
             rst.push(memory[qry[0] as usize][qry[1] as usize]);
