@@ -156,6 +156,8 @@ impl Sol1368 {
             println!(" -> {:?}", q);
         }
 
+        println!(" :: {}", costs[rows - 1][cols - 1]);
+
         costs[rows - 1][cols - 1]
     }
 }
@@ -203,6 +205,59 @@ impl Sol1765 {
         }
 
         rst
+    }
+}
+
+/// 2127h Maximum Employees to Be Invited to a Meeting
+struct Sol2127;
+
+impl Sol2127 {
+    pub fn maximum_invitations(favorite: Vec<i32>) -> i32 {
+        use std::collections::VecDeque;
+
+        let n = favorite.len();
+        let mut ins = vec![0; n];
+        favorite.iter().for_each(|&f| ins[f as usize] += 1);
+
+        let mut q = VecDeque::from(
+            ins.iter()
+                .enumerate()
+                .filter_map(|(v, &degree)| if degree == 0 { Some(v) } else { None })
+                .collect::<Vec<_>>(),
+        );
+
+        let mut depth = vec![1; n];
+
+        while let Some(v) = q.pop_front() {
+            let u = favorite[v] as usize;
+
+            depth[u] = depth[u].max(depth[v] + 1);
+            ins[u] -= 1;
+            if ins[u] == 0 {
+                q.push_back(u);
+            }
+        }
+
+        let (mut lcycle, mut tcycle) = (0, 0);
+        (0..n).for_each(|v| {
+            if ins[v] != 0 {
+                let (mut l, mut cur) = (0, v);
+                while ins[cur] > 0 {
+                    ins[cur] = 0;
+                    l += 1;
+                    cur = favorite[cur] as usize;
+                }
+
+                match l {
+                    2 => tcycle += depth[v] + depth[favorite[v] as usize],
+                    _ => lcycle = lcycle.max(l),
+                }
+            }
+        });
+
+        println!(" :: {:?}", (lcycle, tcycle));
+
+        lcycle.max(tcycle)
     }
 }
 
@@ -278,5 +333,12 @@ mod tests {
             Sol1765::highest_peak(vec![vec![0, 0, 1], vec![1, 0, 0], vec![0, 0, 0]]),
             vec![vec![1, 1, 0], vec![0, 1, 1], vec![1, 2, 2]]
         );
+    }
+
+    #[test]
+    fn test_2127() {
+        assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
+        assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
+        assert_eq!(Sol2127::maximum_invitations(vec![3, 0, 1, 4, 1]), 4);
     }
 }
