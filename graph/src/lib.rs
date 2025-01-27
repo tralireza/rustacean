@@ -162,6 +162,46 @@ impl Sol1368 {
     }
 }
 
+/// 1462m Course Schedule IV
+struct Sol1462;
+
+impl Sol1462 {
+    pub fn check_if_prerequisite(
+        num_courses: i32,
+        prerequisites: Vec<Vec<i32>>,
+        queries: Vec<Vec<i32>>,
+    ) -> Vec<bool> {
+        let mut graph = vec![vec![]; num_courses as usize];
+
+        prerequisites.into_iter().for_each(|v| {
+            graph[v[0] as usize].push(v[1] as usize);
+        });
+
+        println!(" -> {:?}", graph);
+
+        let mut memory = vec![vec![false; num_courses as usize]; num_courses as usize];
+
+        (0..num_courses as usize).for_each(|src| {
+            let mut q = vec![];
+            q.push(src);
+
+            while let Some(v) = q.pop() {
+                memory[src][v] = true;
+                graph[v as usize].iter().for_each(|&u| {
+                    if !memory[src][u] {
+                        q.push(u)
+                    }
+                });
+            }
+        });
+
+        queries.into_iter().fold(vec![], |mut rst, qry| {
+            rst.push(memory[qry[0] as usize][qry[1] as usize]);
+            rst
+        })
+    }
+}
+
 /// 1765m Map of Highest Peak
 struct Sol1765;
 
@@ -321,6 +361,26 @@ mod tests {
             assert_eq!(f(vec![vec![1, 1, 3], vec![3, 2, 2], vec![1, 1, 4]]), 0);
             assert_eq!(f(vec![vec![1, 2], vec![4, 3]]), 1);
         }
+    }
+
+    #[test]
+    fn test_1462() {
+        assert_eq!(
+            Sol1462::check_if_prerequisite(2, vec![vec![1, 0]], vec![vec![0, 1], vec![1, 0]]),
+            vec![false, true]
+        );
+        assert_eq!(
+            Sol1462::check_if_prerequisite(2, vec![], vec![vec![1, 0], vec![0, 1]]),
+            vec![false, false]
+        );
+        assert_eq!(
+            Sol1462::check_if_prerequisite(
+                3,
+                vec![vec![1, 2], vec![0, 1], vec![2, 0]],
+                vec![vec![1, 0], vec![1, 2]]
+            ),
+            vec![true, true]
+        );
     }
 
     #[test]
