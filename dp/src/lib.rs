@@ -37,7 +37,7 @@ impl Sol2836 {
             xscore.max({
                 let (mut iscore, mut i) = (0, istart);
                 (0..bits).rev().for_each(|p| {
-                    if ((1 << p) & k) != 0 {
+                    if 1 << p & k != 0 {
                         iscore += score[i][p];
                         i = far[i][p];
                     }
