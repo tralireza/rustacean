@@ -320,6 +320,92 @@ impl Sol2127 {
     }
 }
 
+/// 2658m Maximum Number of Fish in a Grid
+struct Sol2658;
+
+impl Sol2658 {
+    pub fn find_max_fish(grid: Vec<Vec<i32>>) -> i32 {
+        println!("* {:?}", grid);
+
+        let (rows, cols) = (grid.len(), grid[0].len());
+        let mut visited = vec![vec![false; cols]; rows];
+
+        let dir = [-1, 0, 1, 0, -1];
+        let mut xfish = 0;
+
+        (0..rows).for_each(|r| {
+            (0..cols).for_each(|c| {
+                if grid[r][c] != 0 && !visited[r][c] {
+                    println!("-> {:?}", (r, c));
+
+                    let mut fish = 0;
+                    let mut q = vec![];
+
+                    q.push((r as i32, c as i32));
+                    visited[r][c] = true;
+
+                    while let Some((r, c)) = q.pop() {
+                        println!(" -> {:?}", (r, c));
+
+                        fish += grid[r as usize][c as usize];
+                        xfish = xfish.max(fish);
+
+                        (0..4).for_each(|i| {
+                            let (r, c) = (r + dir[i], c + dir[i + 1]);
+                            if 0 <= r
+                                && r < rows as i32
+                                && 0 <= c
+                                && c < cols as i32
+                                && grid[r as usize][c as usize] != 0
+                                && !visited[r as usize][c as usize]
+                            {
+                                visited[r as usize][c as usize] = true;
+                                q.push((r, c));
+                            }
+                        })
+                    }
+                }
+            })
+        });
+
+        xfish
+    }
+
+    fn find_max_fish_recursion(grid: Vec<Vec<i32>>) -> i32 {
+        fn dfs(grid: &mut Vec<Vec<i32>>, r: usize, c: usize) -> i32 {
+            if grid[r][c] == 0 {
+                return 0;
+            }
+
+            let mut fish = grid[r][c];
+            grid[r][c] = 0;
+
+            if r > 0 {
+                fish += dfs(grid, r - 1, c);
+            }
+            if r + 1 < grid.len() {
+                fish += dfs(grid, r + 1, c);
+            }
+            if c > 0 {
+                fish += dfs(grid, r, c - 1);
+            }
+            if c + 1 < grid[0].len() {
+                fish += dfs(grid, r, c + 1);
+            }
+
+            fish
+        }
+
+        let mut grid = grid;
+        let mut xfish = 0;
+
+        (0..grid.len())
+            .for_each(|r| (0..grid[0].len()).for_each(|c| xfish = xfish.max(dfs(&mut grid, r, c))));
+
+        xfish
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -419,5 +505,32 @@ mod tests {
         assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![3, 0, 1, 4, 1]), 4);
+    }
+
+    #[test]
+    fn test_2658() {
+        for f in [Sol2658::find_max_fish, Sol2658::find_max_fish_recursion] {
+            assert_eq!(
+                f(vec![
+                    vec![0, 2, 1, 0],
+                    vec![4, 0, 0, 3],
+                    vec![1, 0, 0, 4],
+                    vec![0, 3, 2, 0]
+                ]),
+                7
+            );
+            assert_eq!(
+                f(vec![
+                    vec![1, 0, 0, 0],
+                    vec![0, 0, 0, 0],
+                    vec![0, 0, 0, 0],
+                    vec![0, 0, 0, 1]
+                ]),
+                1
+            );
+
+            assert_eq!(f(vec![vec![4, 5, 5], vec![0, 10, 0],]), 24);
+            assert_eq!(f(vec![vec![8, 6], vec![2, 6]]), 22);
+        }
     }
 }
