@@ -1,5 +1,51 @@
 //! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
+/// 695m Max Area of Island
+struct Sol695;
+
+impl Sol695 {
+    pub fn max_area_of_island(grid: Vec<Vec<i32>>) -> i32 {
+        fn island(grid: &mut Vec<Vec<i32>>, r: usize, c: usize) -> i32 {
+            println!("-> @ {:?} ~ {}", (r, c), grid[r][c]);
+
+            match grid[r][c] {
+                0 => 0,
+                _ => {
+                    grid[r][c] = 0;
+
+                    let mut area = 1;
+                    if r > 0 {
+                        area += island(grid, r - 1, c);
+                    }
+                    if r + 1 < grid.len() {
+                        area += island(grid, r + 1, c);
+                    }
+                    if c > 0 {
+                        area += island(grid, r, c - 1);
+                    }
+                    if c + 1 < grid[r].len() {
+                        area += island(grid, r, c + 1);
+                    }
+                    area
+                }
+            }
+        }
+
+        let mut grid = grid;
+
+        let mut xarea = 0;
+        for r in 0..grid.len() {
+            for c in 0..grid[0].len() {
+                xarea = xarea.max(island(&mut grid, r, c));
+            }
+        }
+
+        println!(":: {}", xarea);
+
+        xarea
+    }
+}
+
 /// 802m Find Eventual Safe States
 struct Sol802;
 
@@ -10,7 +56,7 @@ impl Sol802 {
         let (mut rvs, mut ins) = (vec![vec![]; n], vec![0; n]);
         (0..n).for_each(|v| {
             graph[v].iter().for_each(|&u| {
-                ins[v as usize] += 1;
+                ins[v] += 1;
                 rvs[u as usize].push(v);
             });
         });
@@ -96,7 +142,7 @@ impl Sol1368 {
                 .inspect(|o| print!(" {:?}", o))
                 .for_each(|((dx, dy), dir)| {
                     let w = w + (dir != grid[r as usize][c as usize]) as i32;
-                    let (r, c) = (r + dx as i32, c + dy as i32);
+                    let (r, c) = (r + dx, c + dy);
                     if 0 <= r
                         && r < rows as i32
                         && 0 <= c
@@ -204,7 +250,7 @@ impl Sol1462 {
 
             while let Some(v) = q.pop() {
                 memory[src][v] = true;
-                graph[v as usize].iter().for_each(|&u| {
+                graph[v].iter().for_each(|&u| {
                     if !memory[src][u] {
                         q.push(u)
                     }
@@ -409,6 +455,27 @@ impl Sol2658 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_695() {
+        assert_eq!(
+            Sol695::max_area_of_island(vec![
+                vec![0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                vec![0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+                vec![0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                vec![0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+                vec![0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+                vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+                vec![0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+                vec![0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+            ]),
+            6
+        );
+        assert_eq!(
+            Sol695::max_area_of_island(vec![vec![0, 0, 0, 0, 0, 0, 0, 0]]),
+            0
+        );
+    }
 
     #[test]
     fn test_802() {
