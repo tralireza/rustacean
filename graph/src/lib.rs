@@ -17,16 +17,15 @@ impl Sol684 {
             fn new(count: usize) -> Self {
                 DSU {
                     parent: Vec::from_iter(0..=count),
-                    rank: vec![1; count + 1],
+                    rank: vec![0; count + 1],
                 }
             }
 
             fn find(&mut self, v: usize) -> usize {
-                let mut v = self.parent[v];
-                while v != self.parent[v] {
-                    v = self.parent[v];
+                if v != self.parent[v] {
+                    self.parent[v] = self.find(self.parent[v]);
                 }
-                v
+                self.parent[v]
             }
 
             fn union(&mut self, u: usize, v: usize) -> bool {
@@ -37,11 +36,12 @@ impl Sol684 {
                         match self.rank[u] > self.rank[v] {
                             true => {
                                 self.parent[v] = u;
-                                self.rank[u] += 1;
                             }
                             _ => {
                                 self.parent[u] = v;
-                                self.rank[v] += 1;
+                                if self.rank[v] == self.rank[u] {
+                                    self.rank[v] += 1;
+                                }
                             }
                         }
                         true
