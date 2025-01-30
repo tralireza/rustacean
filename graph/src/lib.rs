@@ -5,17 +5,17 @@ struct Sol684;
 
 impl Sol684 {
     pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {
-        println!("** {:?}", edges);
+        println!("* {:?}", edges);
 
         #[derive(Debug)]
-        struct DSU {
+        struct DJSet {
             parent: Vec<usize>,
             rank: Vec<usize>,
         }
 
-        impl DSU {
+        impl DJSet {
             fn new(count: usize) -> Self {
-                DSU {
+                DJSet {
                     parent: Vec::from_iter(0..=count),
                     rank: vec![0; count + 1],
                 }
@@ -34,9 +34,7 @@ impl Sol684 {
                     true => false,
                     false => {
                         match self.rank[u] > self.rank[v] {
-                            true => {
-                                self.parent[v] = u;
-                            }
+                            true => self.parent[v] = u,
                             _ => {
                                 self.parent[u] = v;
                                 if self.rank[v] == self.rank[u] {
@@ -50,7 +48,7 @@ impl Sol684 {
             }
         }
 
-        let mut djset = DSU::new(edges.len());
+        let mut djset = DJSet::new(edges.len());
         for edge in edges {
             println!("-> {:?} ~ {:?}", edge, djset);
             if !djset.union(edge[0] as usize, edge[1] as usize) {
@@ -59,6 +57,65 @@ impl Sol684 {
         }
 
         vec![]
+    }
+
+    fn find_redundant_connection_graph(edges: Vec<Vec<i32>>) -> Vec<i32> {
+        println!("* {:?}", edges);
+
+        let mut graph = vec![vec![]; edges.len() + 1];
+        for e in &edges {
+            graph[e[0] as usize].push(e[1] as usize);
+            graph[e[1] as usize].push(e[0] as usize);
+        }
+
+        println!("-> {:?}", graph);
+
+        let mut visited = vec![false; edges.len() + 1];
+        let mut prv = vec![0; edges.len() + 1];
+        let mut icycle = 0; // `None-Node` label for now
+
+        let mut q = vec![1];
+
+        while let Some(v) = q.pop() {
+            visited[v] = true;
+
+            graph[v].iter().for_each(|&u| {
+                match visited[u] {
+                    false => {
+                        prv[u] = v;
+                        q.push(u);
+                    }
+                    true => {
+                        if prv[v] != u && icycle == 0 {
+                            icycle = u; // `u` is starting a cycle
+                            prv[u] = v;
+                        }
+                    }
+                }
+            });
+        }
+
+        println!("-> {:?}", prv);
+
+        match icycle {
+            0 => vec![],
+            _ => {
+                let mut cnodes = vec![false; edges.len() + 1];
+                while !cnodes[icycle] {
+                    cnodes[icycle] = true;
+                    icycle = prv[icycle];
+                }
+
+                println!("-> {:?}", cnodes);
+
+                edges
+                    .iter()
+                    .rev()
+                    .skip_while(|&v| !cnodes[v[0] as usize] || !cnodes[v[1] as usize])
+                    .take(1)
+                    .fold(vec![], |_, v| v.clone())
+            }
+        }
     }
 }
 
@@ -520,36 +577,38 @@ mod tests {
 
     #[test]
     fn test_684() {
-        assert_eq!(
-            Sol684::find_redundant_connection(vec![vec![1, 2], vec![1, 3], vec![2, 3]]),
-            vec![2, 3]
-        );
-        assert_eq!(
-            Sol684::find_redundant_connection(vec![
-                vec![1, 2],
-                vec![2, 3],
-                vec![3, 4],
-                vec![1, 4],
-                vec![1, 5]
-            ]),
-            vec![1, 4]
-        );
+        for f in [
+            Sol684::find_redundant_connection,
+            Sol684::find_redundant_connection_graph,
+        ] {
+            assert_eq!(f(vec![vec![1, 2], vec![1, 3], vec![2, 3]]), vec![2, 3]);
+            assert_eq!(
+                f(vec![
+                    vec![1, 2],
+                    vec![2, 3],
+                    vec![3, 4],
+                    vec![1, 4],
+                    vec![1, 5]
+                ]),
+                vec![1, 4]
+            );
 
-        assert_eq!(
-            Sol684::find_redundant_connection(vec![
-                vec![7, 8],
-                vec![2, 6],
-                vec![2, 8],
-                vec![1, 4],
-                vec![9, 10],
-                vec![1, 7],
-                vec![3, 9],
-                vec![6, 9],
-                vec![3, 5],
+            assert_eq!(
+                f(vec![
+                    vec![7, 8],
+                    vec![2, 6],
+                    vec![2, 8],
+                    vec![1, 4],
+                    vec![9, 10],
+                    vec![1, 7],
+                    vec![3, 9],
+                    vec![6, 9],
+                    vec![3, 5],
+                    vec![3, 10]
+                ]),
                 vec![3, 10]
-            ]),
-            vec![3, 10]
-        );
+            );
+        }
     }
 
     #[test]
