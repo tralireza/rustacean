@@ -1,5 +1,67 @@
 //! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
+/// 684m Redundant Connection
+struct Sol684;
+
+impl Sol684 {
+    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {
+        println!("** {:?}", edges);
+
+        #[derive(Debug)]
+        struct DSU {
+            parent: Vec<usize>,
+            rank: Vec<usize>,
+        }
+
+        impl DSU {
+            fn new(count: usize) -> Self {
+                DSU {
+                    parent: Vec::from_iter(0..=count),
+                    rank: vec![1; count + 1],
+                }
+            }
+
+            fn find(&mut self, v: usize) -> usize {
+                let mut v = self.parent[v];
+                while v != self.parent[v] {
+                    v = self.parent[v];
+                }
+                v
+            }
+
+            fn union(&mut self, u: usize, v: usize) -> bool {
+                let (u, v) = (self.find(u), self.find(v));
+                match u == v {
+                    true => false,
+                    false => {
+                        match self.rank[u] > self.rank[v] {
+                            true => {
+                                self.parent[v] = u;
+                                self.rank[u] += 1;
+                            }
+                            _ => {
+                                self.parent[u] = v;
+                                self.rank[v] += 1;
+                            }
+                        }
+                        true
+                    }
+                }
+            }
+        }
+
+        let mut djset = DSU::new(edges.len());
+        for edge in edges {
+            println!("-> {:?} ~ {:?}", edge, djset);
+            if !djset.union(edge[0] as usize, edge[1] as usize) {
+                return vec![edge[0], edge[1]];
+            }
+        }
+
+        vec![]
+    }
+}
+
 /// 695m Max Area of Island
 struct Sol695;
 
@@ -455,6 +517,40 @@ impl Sol2658 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_684() {
+        assert_eq!(
+            Sol684::find_redundant_connection(vec![vec![1, 2], vec![1, 3], vec![2, 3]]),
+            vec![2, 3]
+        );
+        assert_eq!(
+            Sol684::find_redundant_connection(vec![
+                vec![1, 2],
+                vec![2, 3],
+                vec![3, 4],
+                vec![1, 4],
+                vec![1, 5]
+            ]),
+            vec![1, 4]
+        );
+
+        assert_eq!(
+            Sol684::find_redundant_connection(vec![
+                vec![7, 8],
+                vec![2, 6],
+                vec![2, 8],
+                vec![1, 4],
+                vec![9, 10],
+                vec![1, 7],
+                vec![3, 9],
+                vec![6, 9],
+                vec![3, 5],
+                vec![3, 10]
+            ]),
+            vec![3, 10]
+        );
+    }
 
     #[test]
     fn test_695() {
