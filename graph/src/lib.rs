@@ -576,6 +576,58 @@ impl Sol2493 {
     }
 }
 
+/// 2608h Shortest Cycle in a Graph
+struct Sol2608;
+
+impl Sol2608 {
+    pub fn find_shortest_cycle(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        use std::collections::VecDeque;
+
+        println!("* {:?}", edges);
+
+        let n = n as usize;
+        let mut graph = vec![vec![]; n];
+        for e in &edges {
+            let (v, u) = (e[0] as usize, e[1] as usize);
+            graph[v].push(u);
+            graph[u].push(v);
+        }
+        println!("-> graph :: {:?}", graph);
+
+        let mut mcycle = usize::MAX;
+        (0..n).for_each(|src| {
+            let mut dist = vec![usize::MAX; n];
+
+            let mut dq = VecDeque::new();
+            dq.push_back(src);
+            dist[src] = 0;
+
+            while let Some(v) = dq.pop_front() {
+                println!(" -> {} {:?}", v, dq);
+
+                for &u in &graph[v] {
+                    match dist[u] {
+                        usize::MAX => {
+                            dist[u] = dist[v] + 1;
+                            dq.push_back(u);
+                        }
+                        _ => {
+                            if dist[v] <= dist[u] {
+                                mcycle = mcycle.min(dist[u] + dist[v] + 1);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        match mcycle {
+            usize::MAX => -1,
+            _ => mcycle as i32,
+        }
+    }
+}
+
 /// 2658m Maximum Number of Fish in a Grid
 struct Sol2658;
 
@@ -838,6 +890,29 @@ mod tests {
         );
         assert_eq!(
             Sol2493::magnificent_sets(3, vec![vec![1, 2], vec![2, 3], vec![3, 1],]),
+            -1
+        );
+    }
+
+    #[test]
+    fn test_2608() {
+        assert_eq!(
+            Sol2608::find_shortest_cycle(
+                7,
+                vec![
+                    vec![0, 1],
+                    vec![1, 2],
+                    vec![2, 0],
+                    vec![3, 4],
+                    vec![4, 5],
+                    vec![5, 6],
+                    vec![6, 3]
+                ]
+            ),
+            3
+        );
+        assert_eq!(
+            Sol2608::find_shortest_cycle(4, vec![vec![0, 1], vec![0, 2]]),
             -1
         );
     }
