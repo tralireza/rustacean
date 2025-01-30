@@ -97,25 +97,20 @@ impl Sol684 {
 
         println!("-> {:?}", prv);
 
-        match icycle {
-            0 => vec![],
-            _ => {
-                let mut cnodes = vec![false; edges.len() + 1];
-                while !cnodes[icycle] {
-                    cnodes[icycle] = true;
-                    icycle = prv[icycle];
-                }
-
-                println!("-> {:?}", cnodes);
-
-                edges
-                    .iter()
-                    .rev()
-                    .skip_while(|&v| !cnodes[v[0] as usize] || !cnodes[v[1] as usize])
-                    .take(1)
-                    .fold(vec![], |_, v| v.clone())
-            }
+        let mut cnodes = vec![false; edges.len() + 1];
+        while !cnodes[icycle] {
+            cnodes[icycle] = true;
+            icycle = prv[icycle];
         }
+
+        println!("-> {:?}", cnodes);
+
+        edges
+            .iter()
+            .rev()
+            .skip_while(|&v| !cnodes[v[0] as usize] || !cnodes[v[1] as usize])
+            .take(1)
+            .fold(vec![], |_, v| v.clone())
     }
 }
 
