@@ -51,6 +51,7 @@ impl Sol684 {
         let mut djset = DJSet::new(edges.len());
         for edge in edges {
             println!("-> {:?} ~ {:?}", edge, djset);
+
             if !djset.union(edge[0] as usize, edge[1] as usize) {
                 return vec![edge[0], edge[1]];
             }
@@ -480,6 +481,101 @@ impl Sol2127 {
     }
 }
 
+/// 2493h Divide Nodes Into the Maximum Number of Groups
+struct Sol2493;
+
+impl Sol2493 {
+    pub fn magnificent_sets(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        use std::collections::VecDeque;
+
+        println!("* {:?}", edges);
+
+        let mut graph = vec![vec![]; n as usize + 1];
+        for e in &edges {
+            graph[e[0] as usize].push(e[1] as usize);
+            graph[e[1] as usize].push(e[0] as usize);
+        }
+        println!("-> graph :: {:?}", graph);
+
+        let mut bicolors = vec![-1; graph.len()];
+        for v in 1..graph.len() {
+            if bicolors[v] != -1 {
+                continue;
+            }
+
+            bicolors[v] = 0;
+            let mut q = vec![v];
+
+            while let Some(v) = q.pop() {
+                println!("-> {} {:?}", v, q);
+
+                for &u in &graph[v] {
+                    if bicolors[u] == bicolors[v] {
+                        return -1; // graph is not `BiPartite`
+                    }
+                    if bicolors[u] != -1 {
+                        continue;
+                    }
+
+                    bicolors[u] = bicolors[v] ^ 1;
+                    q.push(u);
+                }
+            }
+        }
+        println!("-> colors :: {:?}", bicolors);
+
+        let mut dist = vec![0; graph.len()];
+        for n in 1..graph.len() {
+            let mut dq = VecDeque::new();
+            let mut visited = vec![false; graph.len()];
+
+            dq.push_back(n);
+            visited[n] = true;
+
+            let mut xdist = 0;
+            while !dq.is_empty() {
+                for _ in 0..dq.len() {
+                    if let Some(v) = dq.pop_front() {
+                        for &u in &graph[v] {
+                            if !visited[u] {
+                                visited[u] = true;
+                                dq.push_back(u);
+                            }
+                        }
+                    }
+                }
+                xdist += 1;
+            }
+
+            dist[n] = xdist;
+        }
+        println!("-> distances :: {:?}", dist);
+
+        let mut groups = 0;
+        let mut visited = vec![false; graph.len()];
+        for n in 1..graph.len() {
+            if !visited[n] {
+                let mut ngroup = 0;
+                let mut q = vec![n];
+                visited[n] = true;
+                while let Some(v) = q.pop() {
+                    ngroup = ngroup.max(dist[v]);
+                    for &u in &graph[v] {
+                        if !visited[u] {
+                            visited[u] = true;
+                            q.push(u);
+                        }
+                    }
+                }
+
+                groups += ngroup;
+            }
+        }
+
+        groups
+    }
+}
+
 /// 2658m Maximum Number of Fish in a Grid
 struct Sol2658;
 
@@ -722,6 +818,28 @@ mod tests {
         assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![3, 0, 1, 4, 1]), 4);
+    }
+
+    #[test]
+    fn test_2493() {
+        assert_eq!(
+            Sol2493::magnificent_sets(
+                6,
+                vec![
+                    vec![1, 2],
+                    vec![1, 4],
+                    vec![1, 5],
+                    vec![2, 6],
+                    vec![2, 3],
+                    vec![4, 6]
+                ]
+            ),
+            4
+        );
+        assert_eq!(
+            Sol2493::magnificent_sets(3, vec![vec![1, 2], vec![2, 3], vec![3, 1],]),
+            -1
+        );
     }
 
     #[test]
