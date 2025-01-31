@@ -219,6 +219,7 @@ impl Sol827 {
         let mut areas = vec![0, 0];
         let mut islands = 0;
 
+        let dirs = [-1, 0, 1, 0, -1];
         for r in 0..rows {
             for c in 0..cols {
                 if grid[r][c] == 1 {
@@ -234,17 +235,14 @@ impl Sol827 {
                         area += 1;
                         grid[r][c] = 2 + islands as i32;
 
-                        if r > 0 {
-                            q.push((r - 1, c));
-                        }
-                        if r + 1 < rows {
-                            q.push((r + 1, c));
-                        }
-                        if c > 0 {
-                            q.push((r, c - 1));
-                        }
-                        if c + 1 < cols {
-                            q.push((r, c + 1));
+                        for i in 0..4 {
+                            let (r, c) = (
+                                r.wrapping_add_signed(dirs[i]),
+                                c.wrapping_add_signed(dirs[i + 1]),
+                            );
+                            if r < rows && c < cols {
+                                q.push((r, c));
+                            }
                         }
                     }
 
@@ -252,13 +250,6 @@ impl Sol827 {
                     islands += 1;
                 }
             }
-        }
-
-        if islands == 0 {
-            return 1;
-        }
-        if islands == 1 && areas[2] == rows * cols {
-            return areas[2] as i32;
         }
 
         println!("-> grid :: {:?}", grid);
@@ -269,25 +260,25 @@ impl Sol827 {
             for c in 0..cols {
                 if grid[r][c] == 0 {
                     let mut iset = HashSet::new();
-                    if r > 0 {
-                        iset.insert(grid[r - 1][c]);
+                    for i in 0..4 {
+                        let (r, c) = (
+                            r.wrapping_add_signed(dirs[i]),
+                            c.wrapping_add_signed(dirs[i + 1]),
+                        );
+                        if r < rows && c < cols {
+                            iset.insert(grid[r][c]);
+                        }
                     }
-                    if c > 0 {
-                        iset.insert(grid[r][c - 1]);
-                    }
-                    if r + 1 < rows {
-                        iset.insert(grid[r + 1][c]);
-                    }
-                    if c + 1 < cols {
-                        iset.insert(grid[r][c + 1]);
-                    }
-
                     xarea = xarea.max(iset.iter().fold(0, |r, &v| r + areas[v as usize]) + 1);
                 }
             }
         }
 
-        xarea as i32
+        match islands {
+            0 => 1,
+            1 if areas[2] as usize == rows * cols => areas[2],
+            _ => xarea,
+        }
     }
 }
 
