@@ -204,6 +204,93 @@ impl Sol802 {
     }
 }
 
+/// 827h Making A Large Island
+struct Sol827;
+
+impl Sol827 {
+    pub fn largest_island(grid: Vec<Vec<i32>>) -> i32 {
+        use std::collections::HashSet;
+
+        println!("* {:?}", grid);
+        let mut grid = grid;
+
+        let (rows, cols) = (grid.len(), grid[0].len());
+
+        let mut areas = vec![0, 0];
+        let mut islands = 0;
+
+        for r in 0..rows {
+            for c in 0..cols {
+                if grid[r][c] == 1 {
+                    let mut q = vec![];
+                    let mut area = 0;
+
+                    q.push((r, c));
+                    while let Some((r, c)) = q.pop() {
+                        if grid[r][c] != 1 {
+                            continue;
+                        }
+
+                        area += 1;
+                        grid[r][c] = 2 + islands as i32;
+
+                        if r > 0 {
+                            q.push((r - 1, c));
+                        }
+                        if r + 1 < rows {
+                            q.push((r + 1, c));
+                        }
+                        if c > 0 {
+                            q.push((r, c - 1));
+                        }
+                        if c + 1 < cols {
+                            q.push((r, c + 1));
+                        }
+                    }
+
+                    areas.push(area);
+                    islands += 1;
+                }
+            }
+        }
+
+        if islands == 0 {
+            return 1;
+        }
+        if islands == 1 && areas[2] == rows * cols {
+            return areas[2] as i32;
+        }
+
+        println!("-> grid :: {:?}", grid);
+        println!("-> island areas :: {:?}", areas);
+
+        let mut xarea = 0;
+        for r in 0..rows {
+            for c in 0..cols {
+                if grid[r][c] == 0 {
+                    let mut iset = HashSet::new();
+                    if r > 0 {
+                        iset.insert(grid[r - 1][c]);
+                    }
+                    if c > 0 {
+                        iset.insert(grid[r][c - 1]);
+                    }
+                    if r + 1 < rows {
+                        iset.insert(grid[r + 1][c]);
+                    }
+                    if c + 1 < cols {
+                        iset.insert(grid[r][c + 1]);
+                    }
+
+                    xarea = xarea.max(iset.iter().fold(0, |r, &v| r + areas[v as usize]) + 1);
+                }
+            }
+        }
+
+        xarea as i32
+    }
+}
+
 /// 1267m Count Servers that Communicate
 struct Sol1267;
 
@@ -799,6 +886,13 @@ mod tests {
             ]),
             vec![4]
         );
+    }
+
+    #[test]
+    fn test_827() {
+        assert_eq!(Sol827::largest_island(vec![vec![1, 0], vec![0, 1]]), 3);
+        assert_eq!(Sol827::largest_island(vec![vec![1, 1], vec![1, 0]]), 4);
+        assert_eq!(Sol827::largest_island(vec![vec![1, 1], vec![1, 1]]), 4);
     }
 
     #[test]
