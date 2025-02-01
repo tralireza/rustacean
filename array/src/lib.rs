@@ -16,6 +16,16 @@ impl Sol2017 {
     }
 }
 
+/// 3151 Special Array I
+struct Sol3151;
+
+impl Sol3151 {
+    pub fn is_array_special(nums: Vec<i32>) -> bool {
+        nums.windows(2)
+            .fold(true, |r, v| if (v[0] ^ v[1]) & 1 == 0 { false } else { r })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -28,5 +38,12 @@ mod tests {
             Sol2017::grid_game(vec![vec![1, 3, 1, 15], vec![1, 3, 3, 1]]),
             7
         );
+    }
+
+    #[test]
+    fn test_3151() {
+        assert_eq!(Sol3151::is_array_special(vec![1]), true);
+        assert_eq!(Sol3151::is_array_special(vec![2, 1, 4]), true);
+        assert_eq!(Sol3151::is_array_special(vec![4, 3, 1, 6]), false);
     }
 }
