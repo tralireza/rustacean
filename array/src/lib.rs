@@ -1,5 +1,24 @@
 //! # Array
 
+/// 1184 Distance Between Bus Stops
+struct Sol1184;
+
+impl Sol1184 {
+    pub fn distance_between_bus_stops(distance: Vec<i32>, start: i32, destination: i32) -> i32 {
+        let (mut src, mut dst) = (start as usize, destination as usize);
+        if src > dst {
+            (src, dst) = (dst, src);
+        }
+
+        distance[src..dst].iter().fold(0, |r, v| r + v).min(
+            distance[dst..]
+                .iter()
+                .chain(distance[..src].iter())
+                .fold(0, |r, v| r + v),
+        )
+    }
+}
+
 /// 2017m Grid Game
 struct Sol2017;
 
@@ -29,6 +48,22 @@ impl Sol3151 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_1184() {
+        assert_eq!(
+            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 1),
+            1
+        );
+        assert_eq!(
+            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 2),
+            3
+        );
+        assert_eq!(
+            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 3),
+            4
+        );
+    }
 
     #[test]
     fn test_2017() {
