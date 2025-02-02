@@ -2,6 +2,6 @@
 
 resolver = "2"
 
-members = [ "array",
-  "bits", "dp", "graph", "hashing", "math", "pq", "sorting", "string",
+members = [ 
+  "array", "bits", "dp", "graph", "hashing", "math", "pq", "recursion", "sorting", "string",
 ]
