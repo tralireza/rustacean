@@ -24,6 +24,15 @@ struct Sol1752;
 
 impl Sol1752 {
     pub fn check(nums: Vec<i32>) -> bool {
+        println!(" * {:?}", nums);
+        println!(
+            ":: {}",
+            nums.windows(2).fold(
+                if nums[0] < nums[nums.len() - 1] { 1 } else { 0 },
+                |r, v| if v[1] < v[0] { r + 1 } else { r }
+            ) <= 1
+        );
+
         let mut nums = nums;
         let Some(pinv) = nums.windows(2).position(|v| v[1] < v[0]) else {
             return true;
