@@ -19,6 +19,21 @@ impl Sol1184 {
     }
 }
 
+/// 1752 Check If Array Is Sorted and Rotated
+struct Sol1752;
+
+impl Sol1752 {
+    pub fn check(nums: Vec<i32>) -> bool {
+        let mut nums = nums;
+        let Some(pinv) = nums.windows(2).position(|v| v[1] < v[0]) else {
+            return true;
+        };
+
+        nums.rotate_left(pinv + 1);
+        nums.windows(2).all(|v| v[0] <= v[1])
+    }
+}
+
 /// 2017m Grid Game
 struct Sol2017;
 
@@ -63,6 +78,13 @@ mod tests {
             Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 3),
             4
         );
+    }
+
+    #[test]
+    fn test_1752() {
+        assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
+        assert_eq!(Sol1752::check(vec![2, 1, 3, 4]), false);
+        assert_eq!(Sol1752::check(vec![1, 2, 3]), true);
     }
 
     #[test]
