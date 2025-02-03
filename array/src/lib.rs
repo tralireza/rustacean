@@ -59,6 +59,38 @@ impl Sol2017 {
     }
 }
 
+/// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
+struct Sol3105;
+
+impl Sol3105 {
+    pub fn longest_monotonic_subarray(nums: Vec<i32>) -> i32 {
+        let (mut asc, mut desc) = (0, 0);
+        nums.windows(2).fold([0, 0], |mut r, v| {
+            if v[0] > v[1] {
+                r[0] += 1;
+                desc = desc.max(r[0]);
+            } else {
+                r[0] = 0;
+            }
+            if v[1] > v[0] {
+                r[1] += 1;
+                asc = asc.max(r[1]);
+            } else {
+                r[1] = 0;
+            }
+            println!("{:?}", r);
+            r
+        });
+
+        println!(":: {:?}", asc.max(desc) + 1);
+
+        match (asc, desc) {
+            (0, 0) => 1,
+            _ => asc.max(desc) + 1,
+        }
+    }
+}
+
 /// 3151 Special Array I
 struct Sol3151;
 
@@ -104,6 +136,13 @@ mod tests {
             Sol2017::grid_game(vec![vec![1, 3, 1, 15], vec![1, 3, 3, 1]]),
             7
         );
+    }
+
+    #[test]
+    fn test_3105() {
+        assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
+        assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 3, 3, 3]), 1);
+        assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 2, 1]), 3);
     }
 
     #[test]
