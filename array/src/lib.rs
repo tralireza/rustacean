@@ -43,6 +43,26 @@ impl Sol1752 {
     }
 }
 
+/// 1800 Maximum Possible Ascending Subarray Sum
+struct Sol1800;
+
+impl Sol1800 {
+    pub fn max_ascending_sum(nums: Vec<i32>) -> i32 {
+        nums.windows(2)
+            .fold((nums[0], nums[0]), |mut kadan, v| {
+                if v[1] > v[0] {
+                    kadan.0 = kadan.0 + v[1];
+                } else {
+                    kadan.0 = v[1];
+                }
+                kadan.1 = kadan.1.max(kadan.0);
+
+                kadan
+            })
+            .1
+    }
+}
+
 /// 2017m Grid Game
 struct Sol2017;
 
@@ -126,6 +146,16 @@ mod tests {
         assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
         assert_eq!(Sol1752::check(vec![2, 1, 3, 4]), false);
         assert_eq!(Sol1752::check(vec![1, 2, 3]), true);
+    }
+
+    #[test]
+    fn test_1800() {
+        assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 5, 10, 50]), 65);
+        assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 40, 50]), 150);
+        assert_eq!(
+            Sol1800::max_ascending_sum(vec![12, 17, 15, 13, 10, 11, 12]),
+            33
+        );
     }
 
     #[test]
