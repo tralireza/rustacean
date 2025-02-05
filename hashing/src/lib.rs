@@ -1,5 +1,42 @@
 //! # Hashing
 
+/// 1790 Check if One String Swap Can Make Strings Equal
+struct Sol1790;
+
+impl Sol1790 {
+    pub fn are_almost_equal(s1: String, s2: String) -> bool {
+        use std::collections::HashMap;
+
+        let (mut hm1, mut hm2) = (HashMap::new(), HashMap::new());
+        let diffs =
+            s1.chars()
+                .zip(s2.chars())
+                .filter(|(c1, c2)| c1 != c2)
+                .fold(0, |r, (c1, c2)| {
+                    hm1.entry(c1).and_modify(|f| *f += 1).or_insert(1);
+                    hm2.entry(c2).and_modify(|f| *f += 1).or_insert(1);
+                    r + 1
+                });
+
+        println!("-> {:?} | {:?}", hm1, hm2);
+
+        if diffs > 2 {
+            return false;
+        }
+
+        for (chr, f1) in hm1 {
+            if let Some(&f2) = hm2.get(&chr) {
+                if f2 != f1 {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        true
+    }
+}
+
 /// 2661m First Completely Painted Row or Column
 struct Sol2661;
 
@@ -10,16 +47,16 @@ impl Sol2661 {
         let (rows, cols) = (mat.len(), mat[0].len());
         let mut hm = HashMap::new();
 
-        for r in 0..rows {
-            for c in 0..cols {
+        (0..rows).for_each(|r| {
+            (0..cols).for_each(|c| {
                 hm.insert(mat[r][c], (r, c));
-            }
-        }
+            })
+        });
 
         let (mut rcount, mut ccount) = (vec![0; rows], vec![0; cols]);
 
         arr.iter()
-            .take_while(|n| match hm.get(&n) {
+            .take_while(|n| match hm.get(n) {
                 Some(&(r, c)) => {
                     rcount[r] += 1;
                     ccount[c] += 1;
@@ -34,6 +71,27 @@ impl Sol2661 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_1790() {
+        assert_eq!(
+            Sol1790::are_almost_equal("bank".to_string(), "kanb".to_string()),
+            true
+        );
+        assert_eq!(
+            Sol1790::are_almost_equal("attack".to_string(), "defend".to_string()),
+            false
+        );
+        assert_eq!(
+            Sol1790::are_almost_equal("kelb".to_string(), "kelb".to_string()),
+            true
+        );
+
+        assert_eq!(
+            Sol1790::are_almost_equal("qgqeg".to_string(), "gqgeq".to_string()),
+            false
+        );
+    }
 
     #[test]
     fn test_2661() {
