@@ -7,6 +7,20 @@ impl Sol1790 {
     pub fn are_almost_equal(s1: String, s2: String) -> bool {
         use std::collections::HashMap;
 
+        let diffv = s1
+            .chars()
+            .zip(s2.chars())
+            .filter(|(c1, c2)| c1 != c2)
+            .take(3)
+            .collect::<Vec<_>>();
+
+        println!(
+            ":: {} ~ {:?}",
+            diffv.is_empty()
+                || diffv.len() == 2 && diffv[0].0 == diffv[1].1 && diffv[0].1 == diffv[1].0,
+            diffv
+        );
+
         let (mut hm1, mut hm2) = (HashMap::new(), HashMap::new());
         let diffs =
             s1.chars()
