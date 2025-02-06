@@ -1,5 +1,31 @@
 //! # Hashing
 
+/// 1726m Tuple With Same Product
+struct Sol1726;
+
+impl Sol1726 {
+    pub fn tuple_same_product(nums: Vec<i32>) -> i32 {
+        use std::collections::HashMap;
+
+        let mut fqs = HashMap::new();
+        for i in 0..nums.len() {
+            for j in i + 1..nums.len() {
+                fqs.entry(nums[i] * nums[j])
+                    .and_modify(|f| *f += 1)
+                    .or_insert(1);
+            }
+        }
+
+        println!("-> {:?}", fqs);
+
+        fqs.into_values()
+            .filter(|&f| f > 1)
+            .map(|f| (f - 1) * f / 2)
+            .sum::<i32>()
+            * 8
+    }
+}
+
 /// 1790 Check if One String Swap Can Make Strings Equal
 struct Sol1790;
 
@@ -85,6 +111,12 @@ impl Sol2661 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_1726() {
+        assert_eq!(Sol1726::tuple_same_product(vec![2, 3, 4, 6]), 8);
+        assert_eq!(Sol1726::tuple_same_product(vec![1, 2, 4, 5, 10]), 16);
+    }
 
     #[test]
     fn test_1790() {
