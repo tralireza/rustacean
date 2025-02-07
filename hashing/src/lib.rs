@@ -20,7 +20,7 @@ impl Sol1726 {
 
         fqs.into_values()
             .filter(|&f| f > 1)
-            .map(|f| (f - 1) * f / 2)
+            .map(|f| (f - 1) * f / 2) // nCk :: n!/k!(n-k)!
             .sum::<i32>()
             * 8
     }
