@@ -77,6 +77,52 @@ impl Sol1790 {
     }
 }
 
+/// 2349m Design a Number Container System
+use std::cmp::Reverse;
+use std::collections::{BinaryHeap, HashMap};
+
+struct NumberContainers {
+    mn: HashMap<i32, BinaryHeap<Reverse<i32>>>,
+    minds: HashMap<i32, i32>,
+}
+
+impl NumberContainers {
+    fn new() -> Self {
+        NumberContainers {
+            mn: HashMap::new(),
+            minds: HashMap::new(),
+        }
+    }
+
+    fn change(&mut self, index: i32, number: i32) {
+        self.minds
+            .entry(index)
+            .and_modify(|n| *n = number)
+            .or_insert(number);
+
+        self.mn
+            .entry(number)
+            .and_modify(|pq| pq.push(Reverse(index)))
+            .or_insert(BinaryHeap::from([Reverse(index)]));
+    }
+
+    fn find(&mut self, number: i32) -> i32 {
+        if let Some(pq) = self.mn.get_mut(&number) {
+            while let Some(&Reverse(i)) = pq.peek() {
+                if let Some(&n) = self.minds.get(&i) {
+                    if n == number {
+                        return i;
+                    }
+
+                    pq.pop();
+                }
+            }
+        }
+
+        -1
+    }
+}
+
 /// 2661m First Completely Painted Row or Column
 struct Sol2661;
 
@@ -176,6 +222,18 @@ mod tests {
             Sol1790::are_almost_equal("qgqeg".to_string(), "gqgeq".to_string()),
             false
         );
+    }
+
+    #[test]
+    fn test_2349() {
+        let mut nc = NumberContainers::new();
+        assert_eq!(nc.find(10), -1);
+        for i in [2, 1, 3, 5] {
+            nc.change(i, 10);
+        }
+        assert_eq!(nc.find(10), 1);
+        nc.change(1, 20);
+        assert_eq!(nc.find(10), 2);
     }
 
     #[test]
