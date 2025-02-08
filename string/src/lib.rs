@@ -5,8 +5,9 @@ struct Sol65;
 
 impl Sol65 {
     pub fn is_number(s: String) -> bool {
+        // State Transition Table :: State/Input -> State
         // ['0-9', '+|-', '.', 'e', ' ']
-        let states = [
+        let stt = [
             [0, 0, 0, 0, 0], // State: 0 (*Bad* State)
             [3, 2, 4, 0, 1], // State: 1 (Start/End)
             [3, 0, 4, 0, 0], // State: 2
@@ -19,19 +20,20 @@ impl Sol65 {
             [0, 0, 0, 0, 9], // State: 9 (End)
         ];
 
-        let mut cur = 1;
+        let mut cstate = 1; // Current State := <- Start State
+
         for chr in s.chars() {
-            cur = match chr {
-                '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => states[cur][0],
-                '+' | '-' => states[cur][1],
-                '.' => states[cur][2],
-                'e' | 'E' => states[cur][3],
-                ' ' => states[cur][4],
+            cstate = match chr {
+                '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => stt[cstate][0],
+                '+' | '-' => stt[cstate][1],
+                '.' => stt[cstate][2],
+                'e' | 'E' => stt[cstate][3],
+                ' ' => stt[cstate][4],
                 _ => return false, // Bad: input
             }
         }
 
-        match cur {
+        match cstate {
             3 | 5 | 8 | 9 => true,
             _ => false,
         }
