@@ -107,10 +107,7 @@ impl NumberContainers {
                 }
             }
         }
-        self.nset
-            .entry(number)
-            .or_insert_with(BTreeSet::new)
-            .insert(index);
+        self.nset.entry(number).or_default().insert(index);
 
         self.minds.insert(index, number);
         self.nmap
