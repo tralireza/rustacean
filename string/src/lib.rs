@@ -24,7 +24,7 @@ impl Sol65 {
 
         for chr in s.chars() {
             cstate = match chr {
-                '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => stt[cstate][0],
+                '0'..='9' => stt[cstate][0],
                 '+' | '-' => stt[cstate][1],
                 '.' => stt[cstate][2],
                 'e' | 'E' => stt[cstate][3],
@@ -33,10 +33,43 @@ impl Sol65 {
             }
         }
 
-        match cstate {
-            3 | 5 | 8 | 9 => true,
-            _ => false,
+        matches!(cstate, 3 | 5 | 8 | 9)
+    }
+
+    fn is_number_enum(s: String) -> bool {
+        #[derive(Debug)]
+        enum State {
+            Start,
+            Sign,
+            Dot,
+            Int,
+            IntDot,
+            Decimal,
+            E,
+            ESign,
+            Exp,
         }
+
+        use State::*;
+
+        let mut cstate = Start;
+        for chr in s.chars() {
+            cstate = match (&cstate, chr) {
+                (Start, '+' | '-') => Sign,
+                (Start | Sign, '.') => Dot,
+                (Start | Sign, '0'..='9') => Int,
+                (Dot | IntDot, '0'..='9') => Decimal,
+                (Int | Decimal | Exp, '0'..='9') => cstate, // No-Transition
+                (Int, '.') => IntDot,
+                (Int | Decimal | IntDot, 'e' | 'E') => E,
+                (E, '+' | '-') => ESign,
+                (E | ESign, '0'..='9') => Exp,
+
+                _ => return false,
+            }
+        }
+
+        matches!(cstate, Int | IntDot | Decimal | Exp)
     }
 }
 
@@ -89,11 +122,13 @@ mod tests {
 
     #[test]
     fn test_65() {
-        assert!(Sol65::is_number("0".to_string()));
-        assert!(!Sol65::is_number("e".to_string()));
-        assert!(!Sol65::is_number(".".to_string()));
+        for f in [Sol65::is_number, Sol65::is_number_enum] {
+            assert!(f("0".to_string()));
+            assert!(!f("e".to_string()));
+            assert!(!f(".".to_string()));
 
-        assert!(Sol65::is_number("2e0".to_string()));
+            assert!(f("2e0".to_string()));
+        }
     }
 
     #[test]
