@@ -108,6 +108,42 @@ impl Sol2661 {
     }
 }
 
+/// 3160m Find the Number of Distinct Colors Among the Balls
+struct Sol3160;
+
+impl Sol3160 {
+    pub fn query_results(limit: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
+        use std::collections::HashMap;
+
+        let (mut cm, mut balls) = (HashMap::new(), HashMap::new());
+        let mut rst = vec![];
+
+        queries.iter().for_each(|v| {
+            let (b, c) = (v[0] as usize, v[1] as usize);
+
+            if let Some(&prv) = balls.get(&b) {
+                cm.entry(prv).and_modify(|f| *f -= 1);
+                if let Some(&f) = cm.get(&prv) {
+                    if f == 0 {
+                        cm.remove(&prv);
+                    }
+                }
+            }
+
+            balls.entry(b).and_modify(|f| *f = c).or_insert(c);
+            cm.entry(c).and_modify(|f| *f += 1).or_insert(1);
+
+            println!("-> {:?} ~ {:?}", balls, cm);
+
+            rst.push(cm.len() as i32);
+        });
+
+        println!(":: {:?}", rst);
+
+        rst
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -151,6 +187,21 @@ mod tests {
                 vec![vec![3, 2, 5], vec![1, 4, 6], vec![8, 7, 9]]
             ),
             3
+        );
+    }
+
+    #[test]
+    fn test_3160() {
+        assert_eq!(
+            Sol3160::query_results(4, vec![vec![1, 4], vec![2, 5], vec![1, 3], vec![3, 4]]),
+            vec![1, 2, 2, 3]
+        );
+        assert_eq!(
+            Sol3160::query_results(
+                4,
+                vec![vec![0, 1], vec![1, 2], vec![2, 2], vec![3, 4], vec![4, 5]]
+            ),
+            vec![1, 2, 2, 3, 4]
         );
     }
 }
