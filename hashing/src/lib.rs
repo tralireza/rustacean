@@ -115,27 +115,30 @@ impl Sol3160 {
     pub fn query_results(limit: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
         use std::collections::HashMap;
 
-        let (mut cm, mut balls) = (HashMap::new(), HashMap::new());
+        let (mut colors, mut balls) = (HashMap::new(), HashMap::new());
         let mut rst = vec![];
 
         queries.iter().for_each(|v| {
-            let (b, c) = (v[0] as usize, v[1] as usize);
+            let (ball, color) = (v[0] as usize, v[1] as usize);
 
-            if let Some(&prv) = balls.get(&b) {
-                cm.entry(prv).and_modify(|f| *f -= 1);
-                if let Some(&f) = cm.get(&prv) {
+            if let Some(&prv) = balls.get(&ball) {
+                colors.entry(prv).and_modify(|f| *f -= 1);
+                if let Some(&f) = colors.get(&prv) {
                     if f == 0 {
-                        cm.remove(&prv);
+                        colors.remove(&prv);
                     }
                 }
             }
 
-            balls.entry(b).and_modify(|f| *f = c).or_insert(c);
-            cm.entry(c).and_modify(|f| *f += 1).or_insert(1);
+            balls
+                .entry(ball)
+                .and_modify(|f| *f = color)
+                .or_insert(color);
+            colors.entry(color).and_modify(|f| *f += 1).or_insert(1);
 
-            println!("-> {:?} ~ {:?}", balls, cm);
+            println!("-> {:?} ~ {:?}", balls, colors);
 
-            rst.push(cm.len() as i32);
+            rst.push(colors.len() as i32);
         });
 
         println!(":: {:?}", rst);
