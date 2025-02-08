@@ -79,35 +79,59 @@ impl Sol1790 {
 
 /// 2349m Design a Number Container System
 use std::cmp::Reverse;
-use std::collections::{BinaryHeap, HashMap};
+use std::collections::{BTreeSet, BinaryHeap, HashMap};
 
 struct NumberContainers {
-    mn: HashMap<i32, BinaryHeap<Reverse<i32>>>,
-    minds: HashMap<i32, i32>,
+    nmap: HashMap<i32, BinaryHeap<Reverse<i32>>>, // number -> PQ(index...)
+    minds: HashMap<i32, i32>,                     // index -> number
+
+    nset: HashMap<i32, BTreeSet<i32>>, // with BTreeSet :: number -> TreeSet(index...)
 }
 
 impl NumberContainers {
     fn new() -> Self {
         NumberContainers {
-            mn: HashMap::new(),
+            nmap: HashMap::new(),
             minds: HashMap::new(),
+
+            nset: HashMap::new(),
         }
     }
 
     fn change(&mut self, index: i32, number: i32) {
-        self.minds
-            .entry(index)
-            .and_modify(|n| *n = number)
-            .or_insert(number);
+        if let Some(&prv) = self.minds.get(&index) {
+            if let Some(nset) = self.nset.get_mut(&prv) {
+                nset.remove(&index);
+                if nset.is_empty() {
+                    self.nset.remove(&prv);
+                }
+            }
+        }
+        self.nset
+            .entry(number)
+            .or_insert_with(BTreeSet::new)
+            .insert(index);
 
-        self.mn
+        self.minds.insert(index, number);
+        self.nmap
             .entry(number)
             .and_modify(|pq| pq.push(Reverse(index)))
             .or_insert(BinaryHeap::from([Reverse(index)]));
+
+        println!("-> {:?} {:?} {:?}", self.minds, self.nmap, self.nset);
     }
 
     fn find(&mut self, number: i32) -> i32 {
-        if let Some(pq) = self.mn.get_mut(&number) {
+        println!(
+            " ? {:?}",
+            if let Some(nset) = self.nset.get(&number) {
+                nset.first()
+            } else {
+                Some(&-1)
+            }
+        );
+
+        if let Some(pq) = self.nmap.get_mut(&number) {
             while let Some(&Reverse(i)) = pq.peek() {
                 if let Some(&n) = self.minds.get(&i) {
                     if n == number {
