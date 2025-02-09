@@ -154,17 +154,15 @@ impl Sol2364 {
         let mut hmap = HashMap::new();
         nums.iter().enumerate().fold(
             nums.len() as i64 * (nums.len() as i64 - 1) / 2, // total pairs: nCk n!/k!(n-k)!
-            |mut r, (i, v)| {
-                r -= match hmap.get(&(v - i as i32)) {
-                    Some(count) => count,
-                    _ => &0,
-                };
-
+            |r, (i, v)| {
                 hmap.entry(v - i as i32)
                     .and_modify(|count| *count += 1)
                     .or_insert(1);
 
-                r
+                match hmap.get(&(v - i as i32)) {
+                    Some(count) => r - count + 1,
+                    _ => r,
+                }
             },
         )
     }
