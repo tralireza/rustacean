@@ -1,6 +1,9 @@
 //! # Rust :: Recursion, Backtracking
 
-/// 37 Sudoku Solver
+#![feature(test)]
+extern crate test;
+
+/// 37h Sudoku Solver
 struct Sol37;
 
 impl Sol37 {
@@ -51,9 +54,72 @@ impl Sol37 {
         }
 
         solve(board, 0, 0);
-        for r in board {
+        for r in board.iter() {
             println!(" -> {:?}", r);
         }
+    }
+}
+
+/// 60h Permutation Sequence
+struct Sol60;
+
+impl Sol60 {
+    pub fn get_permutation(n: i32, k: i32) -> String {
+        // 1 <= n <= 9
+        let mut seq = vec![];
+        for chr in ('1'..='9').take(n as usize) {
+            seq.push(chr);
+        }
+
+        fn perms(n: i32, p: usize, seq: &mut Vec<char>) {
+            if p == n as usize {
+                println!("-> {:?}", seq);
+                return;
+            }
+
+            perms(n, p + 1, seq);
+            for i in p + 1..n as usize {
+                (seq[i], seq[p]) = (seq[p], seq[i]);
+                perms(n, p + 1, seq);
+                (seq[i], seq[p]) = (seq[p], seq[i]);
+            }
+        }
+
+        perms(n, 0, &mut seq);
+
+        let mut rst = vec![];
+        let mut vis = vec![false; n as usize];
+
+        fn perms_sql(k: i32, vis: &mut Vec<bool>, seq: &Vec<char>, rst: &mut Vec<char>) -> i32 {
+            let mut k = k;
+            if rst.len() == seq.len() {
+                k -= 1;
+                if k == 0 {
+                    println!(":: {:?}", rst);
+                }
+                return k;
+            }
+
+            for i in 0..seq.len() {
+                if !vis[i] {
+                    vis[i] = true;
+                    rst.push(seq[i]);
+
+                    k = perms_sql(k, vis, seq, rst);
+                    if k == 0 {
+                        return 0;
+                    }
+
+                    rst.pop();
+                    vis[i] = false;
+                }
+            }
+
+            k
+        }
+
+        perms_sql(k, &mut vis, &seq, &mut rst);
+        rst.iter().collect()
     }
 }
 
@@ -74,5 +140,17 @@ mod tests {
             vec!['.', '.', '.', '4', '1', '9', '.', '.', '5'],
             vec!['.', '.', '.', '.', '8', '.', '.', '7', '9'],
         ]);
+    }
+
+    #[bench]
+    fn bench_37(b: &mut test::Bencher) {
+        b.iter(|| test_37());
+    }
+
+    #[test]
+    fn test_60() {
+        assert_eq!(Sol60::get_permutation(3, 3), "213".to_string());
+        assert_eq!(Sol60::get_permutation(4, 9), "2314".to_string());
+        assert_eq!(Sol60::get_permutation(3, 1), "123".to_string());
     }
 }
