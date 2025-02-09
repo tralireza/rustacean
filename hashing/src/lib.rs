@@ -144,6 +144,32 @@ impl NumberContainers {
     }
 }
 
+/// 2364m Count Number of Bad Pairs
+struct Sol2364;
+
+impl Sol2364 {
+    pub fn count_bad_pairs(nums: Vec<i32>) -> i64 {
+        use std::collections::HashMap;
+
+        let mut hmap = HashMap::new();
+        nums.iter().enumerate().fold(
+            nums.len() as i64 * (nums.len() as i64 - 1) / 2, // total pairs: nCk n!/k!(n-k)!
+            |mut r, (i, v)| {
+                r -= match hmap.get(&(v - i as i32)) {
+                    Some(count) => count,
+                    _ => &0,
+                };
+
+                hmap.entry(v - i as i32)
+                    .and_modify(|count| *count += 1)
+                    .or_insert(1);
+
+                r
+            },
+        )
+    }
+}
+
 /// 2661m First Completely Painted Row or Column
 struct Sol2661;
 
@@ -255,6 +281,12 @@ mod tests {
         assert_eq!(nc.find(10), 1);
         nc.change(1, 20);
         assert_eq!(nc.find(10), 2);
+    }
+
+    #[test]
+    fn test_2364() {
+        assert_eq!(Sol2364::count_bad_pairs(vec![4, 1, 3, 3]), 5);
+        assert_eq!(Sol2364::count_bad_pairs(vec![1, 2, 3, 4, 5]), 0);
     }
 
     #[test]
