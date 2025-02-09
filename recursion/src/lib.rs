@@ -90,9 +90,9 @@ impl Sol60 {
         let mut rst = vec![];
         let mut vis = vec![false; n as usize];
 
-        fn perms_sql(k: i32, vis: &mut Vec<bool>, seq: &Vec<char>, rst: &mut Vec<char>) -> i32 {
+        fn perms_sql(n: usize, k: i32, vis: &mut Vec<bool>, rst: &mut Vec<char>) -> i32 {
             let mut k = k;
-            if rst.len() == seq.len() {
+            if rst.len() == n {
                 k -= 1;
                 if k == 0 {
                     println!(":: {:?}", rst);
@@ -100,12 +100,12 @@ impl Sol60 {
                 return k;
             }
 
-            for i in 0..seq.len() {
+            for (i, chr) in ('1'..='9').enumerate().take(n) {
                 if !vis[i] {
                     vis[i] = true;
-                    rst.push(seq[i]);
+                    rst.push(chr);
 
-                    k = perms_sql(k, vis, seq, rst);
+                    k = perms_sql(n, k, vis, rst);
                     if k == 0 {
                         return 0;
                     }
@@ -118,7 +118,7 @@ impl Sol60 {
             k
         }
 
-        perms_sql(k, &mut vis, &seq, &mut rst);
+        perms_sql(n as usize, k, &mut vis, &mut rst);
         rst.iter().collect()
     }
 }
