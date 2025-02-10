@@ -1,5 +1,48 @@
 //! # Dynamic Programming
 
+/// 115h Distinct Subsequences
+struct Sol115;
+
+impl Sol115 {
+    pub fn num_distinct(s: String, t: String) -> i32 {
+        let mut rst = 0;
+        let (s, t) = (s.as_bytes(), t.as_bytes());
+        let mut mem = vec![vec![-1; t.len()]; s.len()];
+
+        fn count(s: &[u8], i: usize, j: usize, t: &[u8], mem: &mut Vec<Vec<i32>>) -> i32 {
+            if j + 1 >= t.len() {
+                return 1;
+            }
+            if i >= s.len() {
+                return 0;
+            }
+
+            if mem[i][j] != -1 {
+                return mem[i][j];
+            }
+
+            let mut rst = 0;
+            for p in i + 1..s.len() {
+                if s[p] == t[j + 1] && s.len() + j + 1 >= t.len() + p {
+                    rst += count(s, p, j + 1, t, mem);
+                }
+            }
+            mem[i][j] = rst;
+            rst
+        }
+
+        for p in 0..s.len() {
+            if s[p] == t[0] && s.len() >= t.len() + p {
+                rst += count(s, p, 0, t, &mut mem);
+            }
+        }
+
+        println!("-> {:?}", mem);
+
+        rst
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
@@ -51,6 +94,18 @@ impl Sol2836 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_115() {
+        assert_eq!(
+            Sol115::num_distinct("rabbbit".to_string(), "rabbit".to_string()),
+            3
+        );
+        assert_eq!(
+            Sol115::num_distinct("babgbag".to_string(), "bag".to_string()),
+            5
+        );
+    }
 
     #[test]
     fn test_2836() {
