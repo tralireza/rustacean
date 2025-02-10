@@ -43,6 +43,39 @@ impl Sol115 {
     }
 }
 
+/// 132h Palindrome Partitioning II
+struct Sol132;
+
+impl Sol132 {
+    pub fn min_cut(s: String) -> i32 {
+        let s = s.as_bytes();
+
+        let mut palindrome = vec![vec![true; s.len()]; s.len()];
+        for l in (0..s.len()).rev() {
+            for r in (l + 1..s.len()) {
+                palindrome[l][r] = s[l] == s[r] && palindrome[l + 1][r - 1];
+            }
+        }
+
+        println!("-> {:?}", palindrome);
+
+        let mut dp = vec![i32::MAX; s.len()];
+        for r in 0..s.len() {
+            if palindrome[0][r] {
+                dp[r] = 0;
+            } else {
+                for l in 0..r {
+                    if palindrome[l + 1][r] {
+                        dp[r] = dp[r].min(dp[l] + 1);
+                    }
+                }
+            }
+        }
+
+        dp[s.len() - 1]
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
@@ -105,6 +138,13 @@ mod tests {
             Sol115::num_distinct("babgbag".to_string(), "bag".to_string()),
             5
         );
+    }
+
+    #[test]
+    fn test_132() {
+        assert_eq!(Sol132::min_cut("aab".to_string()), 1);
+        assert_eq!(Sol132::min_cut("a".to_string()), 0);
+        assert_eq!(Sol132::min_cut("ab".to_string()), 1);
     }
 
     #[test]
