@@ -85,9 +85,8 @@ impl Sol2342 {
         let mut mem = [0; 9 * 9 + 1];
 
         let mut rst = -1;
-        for n in nums {
-            let mut dsum = 0;
-            let mut x = n as usize;
+        nums.iter().for_each(|&n| {
+            let (mut dsum, mut x) = (0, n as usize);
             while x > 0 {
                 dsum += x % 10;
                 x /= 10;
@@ -97,7 +96,7 @@ impl Sol2342 {
                 rst = rst.max(mem[dsum] + n);
             }
             mem[dsum] = mem[dsum].max(n);
-        }
+        });
 
         println!("-> {:?}", mem);
 
@@ -301,6 +300,14 @@ mod tests {
     fn test_2342() {
         assert_eq!(Sol2342::maximum_sum(vec![18, 43, 36, 13, 7]), 54);
         assert_eq!(Sol2342::maximum_sum(vec![10, 12, 19, 14]), -1);
+
+        assert_eq!(
+            Sol2342::maximum_sum(vec![
+                279, 169, 463, 252, 94, 455, 423, 315, 288, 64, 494, 337, 409, 283, 283, 477, 248,
+                8, 89, 166, 188, 186, 128
+            ]),
+            872
+        );
     }
 
     #[test]
