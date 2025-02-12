@@ -3,5 +3,5 @@
 resolver = "2"
 
 members = [ 
-  "array", "bits", "dp", "graph", "hashing", "math", "pq", "recursion", "sorting", "stack", "string",
+  "array", "bits", "bsearch", "dp", "graph", "hashing", "math", "pq", "recursion", "sorting", "stack", "string",
 ]
