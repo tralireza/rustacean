@@ -77,6 +77,34 @@ impl Sol1790 {
     }
 }
 
+/// 2342m Max Sum of a Pair With Equal Sum of Digits
+struct Sol2342;
+
+impl Sol2342 {
+    pub fn maximum_sum(nums: Vec<i32>) -> i32 {
+        let mut mem = [0; 9 * 9 + 1];
+
+        let mut rst = -1;
+        for n in nums {
+            let mut dsum = 0;
+            let mut x = n as usize;
+            while x > 0 {
+                dsum += x % 10;
+                x /= 10;
+            }
+
+            if mem[dsum] > 0 {
+                rst = rst.max(mem[dsum] + n);
+            }
+            mem[dsum] = mem[dsum].max(n);
+        }
+
+        println!("-> {:?}", mem);
+
+        rst
+    }
+}
+
 /// 2349m Design a Number Container System
 use std::cmp::Reverse;
 use std::collections::{BTreeSet, BinaryHeap, HashMap};
@@ -267,6 +295,12 @@ mod tests {
             Sol1790::are_almost_equal("qgqeg".to_string(), "gqgeq".to_string()),
             false
         );
+    }
+
+    #[test]
+    fn test_2342() {
+        assert_eq!(Sol2342::maximum_sum(vec![18, 43, 36, 13, 7]), 54);
+        assert_eq!(Sol2342::maximum_sum(vec![10, 12, 19, 14]), -1);
     }
 
     #[test]
