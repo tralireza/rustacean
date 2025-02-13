@@ -87,18 +87,19 @@ impl Sol3066 {
         }
 
         let mut ops = 0;
-        while let Some(&Reverse(n)) = pq.peek() {
-            if n < k as usize {
-                if let Some(Reverse(x)) = pq.pop() {
-                    if let Some(Reverse(y)) = pq.pop() {
-                        pq.push(Reverse(x.min(y) * 2 + x.max(y)));
-                    }
+        while let Some(&Reverse(x)) = pq.peek() {
+            if x < k as usize {
+                pq.pop();
+                if let Some(Reverse(y)) = pq.pop() {
+                    pq.push(Reverse(x.min(y) * 2 + x.max(y)));
                 }
             } else {
                 break;
             }
             ops += 1;
         }
+
+        println!("-> {:?}", pq);
 
         ops
     }
