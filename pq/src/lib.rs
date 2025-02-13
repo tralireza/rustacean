@@ -38,7 +38,7 @@ impl Sol407 {
         println!(" -> {:?}", visited);
 
         let mut trap_water = 0;
-        let dirs = vec![-1, 0, 1, 0, -1];
+        let dirs = [-1, 0, 1, 0, -1];
 
         while let Some(Reverse(cell)) = pq.pop() {
             println!(" -> {:?}", cell);
@@ -60,8 +60,8 @@ impl Sol407 {
 
                     pq.push(Reverse(Cell {
                         height: h.max(cell.height),
-                        r: r,
-                        c: c,
+                        r,
+                        c,
                     }));
                 }
             });
@@ -70,6 +70,37 @@ impl Sol407 {
         println!(" -> {:?}", visited);
 
         trap_water
+    }
+}
+
+/// 3066m Minimum Operations to Exceed Threshold Value II
+struct Sol3066;
+
+impl Sol3066 {
+    pub fn min_operations(nums: Vec<i32>, k: i32) -> i32 {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let mut pq = BinaryHeap::new();
+        for n in nums {
+            pq.push(Reverse(n as usize));
+        }
+
+        let mut ops = 0;
+        while let Some(&Reverse(n)) = pq.peek() {
+            if n < k as usize {
+                if let Some(Reverse(x)) = pq.pop() {
+                    if let Some(Reverse(y)) = pq.pop() {
+                        pq.push(Reverse(x.min(y) * 2 + x.max(y)));
+                    }
+                }
+            } else {
+                break;
+            }
+            ops += 1;
+        }
+
+        ops
     }
 }
 
@@ -96,6 +127,16 @@ mod tests {
                 vec![3, 3, 3, 3, 3]
             ]),
             10
+        );
+    }
+
+    #[test]
+    fn test_3066() {
+        assert_eq!(Sol3066::min_operations(vec![2, 11, 10, 1, 3], 10), 2);
+        assert_eq!(Sol3066::min_operations(vec![1, 1, 2, 4, 9], 20), 4);
+        assert_eq!(
+            Sol3066::min_operations(vec![999999999, 999999999, 999999999], 1000000000),
+            2
         );
     }
 }
