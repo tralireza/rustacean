@@ -52,7 +52,7 @@ impl Sol132 {
 
         let mut palindrome = vec![vec![true; s.len()]; s.len()];
         for l in (0..s.len()).rev() {
-            for r in (l + 1..s.len()) {
+            for r in l + 1..s.len() {
                 palindrome[l][r] = s[l] == s[r] && palindrome[l + 1][r - 1];
             }
         }
@@ -73,6 +73,30 @@ impl Sol132 {
         }
 
         dp[s.len() - 1]
+    }
+}
+
+/// 174h Dungeon Game
+struct Sol174;
+
+impl Sol174 {
+    pub fn calculate_minimum_hp(dungeon: Vec<Vec<i32>>) -> i32 {
+        let (rows, cols) = (dungeon.len(), dungeon[0].len());
+        let mut health = vec![vec![i32::MAX; cols + 1]; rows + 1];
+
+        health[rows][cols - 1] = 1;
+        health[rows - 1][cols] = 1;
+
+        for r in (0..rows).rev() {
+            for c in (0..cols).rev() {
+                let x = health[r + 1][c].min(health[r][c + 1]) - dungeon[r][c];
+                health[r][c] = if x <= 0 { 1 } else { x };
+            }
+        }
+
+        println!("-> {:?}", health);
+
+        health[0][0]
     }
 }
 
@@ -145,6 +169,15 @@ mod tests {
         assert_eq!(Sol132::min_cut("aab".to_string()), 1);
         assert_eq!(Sol132::min_cut("a".to_string()), 0);
         assert_eq!(Sol132::min_cut("ab".to_string()), 1);
+    }
+
+    #[test]
+    fn test_174() {
+        assert_eq!(
+            Sol174::calculate_minimum_hp(vec![vec![-2, -3, 3], vec![-5, -10, 1], vec![10, 30, -5]]),
+            7
+        );
+        assert_eq!(Sol174::calculate_minimum_hp(vec![vec![0]]), 1);
     }
 
     #[test]
