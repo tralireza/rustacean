@@ -128,8 +128,10 @@ struct Sol2698;
 
 impl Sol2698 {
     pub fn punishment_number(n: i32) -> i32 {
-        fn partition(digits: &Vec<i32>, n: i32, parts: &mut [bool], l: usize, r: usize) -> bool {
-            for p in l..r {
+        fn partition(digits: &Vec<i32>, n: i32, parts: &mut [bool], start: usize) -> bool {
+            println!("-> {:?}", (n, start, &parts));
+
+            for p in start..digits.len() {
                 parts[p] = true;
 
                 let (mut dsum, mut csum) = (0, 0);
@@ -148,7 +150,7 @@ impl Sol2698 {
                     return true;
                 }
 
-                if partition(digits, n, parts, l, p) || partition(digits, n, parts, p + 1, r) {
+                if partition(digits, n, parts, p + 1) {
                     return true;
                 }
 
@@ -158,32 +160,20 @@ impl Sol2698 {
             false
         }
 
-        let mut psum = 0;
+        (1..=n)
+            .filter(|&n| {
+                let mut digits = vec![];
+                let mut sqr = n * n;
+                while sqr > 0 {
+                    digits.push(sqr % 10);
+                    sqr /= 10;
+                }
+                digits.reverse();
 
-        for n in 1..=n {
-            let mut digits = vec![];
-
-            let mut r = 0;
-            let mut sqr = n * n;
-            while sqr > 0 {
-                digits.push(sqr % 10);
-                r += 1;
-                sqr /= 10;
-            }
-
-            let mut parts = vec![false; r];
-            digits.reverse();
-
-            println!("-> {} {:?}", n, digits);
-
-            if partition(&digits, n, &mut parts, 0, r) {
-                psum += n * n;
-            }
-        }
-
-        println!(":: {}", psum);
-
-        psum
+                partition(&digits, n, &mut vec![false; digits.len()], 0)
+            })
+            .map(|n| n * n)
+            .sum::<i32>()
     }
 }
 
