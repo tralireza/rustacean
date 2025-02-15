@@ -123,6 +123,70 @@ impl Sol60 {
     }
 }
 
+/// 2698m Find the Punishment Number of an Integer
+struct Sol2698;
+
+impl Sol2698 {
+    pub fn punishment_number(n: i32) -> i32 {
+        fn partition(digits: &Vec<i32>, n: i32, parts: &mut [bool], l: usize, r: usize) -> bool {
+            for p in l..r {
+                parts[p] = true;
+
+                let (mut dsum, mut csum) = (0, 0);
+                for p in 0..digits.len() {
+                    match parts[p] {
+                        true => {
+                            dsum += 10 * csum + digits[p];
+                            csum = 0;
+                        }
+                        _ => csum = 10 * csum + digits[p],
+                    }
+                }
+
+                dsum += csum;
+                if n == dsum {
+                    return true;
+                }
+
+                if partition(digits, n, parts, l, p) || partition(digits, n, parts, p + 1, r) {
+                    return true;
+                }
+
+                parts[p] = false;
+            }
+
+            false
+        }
+
+        let mut psum = 0;
+
+        for n in 1..=n {
+            let mut digits = vec![];
+
+            let mut r = 0;
+            let mut sqr = n * n;
+            while sqr > 0 {
+                digits.push(sqr % 10);
+                r += 1;
+                sqr /= 10;
+            }
+
+            let mut parts = vec![false; r];
+            digits.reverse();
+
+            println!("-> {} {:?}", n, digits);
+
+            if partition(&digits, n, &mut parts, 0, r) {
+                psum += n * n;
+            }
+        }
+
+        println!(":: {}", psum);
+
+        psum
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -152,5 +216,12 @@ mod tests {
         assert_eq!(Sol60::get_permutation(3, 3), "213".to_string());
         assert_eq!(Sol60::get_permutation(4, 9), "2314".to_string());
         assert_eq!(Sol60::get_permutation(3, 1), "123".to_string());
+    }
+
+    #[test]
+    fn test_2698() {
+        // 1 <= n <= 1000
+        assert_eq!(Sol2698::punishment_number(10), 182);
+        assert_eq!(Sol2698::punishment_number(37), 1478);
     }
 }
