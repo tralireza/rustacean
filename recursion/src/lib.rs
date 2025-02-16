@@ -8,17 +8,16 @@ struct Sol37;
 
 impl Sol37 {
     pub fn solve_sudoku(board: &mut Vec<Vec<char>>) {
-        fn valid(board: &mut Vec<Vec<char>>, r: usize, c: usize, digit: char) -> bool {
+        fn valid(board: &[Vec<char>], r: usize, c: usize, digit: char) -> bool {
             for i in 0..9 {
                 if board[i][c] == digit || board[r][i] == digit {
                     return false;
                 }
             }
 
-            let (r, c) = (r / 3 * 3, c / 3 * 3);
-            for x in r..=r + 2 {
-                for y in c..=c + 2 {
-                    if board[x][y] == digit {
+            for row in board.iter().skip(r / 3 * 3).take(3) {
+                for &v in row.iter().skip(c / 3 * 3).take(3) {
+                    if v == digit {
                         return false;
                     }
                 }
