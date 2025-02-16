@@ -16,6 +16,6 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - name: get Rusty
-        run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh && sh rustup.sh -y  && cargo --version
+        run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh && sh rustup.sh -y && rustup override set nightly && cargo --version
       - run: cargo doc --lib --verbose --document-private-items --no-deps --workspace --examples --release
       - run: echo "🍏 This job's status is ${{ job.status }}."
