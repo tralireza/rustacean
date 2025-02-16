@@ -123,6 +123,59 @@ impl Sol60 {
     }
 }
 
+/// 1718m Construct the Lexicographically Largest Valid Sequence
+struct Sol1718;
+
+impl Sol1718 {
+    pub fn construct_distanced_sequence(n: i32) -> Vec<i32> {
+        let mut rst = vec![0; 2 * n as usize - 1];
+        let mut numbers = vec![false; 1 + n as usize];
+
+        fn search(rst: &mut Vec<i32>, numbers: &mut Vec<bool>, start: usize) -> bool {
+            if start == rst.len() {
+                return true;
+            }
+
+            if rst[start] != 0 {
+                return search(rst, numbers, start + 1);
+            }
+
+            for n in (1..numbers.len()).rev() {
+                if numbers[n] {
+                    continue;
+                }
+
+                rst[start] = n as i32;
+                numbers[n] = true;
+
+                if n == 1 && search(rst, numbers, start + 1) {
+                    return true;
+                }
+
+                if n > 1 && start + n < rst.len() && rst[start + n] == 0 {
+                    rst[start + n] = n as i32;
+                    if search(rst, numbers, start + 1) {
+                        return true;
+                    }
+
+                    rst[start + n] = 0; // backtrack
+                }
+
+                rst[start] = 0; // backtrack
+                numbers[n] = false; // backtrack
+            }
+
+            false
+        }
+
+        search(&mut rst, &mut numbers, 0);
+
+        println!(":: {:?}", rst);
+
+        rst
+    }
+}
+
 /// 2698m Find the Punishment Number of an Integer
 struct Sol2698;
 
@@ -206,6 +259,24 @@ mod tests {
         assert_eq!(Sol60::get_permutation(3, 3), "213".to_string());
         assert_eq!(Sol60::get_permutation(4, 9), "2314".to_string());
         assert_eq!(Sol60::get_permutation(3, 1), "123".to_string());
+    }
+
+    #[test]
+    fn test_1718() {
+        // 1 <= n <= 20
+        assert_eq!(
+            Sol1718::construct_distanced_sequence(3),
+            vec![3, 1, 2, 3, 2]
+        );
+        assert_eq!(
+            Sol1718::construct_distanced_sequence(5),
+            vec![5, 3, 1, 4, 3, 5, 2, 4, 2]
+        );
+    }
+
+    #[bench]
+    fn bench_1718(b: &mut test::Bencher) {
+        b.iter(|| Sol1718::construct_distanced_sequence(20));
     }
 
     #[test]
