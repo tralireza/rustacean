@@ -1,5 +1,39 @@
 //! # Math (Core) :: Rusty
 
+/// 29m Divide Two Integers
+struct Sol29;
+
+impl Sol29 {
+    pub fn divide(dividend: i32, divisor: i32) -> i32 {
+        if dividend == divisor {
+            return 1;
+        }
+
+        let psign = (dividend < 0) == (divisor < 0);
+        let (mut n, d) = (dividend.unsigned_abs(), divisor.unsigned_abs());
+
+        let mut r: u32 = 0;
+        while n >= d {
+            let mut p = 0;
+            while n > (d << (p + 1)) {
+                p += 1;
+            }
+
+            r += 1 << p;
+            n -= d << p;
+        }
+
+        if r == 1 << 31 && psign {
+            return i32::MAX; // (1<<31) -1
+        }
+
+        match psign {
+            true => r as i32,
+            _ => -(r as i32),
+        }
+    }
+}
+
 /// 908 Smallest Range I
 struct Sol908;
 
@@ -66,6 +100,13 @@ impl Sol989 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_29() {
+        for (n, d, r) in [(10, 3, 3), (7, -3, -2), (-2147483648, -1, 2147483647)] {
+            assert_eq!(Sol29::divide(n, d), r);
+        }
+    }
 
     #[test]
     fn test_908() {
