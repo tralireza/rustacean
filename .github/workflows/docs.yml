@@ -15,6 +15,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: get Rust
-        run: sudo apt update && sudo apt install rustc && cargo --version
+      - name: get Rusty
+        run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        run: | cargo --version
+        run: cargo doc --lib --verbose --document-private-items --no-deps --workspace --examples --release
       - run: echo "🍏 This job's status is ${{ job.status }}."
