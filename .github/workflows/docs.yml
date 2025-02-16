@@ -15,7 +15,6 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
