@@ -26,16 +26,17 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
 
-	deploy:
-		environment:
-			name: github-pages
-			url: ${{ steps.deployment.outputs.page_url }}
-		steps:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: get Rusty
         run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh && sh rustup.sh -y && rustup override set nightly && cargo --version
       - run: cargo doc --lib --verbose --document-private-items --no-deps --workspace --examples --release
-      - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
