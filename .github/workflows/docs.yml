@@ -25,6 +25,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: get Rusty
         run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh && sh rustup.sh -y && rustup override set nightly && cargo --version
+      - run: RUSTDOCFLAGS="--enable-index-page -Zunstable-options" cargo +nightly doc
       - run: cargo doc --lib --verbose --document-private-items --no-deps --workspace --examples --release
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
