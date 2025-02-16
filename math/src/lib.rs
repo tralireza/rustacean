@@ -4,6 +4,16 @@
 struct Sol29;
 
 impl Sol29 {
+    /// Divide two integers
+    ///
+    /// Examples
+    ///
+    /// ```
+    /// use rustacean::math::Sol29;
+    ///
+    /// assert_eq!(Sol29::divide(10, 3), 3);
+    /// ```
+    ///
     pub fn divide(dividend: i32, divisor: i32) -> i32 {
         if dividend == divisor {
             return 1;
