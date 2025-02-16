@@ -1,21 +1,15 @@
-name: GitHub Actions for Rusty [Docs]
+name: GitHub Actions Demo for Rusty [Docs]
 run-name: ${{ github.actor }} is generating Rust docs with GitHub Actions 🚀
 
 on: [push]
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  explore:
+  build:
     permissions:
       contents: read
       pages: write
       id-token: write
-    runs-on: ubuntu-latest
-    environment:
-      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -35,6 +29,15 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './target/doc'
+
+  deploy:
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 
