@@ -5,6 +5,7 @@ on: [push]
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: write
@@ -31,8 +32,8 @@ jobs:
           path: './target/doc'
 
   deploy:
+    runs-on: ubuntu-latest
     needs: build
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
