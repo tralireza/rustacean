@@ -122,6 +122,52 @@ impl Sol60 {
     }
 }
 
+/// 1079m Letter Tile Possibilities
+struct Sol1079;
+
+impl Sol1079 {
+    pub fn num_tile_possibilities(tiles: String) -> i32 {
+        use std::collections::HashSet;
+
+        println!("|| {:?}", tiles);
+
+        fn gen_combinations(
+            hset: &mut HashSet<String>,
+            used: &mut Vec<bool>,
+            tiles: &mut Vec<char>,
+            tile: &mut String,
+        ) {
+            hset.insert(tile.clone());
+
+            for i in 0..tiles.len() {
+                if !used[i] {
+                    used[i] = true;
+                    tile.push(tiles[i]);
+
+                    gen_combinations(hset, used, tiles, tile);
+
+                    used[i] = false;
+                    tile.pop();
+                }
+            }
+        }
+
+        let mut hset = HashSet::new();
+        let mut used = vec![false; tiles.len()];
+
+        gen_combinations(
+            &mut hset,
+            &mut used,
+            &mut tiles.chars().collect(),
+            &mut "".to_string(),
+        );
+
+        println!("-> {:?}", hset);
+
+        hset.len() as i32 - 1
+    }
+}
+
 /// 1718m Construct the Lexicographically Largest Valid Sequence
 struct Sol1718;
 
@@ -258,6 +304,18 @@ mod tests {
         assert_eq!(Sol60::get_permutation(3, 3), "213".to_string());
         assert_eq!(Sol60::get_permutation(4, 9), "2314".to_string());
         assert_eq!(Sol60::get_permutation(3, 1), "123".to_string());
+    }
+
+    #[test]
+    fn test_1079() {
+        assert_eq!(Sol1079::num_tile_possibilities("AAB".to_string()), 8);
+        assert_eq!(Sol1079::num_tile_possibilities("AAABBC".to_string()), 188);
+        assert_eq!(Sol1079::num_tile_possibilities("V".to_string()), 1);
+
+        assert_eq!(
+            Sol1079::num_tile_possibilities("ABCDEFG".to_string()),
+            13699
+        );
     }
 
     #[test]
