@@ -1,4 +1,4 @@
-//! # BIT Binary Index Tree, Segment Tree, Ordered Set
+//! # BIT Binary Indexed Tree, Segment Tree, Ordered Set
 
 /// 218h The Skyline Problems
 struct Sol218;
@@ -47,6 +47,8 @@ impl Sol218 {
             }
         }
 
+        println!(":: {:?}", skyline);
+
         skyline
     }
 }
@@ -74,6 +76,10 @@ mod tests {
                 vec![20, 8],
                 vec![24, 0]
             ]
+        );
+        assert_eq!(
+            Sol218::get_skyline(vec![vec![0, 2, 3], vec![2, 5, 3]]),
+            vec![vec![0, 3], vec![5, 0]]
         );
 
         assert_eq!(
