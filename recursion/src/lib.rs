@@ -221,6 +221,62 @@ impl Sol1718 {
     }
 }
 
+/// 2375m Construct Smallest Number From DI String
+struct Sol2375;
+
+impl Sol2375 {
+    pub fn smallest_number(pattern: String) -> String {
+        println!("|| {}", pattern);
+
+        fn search(rst: &mut String, last: usize, used: &mut [bool], pattern: &Vec<char>) -> bool {
+            println!("-> {:?}", rst);
+
+            if rst.len() == pattern.len() + 1 {
+                return true;
+            }
+
+            for d in 1..=9 {
+                if !used[d] {
+                    match (pattern[rst.len() - 1], d < last) {
+                        ('D', true) | ('I', false) => {
+                            used[d] = true;
+                            rst.push((b'0' + d as u8) as char);
+
+                            if search(rst, d, used, pattern) {
+                                return true;
+                            }
+
+                            used[d] = false;
+                            rst.pop();
+                        }
+                        _ => (),
+                    }
+                }
+            }
+
+            false
+        }
+
+        let mut used = [false; 10];
+        let pattern = pattern.chars().collect();
+
+        let mut rst = String::new();
+        for d in 1..=9 {
+            rst.push((b'0' + d as u8) as char);
+            used[d] = true;
+
+            if search(&mut rst, d, &mut used, &pattern) {
+                return rst;
+            }
+
+            rst.pop();
+            used[d] = false;
+        }
+
+        "".to_string()
+    }
+}
+
 /// 2698m Find the Punishment Number of an Integer
 struct Sol2698;
 
@@ -334,6 +390,18 @@ mod tests {
     #[bench]
     fn bench_1718(b: &mut test::Bencher) {
         b.iter(|| Sol1718::construct_distanced_sequence(20));
+    }
+
+    #[test]
+    fn test_2375() {
+        assert_eq!(
+            Sol2375::smallest_number("IIIDIDDD".to_string()),
+            "123549876".to_string()
+        );
+        assert_eq!(
+            Sol2375::smallest_number("DDD".to_string()),
+            "4321".to_string()
+        );
     }
 
     #[test]
