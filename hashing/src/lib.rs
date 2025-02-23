@@ -7,13 +7,9 @@ impl Sol599 {
     pub fn find_restaurant(list1: Vec<String>, list2: Vec<String>) -> Vec<String> {
         use std::collections::{BTreeMap, HashMap};
 
-        let mut hm1 = HashMap::new();
-        for (i, s) in list1.iter().enumerate() {
-            hm1.insert(s, i);
-        }
+        let hm1: HashMap<_, _> = list1.iter().enumerate().map(|(i, s)| (s, i)).collect();
 
         let mut m: BTreeMap<usize, Vec<String>> = BTreeMap::new();
-
         for (i, s) in list2.iter().enumerate() {
             if hm1.contains_key(s) {
                 m.entry(i + hm1[s])
@@ -320,7 +316,14 @@ mod tests {
                 ]
             ),
             vec!["Shogun".to_string()]
-        )
+        );
+        assert_eq!(
+            Sol599::find_restaurant(
+                vec!["happy".to_string(), "sad".to_string(), "good".to_string(),],
+                vec!["sad".to_string(), "happy".to_string(), "good".to_string(),]
+            ),
+            vec!["sad".to_string(), "happy".to_string()]
+        );
     }
 
     #[test]
