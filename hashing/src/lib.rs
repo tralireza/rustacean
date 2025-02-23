@@ -1,5 +1,36 @@
 //! # Hashing
 
+/// 599 Minimum Index Sum of Two Lists
+struct Sol599;
+
+impl Sol599 {
+    pub fn find_restaurant(list1: Vec<String>, list2: Vec<String>) -> Vec<String> {
+        use std::collections::{BTreeMap, HashMap};
+
+        let mut hm1 = HashMap::new();
+        for (i, s) in list1.iter().enumerate() {
+            hm1.insert(s, i);
+        }
+
+        let mut m: BTreeMap<usize, Vec<String>> = BTreeMap::new();
+
+        for (i, s) in list2.iter().enumerate() {
+            if hm1.contains_key(s) {
+                m.entry(i + hm1[s])
+                    .and_modify(|v| v.push(s.to_string()))
+                    .or_insert(vec![s.to_string()]);
+            }
+        }
+
+        println!("-> {:?}", m);
+
+        match m.first_key_value() {
+            Some((_, v)) => v.clone(),
+            _ => vec![],
+        }
+    }
+}
+
 /// 1726m Tuple With Same Product
 struct Sol1726;
 
@@ -104,10 +135,10 @@ impl Sol2342 {
     }
 }
 
-/// 2349m Design a Number Container System
 use std::cmp::Reverse;
 use std::collections::{BTreeSet, BinaryHeap, HashMap};
 
+/// 2349m Design a Number Container System
 struct NumberContainers {
     nmap: HashMap<i32, BinaryHeap<Reverse<i32>>>, // number -> PQ(index...)
     minds: HashMap<i32, i32>,                     // index -> number
@@ -233,6 +264,8 @@ impl Sol3160 {
     pub fn query_results(limit: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
         use std::collections::HashMap;
 
+        println!("|| {:?}", limit);
+
         let (mut colors, mut balls) = (HashMap::new(), HashMap::new());
         let mut rst = vec![];
 
@@ -268,6 +301,27 @@ impl Sol3160 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_599() {
+        assert_eq!(
+            Sol599::find_restaurant(
+                vec![
+                    "Shogun".to_string(),
+                    "Tapioca Express".to_string(),
+                    "Burger King".to_string(),
+                    "KFC".to_string()
+                ],
+                vec![
+                    "Piatti".to_string(),
+                    "The Grill at Torrey Pines".to_string(),
+                    "Hungry Hunter Steakhouse".to_string(),
+                    "Shogun".to_string()
+                ]
+            ),
+            vec!["Shogun".to_string()]
+        )
+    }
 
     #[test]
     fn test_1726() {
