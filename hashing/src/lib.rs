@@ -21,7 +21,7 @@ impl Sol599 {
         println!("-> {:?}", m);
 
         match m.first_key_value() {
-            Some((_, v)) => v.clone(),
+            Some((_, v)) => v.to_vec(),
             _ => vec![],
         }
     }
