@@ -233,7 +233,7 @@ impl Sol827 {
                         }
 
                         area += 1;
-                        grid[r][c] = 2 + islands as i32;
+                        grid[r][c] = 2 + islands;
 
                         for i in 0..4 {
                             let (r, c) = (
@@ -595,11 +595,12 @@ impl Sol2467 {
                 }
             }
 
-            if bdist[u] > time {
-                profit += amount[u];
-            } else if bdist[u] == time {
-                profit += amount[u] / 2;
-            }
+            use std::cmp::Ordering::*;
+            profit += match bdist[u].cmp(&time) {
+                Greater => amount[u],
+                Equal => amount[u] / 2,
+                _ => 0,
+            };
 
             match neighbors {
                 i32::MIN => profit,
