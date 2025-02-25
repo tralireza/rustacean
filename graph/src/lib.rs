@@ -559,6 +559,58 @@ impl Sol2127 {
     }
 }
 
+/// 2467m Most Profitable Path in a Tree
+struct Sol2467;
+
+impl Sol2467 {
+    pub fn most_profitable_path(edges: Vec<Vec<i32>>, bob: i32, amount: Vec<i32>) -> i32 {
+        let n = edges.len() + 1;
+        let mut graph = vec![vec![]; n];
+
+        for e in edges {
+            graph[e[0] as usize].push(e[1] as usize);
+            graph[e[1] as usize].push(e[0] as usize);
+        }
+
+        println!("-> {:?}", graph);
+
+        let mut bdist = vec![100_000; n];
+        bdist[bob as usize] = 0;
+
+        fn search(
+            u: usize,
+            p: usize,
+            time: usize,
+            graph: &Vec<Vec<usize>>,
+            bdist: &mut Vec<usize>,
+            amount: &Vec<i32>,
+        ) -> i32 {
+            let mut profit = 0;
+            let mut neighbors = i32::MIN;
+
+            for &v in &graph[u] {
+                if v != p {
+                    neighbors = neighbors.max(search(v, u, time + 1, graph, bdist, amount));
+                    bdist[u] = bdist[u].min(bdist[v] + 1);
+                }
+            }
+
+            if bdist[u] > time {
+                profit += amount[u];
+            } else if bdist[u] == time {
+                profit += amount[u] / 2;
+            }
+
+            match neighbors {
+                i32::MIN => profit,
+                _ => profit + neighbors,
+            }
+        }
+
+        search(0, n, 0, &graph, &mut bdist, &amount)
+    }
+}
+
 /// 2493h Divide Nodes Into the Maximum Number of Groups
 struct Sol2493;
 
@@ -955,6 +1007,30 @@ mod tests {
         assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
         assert_eq!(Sol2127::maximum_invitations(vec![3, 0, 1, 4, 1]), 4);
+    }
+
+    #[test]
+    fn test_2467() {
+        assert_eq!(
+            Sol2467::most_profitable_path(
+                vec![vec![0, 1], vec![1, 2], vec![1, 3], vec![3, 4]],
+                3,
+                vec![-2, 4, 2, -4, 6]
+            ),
+            6
+        );
+        assert_eq!(
+            Sol2467::most_profitable_path(vec![vec![0, 1]], 1, vec![-7280, 2350]),
+            -7280
+        );
+        assert_eq!(
+            Sol2467::most_profitable_path(
+                vec![vec![0, 1], vec![0, 2]],
+                2,
+                vec![-3360, -5394, -1146]
+            ),
+            -3360
+        );
     }
 
     #[test]
