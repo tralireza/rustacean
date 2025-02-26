@@ -100,6 +100,41 @@ impl Sol174 {
     }
 }
 
+/// 1524m Number of Sub-arrays With Odd Sum
+struct Sol1524;
+
+impl Sol1524 {
+    /// 1 <= N <= 10^5
+    pub fn num_of_subarrays(arr: Vec<i32>) -> i32 {
+        const M: usize = 1e9 as usize + 7;
+
+        let mut edp = vec![0; arr.len()]; // evens
+        let mut odp = vec![0; arr.len()]; // odds
+
+        match arr[arr.len() - 1] & 1 {
+            1 => odp[arr.len() - 1] = 1,
+            _ => edp[arr.len() - 1] = 1,
+        }
+
+        for i in (0..arr.len() - 1).rev() {
+            match arr[i] & 1 {
+                1 => {
+                    odp[i] = (1 + edp[i + 1]) % M;
+                    edp[i] = odp[i + 1];
+                }
+                _ => {
+                    edp[i] = (1 + edp[i + 1]) % M;
+                    odp[i] = odp[i + 1];
+                }
+            }
+        }
+
+        println!("-> {:?}", odp);
+
+        (odp.into_iter().sum::<usize>() % M) as i32
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
@@ -137,7 +172,7 @@ impl Sol2836 {
             xscore.max({
                 let (mut iscore, mut i) = (0, istart);
                 (0..bits).rev().for_each(|p| {
-                    if 1 << p & k != 0 {
+                    if (1 << p) & k != 0 {
                         iscore += score[i][p];
                         i = far[i][p];
                     }
@@ -178,6 +213,13 @@ mod tests {
             7
         );
         assert_eq!(Sol174::calculate_minimum_hp(vec![vec![0]]), 1);
+    }
+
+    #[test]
+    fn test_1524() {
+        assert_eq!(Sol1524::num_of_subarrays(vec![1, 3, 5]), 4);
+        assert_eq!(Sol1524::num_of_subarrays(vec![2, 4, 6]), 0);
+        assert_eq!(Sol1524::num_of_subarrays(vec![1, 2, 3, 4, 5, 6, 7]), 16);
     }
 
     #[test]
