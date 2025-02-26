@@ -160,6 +160,33 @@ impl Sol1524 {
     }
 }
 
+/// 1749m Maximum Absolute Sum of Any Subarray
+struct Sol1749;
+
+impl Sol1749 {
+    pub fn max_absolute_sum(nums: Vec<i32>) -> i32 {
+        let mut rst = 0;
+        let (mut xsum, mut nsum) = (i32::MIN, i32::MAX);
+
+        let mut pfx = 0;
+        for n in nums {
+            pfx += n;
+
+            xsum = xsum.max(pfx);
+            nsum = nsum.min(pfx);
+
+            use std::cmp::Ordering::*;
+            match pfx.cmp(&0) {
+                Greater => rst = rst.max(pfx.max(pfx - nsum)),
+                Less => rst = rst.max(pfx.abs().max((pfx - xsum).abs())),
+                _ => (),
+            }
+        }
+
+        rst
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
@@ -248,6 +275,12 @@ mod tests {
             assert_eq!(f(vec![1, 2, 3, 4, 5, 6, 7]), 16);
             println!("--");
         }
+    }
+
+    #[test]
+    fn test_1749() {
+        assert_eq!(Sol1749::max_absolute_sum(vec![1, -3, 2, 3, -4]), 5);
+        assert_eq!(Sol1749::max_absolute_sum(vec![2, -5, 1, -4, 3, -2]), 8);
     }
 
     #[test]
