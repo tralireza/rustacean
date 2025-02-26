@@ -104,9 +104,9 @@ impl Sol174 {
 struct Sol1524;
 
 impl Sol1524 {
-    /// 1 <= N <= 10^5
+    /// 1 <= N <= 10^5, 1 <= N_i <= 100
     pub fn num_of_subarrays(arr: Vec<i32>) -> i32 {
-        const M: usize = 1e9 as usize + 7;
+        const M: u32 = 1e9 as u32 + 7;
 
         let mut edp = vec![0; arr.len()]; // evens
         let mut odp = vec![0; arr.len()]; // odds
@@ -131,7 +131,32 @@ impl Sol1524 {
 
         println!("-> {:?}", odp);
 
-        (odp.into_iter().sum::<usize>() % M) as i32
+        (odp.into_iter().sum::<u32>() % M) as i32
+    }
+
+    fn num_of_subarrays_psum(arr: Vec<i32>) -> i32 {
+        const M: i32 = 1e9 as i32 + 7;
+
+        let mut count = 0;
+        let (mut evens, mut odds) = (1, 0);
+
+        let mut psum = 0;
+        for n in arr {
+            psum += n;
+
+            count += match psum & 1 {
+                1 => {
+                    odds += 1;
+                    evens
+                }
+                _ => {
+                    evens += 1;
+                    odds
+                }
+            } % M;
+        }
+
+        count % M
     }
 }
 
@@ -217,9 +242,12 @@ mod tests {
 
     #[test]
     fn test_1524() {
-        assert_eq!(Sol1524::num_of_subarrays(vec![1, 3, 5]), 4);
-        assert_eq!(Sol1524::num_of_subarrays(vec![2, 4, 6]), 0);
-        assert_eq!(Sol1524::num_of_subarrays(vec![1, 2, 3, 4, 5, 6, 7]), 16);
+        for f in [Sol1524::num_of_subarrays, Sol1524::num_of_subarrays_psum] {
+            assert_eq!(f(vec![1, 3, 5]), 4);
+            assert_eq!(f(vec![2, 4, 6]), 0);
+            assert_eq!(f(vec![1, 2, 3, 4, 5, 6, 7]), 16);
+            println!("--");
+        }
     }
 
     #[test]
