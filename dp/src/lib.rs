@@ -178,7 +178,7 @@ impl Sol1749 {
             use std::cmp::Ordering::*;
             match pfx.cmp(&0) {
                 Greater => rst = rst.max(pfx.max(pfx - nsum)),
-                Less => rst = rst.max(pfx.abs().max((pfx - xsum).abs())),
+                Less => rst = rst.max((-pfx).max(xsum - pfx)),
                 _ => (),
             }
         }
