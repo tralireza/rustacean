@@ -100,6 +100,40 @@ impl Sol174 {
     }
 }
 
+/// 873m Length of Longest Fibonacci Subsequence
+struct Sol873;
+
+impl Sol873 {
+    pub fn len_longest_fib_subseq(arr: Vec<i32>) -> i32 {
+        use std::collections::HashSet;
+
+        let mut hset = HashSet::new();
+        for n in &arr {
+            hset.insert(n);
+        }
+
+        println!("-> {:?}", hset);
+
+        let mut xlen = 0;
+        for l in 0..arr.len() {
+            for r in l + 1..arr.len() {
+                let mut prv = arr[r];
+                let mut cur = arr[l] + arr[r];
+
+                let mut clen = 2;
+                while hset.contains(&cur) {
+                    (prv, cur) = (cur, prv + cur);
+
+                    clen += 1;
+                    xlen = xlen.max(clen);
+                }
+            }
+        }
+
+        xlen
+    }
+}
+
 /// 1524m Number of Sub-arrays With Odd Sum
 struct Sol1524;
 
@@ -265,6 +299,18 @@ mod tests {
             7
         );
         assert_eq!(Sol174::calculate_minimum_hp(vec![vec![0]]), 1);
+    }
+
+    #[test]
+    fn test_873() {
+        assert_eq!(
+            Sol873::len_longest_fib_subseq(vec![1, 2, 3, 4, 5, 6, 7, 8]),
+            5
+        );
+        assert_eq!(
+            Sol873::len_longest_fib_subseq(vec![1, 3, 7, 11, 12, 14, 18]),
+            3
+        );
     }
 
     #[test]
