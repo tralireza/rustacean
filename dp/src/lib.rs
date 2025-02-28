@@ -134,6 +134,48 @@ impl Sol873 {
     }
 }
 
+/// 1092h Shortest Common Supersequence
+struct Sol1092;
+
+impl Sol1092 {
+    /// 1 <= Len_1, Len_2 <= 1000
+    pub fn shortest_common_supersequence(str1: String, str2: String) -> String {
+        let (str1, str2) = (str1.as_bytes(), str2.as_bytes());
+
+        // Longest Common Subsequence
+        let mut dp = vec![vec![0; str2.len() + 1]; str1.len() + 1];
+        for (x, chr1) in str1.iter().enumerate() {
+            for (y, chr2) in str2.iter().enumerate() {
+                dp[x + 1][y + 1] = match chr1 == chr2 {
+                    true => dp[x][y] + 1,
+                    false => dp[x][y + 1].max(dp[x + 1][y]),
+                };
+            }
+        }
+
+        println!("-> LCS :: {:?}", dp);
+
+        let mut rst = vec![];
+        let (mut x, mut y) = (str1.len(), str2.len());
+        while x > 0 || y > 0 {
+            if x > 0 && y > 0 && str1[x - 1] == str2[y - 1] {
+                rst.push(str1[x - 1]);
+                x -= 1;
+                y -= 1;
+            } else if x > 0 && (y == 0 || dp[x - 1][y] >= dp[x][y - 1]) {
+                rst.push(str1[x - 1]);
+                x -= 1;
+            } else if y > 0 {
+                rst.push(str2[y - 1]);
+                y -= 1;
+            }
+        }
+        rst.reverse();
+
+        String::from_utf8(rst).expect("")
+    }
+}
+
 /// 1524m Number of Sub-arrays With Odd Sum
 struct Sol1524;
 
@@ -310,6 +352,18 @@ mod tests {
         assert_eq!(
             Sol873::len_longest_fib_subseq(vec![1, 3, 7, 11, 12, 14, 18]),
             3
+        );
+    }
+
+    #[test]
+    fn test_1092() {
+        assert_eq!(
+            Sol1092::shortest_common_supersequence("abac".to_string(), "cab".to_string()),
+            "cabac".to_string()
+        );
+        assert_eq!(
+            Sol1092::shortest_common_supersequence("aaaaaaaa".to_string(), "aaaaaaaa".to_string()),
+            "aaaaaaaa".to_string()
         );
     }
 
