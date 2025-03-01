@@ -16,6 +16,11 @@ impl Sol2460 {
             }
         }
 
+        let mut vcopy = nums.to_vec();
+        vcopy.sort_by_key(|&v| if v > 0 { 0 } else { 1 });
+
+        println!("-> {:?}", vcopy);
+
         for z in 0..nums.len() {
             if nums[z] == 0 {
                 let mut swap = z;
@@ -44,5 +49,11 @@ mod tests {
             vec![1, 4, 2, 0, 0, 0]
         );
         assert_eq!(Sol2460::apply_operations(vec![0, 1]), vec![1, 0]);
+        assert_eq!(
+            Sol2460::apply_operations(vec![
+                847, 847, 0, 0, 0, 399, 416, 416, 879, 879, 206, 206, 206, 272
+            ]),
+            vec![1694, 399, 832, 1758, 412, 206, 272, 0, 0, 0, 0, 0, 0, 0]
+        );
     }
 }
