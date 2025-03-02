@@ -226,6 +226,7 @@ impl Sol2364 {
 struct Sol2570;
 
 impl Sol2570 {
+    /// 1 <= N_i[id_i, value_i] <= 1000
     pub fn merge_arrays(nums1: Vec<Vec<i32>>, nums2: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         let mut rst = vec![];
         let (mut l, mut r) = (0, 0);
@@ -259,6 +260,24 @@ impl Sol2570 {
         }
 
         println!("-> {:?}", rst);
+
+        {
+            let mut merge = vec![0; 1000 + 1];
+            for nums in [nums1, nums2] {
+                for v in nums {
+                    merge[v[0] as usize] += v[1];
+                }
+            }
+
+            let mut rst = vec![];
+            for (i, &v) in merge.iter().enumerate() {
+                if v > 0 {
+                    rst.push(vec![i as i32, v]);
+                }
+            }
+
+            println!("-> {:?}", rst);
+        }
 
         rst
     }
