@@ -222,6 +222,48 @@ impl Sol2364 {
     }
 }
 
+/// 2570 Merge Two 2D Arrays by Summing Values
+struct Sol2570;
+
+impl Sol2570 {
+    pub fn merge_arrays(nums1: Vec<Vec<i32>>, nums2: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let mut rst = vec![];
+        let (mut l, mut r) = (0, 0);
+
+        use std::cmp::Ordering::*;
+        while l < nums1.len() && r < nums2.len() {
+            match nums1[l][0].cmp(&nums2[r][0]) {
+                Equal => {
+                    rst.push(vec![nums1[l][0], nums1[l][1] + nums2[r][1]]);
+                    l += 1;
+                    r += 1;
+                }
+                Greater => {
+                    rst.push(nums2[r].to_vec());
+                    r += 1;
+                }
+                Less => {
+                    rst.push(nums1[l].to_vec());
+                    l += 1;
+                }
+            }
+        }
+
+        while l < nums1.len() {
+            rst.push(nums1[l].to_vec());
+            l += 1;
+        }
+        while r < nums2.len() {
+            rst.push(nums2[r].to_vec());
+            r += 1;
+        }
+
+        println!("-> {:?}", rst);
+
+        rst
+    }
+}
+
 /// 2661m First Completely Painted Row or Column
 struct Sol2661;
 
@@ -383,6 +425,24 @@ mod tests {
     fn test_2364() {
         assert_eq!(Sol2364::count_bad_pairs(vec![4, 1, 3, 3]), 5);
         assert_eq!(Sol2364::count_bad_pairs(vec![1, 2, 3, 4, 5]), 0);
+    }
+
+    #[test]
+    fn test_2570() {
+        assert_eq!(
+            Sol2570::merge_arrays(
+                vec![vec![1, 2], vec![2, 3], vec![4, 5]],
+                vec![vec![1, 4], vec![3, 2], vec![4, 1]]
+            ),
+            vec![vec![1, 6], vec![2, 3], vec![3, 2], vec![4, 6]]
+        );
+        assert_eq!(
+            Sol2570::merge_arrays(
+                vec![vec![2, 4], vec![3, 6], vec![5, 5]],
+                vec![vec![1, 3], vec![4, 3]]
+            ),
+            vec![vec![1, 3], vec![2, 4], vec![3, 6], vec![4, 3], vec![5, 5]]
+        );
     }
 
     #[test]
