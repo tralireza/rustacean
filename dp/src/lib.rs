@@ -100,6 +100,30 @@ impl Sol174 {
     }
 }
 
+/// 516m Longest Palindromic Subsequence
+struct Sol516;
+
+impl Sol516 {
+    pub fn longest_palindrome_subseq(s: String) -> i32 {
+        let s = s.as_bytes();
+
+        let mut lps = vec![vec![0; s.len()]; s.len()];
+        for x in 0..s.len() {
+            lps[x][x] = 1;
+            for y in (0..x).rev() {
+                lps[x][y] = match s[x] == s[y] {
+                    true => lps[x - 1][y + 1] + 2,
+                    _ => lps[x - 1][y].max(lps[x][y + 1]),
+                };
+            }
+        }
+
+        println!("-> {:?}", lps);
+
+        lps[s.len() - 1][0]
+    }
+}
+
 /// 873m Length of Longest Fibonacci Subsequence
 struct Sol873;
 
@@ -390,6 +414,12 @@ mod tests {
             7
         );
         assert_eq!(Sol174::calculate_minimum_hp(vec![vec![0]]), 1);
+    }
+
+    #[test]
+    fn test_516() {
+        assert_eq!(Sol516::longest_palindrome_subseq("bbbab".to_string()), 4);
+        assert_eq!(Sol516::longest_palindrome_subseq("cbbd".to_string()), 2);
     }
 
     #[test]
