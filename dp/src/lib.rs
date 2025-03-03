@@ -174,6 +174,55 @@ impl Sol1092 {
 
         String::from_utf8(rst).expect("")
     }
+
+    /// Recursive Memoization (!MLE)
+    pub fn scs_recursive(str1: String, str2: String) -> String {
+        use std::collections::HashMap;
+
+        let mut mem = HashMap::new();
+        fn search<'l>(
+            str1: &'l str,
+            str2: &'l str,
+            mem: &mut HashMap<(&'l str, &'l str), String>,
+        ) -> String {
+            match (str1.len(), str2.len()) {
+                (0, 0) => "".to_string(),
+                (0, _) => str2.to_string(),
+                (_, 0) => str1.to_string(),
+                _ => {
+                    println!("-> {:?}", (&str1, &str2));
+
+                    if let Some(rst) = mem.get(&(str1, str2)) {
+                        return rst.to_string();
+                    }
+
+                    match str1[0..1].cmp(&str2[0..1]) {
+                        std::cmp::Ordering::Equal => {
+                            let scs = search(&str1[1..], &str2[1..], mem);
+                            mem.insert((str1, str2), str1[0..1].to_string() + &*scs);
+                        }
+                        _ => {
+                            let scs1 = search(&str1[1..], str2, mem);
+                            let scs2 = search(str1, &str2[1..], mem);
+
+                            if scs1.len() <= scs2.len() {
+                                mem.insert((str1, str2), str1[0..1].to_string() + &*scs1);
+                            } else {
+                                mem.insert((str1, str2), str2[0..1].to_string() + &*scs2);
+                            }
+                        }
+                    }
+
+                    mem[&(str1, str2)].to_string()
+                }
+            }
+        }
+
+        let rst = search(&str1, &str2, &mut mem);
+        println!("-> {:?}", mem);
+
+        rst
+    }
 }
 
 /// 1524m Number of Sub-arrays With Odd Sum
@@ -357,14 +406,20 @@ mod tests {
 
     #[test]
     fn test_1092() {
-        assert_eq!(
-            Sol1092::shortest_common_supersequence("abac".to_string(), "cab".to_string()),
-            "cabac".to_string()
-        );
-        assert_eq!(
-            Sol1092::shortest_common_supersequence("aaaaaaaa".to_string(), "aaaaaaaa".to_string()),
-            "aaaaaaaa".to_string()
-        );
+        for f in [
+            Sol1092::shortest_common_supersequence,
+            Sol1092::scs_recursive,
+        ] {
+            assert_eq!(
+                f("abac".to_string(), "cab".to_string()),
+                "cabac".to_string()
+            );
+            assert_eq!(
+                f("aaaaaaaa".to_string(), "aaaaaaaa".to_string()),
+                "aaaaaaaa".to_string()
+            );
+            println!("--");
+        }
     }
 
     #[test]
