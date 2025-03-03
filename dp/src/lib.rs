@@ -120,6 +120,18 @@ impl Sol516 {
 
         println!("-> {:?}", lps);
 
+        // Longest Common Subsequence
+        let mut lcs = vec![vec![0; s.len() + 1]; s.len() + 1];
+        for x in 0..s.len() {
+            for y in 0..s.len() {
+                lcs[x + 1][y + 1] = match s[x] == s[s.len() - 1 - y] {
+                    true => lcs[x][y] + 1,
+                    _ => lcs[x][y + 1].max(lcs[x + 1][y]),
+                }
+            }
+        }
+        println!("-> {} {:?}", lcs[s.len()][s.len()], lcs);
+
         lps[s.len() - 1][0]
     }
 }
