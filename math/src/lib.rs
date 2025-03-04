@@ -139,6 +139,22 @@ impl Sol1780 {
 
         false
     }
+
+    /// O(2^log3(N))
+    fn check_powers_of_three_recursive(n: i32) -> bool {
+        fn search(n: i32, power: i32) -> bool {
+            if n == 0 {
+                return true;
+            }
+            if n < power {
+                return false;
+            }
+
+            search(n, 3 * power) || search(n - power, 3 * power)
+        }
+
+        search(n, 1)
+    }
 }
 
 #[cfg(test)]
@@ -174,8 +190,13 @@ mod tests {
 
     #[test]
     fn test_1780() {
-        assert_eq!(Sol1780::check_powers_of_three(12), true);
-        assert_eq!(Sol1780::check_powers_of_three(91), true);
-        assert_eq!(Sol1780::check_powers_of_three(21), false);
+        for f in [
+            Sol1780::check_powers_of_three,
+            Sol1780::check_powers_of_three_recursive,
+        ] {
+            assert_eq!(f(12), true);
+            assert_eq!(f(91), true);
+            assert_eq!(f(21), false);
+        }
     }
 }
