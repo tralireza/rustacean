@@ -107,6 +107,40 @@ impl Sol989 {
     }
 }
 
+/// 1780m Check if Number is a Sum of Powers of Three
+struct Sol1780;
+
+impl Sol1780 {
+    /// 1 <= N <= 10^7
+    pub fn check_powers_of_three(n: i32) -> bool {
+        use std::iter::successors;
+
+        let mut powers: Vec<_> = successors(Some(1), |p| {
+            if 3 * p <= 1e7 as i32 {
+                Some(3 * p)
+            } else {
+                None
+            }
+        })
+        .collect();
+        powers.reverse();
+
+        println!("-> {:?}", powers);
+
+        let mut n = n;
+        for p in powers {
+            if n >= p {
+                n -= p;
+                if n == 0 {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -136,5 +170,12 @@ mod tests {
             Sol989::add_to_array_form(vec![2, 1, 5], 806),
             vec![1, 0, 2, 1]
         );
+    }
+
+    #[test]
+    fn test_1780() {
+        assert_eq!(Sol1780::check_powers_of_three(12), true);
+        assert_eq!(Sol1780::check_powers_of_three(91), true);
+        assert_eq!(Sol1780::check_powers_of_three(21), false);
     }
 }
