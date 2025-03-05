@@ -1,5 +1,42 @@
 //! # Sorting
 
+/// 220h Contains Duplicate III
+struct Sol220;
+
+impl Sol220 {
+    pub fn contains_nearby_almost_duplicate(
+        nums: Vec<i32>,
+        index_diff: i32,
+        value_diff: i32,
+    ) -> bool {
+        use std::collections::BTreeSet;
+
+        println!("== {:?}", (&nums, index_diff, value_diff));
+
+        let mut oset = BTreeSet::new();
+        for (i, &n) in nums.iter().enumerate() {
+            println!("-> {:?}", (n, &oset));
+
+            if i > index_diff as usize {
+                let drop = nums[i - index_diff as usize - 1];
+                if n == drop {
+                    continue;
+                }
+
+                oset.remove(&drop);
+            }
+
+            if oset.range(n - value_diff..=value_diff + n).count() > 0 {
+                return true;
+            }
+
+            oset.insert(n);
+        }
+
+        false
+    }
+}
+
 /// 905 Sort Array By Parity
 struct Sol905;
 
@@ -56,6 +93,21 @@ impl Sol2948 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_220() {
+        for (rst, nums, idiff, vdiff) in [
+            (true, vec![1, 2, 3, 1], 3, 0),
+            (false, vec![1, 5, 9, 1, 5, 9], 2, 3),
+            (false, vec![4, 2], 2, 1),
+            (true, vec![4, 1, 6, 3], 4, 1),
+        ] {
+            assert_eq!(
+                Sol220::contains_nearby_almost_duplicate(nums, idiff, vdiff),
+                rst
+            );
+        }
+    }
 
     #[test]
     fn test_905() {
