@@ -157,6 +157,20 @@ impl Sol1780 {
     }
 }
 
+/// 2579m Count Total Number of Colored Cells
+struct Sol2578;
+
+impl Sol2578 {
+    pub fn colored_cells(n: i32) -> i64 {
+        let mut rst = 1;
+        for n in 2..=n as i64 {
+            rst += 4 * (n - 1);
+        }
+
+        rst
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -197,6 +211,13 @@ mod tests {
             assert_eq!(f(12), true);
             assert_eq!(f(91), true);
             assert_eq!(f(21), false);
+        }
+    }
+
+    #[test]
+    fn test_2578() {
+        for (n, r) in [(1, 1), (2, 5)] {
+            assert_eq!(Sol2578::colored_cells(n), r);
         }
     }
 }
