@@ -314,6 +314,34 @@ impl Sol2661 {
     }
 }
 
+/// 2965 Find Missing and Repeated Values
+struct Sol2965;
+
+impl Sol2965 {
+    pub fn find_missing_and_repeated_values(grid: Vec<Vec<i32>>) -> Vec<i32> {
+        let mut m = vec![0; grid.len() * grid.len() + 1];
+
+        for row in grid {
+            for n in row {
+                m[n as usize] += 1;
+            }
+        }
+
+        let mut rst = vec![0; 2];
+        for (n, &v) in m.iter().enumerate().skip(1) {
+            match v {
+                2 => rst[0] = n as i32,
+                0 => rst[1] = n as i32,
+                _ => (),
+            }
+        }
+
+        println!("-> {:?}", rst);
+
+        rst
+    }
+}
+
 /// 3160m Find the Number of Distinct Colors Among the Balls
 struct Sol3160;
 
@@ -477,6 +505,19 @@ mod tests {
             ),
             3
         );
+    }
+
+    #[test]
+    fn test_2965() {
+        for (rst, grid) in [
+            (vec![2, 4], vec![vec![1, 3], vec![2, 2]]),
+            (
+                vec![9, 5],
+                vec![vec![9, 1, 7], vec![8, 9, 2], vec![3, 4, 6]],
+            ),
+        ] {
+            assert_eq!(Sol2965::find_missing_and_repeated_values(grid), rst);
+        }
     }
 
     #[test]
