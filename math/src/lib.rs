@@ -157,6 +157,52 @@ impl Sol1780 {
     }
 }
 
+/// 2523m Closest Prime Numbers in Range
+struct Sol2523;
+
+impl Sol2523 {
+    pub fn closest_primes(left: i32, right: i32) -> Vec<i32> {
+        let mut sieve = vec![0; 1 + right as usize];
+
+        for (i, n) in sieve
+            .iter_mut()
+            .enumerate()
+            .take(right as usize + 1)
+            .skip(2)
+        {
+            *n = i;
+        }
+
+        for p in 2..=right as usize {
+            if sieve[p] == p {
+                for m in (p * p..=right as usize).step_by(p) {
+                    sieve[m] = p;
+                }
+            }
+        }
+
+        println!("-> {:?}", sieve);
+
+        let primes: Vec<_> = sieve
+            .into_iter()
+            .enumerate()
+            .skip(1)
+            .filter(|(i, p)| i == p && *p as i32 >= left)
+            .map(|(_, p)| p as i32)
+            .collect();
+
+        println!("-> {:?}", primes);
+
+        primes.windows(2).fold(vec![-1, -1], |rst, v| {
+            if rst == vec![-1, -1] || v[1] - v[0] < rst[1] - rst[0] {
+                vec![v[0], v[1]]
+            } else {
+                rst
+            }
+        })
+    }
+}
+
 /// 2579m Count Total Number of Colored Cells
 struct Sol2578;
 
@@ -211,6 +257,13 @@ mod tests {
             assert_eq!(f(12), true);
             assert_eq!(f(91), true);
             assert_eq!(f(21), false);
+        }
+    }
+
+    #[test]
+    fn test_2523() {
+        for (rst, left, right) in [(vec![11, 13], 10, 19), (vec![-1, -1], 4, 6)] {
+            assert_eq!(Sol2523::closest_primes(left, right), rst);
         }
     }
 
