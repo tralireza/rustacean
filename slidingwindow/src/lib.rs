@@ -5,6 +5,16 @@ struct Sol2379;
 
 impl Sol2379 {
     pub fn minimum_recolors(blocks: String, k: i32) -> i32 {
+        println!(
+            "** {} -> {}",
+            blocks,
+            blocks
+                .as_bytes()
+                .windows(k as usize)
+                .fold(usize::MAX, |recolors, w| recolors
+                    .min(w.iter().filter(|&b| b == &b'W').count()))
+        );
+
         let mut recolors = i32::MAX;
 
         let mut cur = 0;
