@@ -26,4 +26,4 @@ installed targets:
 
 ---
 
-![Rustacean](rustacean.svg =128x128)
+![Rustacean](rustacean.svg)
