@@ -46,17 +46,31 @@ impl Sol2379 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 3208m Alternating Groups II
+struct Sol3208;
 
-    #[test]
-    fn test_2379() {
-        for (rst, blocks, k) in [
-            (3, "WBBWWBBWBW".to_string(), 7),
-            (0, "WBWBBBW".to_string(), 2),
-        ] {
-            assert_eq!(Sol2379::minimum_recolors(blocks, k), rst);
+impl Sol3208 {
+    pub fn number_of_alternating_groups(colors: Vec<i32>, k: i32) -> i32 {
+        let (mut wsize, mut groups) = (1, 0);
+
+        let mut prv = colors[0];
+        for i in 1..colors.len() + k as usize - 1 {
+            let cur = colors[i % colors.len()];
+            match cur.cmp(&prv) {
+                std::cmp::Ordering::Equal => wsize = 1,
+                _ => {
+                    wsize += 1;
+                    if wsize >= k {
+                        groups += 1;
+                    }
+                    prv = cur;
+                }
+            }
         }
+
+        groups
     }
 }
+
+#[cfg(test)]
+mod test;
