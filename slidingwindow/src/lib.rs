@@ -72,5 +72,58 @@ impl Sol3208 {
     }
 }
 
+/// 3306m Count of Substrings Containing Every Vowel and K Consonants II
+struct Sol3306;
+
+impl Sol3306 {
+    pub fn count_of_substrings(word: String, k: i32) -> i64 {
+        println!("** {:?}", (&word, k));
+
+        fn n_least(word: &str, k: i32) -> i64 {
+            use std::collections::HashMap;
+
+            let mut frq = HashMap::new();
+            let mut k = k;
+
+            let mut l = 0;
+            let mut count = 0;
+            for (r, chr) in word.chars().enumerate() {
+                match chr {
+                    'a' | 'e' | 'i' | 'o' | 'u' => {
+                        frq.entry(chr).and_modify(|f| *f += 1).or_insert(1);
+                    }
+                    _ => {
+                        k -= 1;
+                    }
+                }
+
+                println!("-> {:?}", frq);
+
+                while k <= 0 && frq.len() == 5 {
+                    count += (word.len() - r) as i64;
+
+                    if let Some(lchr) = word[l..].chars().next() {
+                        match lchr {
+                            'a' | 'e' | 'i' | 'o' | 'u' => {
+                                frq.entry(lchr).and_modify(|f| *f -= 1);
+                                if frq[&lchr] == 0 {
+                                    frq.remove(&lchr);
+                                }
+                            }
+                            _ => k += 1,
+                        }
+                    }
+
+                    l += 1;
+                }
+            }
+
+            count
+        }
+
+        n_least(&word, k) - n_least(&word, k + 1)
+    }
+}
+
 #[cfg(test)]
 mod test;

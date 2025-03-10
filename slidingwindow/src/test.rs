@@ -20,3 +20,14 @@ fn test_3208() {
         assert_eq!(Sol3208::number_of_alternating_groups(colors, k), rst);
     }
 }
+
+#[test]
+fn test_3306() {
+    for (rst, word, k) in [
+        (0, "aeioqq".to_string(), 1),
+        (1, "aeiou".to_string(), 0),
+        (3, "ieaouqqieaouqq".to_string(), 1),
+    ] {
+        assert_eq!(Sol3306::count_of_substrings(word, k), rst);
+    }
+}
