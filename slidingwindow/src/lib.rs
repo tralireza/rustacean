@@ -1,5 +1,38 @@
 //! # Rust :: Sliding Window
 
+/// 1358m Number of Substrings Containing All Three Characters
+struct Sol1358;
+
+impl Sol1358 {
+    pub fn number_of_substrings(s: String) -> i32 {
+        use std::collections::HashMap;
+
+        let mut count = 0;
+        let mut frq = HashMap::new();
+
+        let mut left = 0;
+        for (right, chr) in s.chars().enumerate() {
+            frq.entry(chr).and_modify(|f| *f += 1).or_insert(1);
+
+            println!("-> {:?}", frq);
+
+            while frq.len() == 3 {
+                count += s.len() - right;
+
+                let lchr = s.as_bytes()[left] as char;
+                frq.entry(lchr).and_modify(|f| *f -= 1);
+                if frq[&lchr] == 0 {
+                    frq.remove(&lchr);
+                }
+
+                left += 1;
+            }
+        }
+
+        count as i32
+    }
+}
+
 /// 2379m Minimum Recolors to Get K Consecutive Black Blocks
 struct Sol2379;
 
@@ -126,4 +159,4 @@ impl Sol3306 {
 }
 
 #[cfg(test)]
-mod test;
+mod tests;

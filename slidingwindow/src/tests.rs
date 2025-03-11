@@ -1,6 +1,17 @@
 use super::*;
 
 #[test]
+fn test_1358() {
+    for (rst, s) in [
+        (10, "abcabc".to_string()),
+        (3, "aaacb".to_string()),
+        (1, "abc".to_string()),
+    ] {
+        assert_eq!(Sol1358::number_of_substrings(s), rst);
+    }
+}
+
+#[test]
 fn test_2379() {
     for (rst, blocks, k) in [
         (3, "WBBWWBBWBW".to_string(), 7),
