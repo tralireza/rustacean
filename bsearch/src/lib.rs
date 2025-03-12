@@ -44,20 +44,38 @@ impl Sol154 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 2529 Maximum Count of Positive Integer and Negative Integer
+struct Sol2529;
 
-    #[test]
-    fn test_153() {
-        assert_eq!(Sol153::find_min(vec![3, 4, 5, 1, 2]), 1);
-        assert_eq!(Sol153::find_min(vec![4, 5, 6, 7, 0, 1, 2]), 0);
-        assert_eq!(Sol153::find_min(vec![11, 13, 15, 17]), 11);
-    }
+impl Sol2529 {
+    pub fn maximum_count(nums: Vec<i32>) -> i32 {
+        fn bsleft(nums: &[i32], t: i32) -> i32 {
+            let (mut l, mut r) = (0, nums.len() as i32);
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                match nums[m as usize].cmp(&t) {
+                    std::cmp::Ordering::Less => l = m + 1,
+                    _ => r = m,
+                }
+            }
+            l
+        }
 
-    #[test]
-    fn test_154() {
-        assert_eq!(Sol154::find_min(vec![1, 3, 5]), 1);
-        assert_eq!(Sol154::find_min(vec![2, 2, 2, 0, 1]), 0);
+        fn bsright(nums: &[i32], t: i32) -> i32 {
+            let (mut l, mut r) = (0, nums.len() as i32);
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                match nums[m as usize].cmp(&t) {
+                    std::cmp::Ordering::Greater => r = m,
+                    _ => l = m + 1,
+                }
+            }
+            r
+        }
+
+        (nums.len() as i32 - bsright(&nums, 0)).max(bsleft(&nums, 0))
     }
 }
+
+#[cfg(test)]
+mod tests;
