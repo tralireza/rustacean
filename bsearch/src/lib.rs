@@ -44,6 +44,26 @@ impl Sol154 {
     }
 }
 
+/// 704 Binary Search
+struct Sol704;
+
+impl Sol704 {
+    pub fn search(nums: Vec<i32>, target: i32) -> i32 {
+        use std::cmp::Ordering::*;
+
+        let (mut left, mut right) = (0, nums.len() as i32 - 1);
+        while left <= right {
+            let m = left + ((right - left) >> 1);
+            match nums[m as usize].cmp(&target) {
+                Equal => return m,
+                Greater => right = m - 1,
+                Less => left = m + 1,
+            }
+        }
+        -1
+    }
+}
+
 /// 2529 Maximum Count of Positive Integer and Negative Integer
 struct Sol2529;
 

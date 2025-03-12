@@ -14,6 +14,18 @@ fn test_154() {
 }
 
 #[test]
+fn test_704() {
+    for (rst, target, nums) in [
+        (4, 9, vec![-1, 0, 3, 5, 9, 12]),
+        (-1, 2, vec![-1, 0, 3, 5, 9, 12]),
+        (0, -1, vec![-1, 0, 3, 5, 9, 12]),
+    ] {
+        println!(":: {}", rst);
+        assert_eq!(Sol704::search(nums, target), rst);
+    }
+}
+
+#[test]
 fn test_2529() {
     for (rst, nums) in [
         (3, vec![-2, -1, -1, 1, 2, 3]),
