@@ -23,17 +23,15 @@ struct Sol154;
 
 impl Sol154 {
     pub fn find_min(nums: Vec<i32>) -> i32 {
-        let (mut l, mut r) = (0, nums.len() - 1);
+        use std::cmp::Ordering::*;
 
+        let (mut l, mut r) = (0, nums.len() - 1);
         while l < r {
             let m = l + ((r - l) >> 1);
-
-            if nums[m] > nums[r] {
-                l = m + 1;
-            } else if nums[m] < nums[r] {
-                r = m;
-            } else {
-                r -= 1;
+            match nums[m].cmp(&nums[r]) {
+                Greater => l = m + 1,
+                Less => r = m,
+                _ => r -= 1,
             }
         }
 
