@@ -35,3 +35,17 @@ fn test_2529() {
         assert_eq!(Sol2529::maximum_count(nums), rst);
     }
 }
+
+#[test]
+fn test_3356() {
+    for (rst, nums, queries) in [
+        (
+            2,
+            vec![2, 0, 2],
+            vec![vec![0, 2, 1], vec![0, 2, 1], vec![1, 1, 3]],
+        ),
+        (-1, vec![4, 3, 2, 1], vec![vec![1, 3, 2], vec![0, 2, 1]]),
+    ] {
+        assert_eq!(Sol3356::min_zero_array(nums, queries), rst);
+    }
+}

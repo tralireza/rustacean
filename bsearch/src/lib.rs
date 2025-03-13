@@ -92,5 +92,48 @@ impl Sol2529 {
     }
 }
 
+/// 3356m Zero Array Transformation II
+struct Sol3356;
+
+impl Sol3356 {
+    pub fn min_zero_array(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> i32 {
+        let possible = |k| -> bool {
+            let mut diffs = vec![0; nums.len() + 1];
+
+            for i in 0..k {
+                let qry = &queries[i as usize];
+                diffs[qry[0] as usize] += qry[2];
+                diffs[qry[1] as usize + 1] -= qry[2]
+            }
+
+            let mut tsum = 0;
+            for (&n, &s) in nums.iter().zip(diffs.iter()) {
+                tsum += s;
+                if n > tsum {
+                    return false;
+                }
+            }
+
+            true
+        };
+
+        if !possible(queries.len() as i32) {
+            return -1;
+        }
+
+        let (mut l, mut r) = (0, queries.len() as i32);
+        while l <= r {
+            let m = l + ((r - l) >> 1);
+            if possible(m) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        l
+    }
+}
+
 #[cfg(test)]
 mod tests;
