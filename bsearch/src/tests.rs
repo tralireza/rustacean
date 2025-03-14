@@ -26,6 +26,13 @@ fn test_704() {
 }
 
 #[test]
+fn test_2226() {
+    for (rst, candies, k) in [(5, vec![5, 8, 6], 3), (0, vec![2, 5], 11)] {
+        assert_eq!(Sol2226::maximum_candies(candies, k), rst);
+    }
+}
+
+#[test]
 fn test_2529() {
     for (rst, nums) in [
         (3, vec![-2, -1, -1, 1, 2, 3]),

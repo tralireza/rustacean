@@ -59,6 +59,40 @@ impl Sol704 {
     }
 }
 
+/// 2226m Maximum Candies Allocated to K Children
+struct Sol2226;
+
+impl Sol2226 {
+    /// 1 <= C_i <= 10^7
+    pub fn maximum_candies(candies: Vec<i32>, k: i64) -> i32 {
+        let possible = |m| -> bool {
+            if m == 0 {
+                return true;
+            }
+
+            let mut t = 0;
+            for c in &candies {
+                t += (c / m) as i64;
+            }
+            t >= k
+        };
+
+        let (mut l, mut r) = (0, 1e7 as i32);
+        while l <= r {
+            let m = l + ((r - l) >> 1);
+            println!("-> {:?}", (l, m, r));
+            if possible(m) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+
+        println!(":: {}", r);
+        r
+    }
+}
+
 /// 2529 Maximum Count of Positive Integer and Negative Integer
 struct Sol2529;
 
