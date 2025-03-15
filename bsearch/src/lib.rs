@@ -126,6 +126,39 @@ impl Sol2529 {
     }
 }
 
+/// 2560m House Robber IV
+struct Sol2560;
+
+impl Sol2560 {
+    pub fn min_capability(nums: Vec<i32>, k: i32) -> i32 {
+        match (nums.iter().min(), nums.iter().max()) {
+            (Some(&(mut l)), Some(&(mut r))) => {
+                while l < r {
+                    let m = l + ((r - l) >> 1);
+
+                    let mut steals = 0;
+                    let mut p = 0;
+                    while p < nums.len() {
+                        if nums[p] <= m {
+                            steals += 1;
+                            p += 1;
+                        }
+                        p += 1;
+                    }
+
+                    if steals >= k {
+                        r = m;
+                    } else {
+                        l = m + 1;
+                    }
+                }
+                l
+            }
+            _ => 0,
+        }
+    }
+}
+
 /// 3356m Zero Array Transformation II
 struct Sol3356;
 

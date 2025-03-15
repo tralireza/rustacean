@@ -44,6 +44,14 @@ fn test_2529() {
 }
 
 #[test]
+fn test_2560() {
+    for (rst, nums, k) in [(5, vec![2, 3, 5, 9], 2), (2, vec![2, 7, 9, 3, 1], 2)] {
+        println!("** {:?}", (&nums, k));
+        assert_eq!(Sol2560::min_capability(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_3356() {
     for (rst, nums, queries) in [
         (
