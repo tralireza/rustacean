@@ -78,8 +78,8 @@ impl Sol315 {
                     left += 1;
                 } else {
                     smaller += 1;
-
                     data[p] = bfr[right];
+
                     right += 1;
                 }
                 p += 1;
@@ -94,6 +94,7 @@ impl Sol315 {
             }
             while right <= r {
                 data[p] = bfr[right];
+
                 right += 1;
                 p += 1;
             }
@@ -104,10 +105,58 @@ impl Sol315 {
 
         println!("-> {:?}", data);
 
-        let mut rst = vec![0; n];
+        let mut rst = vec![0; data.len()];
         for (_, i, smaller) in data {
             rst[i] = smaller as i32;
         }
+
+        rst
+    }
+
+    /// 1 <= N <= 10^5
+    /// -10^4 <= V_i <= 10^4
+    fn bit_count_smaller(nums: Vec<i32>) -> Vec<i32> {
+        struct BITree {
+            tree: Vec<i32>,
+        }
+
+        impl BITree {
+            fn new(size: usize) -> Self {
+                BITree {
+                    tree: vec![0; size],
+                }
+            }
+
+            fn update(&mut self, mut p: i32, value: i32) {
+                while p < self.tree.len() as i32 {
+                    self.tree[p as usize] += value;
+                    p |= p + 1;
+                }
+            }
+
+            fn query(&self, mut p: i32) -> i32 {
+                let mut v = 0;
+                while p >= 0 {
+                    v += self.tree[p as usize];
+                    p &= p + 1;
+                    p -= 1;
+                }
+                v
+            }
+        }
+
+        const MAX: i32 = 10_000;
+
+        let mut rst = vec![];
+
+        let mut tbit = BITree::new(2 * MAX as usize + 1);
+        for p in (0..nums.len()).rev() {
+            rst.push(tbit.query(nums[p] + MAX - 1));
+            tbit.update(nums[p] + MAX, 1);
+        }
+
+        rst.reverse();
+        println!(":: {:?}", rst);
 
         rst
     }

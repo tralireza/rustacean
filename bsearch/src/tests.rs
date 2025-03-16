@@ -20,7 +20,8 @@ fn test_315() {
         (vec![0], vec![-1]),
         (vec![0, 0], vec![-1, -1]),
     ] {
-        assert_eq!(Sol315::count_smaller(nums), rst);
+        assert_eq!(Sol315::count_smaller(nums.to_vec()), rst);
+        assert_eq!(Sol315::bit_count_smaller(nums), rst);
     }
 }
 
