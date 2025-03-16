@@ -64,6 +64,13 @@ fn test_2560() {
 }
 
 #[test]
+fn test_2594() {
+    for (rst, ranks, cars) in [(16, vec![4, 2, 3, 1], 10), (16, vec![5, 1, 8], 6)] {
+        assert_eq!(Sol2594::repair_cars(ranks, cars), rst);
+    }
+}
+
+#[test]
 fn test_3356() {
     for (rst, nums, queries) in [
         (

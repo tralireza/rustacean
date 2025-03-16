@@ -149,10 +149,10 @@ impl Sol315 {
 
         let mut rst = vec![];
 
-        let mut tbit = BITree::new(2 * MAX as usize + 1);
+        let mut fwt = BITree::new(2 * MAX as usize + 1);
         for p in (0..nums.len()).rev() {
-            rst.push(tbit.query(nums[p] + MAX - 1));
-            tbit.update(nums[p] + MAX, 1);
+            rst.push(fwt.query(nums[p] + MAX - 1));
+            fwt.update(nums[p] + MAX, 1);
         }
 
         rst.reverse();
@@ -279,6 +279,43 @@ impl Sol2560 {
             }
             _ => 0,
         }
+    }
+}
+
+/// 2594m Minimum Time to Repair Cars
+struct Sol2594;
+
+impl Sol2594 {
+    /// 1 <= Rank_i <= 100
+    /// 1 <= N <= 10^5
+    pub fn repair_cars(ranks: Vec<i32>, cars: i32) -> i64 {
+        let (mut l, mut r) = (
+            1 as i64,
+            match ranks.iter().min() {
+                Some(&r) => r as i64 * cars as i64 * cars as i64,
+                _ => i64::MAX,
+            },
+        );
+
+        while l <= r {
+            let m = l + ((r - l) >> 1);
+            println!("-> {:?}", (l, m, r));
+
+            let mut repairs = 0;
+            for &r in &ranks {
+                repairs += (m / r as i64).isqrt();
+            }
+
+            if repairs >= cars as i64 {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        println!(":: {}", l);
+
+        l
     }
 }
 
