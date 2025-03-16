@@ -39,6 +39,80 @@ impl Sol154 {
     }
 }
 
+/// 315h Count of Smaller Numbers After Self
+struct Sol315;
+
+impl Sol315 {
+    pub fn count_smaller(nums: Vec<i32>) -> Vec<i32> {
+        let mut data = vec![];
+        for (i, &n) in nums.iter().enumerate() {
+            data.push((n, i, 0usize));
+        }
+
+        let mut bfr = data.to_vec();
+
+        fn merge(
+            data: &mut Vec<(i32, usize, usize)>,
+            bfr: &mut Vec<(i32, usize, usize)>,
+            l: usize,
+            r: usize,
+        ) {
+            if l >= r {
+                return;
+            }
+
+            let m = l + ((r - l) >> 1);
+            merge(bfr, data, l, m);
+            merge(bfr, data, m + 1, r);
+
+            let mut p = l;
+            let mut left = l;
+            let mut right = m + 1;
+
+            let mut smaller = 0;
+            while left <= m && right <= r {
+                if bfr[left].0 <= bfr[right].0 {
+                    data[p] = bfr[left];
+                    data[p].2 += smaller;
+
+                    left += 1;
+                } else {
+                    smaller += 1;
+
+                    data[p] = bfr[right];
+                    right += 1;
+                }
+                p += 1;
+            }
+
+            while left <= m {
+                data[p] = bfr[left];
+                data[p].2 += smaller;
+
+                left += 1;
+                p += 1;
+            }
+            while right <= r {
+                data[p] = bfr[right];
+                right += 1;
+                p += 1;
+            }
+        }
+
+        let n = data.len();
+        merge(&mut data, &mut bfr, 0, n - 1);
+
+        println!("-> {:?}", data);
+
+        let mut rst = vec![0; n];
+        for (_, i, smaller) in data {
+            rst[i] = smaller as i32;
+        }
+
+        rst
+    }
+}
+
 /// 704 Binary Search
 struct Sol704;
 

@@ -14,6 +14,17 @@ fn test_154() {
 }
 
 #[test]
+fn test_315() {
+    for (rst, nums) in [
+        (vec![2, 1, 1, 0], vec![5, 2, 6, 1]),
+        (vec![0], vec![-1]),
+        (vec![0, 0], vec![-1, -1]),
+    ] {
+        assert_eq!(Sol315::count_smaller(nums), rst);
+    }
+}
+
+#[test]
 fn test_704() {
     for (rst, target, nums) in [
         (4, 9, vec![-1, 0, 3, 5, 9, 12]),
