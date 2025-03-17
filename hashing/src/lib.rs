@@ -111,6 +111,8 @@ impl Sol2206 {
     pub fn divide_array(nums: Vec<i32>) -> bool {
         use std::collections::HashMap;
 
+        println!("-> {}", nums.iter().fold(0, |xors, n| xors ^ n) == 0);
+
         nums.iter()
             .fold(HashMap::new(), |mut frq, &n| {
                 frq.entry(n).and_modify(|f| *f += 1).or_insert(1);
