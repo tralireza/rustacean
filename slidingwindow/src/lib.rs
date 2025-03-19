@@ -79,6 +79,27 @@ impl Sol2379 {
     }
 }
 
+/// 2401m Longest Nice Subarray
+struct Sol2401;
+
+impl Sol2401 {
+    pub fn longest_nice_subarray(nums: Vec<i32>) -> i32 {
+        nums.iter()
+            .enumerate()
+            .fold((0, 0, 0), |(mut l, xlen, mut bits), (r, &n)| {
+                while bits & n != 0 {
+                    bits ^= nums[l];
+                    l += 1;
+                }
+
+                bits |= n;
+
+                (l, xlen.max(r - l + 1), bits)
+            })
+            .1 as i32
+    }
+}
+
 /// 3208m Alternating Groups II
 struct Sol3208;
 

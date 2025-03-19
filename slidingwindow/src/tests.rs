@@ -22,6 +22,13 @@ fn test_2379() {
 }
 
 #[test]
+fn test_2401() {
+    for (rst, nums) in [(3, vec![1, 3, 8, 48, 10]), (1, vec![3, 1, 5, 11, 13])] {
+        assert_eq!(Sol2401::longest_nice_subarray(nums), rst);
+    }
+}
+
+#[test]
 fn test_3208() {
     for (rst, colors, k) in [
         (3, vec![0, 1, 0, 1, 0], 3),
