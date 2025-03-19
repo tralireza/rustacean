@@ -29,6 +29,13 @@ fn test_2401() {
 }
 
 #[test]
+fn test_3191() {
+    for (rst, nums) in [(3, vec![0, 1, 1, 1, 0, 0]), (-1, vec![0, 1, 1, 1])] {
+        assert_eq!(Sol3191::min_operations(nums), rst);
+    }
+}
+
+#[test]
 fn test_3208() {
     for (rst, colors, k) in [
         (3, vec![0, 1, 0, 1, 0], 3),

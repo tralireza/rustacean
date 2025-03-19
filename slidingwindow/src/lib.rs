@@ -100,6 +100,31 @@ impl Sol2401 {
     }
 }
 
+/// 3191m Minimum Operations to Make Binary Array Elements Equal to One I
+struct Sol3191;
+
+impl Sol3191 {
+    pub fn min_operations(nums: Vec<i32>) -> i32 {
+        let mut ops = 0;
+
+        let mut nums = nums;
+        for s in 0..nums.len() - 2 {
+            if nums[s] == 0 {
+                for w in 0..3 {
+                    nums[s + w] ^= 1;
+                }
+
+                ops += 1;
+            }
+        }
+
+        if nums.contains(&0) {
+            return -1;
+        }
+        ops
+    }
+}
+
 /// 3208m Alternating Groups II
 struct Sol3208;
 
