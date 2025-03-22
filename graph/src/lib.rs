@@ -905,18 +905,19 @@ impl Sol3108 {
     pub fn minimum_cost(n: i32, edges: Vec<Vec<i32>>, query: Vec<Vec<i32>>) -> Vec<i32> {
         use std::cmp::Ordering::*;
 
-        let mut djset: Vec<usize> = (0..n as usize).collect();
-        let mut ranks = vec![0; n as usize];
-        let mut weights = vec![usize::MAX; n as usize];
+        let n = n as usize;
+        let mut djset: Vec<usize> = (0..n).collect();
+        let mut ranks = vec![0; n];
+        let mut weights = vec![usize::MAX; n];
 
-        fn find(djset: &mut Vec<usize>, x: usize) -> usize {
+        fn find(djset: &mut [usize], x: usize) -> usize {
             if djset[x] != x {
                 djset[x] = find(djset, djset[x]);
             }
             djset[x]
         }
 
-        fn union(djset: &mut Vec<usize>, ranks: &mut [usize], x: usize, y: usize) -> usize {
+        fn union(djset: &mut [usize], ranks: &mut [usize], x: usize, y: usize) -> usize {
             let x = find(djset, x);
             let y = find(djset, y);
             match x.cmp(&y) {
