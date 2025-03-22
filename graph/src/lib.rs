@@ -863,7 +863,7 @@ impl Sol3108 {
             djset[x]
         }
 
-        fn union(djset: &mut Vec<usize>, ranks: &mut Vec<usize>, x: usize, y: usize) -> usize {
+        fn union(djset: &mut Vec<usize>, ranks: &mut [usize], x: usize, y: usize) -> usize {
             let x = find(djset, x);
             let y = find(djset, y);
             match x.cmp(&y) {
