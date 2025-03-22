@@ -863,7 +863,7 @@ impl Sol2685 {
 
         println!("-> {:?}", graph);
 
-        fn dfs(graph: &Vec<Vec<usize>>, visited: &mut Vec<bool>, v: usize) -> (usize, usize) {
+        fn dfs(graph: &[Vec<usize>], visited: &mut [bool], v: usize) -> (usize, usize) {
             let (mut vertices, mut edges) = (1, 0);
 
             for &u in &graph[v] {
