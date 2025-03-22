@@ -254,6 +254,20 @@ fn test_2658() {
 }
 
 #[test]
+fn test_2685() {
+    for (rst, n, edges) in [
+        (3, 6, vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4]]),
+        (
+            1,
+            6,
+            vec![vec![0, 1], vec![0, 2], vec![1, 2], vec![3, 4], vec![3, 5]],
+        ),
+    ] {
+        assert_eq!(Sol2685::count_complete_components(n, edges), rst);
+    }
+}
+
+#[test]
 fn test_3108() {
     for (rst, n, edges, query) in [
         (

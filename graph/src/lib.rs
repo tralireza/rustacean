@@ -845,6 +845,59 @@ impl Sol2658 {
     }
 }
 
+/// 2685m Count the Number of Complete Components
+struct Sol2685;
+
+impl Sol2685 {
+    pub fn count_complete_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        let mut cliques = 0;
+
+        let n = n as usize;
+        let mut graph = vec![vec![]; n];
+
+        for edge in edges {
+            let (v, u) = (edge[0] as usize, edge[1] as usize);
+            graph[v].push(u);
+            graph[u].push(v);
+        }
+
+        println!("-> {:?}", graph);
+
+        fn dfs(graph: &Vec<Vec<usize>>, visited: &mut Vec<bool>, v: usize) -> (usize, usize) {
+            let (mut vertices, mut edges) = (1, 0);
+
+            for &u in &graph[v] {
+                edges += 1;
+                if !visited[u] {
+                    visited[u] = true;
+
+                    let (v, e) = dfs(graph, visited, u);
+                    vertices += v;
+                    edges += e;
+                }
+            }
+
+            (vertices, edges)
+        }
+
+        let mut visited = vec![false; n];
+        for v in 0..n {
+            if visited[v] {
+                continue;
+            }
+            visited[v] = true;
+
+            let (vertices, edges) = dfs(&graph, &mut visited, v);
+
+            if vertices * (vertices - 1) == edges {
+                cliques += 1;
+            }
+        }
+
+        cliques
+    }
+}
+
 /// 3108h Minimum Cost Walk in Weighted Graph
 struct Sol3108;
 
