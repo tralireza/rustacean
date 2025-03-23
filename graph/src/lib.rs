@@ -506,6 +506,58 @@ impl Sol1765 {
     }
 }
 
+/// 1976m Number of Ways to Arrive at Destination
+struct Sol1976;
+
+impl Sol1976 {
+    /// 1 <= n <= 200
+    /// 0 <= u, v <= n-1
+    /// 1 <= t <= 10^9
+    pub fn count_paths(n: i32, roads: Vec<Vec<i32>>) -> i32 {
+        let n = n as usize;
+        const M: i32 = 1e9 as i32 + 7;
+
+        // [][](Time, #Path)
+        let mut graph = vec![vec![(1e9 as i64 * 200 + 1, 0); n]; n];
+        for road in roads {
+            let (u, v, w) = (road[0] as usize, road[1] as usize, road[2]);
+            graph[u][v] = (w as i64, 1);
+            graph[v][u] = (w as i64, 1);
+        }
+
+        for v in 0..n {
+            graph[v][v] = (0i64, 1);
+        }
+
+        use std::cmp::Ordering::*;
+
+        // Floyd-Warshall O(N^3)
+        for m in 0..n {
+            for v in 0..n {
+                for u in 0..n {
+                    if v != m && u != m {
+                        match (graph[u][m].0 + graph[m][v].0).cmp(&graph[u][v].0) {
+                            Less => {
+                                graph[u][v].0 = graph[u][m].0 + graph[m][v].0;
+                                graph[u][v].1 = (graph[u][m].1 * graph[m][v].1) % M;
+                            }
+                            Equal => {
+                                graph[u][v].1 += (graph[u][m].1 * graph[m][v].1) % M;
+                                graph[u][v].1 %= M;
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+        }
+
+        println!("-> {:?}", graph);
+
+        graph[0][n - 1].1
+    }
+}
+
 /// 2127h Maximum Employees to Be Invited to a Meeting
 struct Sol2127;
 
@@ -871,9 +923,9 @@ impl Sol2685 {
                 if !visited[u] {
                     visited[u] = true;
 
-                    let (v, e) = dfs(graph, visited, u);
-                    vertices += v;
-                    edges += e;
+                    let rst = dfs(graph, visited, u);
+                    vertices += rst.0;
+                    edges += rst.1;
                 }
             }
 
@@ -888,7 +940,6 @@ impl Sol2685 {
             visited[v] = true;
 
             let (vertices, edges) = dfs(&graph, &mut visited, v);
-
             if vertices * (vertices - 1) == edges {
                 cliques += 1;
             }

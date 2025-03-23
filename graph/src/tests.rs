@@ -155,6 +155,31 @@ fn test_1765() {
 }
 
 #[test]
+fn test_1976() {
+    for (rst, n, roads) in [
+        (
+            4,
+            7,
+            vec![
+                vec![0, 6, 7],
+                vec![0, 1, 2],
+                vec![1, 2, 3],
+                vec![1, 3, 3],
+                vec![6, 3, 3],
+                vec![3, 5, 1],
+                vec![6, 5, 1],
+                vec![2, 5, 1],
+                vec![0, 4, 5],
+                vec![4, 6, 2],
+            ],
+        ),
+        (1, 2, vec![vec![1, 0, 10]]),
+    ] {
+        assert_eq!(Sol1976::count_paths(n, roads), rst);
+    }
+}
+
+#[test]
 fn test_2127() {
     assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
     assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
