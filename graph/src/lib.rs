@@ -515,18 +515,18 @@ impl Sol1976 {
     /// 1 <= t <= 10^9
     pub fn count_paths(n: i32, roads: Vec<Vec<i32>>) -> i32 {
         let n = n as usize;
-        const M: i32 = 1e9 as i32 + 7;
+        const M: u64 = 1e9 as u64 + 7;
 
         // [][](Time, #Path)
-        let mut graph = vec![vec![(1e9 as i64 * 200 + 1, 0); n]; n];
+        let mut graph = vec![vec![(1e9 as u64 * 200 + 1, 0); n]; n];
         for road in roads {
-            let (u, v, w) = (road[0] as usize, road[1] as usize, road[2]);
-            graph[u][v] = (w as i64, 1);
-            graph[v][u] = (w as i64, 1);
+            let (u, v, t) = (road[0] as usize, road[1] as usize, road[2] as u64);
+            graph[u][v] = (t, 1);
+            graph[v][u] = (t, 1);
         }
 
-        for v in 0..n {
-            graph[v][v] = (0i64, 1);
+        for (i, vc) in graph.iter_mut().enumerate() {
+            vc[i] = (0u64, 1);
         }
 
         use std::cmp::Ordering::*;
@@ -554,7 +554,7 @@ impl Sol1976 {
 
         println!("-> {:?}", graph);
 
-        graph[0][n - 1].1
+        graph[0][n - 1].1 as i32
     }
 }
 
