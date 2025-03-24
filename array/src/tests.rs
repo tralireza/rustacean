@@ -59,11 +59,18 @@ fn test_3151() {
 
 #[test]
 fn test_3169() {
-    for (rst, days, meetings) in [
+    for (rst, days, mut meetings) in [
         (2, 10, vec![vec![5, 7], vec![1, 3], vec![9, 10]]),
         (1, 5, vec![vec![2, 4], vec![1, 3]]),
         (0, 6, vec![vec![1, 6]]),
     ] {
+        use std::cmp::Ordering::*;
+        meetings.sort_unstable_by(|x, y| match x[0].cmp(&y[0]) {
+            Equal => x[1].cmp(&y[1]),
+            _ => x[0].cmp(&y[0]),
+        });
+        println!("-> {:?}", meetings);
+
         assert_eq!(Sol3169::count_days(days, meetings), rst);
     }
 }
