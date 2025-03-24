@@ -148,7 +148,7 @@ impl Sol3169 {
         let days = days + 1;
         sweep.entry(&days).or_insert(0);
 
-        println!("-> {:?}", sweep);
+        println!("-> {:?}", (std::any::type_name_of_val(&sweep), &sweep));
 
         let (mut cur_meeting, mut cur_day) = (0, 1);
         sweep.iter().fold(0, |mut rst, (&day, &diff)| {
