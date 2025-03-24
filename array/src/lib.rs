@@ -121,64 +121,47 @@ impl Sol3151 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 3169m Count Days Without Meetings
+struct Sol3169;
 
-    #[test]
-    fn test_1184() {
-        assert_eq!(
-            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 1),
-            1
-        );
-        assert_eq!(
-            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 2),
-            3
-        );
-        assert_eq!(
-            Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 3),
-            4
-        );
-    }
+impl Sol3169 {
+    pub fn count_days(days: i32, meetings: Vec<Vec<i32>>) -> i32 {
+        use std::collections::BTreeMap;
 
-    #[test]
-    fn test_1752() {
-        assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
-        assert_eq!(Sol1752::check(vec![2, 1, 3, 4]), false);
-        assert_eq!(Sol1752::check(vec![1, 2, 3]), true);
-    }
+        let mut meetings = meetings;
+        for meeting in meetings.iter_mut() {
+            meeting[1] += 1;
+        }
 
-    #[test]
-    fn test_1800() {
-        assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 5, 10, 50]), 65);
-        assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 40, 50]), 150);
-        assert_eq!(
-            Sol1800::max_ascending_sum(vec![12, 17, 15, 13, 10, 11, 12]),
-            33
-        );
-    }
+        let mut sweep = BTreeMap::new();
+        for meeting in &meetings {
+            sweep
+                .entry(&meeting[0])
+                .and_modify(|f| *f += 1)
+                .or_insert(1);
+            sweep
+                .entry(&meeting[1])
+                .and_modify(|f| *f -= 1)
+                .or_insert(-1);
+        }
 
-    #[test]
-    fn test_2017() {
-        assert_eq!(Sol2017::grid_game(vec![vec![2, 5, 4], vec![1, 5, 1]]), 4);
-        assert_eq!(Sol2017::grid_game(vec![vec![3, 3, 1], vec![8, 5, 2]]), 4);
-        assert_eq!(
-            Sol2017::grid_game(vec![vec![1, 3, 1, 15], vec![1, 3, 3, 1]]),
-            7
-        );
-    }
+        let days = days + 1;
+        sweep.entry(&days).or_insert(0);
 
-    #[test]
-    fn test_3105() {
-        assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
-        assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 3, 3, 3]), 1);
-        assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 2, 1]), 3);
-    }
+        println!("-> {:?}", sweep);
 
-    #[test]
-    fn test_3151() {
-        assert_eq!(Sol3151::is_array_special(vec![1]), true);
-        assert_eq!(Sol3151::is_array_special(vec![2, 1, 4]), true);
-        assert_eq!(Sol3151::is_array_special(vec![4, 3, 1, 6]), false);
+        let (mut cur_meeting, mut cur_day) = (0, 1);
+        sweep.iter().fold(0, |mut rst, (&day, &diff)| {
+            if cur_meeting == 0 {
+                rst += day - cur_day;
+            }
+            cur_meeting += diff;
+            cur_day = *day;
+
+            rst
+        })
     }
 }
+
+#[cfg(test)]
+mod tests;
