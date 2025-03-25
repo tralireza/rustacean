@@ -74,3 +74,42 @@ fn test_3169() {
         assert_eq!(Sol3169::count_days(days, meetings), rst);
     }
 }
+
+#[test]
+fn test_3394() {
+    for (rst, n, rectangles) in [
+        (
+            true,
+            5,
+            vec![
+                vec![1, 0, 5, 2],
+                vec![0, 2, 2, 4],
+                vec![3, 2, 5, 3],
+                vec![0, 4, 4, 5],
+            ],
+        ),
+        (
+            true,
+            4,
+            vec![
+                vec![0, 0, 1, 1],
+                vec![2, 0, 3, 4],
+                vec![0, 2, 2, 3],
+                vec![3, 0, 4, 3],
+            ],
+        ),
+        (
+            false,
+            4,
+            vec![
+                vec![0, 2, 2, 4],
+                vec![1, 0, 3, 2],
+                vec![2, 2, 3, 4],
+                vec![3, 0, 4, 2],
+                vec![3, 2, 4, 4],
+            ],
+        ),
+    ] {
+        assert_eq!(Sol3394::check_valid_cuts(n, rectangles), rst);
+    }
+}

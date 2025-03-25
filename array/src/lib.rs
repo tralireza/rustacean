@@ -163,5 +163,32 @@ impl Sol3169 {
     }
 }
 
+/// 3394m Check if Grid can be Cut into Sections
+struct Sol3394;
+
+impl Sol3394 {
+    pub fn check_valid_cuts(n: i32, mut rectangles: Vec<Vec<i32>>) -> bool {
+        let mut check = |offset| {
+            rectangles.sort_unstable_by_key(|v| v[offset]);
+
+            let mut gaps = 0;
+            rectangles
+                .iter()
+                .skip(1)
+                .fold(rectangles[0][offset + 2], |end: i32, rectangle| {
+                    if end <= rectangle[offset] {
+                        gaps += 1;
+                    }
+
+                    end.max(rectangle[offset + 2])
+                });
+
+            gaps >= 2
+        };
+
+        check(0) || check(1)
+    }
+}
+
 #[cfg(test)]
 mod tests;
