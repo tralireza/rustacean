@@ -79,6 +79,36 @@ impl Sol2017 {
     }
 }
 
+/// 2033m Minimum Operations to Make a Uni-Value Grid
+struct Sol2033;
+
+impl Sol2033 {
+    pub fn min_operations(grid: Vec<Vec<i32>>, x: i32) -> i32 {
+        let mut nums = vec![];
+        for r in 0..grid.len() {
+            for c in 0..grid[0].len() {
+                nums.push(grid[r][c]);
+            }
+        }
+
+        nums.sort_unstable();
+        let median = nums[nums.len() / 2];
+
+        println!("-> {:?}", (&nums, median));
+
+        let r = median % x;
+        let mut ops = 0;
+        for n in nums {
+            if n % x != r {
+                return -1;
+            }
+            ops += (n - median).abs() / x;
+        }
+
+        ops
+    }
+}
+
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
 struct Sol3105;
 

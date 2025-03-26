@@ -44,6 +44,17 @@ fn test_2017() {
 }
 
 #[test]
+fn test_2033() {
+    for (rst, grid, x) in [
+        (4, vec![vec![2, 4], vec![6, 8]], 2),
+        (5, vec![vec![1, 5], vec![2, 3]], 1),
+        (-1, vec![vec![1, 2], vec![3, 4]], 2),
+    ] {
+        assert_eq!(Sol2033::min_operations(grid, x), rst);
+    }
+}
+
+#[test]
 fn test_3105() {
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 3, 3, 3]), 1);
