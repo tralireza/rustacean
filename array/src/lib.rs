@@ -148,6 +148,25 @@ impl Sol2780 {
 
         -1
     }
+
+    /// Majority Voting Algorithm
+    fn Boyer_Moore(nums: Vec<i32>) -> i32 {
+        nums.iter()
+            .fold((nums[0], 0), |(mut majority, mut frq), &n| {
+                if n == majority {
+                    frq += 1;
+                } else {
+                    frq -= 1;
+                }
+
+                if frq == 0 {
+                    majority = n;
+                }
+
+                (majority, frq)
+            })
+            .0
+    }
 }
 
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray

@@ -61,6 +61,10 @@ fn test_2780() {
         (4, vec![2, 1, 3, 1, 1, 1, 7, 1, 2, 1]),
         (-1, vec![3, 3, 3, 3, 7, 2, 2]),
     ] {
+        println!(
+            "-> [ Boyer-Moore ] majority/dominant: {}",
+            Sol2780::Boyer_Moore(nums.to_vec())
+        );
         assert_eq!(Sol2780::minimum_index(nums), rst);
     }
 }
