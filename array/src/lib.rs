@@ -109,6 +109,47 @@ impl Sol2033 {
     }
 }
 
+/// 2780m Minimum Index of a Valid Split
+struct Sol2780;
+
+impl Sol2780 {
+    pub fn minimum_index(nums: Vec<i32>) -> i32 {
+        let mut copy = nums.to_vec();
+        copy.sort_unstable();
+
+        let (mut dominent, mut frq) = (0, 0);
+        copy.iter().fold((0, 0), |(d, mut f), &n| {
+            if d == n {
+                f += 1;
+            } else {
+                f = 1;
+            }
+
+            if f > frq {
+                frq = f;
+                dominent = n;
+            }
+
+            (n, f)
+        });
+
+        println!("-> {:?}", (dominent, frq));
+
+        let mut f = 0;
+        for (i, &n) in nums.iter().enumerate() {
+            if n == dominent {
+                f += 1;
+            }
+
+            if f > i.div_ceil(2) && (frq - f) > (nums.len() - i - 1) / 2 {
+                return i as i32;
+            }
+        }
+
+        -1
+    }
+}
+
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
 struct Sol3105;
 
