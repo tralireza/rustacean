@@ -1,5 +1,7 @@
 //! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
+#![feature(let_chains)]
+
 /// 684m Redundant Connection
 struct Sol684;
 
@@ -756,6 +758,64 @@ impl Sol2493 {
         }
 
         groups
+    }
+}
+
+/// 2503h Maximum Number of Points From Grid Queries
+struct Sol2503;
+
+impl Sol2503 {
+    pub fn max_points(grid: Vec<Vec<i32>>, queries: Vec<i32>) -> Vec<i32> {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let mut sqry = vec![];
+        for (i, &qry) in queries.iter().enumerate() {
+            sqry.push((qry, i));
+        }
+        sqry.sort_unstable();
+        println!("-> {:?}", sqry);
+
+        let (rows, cols) = (grid.len(), grid[0].len());
+        let mut visited = vec![vec![false; cols]; rows];
+
+        let mut pq = BinaryHeap::new();
+
+        pq.push(Reverse((grid[0][0], 0usize, 0usize)));
+        visited[0][0] = true;
+
+        let mut rst = vec![0; queries.len()];
+        let mut points = 0;
+
+        const DIRS: [isize; 5] = [-1, 0, 1, 0, -1];
+        for (qry, i) in sqry {
+            while let Some(&Reverse((gval, r, c))) = pq.peek()
+                && gval < qry
+            {
+                println!("-> {} {:?}", gval, (r, c));
+
+                pq.pop();
+                points += 1;
+
+                for d in 0..4 {
+                    let (r, c) = (
+                        r.overflowing_add_signed(DIRS[d]).0,
+                        c.overflowing_add_signed(DIRS[d + 1]).0,
+                    );
+
+                    if r < rows && c < cols && !visited[r][c] {
+                        visited[r][c] = true;
+                        pq.push(Reverse((grid[r][c], r, c)));
+
+                        println!("-> * {:?} {:?}", (r, c), &pq);
+                    }
+                }
+            }
+
+            rst[i] = points;
+        }
+
+        rst
     }
 }
 

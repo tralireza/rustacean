@@ -229,6 +229,20 @@ fn test_2493() {
 }
 
 #[test]
+fn test_2503() {
+    for (rst, grid, queries) in [
+        (
+            vec![5, 8, 1],
+            vec![vec![1, 2, 3], vec![2, 5, 7], vec![3, 5, 1]],
+            vec![5, 6, 2],
+        ),
+        (vec![0], vec![vec![5, 2, 1], vec![1, 1, 2]], vec![3]),
+    ] {
+        assert_eq!(Sol2503::max_points(grid, queries), rst);
+    }
+}
+
+#[test]
 fn test_2608() {
     assert_eq!(
         Sol2608::find_shortest_cycle(
