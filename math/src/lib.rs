@@ -217,60 +217,81 @@ impl Sol2578 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 2818h Apply Operations to Maximize Score
+struct Sol2818;
 
-    #[test]
-    fn test_29() {
-        for (n, d, r) in [(10, 3, 3), (7, -3, -2), (-2147483648, -1, 2147483647)] {
-            assert_eq!(Sol29::divide(n, d), r);
+impl Sol2818 {
+    /// 1 <= N, N_i <= 10^5
+    pub fn maximum_score(nums: Vec<i32>, k: i32) -> i32 {
+        let mut omega = vec![0; 1 + 1e5 as usize];
+        for p in 2..omega.len() {
+            if omega[p] == 0 {
+                for m in (p..omega.len()).step_by(p) {
+                    omega[m] += 1;
+                }
+            }
         }
-    }
 
-    #[test]
-    fn test_908() {
-        assert_eq!(Sol908::smallest_range_i(vec![1], 0), 0);
-        assert_eq!(Sol908::smallest_range_i(vec![0, 10], 2), 6);
-        assert_eq!(Sol908::smallest_range_i(vec![1, 3, 6], 3), 0);
-    }
+        const M: i64 = 7 + 1e9 as i64;
+        fn mpower(mut b: i64, mut e: i64) -> i64 {
+            let mut r = 1;
+            while e > 0 {
+                if e & 1 == 1 {
+                    r = (r * b) % M;
+                }
+                b = (b * b) % M;
+                e >>= 1;
+            }
 
-    #[test]
-    fn test_989() {
-        assert_eq!(
-            Sol989::add_to_array_form(vec![1, 2, 0, 0], 34),
-            vec![1, 2, 3, 4]
-        );
-        assert_eq!(Sol989::add_to_array_form(vec![2, 7, 4], 181), vec![4, 5, 5]);
-        assert_eq!(
-            Sol989::add_to_array_form(vec![2, 1, 5], 806),
-            vec![1, 0, 2, 1]
-        );
-    }
-
-    #[test]
-    fn test_1780() {
-        for f in [
-            Sol1780::check_powers_of_three,
-            Sol1780::check_powers_of_three_recursive,
-        ] {
-            assert_eq!(f(12), true);
-            assert_eq!(f(91), true);
-            assert_eq!(f(21), false);
+            r
         }
-    }
 
-    #[test]
-    fn test_2523() {
-        for (rst, left, right) in [(vec![11, 13], 10, 19), (vec![-1, -1], 4, 6)] {
-            assert_eq!(Sol2523::closest_primes(left, right), rst);
-        }
-    }
+        let n = nums.len();
+        let (mut left, mut right) = (vec![-1; n], vec![n as i32; n]);
 
-    #[test]
-    fn test_2578() {
-        for (n, r) in [(1, 1), (2, 5)] {
-            assert_eq!(Sol2578::colored_cells(n), r);
+        let mut stack: Vec<usize> = vec![];
+
+        for (i, &v) in nums.iter().enumerate() {
+            while !stack.is_empty()
+                && omega[nums[stack[stack.len() - 1]] as usize] < omega[v as usize]
+            {
+                right[stack.pop().unwrap()] = i as i32;
+            }
+
+            if !stack.is_empty() {
+                left[i] = *stack.last().unwrap() as i32;
+            }
+
+            stack.push(i);
         }
+
+        let mut set = vec![];
+        for e in nums
+            .iter()
+            .map(|&v| v as i64)
+            .zip((0..n as i32).zip(left.iter().zip(right.iter())))
+        {
+            set.push(e);
+        }
+        set.sort_by_key(|e| -e.0);
+
+        println!("-> {:?}", set);
+
+        let mut score = 1i64;
+        let mut k = k;
+        for (v, (i, (l, r))) in set {
+            let total = (i - l) as i64 * (r - i) as i64;
+            if total >= k as i64 {
+                score = score * mpower(v, k as i64) % M;
+                break;
+            }
+            score = score * mpower(v, total) % M;
+            k -= total as i32;
+        }
+
+        score as i32
     }
 }
+
+#[cfg(test)]
+mod tests;
