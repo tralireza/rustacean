@@ -27,6 +27,35 @@ impl Sol599 {
     }
 }
 
+/// 763m Partition Labels
+struct Sol763;
+
+impl Sol763 {
+    pub fn partition_labels(s: String) -> Vec<i32> {
+        use std::collections::HashMap;
+
+        let mut lasts = HashMap::new();
+        for (i, chr) in s.chars().enumerate() {
+            lasts.entry(chr).and_modify(|last| *last = i).or_insert(i);
+        }
+
+        println!("-> {:?}", lasts);
+
+        let mut parts = vec![];
+        let (mut start, mut end) = (0, 0);
+        for (i, chr) in s.chars().enumerate() {
+            end = end.max(lasts[&chr]);
+
+            if i == end {
+                parts.push((end - start + 1) as i32);
+                start = i + 1;
+            }
+        }
+
+        parts
+    }
+}
+
 /// 1726m Tuple With Same Product
 struct Sol1726;
 

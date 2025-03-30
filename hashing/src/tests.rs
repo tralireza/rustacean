@@ -29,6 +29,16 @@ fn test_599() {
 }
 
 #[test]
+fn test_763() {
+    for (rst, s) in [
+        (vec![9, 7, 8], "ababcbacadefegdehijhklij".to_string()),
+        (vec![10], "eccbbbbdec".to_string()),
+    ] {
+        assert_eq!(Sol763::partition_labels(s), rst);
+    }
+}
+
+#[test]
 fn test_1726() {
     assert_eq!(Sol1726::tuple_same_product(vec![2, 3, 4, 6]), 8);
     assert_eq!(Sol1726::tuple_same_product(vec![1, 2, 4, 5, 10]), 16);
