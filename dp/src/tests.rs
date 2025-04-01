@@ -88,6 +88,19 @@ fn test_1749() {
 }
 
 #[test]
+fn test_2140() {
+    for (rst, questions) in [
+        (5, vec![vec![3, 2], vec![4, 3], vec![4, 4], vec![2, 5]]),
+        (
+            7,
+            vec![vec![1, 1], vec![2, 2], vec![3, 3], vec![4, 4], vec![5, 5]],
+        ),
+    ] {
+        assert_eq!(Sol2140::most_points(questions), rst);
+    }
+}
+
+#[test]
 fn test_2836() {
     // 1 <= Receiver.Length <= 10^5,  1 <= k <= 10^10
     assert_eq!(Sol2836::get_max_function_value(vec![2, 0, 1], 4), 6);

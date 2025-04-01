@@ -401,6 +401,36 @@ impl Sol1749 {
     }
 }
 
+/// 2140m Solving Questions With Brainpower
+struct Sol2140;
+
+impl Sol2140 {
+    pub fn most_points(questions: Vec<Vec<i32>>) -> i64 {
+        use std::cmp::Ordering::*;
+
+        let mut dp = vec![[0i64; 2]; questions.len() + 1];
+
+        for (i, q) in questions.iter().enumerate().rev() {
+            println!("-> {:?}", (i, &q));
+
+            dp[i][0] = dp[i + 1][0].max(dp[i + 1][1]);
+
+            let [pts, skip] = q[..] else { unreachable!() };
+            let next = i + 1 + skip as usize;
+
+            dp[i][1] = pts as i64
+                + match next.cmp(&questions.len()) {
+                    Less => dp[next][0].max(dp[next][1]),
+                    _ => 0,
+                };
+
+            println!("-> {:?}", dp);
+        }
+
+        dp[0][0].max(dp[0][1])
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
