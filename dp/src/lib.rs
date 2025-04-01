@@ -415,7 +415,7 @@ impl Sol2140 {
 
             dp[i][0] = dp[i + 1][0].max(dp[i + 1][1]);
 
-            let [pts, skip] = q[..] else { unreachable!() };
+            let [pts, skip] = q[..2] else { unreachable!() };
             let next = i + 1 + skip as usize;
 
             dp[i][1] = pts as i64
@@ -430,6 +430,34 @@ impl Sol2140 {
         println!(":: {:?}", dp[0]);
 
         dp[0][0].max(dp[0][1])
+    }
+
+    /// Recursion with Memo
+    fn recursive(questions: Vec<Vec<i32>>) -> i64 {
+        let mut mem = vec![0; questions.len()];
+
+        fn search(start: usize, questions: &[Vec<i32>], mem: &mut [i64]) -> i64 {
+            if start >= questions.len() {
+                return 0;
+            }
+
+            if mem[start] > 0 {
+                return mem[start];
+            }
+
+            let [pts, skip] = questions[start][..] else {
+                unreachable!()
+            };
+            mem[start] = search(start + 1, questions, mem)
+                .max(pts as i64 + search(start + 1 + questions[start][1] as usize, questions, mem));
+
+            mem[start]
+        }
+
+        let pts = search(0, &questions, &mut mem);
+        println!("-> Mem: {:?}", mem);
+
+        pts
     }
 }
 

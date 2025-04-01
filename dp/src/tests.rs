@@ -96,7 +96,9 @@ fn test_2140() {
             vec![vec![1, 1], vec![2, 2], vec![3, 3], vec![4, 4], vec![5, 5]],
         ),
     ] {
-        assert_eq!(Sol2140::most_points(questions), rst);
+        for f in [Sol2140::most_points, Sol2140::recursive] {
+            assert_eq!(f(questions.to_vec()), rst);
+        }
     }
 }
 
