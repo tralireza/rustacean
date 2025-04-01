@@ -436,22 +436,22 @@ impl Sol2140 {
     fn recursive(questions: Vec<Vec<i32>>) -> i64 {
         let mut mem = vec![0; questions.len()];
 
-        fn search(start: usize, questions: &[Vec<i32>], mem: &mut [i64]) -> i64 {
-            if start >= questions.len() {
+        fn search(i: usize, questions: &[Vec<i32>], mem: &mut [i64]) -> i64 {
+            if i >= questions.len() {
                 return 0;
             }
 
-            if mem[start] > 0 {
-                return mem[start];
+            if mem[i] > 0 {
+                return mem[i];
             }
 
-            let [pts, skip] = questions[start][..] else {
+            let [pts, skip] = questions[i][..] else {
                 unreachable!()
             };
-            mem[start] = search(start + 1, questions, mem)
-                .max(pts as i64 + search(start + 1 + questions[start][1] as usize, questions, mem));
+            mem[i] = search(i + 1, questions, mem)
+                .max(pts as i64 + search(i + 1 + skip as usize, questions, mem));
 
-            mem[start]
+            mem[i]
         }
 
         let pts = search(0, &questions, &mut mem);
