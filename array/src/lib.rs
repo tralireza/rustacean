@@ -187,6 +187,24 @@ impl Sol2873 {
     }
 }
 
+/// 2874m Maximum Value of an Ordered Triplet II
+struct Sol2874;
+
+impl Sol2874 {
+    pub fn maximum_triplet_value(nums: Vec<i32>) -> i64 {
+        let mut value = 0;
+        let (mut lmax, mut diff) = (0, 0);
+        for n in nums {
+            value = value.max(diff as i64 * n as i64);
+
+            diff = diff.max(lmax - n);
+            lmax = lmax.max(n);
+        }
+
+        value
+    }
+}
+
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
 struct Sol3105;
 
