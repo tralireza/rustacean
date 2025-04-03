@@ -70,6 +70,17 @@ fn test_2780() {
 }
 
 #[test]
+fn test_2873() {
+    for (rst, nums) in [
+        (77, vec![12, 6, 1, 2, 7]),
+        (133, vec![1, 10, 3, 4, 19]),
+        (0, vec![1, 2, 3]),
+    ] {
+        assert_eq!(Sol2873::maximum_triplet_value(nums), rst);
+    }
+}
+
+#[test]
 fn test_3105() {
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 3, 3, 3]), 1);
