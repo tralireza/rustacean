@@ -21,14 +21,31 @@ impl Sol868 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 1863 Sum of All Subset XOR Totals
+struct Sol1863;
 
-    #[test]
-    fn test_868() {
-        assert_eq!(Sol868::binary_gap(22), 2);
-        assert_eq!(Sol868::binary_gap(8), 0);
-        assert_eq!(Sol868::binary_gap(5), 2);
+impl Sol1863 {
+    pub fn subset_xor_sum(nums: Vec<i32>) -> i32 {
+        fn search(nums: &[i32], start: usize, xor: i32) -> i32 {
+            if start == nums.len() {
+                return xor;
+            }
+
+            search(nums, start + 1, xor) + search(nums, start + 1, nums[start] ^ xor)
+        }
+
+        search(&nums, 0, 0)
+    }
+
+    fn subset_xor_sum_bitwise(nums: Vec<i32>) -> i32 {
+        let mut xsum = 0;
+        for n in &nums {
+            xsum |= n;
+        }
+
+        xsum << (nums.len() - 1)
     }
 }
+
+#[cfg(test)]
+mod tests;
