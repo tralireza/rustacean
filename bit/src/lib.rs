@@ -59,7 +59,6 @@ struct Sol1863;
 impl Sol1863 {
     pub fn subset_xor_sum(nums: Vec<i32>) -> i32 {
         fn search(nums: &[i32], start: usize, xor: i32) -> i32 {
-            println!("-> {:?}", (start, xor));
             if start == nums.len() {
                 return xor;
             }
@@ -68,6 +67,15 @@ impl Sol1863 {
         }
 
         search(&nums, 0, 0)
+    }
+
+    fn subset_xor_sum_bitwise(nums: Vec<i32>) -> i32 {
+        let mut xsum = 0;
+        for n in &nums {
+            xsum |= n;
+        }
+
+        xsum << (nums.len() - 1)
     }
 }
 

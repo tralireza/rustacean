@@ -38,6 +38,8 @@ fn test_1863() {
         (28, vec![5, 1, 6]),
         (480, vec![3, 4, 5, 6, 7, 8]),
     ] {
-        assert_eq!(Sol1863::subset_xor_sum(nums), rst);
+        for f in [Sol1863::subset_xor_sum, Sol1863::subset_xor_sum_bitwise] {
+            assert_eq!(f(nums.to_vec()), rst);
+        }
     }
 }
