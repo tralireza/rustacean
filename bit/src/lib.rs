@@ -53,38 +53,23 @@ impl Sol218 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 1863 Sum of All Subset XOR Totals
+struct Sol1863;
 
-    #[test]
-    fn test_218() {
-        assert_eq!(
-            Sol218::get_skyline(vec![
-                vec![2, 9, 10],
-                vec![3, 7, 15],
-                vec![5, 12, 12],
-                vec![15, 20, 10],
-                vec![19, 24, 8]
-            ]),
-            vec![
-                vec![2, 10],
-                vec![3, 15],
-                vec![7, 12],
-                vec![12, 0],
-                vec![15, 10],
-                vec![20, 8],
-                vec![24, 0]
-            ]
-        );
-        assert_eq!(
-            Sol218::get_skyline(vec![vec![0, 2, 3], vec![2, 5, 3]]),
-            vec![vec![0, 3], vec![5, 0]]
-        );
+impl Sol1863 {
+    pub fn subset_xor_sum(nums: Vec<i32>) -> i32 {
+        fn search(nums: &[i32], start: usize, xor: i32) -> i32 {
+            println!("-> {:?}", (start, xor));
+            if start == nums.len() {
+                return xor;
+            }
 
-        assert_eq!(
-            Sol218::get_skyline(vec![vec![2, 9, 10], vec![12, 15, 10]]),
-            vec![vec![2, 10], vec![9, 0], vec![12, 10], vec![15, 0]]
-        );
+            search(nums, start + 1, xor) + search(nums, start + 1, nums[start] ^ xor)
+        }
+
+        search(&nums, 0, 0)
     }
 }
+
+#[cfg(test)]
+mod tests;
