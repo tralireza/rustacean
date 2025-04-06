@@ -36,6 +36,21 @@ fn test_312() {
 }
 
 #[test]
+fn test_368() {
+    for (rst, nums) in [
+        (vec![1, 2], vec![1, 2, 3]),
+        (vec![1, 2, 4, 8], vec![1, 2, 4, 8]),
+        (
+            vec![9, 18, 90, 180, 360, 720],
+            vec![5, 9, 18, 54, 108, 540, 90, 180, 360, 720],
+        ),
+    ] {
+        println!("** {:?}", nums.to_vec());
+        assert_eq!(Sol368::largest_divisible_subset(nums), rst);
+    }
+}
+
+#[test]
 fn test_516() {
     assert_eq!(Sol516::longest_palindrome_subseq("bbbab".to_string()), 4);
     assert_eq!(Sol516::longest_palindrome_subseq("cbbd".to_string()), 2);

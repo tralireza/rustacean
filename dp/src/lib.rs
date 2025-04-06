@@ -153,6 +153,47 @@ impl Sol312 {
     }
 }
 
+/// 368m Largest Divisible Subset
+struct Sol368;
+
+impl Sol368 {
+    pub fn largest_divisible_subset(nums: Vec<i32>) -> Vec<i32> {
+        let mut dp = vec![1; nums.len()];
+
+        let mut nums = nums;
+        nums.sort_unstable();
+
+        let mut longest = (1, 0);
+        for i in 0..nums.len() {
+            for j in 0..i {
+                if nums[i] % nums[j] == 0 {
+                    dp[i] = dp[i].max(dp[j] + 1);
+
+                    if dp[i] > longest.0 {
+                        longest = (dp[i], i);
+                    }
+                }
+            }
+        }
+
+        println!("-> {:?}", (longest, &dp));
+
+        let mut rst = vec![];
+
+        let mut n = nums[longest.1];
+        for i in (0..=longest.1).rev() {
+            if dp[i] == longest.0 && n % nums[i] == 0 {
+                rst.push(nums[i]);
+                n = nums[i];
+                longest.0 -= 1;
+            }
+        }
+        rst.reverse();
+
+        rst
+    }
+}
+
 /// 516m Longest Palindromic Subsequence
 struct Sol516;
 
