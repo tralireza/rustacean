@@ -163,6 +163,8 @@ impl Sol368 {
         let mut nums = nums;
         nums.sort_unstable();
 
+        println!("-> {:?}", nums);
+
         let mut longest = (1, 0);
         for i in 0..nums.len() {
             for j in 0..i {
