@@ -44,6 +44,7 @@ fn test_368() {
             vec![9, 18, 90, 180, 360, 720],
             vec![5, 9, 18, 54, 108, 540, 90, 180, 360, 720],
         ),
+        (vec![1], vec![1]),
     ] {
         println!("** {:?}", nums.to_vec());
         assert_eq!(Sol368::largest_divisible_subset(nums), rst);
