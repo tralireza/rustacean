@@ -431,5 +431,31 @@ impl Sol3160 {
     }
 }
 
+/// 3375 Minimum Operations to Make Array Values Equal to K
+struct Sol3375;
+
+impl Sol3375 {
+    pub fn min_operations(nums: Vec<i32>, k: i32) -> i32 {
+        use std::collections::HashSet;
+
+        let mut set = HashSet::new();
+
+        use std::cmp::Ordering::*;
+        for n in nums {
+            match n.cmp(&k) {
+                Less => {
+                    return -1;
+                }
+                Greater => {
+                    set.insert(n);
+                }
+                _ => (),
+            }
+        }
+
+        set.len() as i32
+    }
+}
+
 #[cfg(test)]
 mod tests;

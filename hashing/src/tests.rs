@@ -164,3 +164,14 @@ fn test_3160() {
         vec![1, 2, 2, 3, 4]
     );
 }
+
+#[test]
+fn test_3375() {
+    for (rst, nums, k) in [
+        (2, vec![5, 2, 5, 4, 5], 2),
+        (-1, vec![2, 1, 2], 2),
+        (4, vec![9, 7, 5, 3], 1),
+    ] {
+        assert_eq!(Sol3375::min_operations(nums, k), rst);
+    }
+}
