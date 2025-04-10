@@ -124,3 +124,17 @@ fn test_2836() {
     assert_eq!(Sol2836::get_max_function_value(vec![2, 0, 1], 4), 6);
     assert_eq!(Sol2836::get_max_function_value(vec![1, 1, 1, 2, 3], 3), 10);
 }
+
+#[test]
+fn test_2999() {
+    for (rst, start, finish, limit, s) in [
+        (5, 1, 6000, 4, "124".to_string()),
+        (2, 15, 215, 6, "10".to_string()),
+        (0, 1000, 2000, 4, "3000".to_string()),
+    ] {
+        assert_eq!(
+            Sol2999::number_of_powerful_int(start, finish, limit, s),
+            rst
+        );
+    }
+}

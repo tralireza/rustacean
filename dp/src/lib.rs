@@ -552,5 +552,88 @@ impl Sol2836 {
     }
 }
 
+/// 2999h Count the Number of Powerful Integers
+struct Sol2999;
+
+impl Sol2999 {
+    pub fn number_of_powerful_int(start: i64, finish: i64, limit: i32, s: String) -> i64 {
+        let finish = finish.to_string();
+        let start = format!("{:0>width$}", start.to_string(), width = finish.len());
+
+        println!("-> {:?}", (&start, &finish, limit, &s));
+
+        let mut mem = vec![-1; finish.len()];
+
+        fn search(
+            i: usize,
+            slimit: bool,
+            start: &[u8],
+            flimit: bool,
+            finish: &[u8],
+            limit: u8,
+            s: &[u8],
+            mem: &mut [i64],
+        ) -> i64 {
+            println!("-> {:?}", (i, slimit, flimit));
+
+            if i == (start.len() & finish.len()) {
+                return 1;
+            }
+            if !slimit && !flimit && mem[i] != -1 {
+                return mem[i];
+            }
+
+            let mut count = 0;
+            let sdigit = if slimit { start[i] } else { b'0' };
+            let fdigit = if flimit { finish[i] } else { b'9' };
+
+            if i < finish.len() - s.len() {
+                for digit in sdigit..=fdigit.min(limit) {
+                    count += search(
+                        i + 1,
+                        slimit && digit == start[i],
+                        start,
+                        flimit && digit == finish[i],
+                        finish,
+                        limit,
+                        s,
+                        mem,
+                    );
+                }
+            } else {
+                let digit = s[i - (finish.len() - s.len())];
+                if sdigit <= digit && digit <= fdigit.min(limit) {
+                    count += search(
+                        i + 1,
+                        slimit && digit == start[i],
+                        start,
+                        flimit && digit == finish[i],
+                        finish,
+                        limit,
+                        s,
+                        mem,
+                    );
+                }
+            }
+
+            if !slimit && !flimit {
+                mem[i] = count;
+            }
+            count
+        }
+
+        search(
+            0,
+            true,
+            start.as_bytes(),
+            true,
+            finish.as_bytes(),
+            b'0' + limit as u8,
+            s.as_bytes(),
+            &mut mem,
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests;
