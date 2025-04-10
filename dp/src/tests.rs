@@ -131,6 +131,7 @@ fn test_2999() {
         (5, 1, 6000, 4, "124".to_string()),
         (2, 15, 215, 6, "10".to_string()),
         (0, 1000, 2000, 4, "3000".to_string()),
+        (16135677999, 697662853, 11109609599885, 6, "5".to_string()),
     ] {
         assert_eq!(
             Sol2999::number_of_powerful_int(start, finish, limit, s),
