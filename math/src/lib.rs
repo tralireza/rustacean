@@ -293,5 +293,32 @@ impl Sol2818 {
     }
 }
 
+/// 2843 Count Symmetric Integers
+struct Sol2843;
+
+impl Sol2843 {
+    pub fn count_symmetric_integers(low: i32, high: i32) -> i32 {
+        let mut count = 0;
+
+        for n in low..=high {
+            let n = n.to_string();
+            let n = n.as_bytes();
+            let w = n.len();
+            if w & 1 == 0 {
+                let (mut left, mut right) = (0, 0);
+                for i in 0..w / 2 {
+                    left += n[i];
+                    right += n[w / 2 + i];
+                }
+                if left == right {
+                    count += 1;
+                }
+            }
+        }
+
+        count
+    }
+}
+
 #[cfg(test)]
 mod tests;

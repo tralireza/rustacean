@@ -64,3 +64,10 @@ fn test_2818() {
         assert_eq!(Sol2818::maximum_score(nums, k), rst);
     }
 }
+
+#[test]
+fn test_2843() {
+    for (rst, low, high) in [(9, 1, 100), (4, 1200, 1230)] {
+        assert_eq!(Sol2843::count_symmetric_integers(low, high), rst);
+    }
+}
