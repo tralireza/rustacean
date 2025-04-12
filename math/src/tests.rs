@@ -74,7 +74,7 @@ fn test_2843() {
 
 #[test]
 fn test_3272() {
-    for (rst, n, k) in [(27, 3, 5), (2, 1, 4), (2468, 5, 6)] {
+    for (rst, n, k) in [(27, 3, 5), (2, 1, 4), (2468, 5, 6), (9, 2, 1)] {
         assert_eq!(Sol3272::count_good_integers(n, k), rst)
     }
 }
