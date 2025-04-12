@@ -338,5 +338,57 @@ impl Sol2843 {
     }
 }
 
+/// 3272h Find the Count of Good Integers
+struct Sol3272;
+
+impl Sol3272 {
+    /// 1 <= n <= 10, 1 <= k <= 9
+    pub fn count_good_integers(n: i32, k: i32) -> i64 {
+        use std::collections::HashSet;
+
+        let mut set: HashSet<String> = HashSet::new();
+
+        let start = 10u32.pow((n - 1) as u32 / 2);
+        for v in start..10 * start {
+            let left = v.to_string();
+            let right: String = left.chars().rev().skip((n & 1) as usize).collect();
+
+            let palindrome = format!("{}{}", left, right);
+            match palindrome.parse::<u64>() {
+                Ok(v) if v % k as u64 == 0 => {
+                    let mut chrs: Vec<char> = palindrome.chars().collect();
+                    chrs.sort_unstable();
+                    set.insert(chrs.iter().collect());
+                }
+                _ => {}
+            }
+        }
+
+        println!("-> {:?}", set);
+
+        let mut facts = vec![1; (n + 1) as usize];
+        for n in 2..=n as usize {
+            facts[n] = facts[n - 1] * n;
+        }
+
+        let mut count = 0;
+        for chrs in set {
+            let mut counter = [0; 10];
+            for chr in chrs.as_bytes() {
+                counter[(chr - b'0') as usize] += 1;
+            }
+
+            let mut perms = (n as usize - counter[0]) * facts[n as usize - 1];
+            for &count in counter.iter() {
+                perms /= facts[count];
+            }
+
+            count += perms;
+        }
+
+        count as i64
+    }
+}
+
 #[cfg(test)]
 mod tests;
