@@ -15,6 +15,21 @@ fn test_908() {
 }
 
 #[test]
+fn test_970() {
+    for (rst, x, y, bound) in [
+        (vec![2, 3, 4, 5, 7, 9, 10], 2, 3, 10),
+        (vec![2, 4, 6, 8, 10, 14], 3, 5, 15),
+        (vec![2, 3, 5, 9], 2, 1, 10),
+    ] {
+        use std::collections::HashSet;
+        let set: HashSet<i32> = rst.into_iter().collect();
+        assert!(Sol970::powerful_integers(x, y, bound)
+            .iter()
+            .all(|x| set.contains(&x)),);
+    }
+}
+
+#[test]
 fn test_989() {
     assert_eq!(
         Sol989::add_to_array_form(vec![1, 2, 0, 0], 34),

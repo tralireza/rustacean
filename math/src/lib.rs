@@ -61,6 +61,46 @@ impl Sol908 {
     }
 }
 
+/// 970m Powerful Integers
+struct Sol970;
+
+impl Sol970 {
+    /// 1 <= x,y <= 100
+    /// 0 <= bound <= 10^6
+    pub fn powerful_integers(x: i32, y: i32, bound: i32) -> Vec<i32> {
+        use std::collections::HashSet;
+
+        let mut p_x = vec![1];
+        let mut p_y = vec![1];
+
+        if x > 1 {
+            let mut p = x;
+            while p < bound {
+                p_x.push(p);
+                p *= x;
+            }
+        }
+        if y > 1 {
+            let mut p = y;
+            while p < bound {
+                p_y.push(p);
+                p *= y;
+            }
+        }
+
+        let mut set = HashSet::new();
+        for x in &p_x {
+            for y in &p_y {
+                if x + y <= bound {
+                    set.insert(x + y);
+                }
+            }
+        }
+
+        set.drain().collect()
+    }
+}
+
 /// 989 Add to Array-Form of Integer
 struct Sol989;
 
