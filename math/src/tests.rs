@@ -25,7 +25,7 @@ fn test_970() {
         let set: HashSet<i32> = rst.into_iter().collect();
         assert!(Sol970::powerful_integers(x, y, bound)
             .iter()
-            .all(|x| set.contains(&x)),);
+            .all(|x| set.contains(&x)));
     }
 }
 
