@@ -59,6 +59,33 @@ impl Sol37 {
     }
 }
 
+/// 50m Power(x, n)
+struct Sol50;
+
+impl Sol50 {
+    /// -100 <= x <= 100
+    /// -2^31 <= n <= 2^31-1
+    pub fn my_pow(x: f64, n: i32) -> f64 {
+        let mut p = 1.;
+
+        let mut x = x;
+        let mut e = if n < 0 { -(n as i64) } else { n as i64 };
+        while e > 0 {
+            if e & 1 == 1 {
+                p *= x;
+            }
+            x *= x;
+            e >>= 1;
+        }
+
+        use std::cmp::Ordering::*;
+        match n.cmp(&0) {
+            Less => 1. / p,
+            _ => p,
+        }
+    }
+}
+
 /// 60h Permutation Sequence
 struct Sol60;
 

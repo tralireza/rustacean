@@ -21,6 +21,18 @@ fn bench_37(b: &mut test::Bencher) {
 }
 
 #[test]
+fn test_50() {
+    for (rst, x, n) in [
+        (1024., 2., 10),
+        (9.26100, 2.1, 3),
+        (0.25, 2., -2),
+        (0., 2., -2147483648),
+    ] {
+        assert!((Sol50::my_pow(x, n) - rst).abs() < 0.00001);
+    }
+}
+
+#[test]
 fn test_60() {
     assert_eq!(Sol60::get_permutation(3, 3), "213".to_string());
     assert_eq!(Sol60::get_permutation(4, 9), "2314".to_string());
