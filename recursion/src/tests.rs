@@ -77,6 +77,13 @@ fn bench_1718(b: &mut test::Bencher) {
 }
 
 #[test]
+fn test_1922() {
+    for (rst, n) in [(5, 1), (400, 4), (564908303, 50)] {
+        assert_eq!(Sol1922::count_good_numbers(n), rst);
+    }
+}
+
+#[test]
 fn test_2375() {
     assert_eq!(
         Sol2375::smallest_number("IIIDIDDD".to_string()),

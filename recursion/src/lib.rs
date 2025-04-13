@@ -303,6 +303,30 @@ impl Sol1718 {
     }
 }
 
+/// 1922m Count Good Numbers
+struct Sol1922;
+
+impl Sol1922 {
+    /// 1 <= N <= 10^15
+    pub fn count_good_numbers(n: i64) -> i32 {
+        const M: i64 = 1e9 as i64 + 7;
+
+        fn mpower(mut b: i64, mut e: i64) -> i64 {
+            let mut mpower = 1;
+            while e > 0 {
+                if e & 1 == 1 {
+                    mpower = (b * mpower) % M;
+                }
+                b = (b * b) % M;
+                e >>= 1;
+            }
+            mpower
+        }
+
+        (mpower(5, (n + 1) / 2) * mpower(4, n / 2) % M) as i32
+    }
+}
+
 /// 2375m Construct Smallest Number From DI String
 struct Sol2375;
 
