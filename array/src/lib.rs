@@ -19,6 +19,29 @@ impl Sol1184 {
     }
 }
 
+/// 1534 Count Good Triplets
+struct Sol1534;
+
+impl Sol1534 {
+    /// O(N^3)
+    pub fn count_good_triplets(arr: Vec<i32>, a: i32, b: i32, c: i32) -> i32 {
+        let mut count = 0;
+        for (i, x) in arr.iter().enumerate() {
+            for (j, y) in arr.iter().enumerate().skip(i + 1) {
+                if (x - y).abs() <= a {
+                    for z in arr.iter().skip(j + 1) {
+                        if (y - z).abs() <= b && (z - x).abs() <= c {
+                            count += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        count
+    }
+}
+
 /// 1752 Check If Array Is Sorted and Rotated
 struct Sol1752;
 

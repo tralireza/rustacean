@@ -17,6 +17,16 @@ fn test_1184() {
 }
 
 #[test]
+fn test_1534() {
+    for (rst, arr, a, b, c) in [
+        (4, vec![3, 0, 1, 1, 9, 7], 7, 2, 3),
+        (0, vec![1, 1, 2, 2, 3], 0, 0, 1),
+    ] {
+        assert_eq!(Sol1534::count_good_triplets(arr, a, b, c), rst);
+    }
+}
+
+#[test]
 fn test_1752() {
     assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
     assert_eq!(Sol1752::check(vec![2, 1, 3, 4]), false);
