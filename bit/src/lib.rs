@@ -103,5 +103,74 @@ impl Sol315 {
     }
 }
 
+/// 2179h Count Good Triplets in an Array
+struct Sol2179;
+
+impl Sol2179 {
+    /// 3 <= n <= 10^5
+    /// 0 <= N_i <= n-1
+    pub fn good_triplets(nums1: Vec<i32>, nums2: Vec<i32>) -> i64 {
+        #[derive(Debug)]
+        struct Fenwick {
+            nodes: Vec<i32>,
+        }
+
+        impl Fenwick {
+            fn new(size: usize) -> Self {
+                Fenwick {
+                    nodes: vec![0; size],
+                }
+            }
+
+            fn update(&mut self, mut i: usize, diff: i32) {
+                while (i as usize) < self.nodes.len() {
+                    self.nodes[i as usize] += diff;
+                    i += i & (!i + 1); // i & -i: 2's Compliment
+                }
+            }
+
+            fn query(&self, mut i: usize) -> i32 {
+                let mut v = 0;
+                while i > 0 {
+                    v += self.nodes[i as usize];
+                    i -= i & (!i + 1); // i & -i: 2's Compliment
+                }
+                v
+            }
+        }
+
+        let n = nums1.len() & nums2.len();
+
+        let mut map = vec![0; n];
+        for (i, &n) in nums2.iter().enumerate() {
+            map[n as usize] = i;
+        }
+        println!("-> {:?}", map);
+
+        let mut rmap = vec![0; n];
+        for (i, &n) in nums1.iter().enumerate() {
+            rmap[map[n as usize]] = i;
+        }
+        println!("-> {:?}", rmap);
+
+        let mut fenwick = Fenwick::new(n + 1);
+
+        let mut count = 0;
+        for v in 0..n {
+            let j = rmap[v];
+
+            let left = fenwick.query(j + 1);
+            fenwick.update(j + 1, 1);
+
+            let right = (n - 1 - j) - (v - left as usize);
+            count += right as i64 * left as i64;
+        }
+
+        println!(":: {}", count);
+
+        count
+    }
+}
+
 #[cfg(test)]
 mod tests;

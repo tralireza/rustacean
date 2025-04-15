@@ -44,3 +44,13 @@ fn test_315() {
         assert_eq!(Sol315::count_smaller(nums), rst);
     }
 }
+
+#[test]
+fn test_2179() {
+    for (rst, nums1, nums2) in [
+        (1, vec![2, 0, 1, 3], vec![0, 1, 2, 3]),
+        (4, vec![4, 0, 1, 3, 2], vec![4, 1, 0, 2, 3]),
+    ] {
+        assert_eq!(Sol2179::good_triplets(nums1, nums2), rst);
+    }
+}
