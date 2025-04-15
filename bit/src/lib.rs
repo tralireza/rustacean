@@ -53,5 +53,55 @@ impl Sol218 {
     }
 }
 
+/// 315h Count of Smaller Numbers After Self
+struct Sol315;
+
+impl Sol315 {
+    /// 1 <= N <= 10^5
+    /// -10^4 <= A_i <= 10^4
+    pub fn count_smaller(nums: Vec<i32>) -> Vec<i32> {
+        struct Bit {
+            fnodes: Vec<i32>,
+        }
+
+        impl Bit {
+            fn new(size: usize) -> Self {
+                Bit {
+                    fnodes: vec![0; size],
+                }
+            }
+
+            fn update(&mut self, mut i: i32) {
+                while (i as usize) < self.fnodes.len() {
+                    self.fnodes[i as usize] += 1;
+                    i += i & -i;
+                }
+            }
+
+            fn query(&self, mut i: i32) -> i32 {
+                let mut v = 0;
+                while i > 0 {
+                    v += self.fnodes[i as usize];
+                    i -= i & -i;
+                }
+
+                v
+            }
+        }
+
+        let mut fenwick = Bit::new(2*10_000 + 1 /* Shift 0 -> 1 */ + 1);
+
+        let mut rst = vec![];
+        for n in nums.iter().rev() {
+            rst.push(fenwick.query(n - 1 + 10_000 + 1));
+            fenwick.update(n + 10_000 + 1);
+        }
+
+        rst.reverse();
+
+        rst
+    }
+}
+
 #[cfg(test)]
 mod tests;

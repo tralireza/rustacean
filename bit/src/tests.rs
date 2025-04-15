@@ -33,3 +33,14 @@ fn test_218() {
         assert_eq!(Sol218::get_skyline(buildings), rst);
     }
 }
+
+#[test]
+fn test_315() {
+    for (rst, nums) in [
+        (vec![2, 1, 1, 0], vec![5, 2, 6, 1]),
+        (vec![0], vec![-1]),
+        (vec![0, 0], vec![-1, -1]),
+    ] {
+        assert_eq!(Sol315::count_smaller(nums), rst);
+    }
+}
