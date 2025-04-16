@@ -108,13 +108,11 @@ impl Sol2537 {
     pub fn count_good(nums: Vec<i32>, k: i32) -> i64 {
         use std::collections::HashMap;
 
+        let mut freq = HashMap::new();
         let mut count = 0;
 
-        let mut freq = HashMap::new();
-        let mut window = 0;
-
-        let t = nums.len();
         let mut left = 0;
+        let mut window = 0;
         for (right, &n) in nums.iter().enumerate() {
             freq.entry(n).and_modify(|f| *f += 1).or_insert(1);
 
@@ -124,7 +122,7 @@ impl Sol2537 {
             println!("-> +W {:?}", (right, window));
 
             while window >= k {
-                count += t - right;
+                count += nums.len() - right;
 
                 freq.entry(nums[left]).and_modify(|f| *f -= 1);
 
