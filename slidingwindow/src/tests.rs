@@ -29,6 +29,16 @@ fn test_2401() {
 }
 
 #[test]
+fn test_2537() {
+    for (rst, nums, k) in [
+        (1, vec![1, 1, 1, 1, 1], 10),
+        (4, vec![3, 1, 4, 3, 2, 2, 4], 2),
+    ] {
+        assert_eq!(Sol2537::count_good(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_3191() {
     for (rst, nums) in [(3, vec![0, 1, 1, 1, 0, 0]), (-1, vec![0, 1, 1, 1])] {
         assert_eq!(Sol3191::min_operations(nums), rst);

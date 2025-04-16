@@ -100,6 +100,49 @@ impl Sol2401 {
     }
 }
 
+/// 2537m Count the Number of Good Subarrays
+struct Sol2537;
+
+impl Sol2537 {
+    /// 1 <= N_i, k <= 10^9
+    pub fn count_good(nums: Vec<i32>, k: i32) -> i64 {
+        use std::collections::HashMap;
+
+        let mut count = 0;
+
+        let mut freq = HashMap::new();
+        let mut window = 0;
+
+        let t = nums.len();
+        let mut left = 0;
+        for (right, &n) in nums.iter().enumerate() {
+            freq.entry(n).and_modify(|f| *f += 1).or_insert(1);
+
+            let f = freq[&n];
+            window += f * (f - 1) / 2 - (f - 1) * (f - 2) / 2; // ~ f - 1
+
+            println!("-> +W {:?}", (right, window));
+
+            while window >= k {
+                count += t - right;
+
+                freq.entry(nums[left]).and_modify(|f| *f -= 1);
+
+                let f = freq[&nums[left]];
+                window -= (f + 1) * f / 2 - f * (f - 1) / 2; // ~ f
+
+                println!("-> w- {:?}", (right, window));
+
+                left += 1;
+            }
+        }
+
+        println!("-> {:?}", freq);
+
+        count as i64
+    }
+}
+
 /// 3191m Minimum Operations to Make Binary Array Elements Equal to One I
 struct Sol3191;
 
