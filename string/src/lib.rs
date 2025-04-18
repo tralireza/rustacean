@@ -15,18 +15,15 @@ impl Sol38 {
                 if chr == prv {
                     count += 1;
                 } else {
-                    if count > 0 {
-                        enc.push((count, prv));
-                    }
-                    count = 1;
-                    prv = chr;
+                    enc.push((count, prv));
+                    (count, prv) = (1, chr);
                 }
             }
 
             println!("-> {:?}", enc);
 
             let mut t = String::new();
-            for (count, chr) in enc {
+            for (count, chr) in enc.iter().skip(1) {
                 t += &format!("{}{}", count, chr);
             }
 
