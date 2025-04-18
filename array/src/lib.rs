@@ -132,6 +132,24 @@ impl Sol2033 {
     }
 }
 
+/// 2176 Count Equal and Divisible Pairs in an Array
+struct Sol2176;
+
+impl Sol2176 {
+    pub fn count_pairs(nums: Vec<i32>, k: i32) -> i32 {
+        let mut count = 0;
+        for (i, &x) in nums.iter().enumerate().take(nums.len() - 1) {
+            for (j, &y) in nums.iter().enumerate().skip(i + 1) {
+                if x == y && (i * j) % k as usize == 0 {
+                    count += 1;
+                }
+            }
+        }
+
+        count
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

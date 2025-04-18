@@ -65,6 +65,13 @@ fn test_2033() {
 }
 
 #[test]
+fn test_2176() {
+    for (rst, nums, k) in [(4, vec![3, 1, 2, 2, 2, 1, 3], 2), (0, vec![1, 2, 3, 4], 1)] {
+        assert_eq!(Sol2176::count_pairs(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
