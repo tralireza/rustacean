@@ -1,5 +1,44 @@
 //! # String :: Rusty
 
+/// 38m Count and Say
+struct Sol38;
+
+impl Sol38 {
+    /// 1 <= n <= 30
+    pub fn count_and_say(n: i32) -> String {
+        let mut s = "1".to_string();
+        for _ in 0..n - 1 {
+            let mut enc = vec![];
+
+            let (mut count, mut prv) = (0, '^');
+            for chr in s.chars().chain("$".chars()) {
+                if chr == prv {
+                    count += 1;
+                } else {
+                    if count > 0 {
+                        enc.push((count, prv));
+                    }
+                    count = 1;
+                    prv = chr;
+                }
+            }
+
+            println!("-> {:?}", enc);
+
+            let mut t = String::new();
+            for (count, chr) in enc {
+                t += &format!("{}{}", count, chr);
+            }
+
+            s = t;
+        }
+
+        println!("** {}", s);
+
+        s
+    }
+}
+
 /// 65h Valid Number
 struct Sol65;
 
@@ -117,31 +156,4 @@ impl Sol1154 {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_65() {
-        for f in [Sol65::is_number, Sol65::is_number_enum] {
-            assert!(f("0".to_string()));
-            assert!(!f("e".to_string()));
-            assert!(!f(".".to_string()));
-
-            assert!(f("2e0".to_string()));
-        }
-    }
-
-    #[test]
-    fn test_917() {
-        assert_eq!(
-            Sol917::reverse_only_letters("a-bC-dEf-ghIj".to_string()),
-            "j-Ih-gfE-dCba".to_string()
-        );
-    }
-
-    #[test]
-    fn test_1154() {
-        assert_eq!(Sol1154::day_of_year("2019-01-09".to_string()), 9);
-        assert_eq!(Sol1154::day_of_year("2019-02-10".to_string()), 41);
-    }
-}
+mod tests;
