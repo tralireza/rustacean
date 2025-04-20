@@ -11,9 +11,10 @@ impl Sol781 {
             freq
         });
 
-        freq.iter().enumerate().fold(0, |count, (n, f)| {
-            count + ((f + n as i32) / (n as i32 + 1)) * (n as i32 + 1)
-        })
+        freq.iter()
+            .enumerate()
+            .map(|(n, f)| (n as i32 + 1, f))
+            .fold(0, |count, (n, f)| count + (f + n - 1) / n * n)
     }
 }
 
