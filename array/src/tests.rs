@@ -65,6 +65,17 @@ fn test_2033() {
 }
 
 #[test]
+fn test_2145() {
+    for (rst, differences, lower, upper) in [
+        (2, vec![1, -3, 4], 1, 6),
+        (4, vec![3, -4, 5, 1, -2], -4, 5),
+        (0, vec![4, -7, 2], 3, 6),
+    ] {
+        assert_eq!(Sol2145::number_of_arrays(differences, lower, upper), rst);
+    }
+}
+
+#[test]
 fn test_2176() {
     for (rst, nums, k) in [(4, vec![3, 1, 2, 2, 2, 1, 3], 2), (0, vec![1, 2, 3, 4], 1)] {
         assert_eq!(Sol2176::count_pairs(nums, k), rst);

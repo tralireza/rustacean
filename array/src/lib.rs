@@ -132,6 +132,28 @@ impl Sol2033 {
     }
 }
 
+/// 2145m Count the Hidden Sequences
+struct Sol2145;
+
+impl Sol2145 {
+    /// 1 <= N <= 10^5, -10^5 <= N_i <= 10^5
+    pub fn number_of_arrays(differences: Vec<i32>, lower: i32, upper: i32) -> i32 {
+        let (mut x, mut n) = (0, 0);
+        let mut v = 0;
+        for diff in differences {
+            v += diff;
+            x = x.max(v);
+            n = n.min(v);
+
+            if x - n > upper - lower {
+                return 0;
+            }
+        }
+
+        upper - lower - (x - n) + 1
+    }
+}
+
 /// 2176 Count Equal and Divisible Pairs in an Array
 struct Sol2176;
 
