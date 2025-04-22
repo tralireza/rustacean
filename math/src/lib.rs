@@ -197,6 +197,62 @@ impl Sol1780 {
     }
 }
 
+/// 2338h Count the Number of Ideal Arrays
+struct Sol2338;
+
+impl Sol2338 {
+    /// 2 <= N <= 10^4, 1 <= Max <= 10^4
+    /// Choose & Multi-Choose :: C((n/k)) = C(n+k-1/k)
+    pub fn ideal_arrays(n: i32, max_value: i32) -> i32 {
+        const P: usize = 15;
+
+        let mut sieve: Vec<usize> = (0..=max_value as usize).collect();
+        for p in 2..sieve.len() {
+            if sieve[p] == p {
+                for m in (p * p..sieve.len()).step_by(p) {
+                    sieve[m] = p;
+                }
+            }
+        }
+        println!("-> Sieve :: {:?}", sieve);
+
+        let mut factors = vec![vec![]; max_value as usize + 1];
+        for n in 2..=max_value as usize {
+            let mut x = n;
+            while x > 1 {
+                let factor = sieve[x];
+                let mut count = 0;
+                while x % factor == 0 {
+                    x /= factor;
+                    count += 1;
+                }
+                factors[n].push(count);
+            }
+        }
+        println!("-> Factors Counts: {:?}", factors);
+
+        let mut c = vec![vec![0; P + 1]; n as usize + P + 1];
+        c[0][0] = 1;
+
+        const M: i64 = 1000_000_007;
+        for n in 1..c.len() {
+            c[n][0] = 1;
+            for k in 1..=n.min(P) {
+                c[n][k] = (c[n - 1][k] + c[n - 1][k - 1]) % M
+            }
+        }
+
+        (1..=max_value as usize).fold(0, |count, v| {
+            let mut total = 1;
+            for &k in &factors[v] {
+                total = total * c[n as usize + k - 1][k] % M;
+            }
+
+            (count + total) % M
+        }) as i32
+    }
+}
+
 /// 2523m Closest Prime Numbers in Range
 struct Sol2523;
 

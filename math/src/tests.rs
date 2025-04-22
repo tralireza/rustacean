@@ -55,6 +55,13 @@ fn test_1780() {
 }
 
 #[test]
+fn test_2338() {
+    for (rst, n, max_value) in [(10, 2, 5), (11, 5, 3), (27, 2, 10), (510488787, 184, 389)] {
+        assert_eq!(Sol2338::ideal_arrays(n, max_value), rst);
+    }
+}
+
+#[test]
 fn test_2523() {
     for (rst, left, right) in [(vec![11, 13], 10, 19), (vec![-1, -1], 4, 6)] {
         assert_eq!(Sol2523::closest_primes(left, right), rst);
