@@ -56,6 +56,34 @@ impl Sol763 {
     }
 }
 
+/// 1399 Count Largest Group
+struct Sol1399;
+
+impl Sol1399 {
+    /// 1 <= N <= 10^4
+    pub fn count_largest_group(n: i32) -> i32 {
+        use std::collections::HashMap;
+
+        let mut xmap = HashMap::new();
+        for mut n in 1..=n {
+            let mut sum = 0;
+            while n > 0 {
+                sum += n % 10;
+                n /= 10;
+            }
+
+            xmap.entry(sum).and_modify(|f| *f += 1).or_insert(1);
+        }
+
+        println!("-> {:?}", xmap);
+
+        match xmap.values().max() {
+            Some(x) => xmap.values().filter(|&f| f == x).count() as i32,
+            _ => 0,
+        }
+    }
+}
+
 /// 1726m Tuple With Same Product
 struct Sol1726;
 

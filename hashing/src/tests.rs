@@ -39,6 +39,13 @@ fn test_763() {
 }
 
 #[test]
+fn test_1399() {
+    for (rst, n) in [(4, 13), (2, 2)] {
+        assert_eq!(Sol1399::count_largest_group(n), rst);
+    }
+}
+
+#[test]
 fn test_1726() {
     assert_eq!(Sol1726::tuple_same_product(vec![2, 3, 4, 6]), 8);
     assert_eq!(Sol1726::tuple_same_product(vec![1, 2, 4, 5, 10]), 16);
