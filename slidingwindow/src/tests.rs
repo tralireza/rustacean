@@ -39,6 +39,13 @@ fn test_2537() {
 }
 
 #[test]
+fn test_2799() {
+    for (rst, nums) in [(4, vec![1, 3, 1, 2, 2]), (10, vec![10, 10, 10, 10])] {
+        assert_eq!(Sol2799::count_complete_subarrays(nums), rst);
+    }
+}
+
+#[test]
 fn test_3191() {
     for (rst, nums) in [(3, vec![0, 1, 1, 1, 0, 0]), (-1, vec![0, 1, 1, 1])] {
         assert_eq!(Sol3191::min_operations(nums), rst);

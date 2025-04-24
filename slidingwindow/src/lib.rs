@@ -141,6 +141,41 @@ impl Sol2537 {
     }
 }
 
+/// 2799m Count Complete Subarrays in an Array
+struct Sol2799;
+
+impl Sol2799 {
+    pub fn count_complete_subarrays(nums: Vec<i32>) -> i32 {
+        use std::collections::{HashMap, HashSet};
+
+        let uset: HashSet<i32> = HashSet::from_iter(nums.to_vec());
+        println!("-> {:?}", uset);
+
+        let mut left = 0;
+        let mut w = 0;
+
+        let mut frq = HashMap::new();
+        nums.iter().enumerate().fold(0, |mut count, (right, &n)| {
+            frq.entry(n).and_modify(|f| *f += 1).or_insert(1);
+            if frq[&n] == 1 {
+                w += 1;
+            }
+
+            while w == uset.len() {
+                count += nums.len() - right;
+
+                frq.entry(nums[left]).and_modify(|f| *f -= 1);
+                if frq[&nums[left]] == 0 {
+                    w -= 1;
+                }
+                left += 1;
+            }
+
+            count
+        }) as i32
+    }
+}
+
 /// 3191m Minimum Operations to Make Binary Array Elements Equal to One I
 struct Sol3191;
 
