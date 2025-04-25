@@ -32,20 +32,38 @@ impl ProductOfNumbers {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 2845m Count of Interesting Subarrays
+struct Sol2845;
 
-    #[test]
-    fn test_1352() {
-        let mut o = ProductOfNumbers::new();
-        for n in [3, 0, 2, 5, 4] {
-            o.add(n);
-        }
-        for (k, p) in [(2, 20), (3, 40), (4, 0)] {
-            assert_eq!(o.get_product(k), p);
-        }
-        o.add(8);
-        assert_eq!(o.get_product(2), 32);
+impl Sol2845 {
+    pub fn count_interesting_subarrays(nums: Vec<i32>, modulo: i32, k: i32) -> i64 {
+        use std::collections::HashMap;
+
+        let mut counts = HashMap::new();
+        counts.entry(0).or_insert(1);
+
+        let mut psum = 0;
+        nums.iter().fold(0, |mut count, n| {
+            if n % modulo == k {
+                psum += 1;
+            }
+
+            match counts.get(&((psum - k + modulo) % modulo)) {
+                Some(v) => count += v,
+                _ => (),
+            }
+
+            counts
+                .entry(psum % modulo)
+                .and_modify(|f| *f += 1)
+                .or_insert(1);
+
+            println!("-> {:?}", counts);
+
+            count
+        })
     }
 }
+
+#[cfg(test)]
+mod tests;
