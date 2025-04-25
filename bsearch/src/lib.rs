@@ -282,6 +282,41 @@ impl Sol2560 {
     }
 }
 
+/// 2563m Count the Number of Fair Pairs
+struct Sol2563;
+
+impl Sol2563 {
+    /// 1 <= N <= 10^5
+    /// -10^9 <= N_i, lower, upper <= 10^9
+    pub fn count_fair_pairs(nums: Vec<i32>, lower: i32, upper: i32) -> i64 {
+        let mut nums = nums;
+        nums.sort_unstable();
+
+        println!("** {:?}", nums);
+
+        fn bsearch(nums: &[i32], l: usize, target: i32) -> usize {
+            let (mut l, mut r) = (l, nums.len());
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if nums[m] < target {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+
+            l
+        }
+
+        nums.iter().enumerate().fold(0, |count, (l, &n)| {
+            let r_low = bsearch(&nums, l, lower - n);
+            let r_up = bsearch(&nums, l, upper - n + 1);
+
+            count + r_up - r_low
+        }) as i64
+    }
+}
+
 /// 2594m Minimum Time to Repair Cars
 struct Sol2594;
 
@@ -290,7 +325,7 @@ impl Sol2594 {
     /// 1 <= N <= 10^5
     pub fn repair_cars(ranks: Vec<i32>, cars: i32) -> i64 {
         let (mut l, mut r) = (
-            1 as i64,
+            1,
             match ranks.iter().min() {
                 Some(&r) => r as i64 * cars as i64 * cars as i64,
                 _ => i64::MAX,

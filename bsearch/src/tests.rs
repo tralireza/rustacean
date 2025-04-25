@@ -64,6 +64,16 @@ fn test_2560() {
 }
 
 #[test]
+fn test_2563() {
+    for (rst, nums, lower, upper) in [
+        (6, vec![0, 1, 7, 4, 4, 5], 3, 6),
+        (1, vec![1, 7, 9, 2, 5], 11, 11),
+    ] {
+        assert_eq!(Sol2563::count_fair_pairs(nums, lower, upper), rst);
+    }
+}
+
+#[test]
 fn test_2594() {
     for (rst, ranks, cars) in [(16, vec![4, 2, 3, 1], 10), (16, vec![5, 1, 8], 6)] {
         assert_eq!(Sol2594::repair_cars(ranks, cars), rst);
