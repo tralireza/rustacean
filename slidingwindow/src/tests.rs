@@ -29,6 +29,16 @@ fn test_2401() {
 }
 
 #[test]
+fn test_2444() {
+    for (rst, nums, min_k, max_k) in [
+        (2, vec![1, 3, 5, 2, 7, 5], 1, 5),
+        (10, vec![1, 1, 1, 1], 1, 1),
+    ] {
+        assert_eq!(Sol2444::count_subarrays(nums, min_k, max_k,), rst);
+    }
+}
+
+#[test]
 fn test_2537() {
     for (rst, nums, k) in [
         (1, vec![1, 1, 1, 1, 1], 10),

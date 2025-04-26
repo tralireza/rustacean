@@ -100,6 +100,38 @@ impl Sol2401 {
     }
 }
 
+/// 2444h Count Subarrays With Fixed Bounds
+struct Sol2444;
+
+impl Sol2444 {
+    /// 1 <= Min, Max, N_i <= 10^6
+    pub fn count_subarrays(nums: Vec<i32>, min_k: i32, max_k: i32) -> i64 {
+        let mut count = 0;
+
+        let (mut i_x, mut i_m) = (None, None);
+        let mut l = 0;
+        for (r, &n) in nums.iter().enumerate() {
+            if n == min_k {
+                i_m = Some(r);
+            }
+            if n == max_k {
+                i_x = Some(r);
+            }
+            if n < min_k || max_k < n {
+                (i_m, i_x) = (None, None);
+                l = r + 1;
+            }
+
+            match (i_m, i_x) {
+                (Some(m), Some(x)) => count += x.min(m) - l + 1,
+                _ => (),
+            }
+        }
+
+        count as i64
+    }
+}
+
 /// 2537m Count the Number of Good Subarrays
 struct Sol2537;
 
