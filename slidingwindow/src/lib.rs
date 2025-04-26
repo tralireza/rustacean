@@ -111,20 +111,21 @@ impl Sol2444 {
         let (mut i_x, mut i_m) = (None, None);
         let mut l = 0;
         for (r, &n) in nums.iter().enumerate() {
-            if n == min_k {
-                i_m = Some(r);
-            }
-            if n == max_k {
-                i_x = Some(r);
-            }
             if n < min_k || max_k < n {
                 (i_m, i_x) = (None, None);
                 l = r + 1;
-            }
+            } else {
+                if n == min_k {
+                    i_m = Some(r);
+                }
+                if n == max_k {
+                    i_x = Some(r);
+                }
 
-            match (i_m, i_x) {
-                (Some(m), Some(x)) => count += x.min(m) - l + 1,
-                _ => (),
+                match (i_m, i_x) {
+                    (Some(m), Some(x)) => count += x.min(m) - l + 1,
+                    _ => (),
+                }
             }
         }
 
