@@ -8,6 +8,16 @@ fn test_29() {
 }
 
 #[test]
+fn test_838() {
+    for (rst, dominoes) in [
+        ("RR.L".to_string(), "RR.L".to_string()),
+        ("LL.RR.LLRRLL..".to_string(), ".L.R...LR..L..".to_string()),
+    ] {
+        assert_eq!(Sol838::push_dominoes(dominoes), rst);
+    }
+}
+
+#[test]
 fn test_908() {
     assert_eq!(Sol908::smallest_range_i(vec![1], 0), 0);
     assert_eq!(Sol908::smallest_range_i(vec![0, 10], 2), 6);

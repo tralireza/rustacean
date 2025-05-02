@@ -44,6 +44,49 @@ impl Sol29 {
     }
 }
 
+/// 838m Push Dominoes
+struct Sol838;
+
+impl Sol838 {
+    pub fn push_dominoes(dominoes: String) -> String {
+        let n = dominoes.len();
+        let mut force = vec![0; n];
+
+        let mut r = 0;
+        for (i, chr) in dominoes.chars().enumerate() {
+            r = match chr {
+                'R' => n as i32,
+                'L' => 0,
+                _ => (r - 1).max(0),
+            };
+
+            force[i] += r;
+        }
+
+        let mut l = 0;
+        for (i, chr) in dominoes.chars().rev().enumerate() {
+            l = match chr {
+                'R' => 0,
+                'L' => n as i32,
+                _ => (l - 1).max(0),
+            };
+
+            force[n - 1 - i] -= l;
+        }
+
+        println!("-> {:?}", force);
+
+        force
+            .iter()
+            .map(|&f| match f {
+                ..=-1 => 'L',
+                1.. => 'R',
+                _ => '.',
+            })
+            .collect()
+    }
+}
+
 /// 908 Smallest Range I
 struct Sol908;
 
