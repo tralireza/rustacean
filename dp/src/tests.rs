@@ -58,6 +58,13 @@ fn test_516() {
 }
 
 #[test]
+fn test_790() {
+    for (rst, n) in [(5, 3), (1, 1), (11, 4)] {
+        assert_eq!(Sol790::num_tilings(n), rst);
+    }
+}
+
+#[test]
 fn test_873() {
     assert_eq!(
         Sol873::len_longest_fib_subseq(vec![1, 2, 3, 4, 5, 6, 7, 8]),

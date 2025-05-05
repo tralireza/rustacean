@@ -232,6 +232,50 @@ impl Sol516 {
     }
 }
 
+/// 790m Domino and Tromino Tiling
+struct Sol790;
+
+impl Sol790 {
+    // 1 <= n <= 10000
+    pub fn num_tilings(n: i32) -> i32 {
+        fn two_states(n: i32) -> i32 {
+            if n == 1 || n == 2 {
+                return n;
+            }
+
+            let mut full = [0; 1000 + 1]; // full cover
+            let mut lshape = [0; 1000 + 1]; // L shape cover
+
+            (full[1], full[2], lshape[2]) = (1, 2, 1);
+
+            const M: i64 = 1e9 as i64 + 7;
+            for i in 3..=n as usize {
+                full[i] = (full[i - 1] + full[i - 2] + 2 * lshape[i - 1]) % M;
+                lshape[i] = (lshape[i - 1] + full[i - 2]) % M;
+            }
+
+            full[n as usize] as _
+        }
+        println!(":: {}", two_states(n));
+
+        if n == 1 || n == 2 {
+            return n;
+        }
+
+        const M: i64 = 1e9 as i64 + 7;
+        let mut dp = vec![0; n as usize + 1];
+
+        (dp[1], dp[2], dp[3]) = (1, 2, 5);
+        for i in 4..=n as usize {
+            dp[i] = (2 * dp[i - 1] + dp[i - 3]) % M;
+        }
+
+        println!("-> {:?}", dp);
+
+        dp[n as usize] as _
+    }
+}
+
 /// 873m Length of Longest Fibonacci Subsequence
 struct Sol873;
 
