@@ -44,6 +44,16 @@ fn test_1800() {
 }
 
 #[test]
+fn test_1920() {
+    for (rst, nums) in [
+        (vec![0, 1, 2, 4, 5, 3], vec![0, 2, 1, 5, 3, 4]),
+        (vec![4, 5, 0, 1, 2, 3], vec![5, 0, 1, 2, 3, 4]),
+    ] {
+        assert_eq!(Sol1920::build_array(nums), rst);
+    }
+}
+
+#[test]
 fn test_2017() {
     assert_eq!(Sol2017::grid_game(vec![vec![2, 5, 4], vec![1, 5, 1]]), 4);
     assert_eq!(Sol2017::grid_game(vec![vec![3, 3, 1], vec![8, 5, 2]]), 4);

@@ -86,6 +86,34 @@ impl Sol1800 {
     }
 }
 
+/// 1920 Build Array from Permutation
+struct Sol1920;
+
+impl Sol1920 {
+    /// 1 <= N <= 1000, 0 <= N_i < N
+    pub fn build_array(nums: Vec<i32>) -> Vec<i32> {
+        println!("** {:?}", nums);
+
+        fn in_place(nums: Vec<i32>) -> Vec<i32> {
+            let mut nums = nums;
+            for i in 0..nums.len() {
+                nums[i] += 1000 * (nums[nums[i] as usize] % 1000);
+            }
+            for i in 0..nums.len() {
+                nums[i] /= 1000;
+            }
+
+            nums
+        }
+        println!(":: {:?}", in_place(nums.to_vec()));
+
+        nums.iter().fold(vec![], |mut v, &n| {
+            v.push(nums[n as usize]);
+            v
+        })
+    }
+}
+
 /// 2017m Grid Game
 struct Sol2017;
 
