@@ -39,6 +39,19 @@ fn test_763() {
 }
 
 #[test]
+fn test_1128() {
+    for (rst, dominoes) in [
+        (1, vec![vec![1, 2], vec![2, 1], vec![3, 4], vec![5, 6]]),
+        (
+            3,
+            vec![vec![1, 2], vec![1, 2], vec![1, 1], vec![1, 2], vec![2, 2]],
+        ),
+    ] {
+        assert_eq!(Sol1128::num_equiv_domino_pairs(dominoes), rst);
+    }
+}
+
+#[test]
 fn test_1399() {
     for (rst, n) in [(4, 13), (2, 2)] {
         assert_eq!(Sol1399::count_largest_group(n), rst);

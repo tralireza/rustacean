@@ -56,6 +56,26 @@ impl Sol763 {
     }
 }
 
+/// 1128 Number of Equivalent Domino Pairs
+struct Sol1128;
+
+impl Sol1128 {
+    pub fn num_equiv_domino_pairs(dominoes: Vec<Vec<i32>>) -> i32 {
+        let mut hash = vec![0; 100];
+
+        dominoes.iter().fold(0, |mut pairs, domino| {
+            let hval = match domino[0].cmp(&domino[1]) {
+                std::cmp::Ordering::Less => 10 * domino[0] + domino[1],
+                _ => 10 * domino[1] + domino[0],
+            } as usize;
+            pairs += hash[hval];
+            hash[hval] += 1;
+
+            pairs
+        })
+    }
+}
+
 /// 1399 Count Largest Group
 struct Sol1399;
 
