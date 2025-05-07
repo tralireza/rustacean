@@ -1104,9 +1104,9 @@ impl Sol3341 {
                     r.checked_add_signed(dirs[d]),
                     c.checked_add_signed(dirs[d + 1]),
                 ) {
-                    if r < rows && c < cols && move_time[r][c].max(time) < grid[r][c] {
-                        grid[r][c] = move_time[r][c].max(time);
-                        pq.push(Reverse((move_time[r][c].max(time) + 1, r, c)));
+                    if r < rows && c < cols && move_time[r][c].max(time) + 1 < grid[r][c] {
+                        grid[r][c] = move_time[r][c].max(time) + 1;
+                        pq.push(Reverse((grid[r][c], r, c)));
                     }
                 }
             }
