@@ -38,6 +38,20 @@ fn test_704() {
 }
 
 #[test]
+fn test_2071() {
+    for (rst, tasks, workers, pills, strength) in [
+        (3, vec![3, 2, 1], vec![0, 3, 3], 1, 1),
+        (1, vec![5, 4], vec![0, 0, 0], 1, 5),
+        (2, vec![10, 15, 30], vec![0, 10, 10, 10, 10], 3, 10),
+    ] {
+        assert_eq!(
+            Sol2071::max_task_assign(tasks, workers, pills, strength),
+            rst
+        );
+    }
+}
+
+#[test]
 fn test_2226() {
     for (rst, candies, k) in [(5, vec![5, 8, 6], 3), (0, vec![2, 5], 11)] {
         assert_eq!(Sol2226::maximum_candies(candies, k), rst);

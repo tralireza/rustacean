@@ -182,6 +182,68 @@ impl Sol704 {
     }
 }
 
+/// 2071h Maximum Number of Tasks You Can Assign
+struct Sol2071;
+
+impl Sol2071 {
+    pub fn max_task_assign(tasks: Vec<i32>, workers: Vec<i32>, pills: i32, strength: i32) -> i32 {
+        let (mut tasks, mut workers) = (tasks, workers);
+
+        tasks.sort_unstable();
+        workers.sort_unstable();
+
+        fn check(tasks: &[i32], workers: &[i32], mut pills: i32, strength: i32) -> bool {
+            use std::collections::BTreeMap;
+
+            let mut q = BTreeMap::new();
+            for wkr in workers {
+                q.entry(wkr).and_modify(|f| *f += 1).or_insert(1);
+            }
+
+            for tsk in tasks.iter().rev() {
+                if let Some((&wkr, _)) = q.iter().next_back() {
+                    if wkr >= tsk {
+                        q.entry(wkr).and_modify(|f| *f -= 1);
+                        if q[wkr] == 0 {
+                            q.remove(wkr);
+                        }
+                    } else {
+                        if pills == 0 {
+                            return false;
+                        }
+
+                        if let Some((&wkr, _)) = q.range(tsk - strength..).next() {
+                            pills -= 1;
+
+                            q.entry(wkr).and_modify(|f| *f -= 1);
+                            if q[wkr] == 0 {
+                                q.remove(wkr);
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            true
+        }
+
+        let (mut l, mut r) = (0, tasks.len().min(workers.len()));
+        while l < r {
+            let m = l + ((r - l + 1) >> 1);
+
+            if check(&tasks[..m], &workers[workers.len() - m..], pills, strength) {
+                l = m;
+            } else {
+                r = m - 1;
+            }
+        }
+
+        l as _
+    }
+}
+
 /// 2226m Maximum Candies Allocated to K Children
 struct Sol2226;
 
