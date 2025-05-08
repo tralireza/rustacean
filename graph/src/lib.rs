@@ -1116,5 +1116,47 @@ impl Sol3341 {
     }
 }
 
+/// 3342m Find Minimum Time to Reach Last Room II
+struct Sol3342;
+
+impl Sol3342 {
+    pub fn min_time_to_reach(move_time: Vec<Vec<i32>>) -> i32 {
+        use std::cmp::Reverse;
+
+        let (rows, cols) = (move_time.len(), move_time[0].len());
+        let mut grid = vec![vec![i32::MAX; cols]; rows]; // Distances from {0,0}
+
+        let dirs = [-1, 0, 1, 0, -1];
+        let mut pq = std::collections::BinaryHeap::new();
+
+        pq.push(Reverse((0, 0, 0, false)));
+        grid[0][0] = 0;
+
+        while let Some(Reverse((time, r, c, double))) = pq.pop() {
+            println!("-> {:?}", (time, r, c, double, &pq, &grid));
+
+            if r + 1 == rows && c + 1 == cols {
+                return time;
+            }
+
+            let delta = if double { 2 } else { 1 };
+
+            for d in 0..4 {
+                if let (Some(r), Some(c)) = (
+                    r.checked_add_signed(dirs[d]),
+                    c.checked_add_signed(dirs[d + 1]),
+                ) {
+                    if r < rows && c < cols && move_time[r][c].max(time) + delta < grid[r][c] {
+                        grid[r][c] = move_time[r][c].max(time) + delta;
+                        pq.push(Reverse((grid[r][c], r, c, !double)));
+                    }
+                }
+            }
+        }
+
+        -1
+    }
+}
+
 #[cfg(test)]
 mod tests;

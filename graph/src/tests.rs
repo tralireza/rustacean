@@ -350,3 +350,15 @@ fn test_3341() {
         assert_eq!(Sol3341::min_time_to_reach(move_time), rst);
     }
 }
+
+#[test]
+fn test_3342() {
+    for (rst, move_time) in [
+        (7, vec![vec![0, 4], vec![4, 4]]),
+        (6, vec![vec![0, 0, 0, 0], vec![0, 0, 0, 0]]),
+        (4, vec![vec![0, 1], vec![1, 2]]),
+    ] {
+        println!("** {:?}", move_time);
+        assert_eq!(Sol3342::min_time_to_reach(move_time), rst);
+    }
+}
