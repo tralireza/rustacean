@@ -52,5 +52,25 @@ impl Sol1007 {
     }
 }
 
+/// 2918m Minimum Equal Sum of Two Arrays After Replacing Zeros
+struct Sol2918;
+
+impl Sol2918 {
+    pub fn min_sum(nums1: Vec<i32>, nums2: Vec<i32>) -> i64 {
+        let folder = |(sum, zeros), n| match n == 0 {
+            true => (sum + 1, zeros + 1),
+            _ => (sum + n as i64, zeros),
+        };
+
+        let (sum1, zeros1) = nums1.into_iter().fold((0, 0), folder);
+        let (sum2, zeros2) = nums2.into_iter().fold((0, 0), folder);
+
+        if sum1 > sum2 && zeros2 == 0 || sum2 > sum1 && zeros1 == 0 {
+            return -1;
+        }
+        sum1.max(sum2)
+    }
+}
+
 #[cfg(test)]
 mod tests;

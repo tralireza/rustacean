@@ -16,3 +16,18 @@ fn test_1007() {
         assert_eq!(Sol1007::min_domino_rotations(tops, bottoms), rst);
     }
 }
+
+#[test]
+fn test_2918() {
+    for (rst, nums1, nums2) in [
+        (12, vec![3, 2, 0, 1, 0], vec![6, 5, 0]),
+        (-1, vec![2, 0, 2, 0], vec![1, 4]),
+        (
+            139,
+            vec![0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0],
+            vec![20, 15, 19, 5, 6, 29, 25, 8, 12],
+        ),
+    ] {
+        assert_eq!(Sol2918::min_sum(nums1, nums2), rst);
+    }
+}
