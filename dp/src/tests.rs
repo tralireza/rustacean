@@ -52,6 +52,13 @@ fn test_368() {
 }
 
 #[test]
+fn test_377() {
+    for (rst, nums, target) in [(7, vec![1, 2, 3], 4), (0, vec![9], 3)] {
+        assert_eq!(Sol377::combination_sum4(nums, target), rst);
+    }
+}
+
+#[test]
 fn test_516() {
     assert_eq!(Sol516::longest_palindrome_subseq("bbbab".to_string()), 4);
     assert_eq!(Sol516::longest_palindrome_subseq("cbbd".to_string()), 2);

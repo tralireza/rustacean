@@ -196,6 +196,28 @@ impl Sol368 {
     }
 }
 
+/// 377m Combination Sum IV
+struct Sol377;
+
+impl Sol377 {
+    pub fn combination_sum4(nums: Vec<i32>, target: i32) -> i32 {
+        let mut sums = vec![];
+        sums.push(1);
+
+        for t in 1..=target {
+            sums.push(
+                nums.iter()
+                    .filter(|&n| t - n >= 0)
+                    .map(|n| sums[(t - n) as usize])
+                    .sum(),
+            );
+        }
+
+        println!("-> {:?}", sums);
+        sums[target as usize]
+    }
+}
+
 /// 516m Longest Palindromic Subsequence
 struct Sol516;
 
