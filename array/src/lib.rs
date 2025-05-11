@@ -42,6 +42,17 @@ impl Sol1534 {
     }
 }
 
+/// 1550 Three Consecutive Odds
+struct Sol1550;
+
+impl Sol1550 {
+    pub fn three_consecutive_odds(arr: Vec<i32>) -> bool {
+        arr.windows(3)
+            .inspect(|v| println!("-> {:?}", v))
+            .any(|v| v[0] & v[1] & v[2] & 1 == 1)
+    }
+}
+
 /// 1752 Check If Array Is Sorted and Rotated
 struct Sol1752;
 

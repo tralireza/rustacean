@@ -27,6 +27,20 @@ fn test_1534() {
 }
 
 #[test]
+fn test_1550() {
+    for (rst, arr) in [
+        (false, vec![2, 6, 4, 1]),
+        (true, vec![1, 2, 34, 3, 4, 5, 7, 23, 12]),
+        (false, vec![1]),
+        (true, vec![1, 3, 5]),
+        (false, vec![1, 2, 3]),
+    ] {
+        println!("*** {:?}", arr);
+        assert_eq!(Sol1550::three_consecutive_odds(arr), rst);
+    }
+}
+
+#[test]
 fn test_1752() {
     assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
     assert_eq!(Sol1752::check(vec![2, 1, 3, 4]), false);
