@@ -1,5 +1,9 @@
 //! # Array
 
+#![feature(test)]
+
+extern crate test;
+
 /// 1184 Distance Between Bus Stops
 struct Sol1184;
 

@@ -40,6 +40,37 @@ fn test_1550() {
     }
 }
 
+#[bench]
+fn bench_1550_windows(b: &mut test::Bencher) {
+    let arr = vec![1, 2, 34, 3, 4, 5, 7, 23, 12];
+    fn windows(arr: &Vec<i32>) -> bool {
+        arr.windows(3).any(|v| v[0] & v[1] & v[2] & 1 == 1)
+    }
+
+    b.iter(|| test::black_box(windows(&arr)));
+}
+
+#[bench]
+fn bench_1550_kadane(b: &mut test::Bencher) {
+    let arr = vec![1, 2, 34, 3, 4, 5, 7, 23, 12];
+    fn kadane(arr: &Vec<i32>) -> bool {
+        let mut counter = 0;
+        for &n in arr.iter() {
+            if n & 1 == 1 {
+                counter += 1;
+                if counter == 3 {
+                    return true;
+                }
+            } else {
+                counter = 0;
+            }
+        }
+        false
+    }
+
+    b.iter(|| test::black_box(kadane(&arr)));
+}
+
 #[test]
 fn test_1752() {
     assert_eq!(Sol1752::check(vec![3, 4, 5, 1, 2]), true);
