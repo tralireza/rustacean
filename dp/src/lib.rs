@@ -728,5 +728,109 @@ impl Sol3335 {
     }
 }
 
+/// 3337m Total Characters in String After Transformations II
+struct Sol3337;
+
+impl Sol3337 {
+    /// 1 <= N <= 10^5, 1 <= t <= 10^9
+    pub fn length_after_transformations(s: String, t: i32, nums: Vec<i32>) -> i32 {
+        // M a b c d e f g ... y z
+        // a   1 1                 / N_a: 2
+        // b     1 1 1             / N_b: 3
+        // c       1               / N_c: 1
+        // ...
+        // y 1                   1 / N_y: 2
+        // z 1 1 1 1               / N_z: 4
+
+        type M = [[i64; 26]; 26];
+
+        let mut m: M = [[0; 26]; 26];
+        for chr in 0..26 {
+            for t in 1..=nums[chr] as usize {
+                m[chr][(chr + t) % 26] = 1;
+            }
+        }
+
+        let mut freq = [0; 26];
+        for chr in s.as_bytes() {
+            freq[(chr - b'a') as usize] += 1;
+        }
+
+        const MOD: i64 = 1000_000_007;
+
+        fn mcopy(t: &mut M, f: &M) {
+            for i in 0..26 {
+                for j in 0..26 {
+                    t[i][j] = f[i][j];
+                }
+            }
+        }
+
+        fn mzero(m: &mut M) {
+            for i in 0..26 {
+                for j in 0..26 {
+                    m[i][j] = 0;
+                }
+            }
+        }
+
+        fn matrix_multiply(m: &mut M, a: &M, b: &M) {
+            mzero(m);
+
+            for i in 0..26 {
+                for k in 0..26 {
+                    let a_ik = a[i][k];
+                    if a_ik != 0 {
+                        for j in 0..26 {
+                            m[i][j] = (m[i][j] + a_ik * b[k][j]) % MOD;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <- b^e
+        fn square_exponentiation(b: &M, mut e: i32) -> M {
+            let mut power: M = [[0; 26]; 26];
+            for d in 0..26 {
+                power[d][d] = 1;
+            }
+
+            let mut base: M = [[0; 26]; 26];
+            mcopy(&mut base, b);
+
+            let mut t: M = [[0; 26]; 26];
+            while e > 0 {
+                if e & 1 == 1 {
+                    matrix_multiply(&mut t, &power, &base);
+                    mcopy(&mut power, &t);
+                }
+
+                matrix_multiply(&mut t, &base, &base);
+                mcopy(&mut base, &t);
+
+                e >>= 1;
+            }
+
+            power
+        }
+
+        let power: M = square_exponentiation(&mut m, t);
+
+        println!("-> M^t {:?}", power);
+
+        let mut tfreq = [0; 26];
+        for i in 0..26 {
+            for j in 0..26 {
+                tfreq[i] = (tfreq[i] + freq[i] * power[i][j]) % MOD;
+            }
+        }
+
+        println!("-> {:?}", tfreq);
+
+        tfreq.iter().fold(0, |l, &n| (l + n) % MOD) as _
+    }
+}
+
 #[cfg(test)]
 mod tests;

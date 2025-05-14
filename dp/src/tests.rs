@@ -160,3 +160,35 @@ fn test_3335() {
         assert_eq!(Sol3335::length_after_transformations(s, t), rst);
     }
 }
+
+#[test]
+fn test_3337() {
+    for (rst, s, t, nums) in [
+        (
+            7,
+            "abcyy".to_string(),
+            2,
+            vec![
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
+            ],
+        ),
+        (
+            8,
+            "azbk".to_string(),
+            1,
+            vec![
+                2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            ],
+        ),
+        (
+            417796858,
+            "x".to_string(),
+            16,
+            vec![
+                6, 6, 8, 1, 9, 9, 10, 3, 9, 4, 8, 5, 2, 8, 10, 2, 6, 8, 2, 3, 3, 7, 2, 6, 4, 2,
+            ],
+        ),
+    ] {
+        assert_eq!(Sol3337::length_after_transformations(s, t, nums), rst);
+    }
+}
