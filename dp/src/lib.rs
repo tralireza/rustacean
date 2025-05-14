@@ -722,7 +722,7 @@ impl Sol3335 {
             }
         }
 
-        println!("-> {:?}", freqs);
+        println!("-> {freqs:?}");
 
         freqs[t as usize].iter().fold(0, |t, &l| (t + l) % M)
     }
