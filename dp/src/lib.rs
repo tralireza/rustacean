@@ -701,5 +701,32 @@ impl Sol2999 {
     }
 }
 
+/// 3335m Total Characters in String After Transformations I
+struct Sol3335;
+
+impl Sol3335 {
+    /// 1 <= N, t <= 10^5
+    pub fn length_after_transformations(s: String, t: i32) -> i32 {
+        const M: i32 = 1e9 as i32 + 7;
+
+        let mut freqs = vec![vec![0; 26]; t as usize + 1];
+        for chr in s.as_bytes() {
+            freqs[0][(chr - b'a') as usize] += 1;
+        }
+
+        for i in 1..=t as usize {
+            freqs[i][0] = freqs[i - 1][25];
+            freqs[i][1] = (freqs[i - 1][0] + freqs[i - 1][25]) % M;
+            for chr in 2..26 {
+                freqs[i][chr] = freqs[i - 1][chr - 1]
+            }
+        }
+
+        println!("-> {:?}", freqs);
+
+        freqs[t as usize].iter().fold(0, |t, &l| (t + l) % M)
+    }
+}
+
 #[cfg(test)]
 mod tests;

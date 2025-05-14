@@ -153,3 +153,10 @@ fn test_2999() {
         );
     }
 }
+
+#[test]
+fn test_3335() {
+    for (rst, s, t) in [(7, "abcyy".to_string(), 2), (5, "azbk".to_string(), 1)] {
+        assert_eq!(Sol3335::length_after_transformations(s, t), rst);
+    }
+}
