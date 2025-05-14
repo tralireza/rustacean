@@ -767,9 +767,9 @@ impl Sol3337 {
         }
 
         fn mzero(m: &mut M) {
-            for i in 0..26 {
-                for j in 0..26 {
-                    m[i][j] = 0;
+            for row in m.iter_mut() {
+                for v in row.iter_mut() {
+                    *v = 0;
                 }
             }
         }
@@ -778,11 +778,11 @@ impl Sol3337 {
             mzero(m);
 
             for i in 0..26 {
-                for k in 0..26 {
+                for (k, b_k) in b.iter().enumerate() {
                     let a_ik = a[i][k];
                     if a_ik != 0 {
-                        for j in 0..26 {
-                            m[i][j] = (m[i][j] + a_ik * b[k][j]) % MOD;
+                        for (j, b_k_j) in b_k.iter().enumerate() {
+                            m[i][j] = (m[i][j] + a_ik * b_k_j) % MOD;
                         }
                     }
                 }
@@ -792,8 +792,8 @@ impl Sol3337 {
         /// <- b^e
         fn square_exponentiation(b: &M, mut e: i32) -> M {
             let mut power: M = [[0; 26]; 26];
-            for d in 0..26 {
-                power[d][d] = 1;
+            for (d, row) in power.iter_mut().enumerate() {
+                row[d] = 1;
             }
 
             let mut base: M = [[0; 26]; 26];
@@ -815,9 +815,9 @@ impl Sol3337 {
             power
         }
 
-        let power: M = square_exponentiation(&mut m, t);
+        let power: M = square_exponentiation(&m, t);
 
-        println!("-> M^t {:?}", power);
+        println!("-> M^t {power:?}");
 
         let mut tfreq = [0; 26];
         for i in 0..26 {
@@ -826,7 +826,7 @@ impl Sol3337 {
             }
         }
 
-        println!("-> {:?}", tfreq);
+        println!("-> {tfreq:?}");
 
         tfreq.iter().fold(0, |l, &n| (l + n) % MOD) as _
     }
