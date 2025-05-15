@@ -18,6 +18,29 @@ fn test_1007() {
 }
 
 #[test]
+fn test_2900() {
+    for (rst, words, groups) in [
+        (
+            vec!["e".to_string(), "b".to_string()],
+            vec!["e".to_string(), "a".to_string(), "b".to_string()],
+            vec![0, 0, 1],
+        ),
+        (
+            vec!["a".to_string(), "b".to_string(), "c".to_string()],
+            vec![
+                "a".to_string(),
+                "b".to_string(),
+                "c".to_string(),
+                "d".to_string(),
+            ],
+            vec![1, 0, 1, 1],
+        ),
+    ] {
+        assert_eq!(Sol2900::get_longest_subsequence(words, groups), rst);
+    }
+}
+
+#[test]
 fn test_2918() {
     for (rst, nums1, nums2) in [
         (12, vec![3, 2, 0, 1, 0], vec![6, 5, 0]),

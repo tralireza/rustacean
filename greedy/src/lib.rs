@@ -52,6 +52,32 @@ impl Sol1007 {
     }
 }
 
+/// 2900 Longest Unequal Adjacent Groups Subsequence I
+struct Sol2900;
+
+impl Sol2900 {
+    /// 1 <= |words, groups| <= 100
+    pub fn get_longest_subsequence(mut words: Vec<String>, groups: Vec<i32>) -> Vec<String> {
+        words.reverse();
+        groups
+            .iter()
+            .skip(1)
+            .fold(
+                (vec![words.pop().unwrap()], groups[0]),
+                |(mut ls, cur_group), &g| {
+                    if cur_group == g {
+                        words.pop();
+                        (ls, g)
+                    } else {
+                        ls.push(words.pop().unwrap());
+                        (ls, g)
+                    }
+                },
+            )
+            .0
+    }
+}
+
 /// 2918m Minimum Equal Sum of Two Arrays After Replacing Zeros
 struct Sol2918;
 
