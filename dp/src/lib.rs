@@ -639,6 +639,21 @@ impl Sol2901 {
 
         println!("-> {dists:?}");
 
+        fn valid_distance(x: &str, y: &str) -> bool {
+            use std::cmp::Ordering::Equal;
+            match x.len().cmp(&y.len()) {
+                Equal => {
+                    x.chars()
+                        .zip(y.chars())
+                        .filter(|(x, y)| x != y)
+                        .collect::<Vec<_>>()
+                        .len()
+                        == 1
+                }
+                _ => false,
+            }
+        }
+
         let mut picks = vec![usize::MAX; groups.len()];
         let mut longest = vec![1; groups.len()];
 
@@ -646,7 +661,10 @@ impl Sol2901 {
 
         for i in 1..groups.len() {
             for j in 0..i {
-                if groups[j] != groups[i] && dists[i][j] == 1 && longest[i] < longest[j] + 1 {
+                if groups[j] != groups[i]
+                    && (dists[i][j] == 1 && valid_distance(&words[i], &words[j]))
+                    && longest[i] < longest[j] + 1
+                {
                     longest[i] = longest[j] + 1;
                     picks[i] = j;
                 }
