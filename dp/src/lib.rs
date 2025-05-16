@@ -618,6 +618,59 @@ impl Sol2836 {
     }
 }
 
+/// 2901m Longest Unequal Adjacent Groups Subsequence II
+struct Sol2901;
+
+impl Sol2901 {
+    pub fn get_words_in_longest_subsequence(words: Vec<String>, groups: Vec<i32>) -> Vec<String> {
+        let mut dists = vec![vec![]; groups.len()];
+        for (i, x) in words.iter().enumerate() {
+            for y in words.iter().take(i) {
+                dists[i].push(if x.len() != y.len() {
+                    0
+                } else {
+                    x.chars()
+                        .zip(y.chars())
+                        .fold(0, |d, (x, y)| if x == y { d } else { d + 1 })
+                });
+            }
+            dists[i].push(0);
+        }
+
+        println!("-> {dists:?}");
+
+        let mut picks = vec![usize::MAX; groups.len()];
+        let mut longest = vec![1; groups.len()];
+
+        let (mut lmax, mut ilast) = (1, 0);
+
+        for i in 1..groups.len() {
+            for j in 0..i {
+                if groups[j] != groups[i] && dists[i][j] == 1 && longest[i] < longest[j] + 1 {
+                    longest[i] = longest[j] + 1;
+                    picks[i] = j;
+                }
+            }
+
+            if longest[i] > lmax {
+                (lmax, ilast) = (longest[i], i);
+            }
+        }
+
+        println!("-> {lmax} | {longest:?}");
+        println!("-> {ilast} | {picks:?}");
+
+        let mut lss = vec![];
+        while ilast != usize::MAX {
+            lss.push(words[ilast].to_owned());
+            ilast = picks[ilast];
+        }
+        lss.reverse();
+
+        lss
+    }
+}
+
 /// 2999h Count the Number of Powerful Integers
 struct Sol2999;
 

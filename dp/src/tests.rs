@@ -140,6 +140,34 @@ fn test_2836() {
 }
 
 #[test]
+fn test_2901() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, words, groups) in [
+        (
+            vec![s!("bab"), s!("dab")],
+            vec![s!("bab"), s!("dab"), s!("cab")],
+            vec![1, 2, 2],
+        ),
+        (
+            vec![s!("a"), s!("b"), s!("c"), s!("d")],
+            vec![s!("a"), s!("b"), s!("c"), s!("d")],
+            vec![1, 2, 3, 4],
+        ),
+    ] {
+        println!("* {words:?}");
+        assert_eq!(
+            Sol2901::get_words_in_longest_subsequence(words, groups),
+            rst
+        );
+    }
+}
+
+#[test]
 fn test_2999() {
     for (rst, start, finish, limit, s) in [
         (5, 1, 6000, 4, "124".to_string()),
