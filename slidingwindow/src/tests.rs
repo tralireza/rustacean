@@ -12,6 +12,13 @@ fn test_1358() {
 }
 
 #[test]
+fn test_2302() {
+    for (rst, nums, k) in [(6, vec![2, 1, 4, 3, 5], 10), (5, vec![1, 1, 1], 5)] {
+        assert_eq!(Sol2302::count_subarrays(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_2379() {
     for (rst, blocks, k) in [
         (3, "WBBWWBBWBW".to_string(), 7),

@@ -33,6 +33,44 @@ impl Sol1358 {
     }
 }
 
+/// 2302h Count Subarrays With Score Less Than K
+struct Sol2302;
+
+impl Sol2302 {
+    pub fn count_subarrays(nums: Vec<i32>, k: i64) -> i64 {
+        fn rusty(nums: Vec<i32>, k: i64) -> i64 {
+            let (mut psum, mut l) = (0, 0);
+            nums.iter()
+                .enumerate()
+                .map(|(r, &n)| {
+                    psum += n as i64;
+                    while psum * (r - l + 1) as i64 >= k {
+                        psum -= nums[l] as i64;
+                        l += 1;
+                    }
+                    r - l + 1
+                })
+                .sum::<usize>() as _
+        }
+        println!(":: {}", rusty(nums.to_vec(), k));
+
+        let mut count = 0;
+
+        let mut l = 0;
+        let mut psum = 0;
+        for (r, n) in nums.iter().map(|&n| n as i64).enumerate() {
+            psum += n;
+            while psum * (r - l + 1) as i64 >= k {
+                psum -= nums[l] as i64;
+                l += 1;
+            }
+            count += r - l + 1;
+        }
+
+        count as i64
+    }
+}
+
 /// 2379m Minimum Recolors to Get K Consecutive Black Blocks
 struct Sol2379;
 
