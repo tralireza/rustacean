@@ -1,5 +1,44 @@
 //! # Sorting
 
+/// 75m Sort Colors
+struct Sol75;
+
+impl Sol75 {
+    pub fn sort_colors(nums: &mut Vec<i32>) {
+        let mut wtr = nums.len() - 1;
+
+        let mut color2 = 0;
+        while color2 <= wtr && wtr != usize::MAX {
+            match nums[color2] {
+                2 => {
+                    nums[color2] = nums[wtr];
+                    nums[wtr] = 2;
+                    wtr = wtr.wrapping_sub(1);
+                }
+                _ => {
+                    color2 += 1;
+                }
+            }
+        }
+
+        let mut color1 = 0;
+        while color1 <= wtr && wtr != usize::MAX {
+            match nums[color1] {
+                1 => {
+                    nums[color1] = nums[wtr];
+                    nums[wtr] = 1;
+                    wtr = wtr.wrapping_sub(1);
+                }
+                _ => {
+                    color1 += 1;
+                }
+            }
+        }
+
+        println!(":: {nums:?}");
+    }
+}
+
 /// 220h Contains Duplicate III
 struct Sol220;
 

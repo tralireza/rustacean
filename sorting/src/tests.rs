@@ -1,6 +1,18 @@
 use super::*;
 
 #[test]
+fn test_75() {
+    for (rst, mut nums) in [
+        (vec![0, 0, 1, 1, 2, 2], vec![2, 0, 2, 1, 1, 0]),
+        (vec![0, 1, 2], vec![2, 0, 1]),
+        (vec![1, 2], vec![1, 2]),
+    ] {
+        Sol75::sort_colors(&mut nums);
+        assert_eq!(nums, rst);
+    }
+}
+
+#[test]
 fn test_220() {
     for (rst, nums, idiff, vdiff) in [
         (true, vec![1, 2, 3, 1], 3, 0),
