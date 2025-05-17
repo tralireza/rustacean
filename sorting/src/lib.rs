@@ -140,7 +140,7 @@ impl Sol2948 {
         nums.sort_by_key(|t| t.1);
         nums.push((nums.len() + 1, i32::MAX));
 
-        println!(" -> {:?}", nums);
+        println!(" -> {nums:?}");
 
         let mut rst = vec![0; nums.len()];
         let mut groups = vec![nums[0].0];
@@ -156,7 +156,7 @@ impl Sol2948 {
                     p += 1;
                 }
 
-                println!(" -> {:?}", rst);
+                println!(" -> {rst:?}");
             }
 
             groups.push(nums[i].0);
