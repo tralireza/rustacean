@@ -5,10 +5,35 @@ struct Sol75;
 
 impl Sol75 {
     pub fn sort_colors(nums: &mut Vec<i32>) {
+        /// Flag Colors Sorting
+        fn sort_flag_colors(nums: &mut Vec<i32>) {
+            let (mut color0, mut color1, mut color2) = (0, 0, nums.len() - 1);
+            while color1 <= color2 && color2 < usize::MAX {
+                match nums[color1] {
+                    2 => {
+                        nums.swap(color1, color2);
+                        color2 = color2.wrapping_sub(1);
+                    }
+                    1 => {
+                        color1 += 1;
+                    }
+                    0 => {
+                        nums.swap(color0, color1);
+                        color0 += 1;
+                        color1 += 1;
+                    }
+                    _ => {}
+                }
+            }
+
+            println!(":: {nums:?}");
+        }
+        sort_flag_colors(&mut nums.to_vec());
+
         let mut wtr = nums.len() - 1;
 
         let mut color2 = 0;
-        while color2 <= wtr && wtr != usize::MAX {
+        while color2 <= wtr && wtr < usize::MAX {
             match nums[color2] {
                 2 => {
                     nums[color2] = nums[wtr];
@@ -22,7 +47,7 @@ impl Sol75 {
         }
 
         let mut color1 = 0;
-        while color1 <= wtr && wtr != usize::MAX {
+        while color1 <= wtr && wtr < usize::MAX {
             match nums[color1] {
                 1 => {
                     nums[color1] = nums[wtr];

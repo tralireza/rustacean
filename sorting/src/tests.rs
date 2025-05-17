@@ -6,6 +6,7 @@ fn test_75() {
         (vec![0, 0, 1, 1, 2, 2], vec![2, 0, 2, 1, 1, 0]),
         (vec![0, 1, 2], vec![2, 0, 1]),
         (vec![1, 2], vec![1, 2]),
+        (vec![2], vec![2]),
     ] {
         Sol75::sort_colors(&mut nums);
         assert_eq!(nums, rst);
