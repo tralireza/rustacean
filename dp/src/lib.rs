@@ -558,14 +558,15 @@ impl Sol1931 {
         const M: i32 = 1000_000_007;
         for _ in 1..n {
             let mut dp_next = HashMap::new();
-            for &mask2 in masks.keys() {
-                let mut count = 0;
-                if let Some(adjacent) = adjacents.get(&mask2) {
-                    for &mask1 in adjacent {
-                        count = (count + dp_cur.get(&mask1).unwrap_or(&0)) % M;
-                    }
+            for &mask in masks.keys() {
+                if let Some(adjacent) = adjacents.get(&mask) {
+                    dp_next.insert(
+                        mask,
+                        adjacent.iter().fold(0, |count, &mask| {
+                            (count + dp_cur.get(&mask).unwrap_or(&0)) % M
+                        }),
+                    );
                 }
-                dp_next.insert(mask2, count);
             }
             dp_cur = dp_next;
         }

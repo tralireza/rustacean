@@ -119,8 +119,9 @@ fn test_1749() {
 
 #[test]
 fn test_1931() {
-    for (rst, m, n) in [(3, 1, 1), (6, 1, 2), (580986, 5, 5)] {
+    for (rst, m, n) in [(3, 1, 1), (6, 1, 2), (580986, 5, 5), (408208448, 5, 1000)] {
         assert_eq!(Sol1931::color_the_grid(m, n), rst);
+        println!(":: {rst}");
     }
 }
 
