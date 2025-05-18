@@ -510,6 +510,70 @@ impl Sol1749 {
     }
 }
 
+/// 1931h Painting a Grid With Three Different Colors
+struct Sol1931;
+
+impl Sol1931 {
+    /// 1 <= m <= 5, 1 <= n <= 1000
+    pub fn color_the_grid(m: i32, n: i32) -> i32 {
+        use std::collections::HashMap;
+
+        let mut masks = HashMap::new();
+        (0..3u32.pow(m as u32)).for_each(|mask| {
+            let mut colors = vec![];
+
+            let mut v = mask;
+            for _ in 0..m {
+                colors.push(v % 3);
+                v /= 3;
+            }
+
+            if !colors.windows(2).any(|w| w[0] == w[1]) {
+                masks.insert(mask, colors);
+            }
+        });
+
+        println!("-> Color Masks: {masks:?}");
+
+        let mut adjacents = HashMap::new();
+        for (&mask1, color1) in &masks {
+            for (&mask2, color2) in &masks {
+                if !color1
+                    .iter()
+                    .zip(color2.iter())
+                    .any(|(color1, color2)| color1 == color2)
+                {
+                    adjacents.entry(mask1).or_insert(vec![]).push(mask2);
+                }
+            }
+        }
+
+        println!("-> Rows Adjacent: {adjacents:?}");
+
+        let mut dp_cur = HashMap::new();
+        for &mask in masks.keys() {
+            dp_cur.insert(mask, 1);
+        }
+
+        const M: i32 = 1000_000_007;
+        for _ in 1..n {
+            let mut dp_next = HashMap::new();
+            for &mask2 in masks.keys() {
+                let mut count = 0;
+                if let Some(adjacent) = adjacents.get(&mask2) {
+                    for &mask1 in adjacent {
+                        count = (count + dp_cur.get(&mask1).unwrap_or(&0)) % M;
+                    }
+                }
+                dp_next.insert(mask2, count);
+            }
+            dp_cur = dp_next;
+        }
+
+        dp_cur.values().fold(0, |count, &n| (count + n) % M)
+    }
+}
+
 /// 2140m Solving Questions With Brainpower
 struct Sol2140;
 

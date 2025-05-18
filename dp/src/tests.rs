@@ -118,6 +118,13 @@ fn test_1749() {
 }
 
 #[test]
+fn test_1931() {
+    for (rst, m, n) in [(3, 1, 1), (6, 1, 2), (580986, 5, 5)] {
+        assert_eq!(Sol1931::color_the_grid(m, n), rst);
+    }
+}
+
+#[test]
 fn test_2140() {
     for (rst, questions) in [
         (5, vec![vec![3, 2], vec![4, 3], vec![4, 4], vec![2, 5]]),
