@@ -558,7 +558,7 @@ impl Sol1931 {
         const M: i32 = 1000_000_007;
         for _ in 1..n {
             let mut dp_next = HashMap::new();
-            for &mask in masks.keys() {
+            for &mask in dp_cur.keys() {
                 if let Some(adjacent) = adjacents.get(&mask) {
                     dp_next.insert(
                         mask,
