@@ -519,7 +519,7 @@ impl Sol1931 {
         use std::collections::HashMap;
 
         let mut masks = HashMap::new();
-        (0..3u32.pow(m as u32)).for_each(|mask| {
+        (0..3i32.pow(m as u32)).for_each(|mask| {
             let mut colors = vec![];
 
             let mut v = mask;
@@ -550,12 +550,33 @@ impl Sol1931 {
 
         println!("-> Rows Adjacent: {adjacents:?}");
 
+        const M: i32 = 1000_000_007;
+
+        {
+            let mut dp_cur = vec![0; [1, 3, 9, 27, 81, 243][m as usize]];
+            for &mask in masks.keys() {
+                dp_cur[mask as usize] = 1;
+            }
+            for _ in 1..n {
+                let mut dp_next = vec![0; dp_cur.len()];
+                for mask in 0..[1, 3, 9, 27, 81, 243][m as usize] as i32 {
+                    if dp_cur[mask as usize] > 0 {
+                        if let Some(adjacent) = adjacents.get(&mask) {
+                            dp_next[mask as usize] = adjacent
+                                .iter()
+                                .fold(0, |count, &mask| (count + dp_cur[mask as usize]) % M);
+                        }
+                    }
+                }
+                dp_cur = dp_next;
+            }
+            println!(":: {}", dp_cur.iter().fold(0, |count, &n| (count + n) % M));
+        }
+
         let mut dp_cur = HashMap::new();
         for &mask in masks.keys() {
             dp_cur.insert(mask, 1);
         }
-
-        const M: i32 = 1000_000_007;
         for _ in 1..n {
             let mut dp_next = HashMap::new();
             for &mask in dp_cur.keys() {
