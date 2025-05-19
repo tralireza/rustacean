@@ -486,18 +486,16 @@ impl Sol3024 {
         nums.sort();
 
         let (a, b, c) = (nums[0], nums[1], nums[2]);
-        let mut triangle = "";
         if a + b <= c {
-            triangle = "none";
+            "none"
         } else if a == c {
-            triangle = "equilateral";
+            "equilateral"
         } else if a == b || b == c {
-            triangle = "isosceles";
+            "isosceles"
         } else {
-            triangle = "scalene";
+            "scalene"
         }
-
-        triangle.to_string()
+        .to_string()
     }
 }
 
