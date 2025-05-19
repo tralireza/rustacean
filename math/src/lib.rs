@@ -190,6 +190,42 @@ impl Sol989 {
     }
 }
 
+/// 1295 Find Numbers with Even Number of Digits
+struct Sol1295;
+
+impl Sol1295 {
+    pub fn find_numbers(nums: Vec<i32>) -> i32 {
+        println!(
+            ":: {}",
+            nums.iter()
+                .filter(|&&n| {
+                    let mut digits = 0;
+                    let mut n = n;
+                    while n > 0 {
+                        n /= 10;
+                        digits += 1;
+                    }
+
+                    digits & 1 == 0
+                })
+                .count()
+        );
+
+        nums.iter()
+            .map(|&n| {
+                let mut digits = 0;
+                let mut n = n;
+                while n > 0 {
+                    n /= 10;
+                    digits += 1;
+                }
+
+                (digits + 1) & 1
+            })
+            .sum()
+    }
+}
+
 /// 1780m Check if Number is a Sum of Powers of Three
 struct Sol1780;
 

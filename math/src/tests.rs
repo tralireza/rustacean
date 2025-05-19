@@ -53,6 +53,16 @@ fn test_989() {
 }
 
 #[test]
+fn test_1295() {
+    for (rst, nums) in [
+        (2, vec![12, 345, 2, 6, 7896]),
+        (1, vec![555, 901, 482, 1771]),
+    ] {
+        assert_eq!(Sol1295::find_numbers(nums), rst);
+    }
+}
+
+#[test]
 fn test_1780() {
     for f in [
         Sol1780::check_powers_of_three,
