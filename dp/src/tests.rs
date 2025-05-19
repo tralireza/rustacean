@@ -125,6 +125,36 @@ fn test_1931() {
     }
 }
 
+#[bench]
+fn bench_1931_hashmap(b: &mut test::Bencher) {
+    use std::collections::HashMap;
+
+    let mut dp_cur = HashMap::with_capacity(27);
+    for mask in [1, 4, 5, 9, 11, 23, 24, 25, 26] {
+        dp_cur.insert(mask, 1);
+    }
+
+    b.iter(|| {
+        test::black_box(for mask in [1, 2, 4, 11, 19, 20, 25, 26] {
+            let _ = dp_cur.get(&mask);
+        });
+    });
+}
+
+#[bench]
+fn bench_1931_array(b: &mut test::Bencher) {
+    let mut dp_cur = vec![0; 27];
+    for mask in [1, 4, 5, 9, 11, 23, 24, 25, 26] {
+        dp_cur[mask] = 1;
+    }
+
+    b.iter(|| {
+        test::black_box(for mask in [1, 2, 4, 11, 19, 20, 25, 26] {
+            let _ = dp_cur[mask];
+        });
+    });
+}
+
 #[test]
 fn test_2140() {
     for (rst, questions) in [
