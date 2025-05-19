@@ -105,6 +105,16 @@ fn test_2843() {
 }
 
 #[test]
+fn test_3024() {
+    for (rst, nums) in [
+        ("equilateral".to_string(), vec![3, 3, 3]),
+        ("scalene".to_string(), vec![3, 4, 5]),
+    ] {
+        assert_eq!(Sol3024::triangle_type(nums), rst);
+    }
+}
+
+#[test]
 fn test_3272() {
     for (rst, n, k) in [(27, 3, 5), (2, 1, 4), (2468, 5, 6), (9, 2, 1)] {
         assert_eq!(Sol3272::count_good_integers(n, k), rst)

@@ -477,6 +477,30 @@ impl Sol2843 {
     }
 }
 
+/// 3024 Type of Triangle
+struct Sol3024;
+
+impl Sol3024 {
+    pub fn triangle_type(nums: Vec<i32>) -> String {
+        let mut nums = nums;
+        nums.sort();
+
+        let (a, b, c) = (nums[0], nums[1], nums[2]);
+        let mut triangle = "";
+        if a + b <= c {
+            triangle = "none";
+        } else if a == c {
+            triangle = "equilateral";
+        } else if a == b || b == c {
+            triangle = "isosceles";
+        } else {
+            triangle = "scalene";
+        }
+
+        triangle.to_string()
+    }
+}
+
 /// 3272h Find the Count of Good Integers
 struct Sol3272;
 
