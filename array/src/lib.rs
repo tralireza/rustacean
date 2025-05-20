@@ -462,6 +462,7 @@ impl Sol3392 {
 struct Sol3394;
 
 impl Sol3394 {
+    #[expect(unused_variables)]
     pub fn check_valid_cuts(n: i32, mut rectangles: Vec<Vec<i32>>) -> bool {
         let mut check = |offset| {
             rectangles.sort_unstable_by_key(|v| v[offset]);
