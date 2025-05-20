@@ -59,6 +59,30 @@ fn test_282() {
 }
 
 #[test]
+fn test_301() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (mut rst, s) in [
+        (vec![s!("(())()"), s!("()()()")], s!("()())()")),
+        (vec![s!("(a())()"), s!("(a)()()")], s!("(a)())()")),
+        (vec![s!("")], s!(")(")),
+        (vec![s!("((aaaaa))")], s!("((((((((((((((((((aaaaa))")),
+    ] {
+        let mut calculated = Sol301::remove_invalid_parentheses(s);
+        println!(":: {calculated:?}");
+
+        calculated.sort();
+        rst.sort();
+
+        assert_eq!(calculated, rst);
+    }
+}
+
+#[test]
 fn test_1079() {
     assert_eq!(Sol1079::num_tile_possibilities("AAB".to_string()), 8);
     assert_eq!(Sol1079::num_tile_possibilities("AAABBC".to_string()), 188);

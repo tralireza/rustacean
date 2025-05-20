@@ -231,6 +231,99 @@ impl Sol282 {
     }
 }
 
+/// 301h Remove Invalid Parentheses
+struct Sol301 {}
+
+impl Sol301 {
+    /// 1 <= N <= 25
+    pub fn remove_invalid_parentheses(s: String) -> Vec<String> {
+        use std::collections::{HashMap, HashSet};
+
+        let chrs: Vec<char> = s.chars().collect();
+        println!("* {chrs:?}");
+
+        fn search(
+            start: usize,
+            opens: usize,
+            closes: usize,
+            chrs: &[char],
+            picks: &mut [bool],
+            lengths: &mut HashMap<usize, HashSet<String>>,
+        ) {
+            if start == picks.len() {
+                let s: String = chrs
+                    .iter()
+                    .zip(picks.iter())
+                    .filter(|(_, &pick)| pick)
+                    .map(|(&chr, _)| chr)
+                    .collect();
+
+                let valid = || -> bool {
+                    let mut stack = 0;
+                    for chr in s.chars() {
+                        match chr {
+                            '(' => stack += 1,
+                            ')' => {
+                                if stack == 0 {
+                                    return false;
+                                } else {
+                                    stack -= 1;
+                                }
+                            }
+                            _ => (),
+                        }
+                    }
+                    stack == 0
+                };
+
+                if opens == closes && valid() {
+                    let entry = lengths.entry(s.len()).or_default();
+                    entry.insert(s);
+                }
+
+                return;
+            }
+
+            match chrs[start] {
+                '(' => {
+                    search(start + 1, opens, closes, chrs, picks, lengths);
+
+                    if opens < chrs.len() - start + closes {
+                        picks[start] = true;
+                        search(start + 1, opens + 1, closes, chrs, picks, lengths);
+                        picks[start] = false;
+                    }
+                }
+                ')' => {
+                    search(start + 1, opens, closes, chrs, picks, lengths);
+
+                    if closes < opens {
+                        picks[start] = true;
+                        search(start + 1, opens, closes + 1, chrs, picks, lengths);
+                        picks[start] = false;
+                    }
+                }
+                _ => {
+                    picks[start] = true;
+                    search(start + 1, opens, closes, chrs, picks, lengths);
+                }
+            }
+        }
+
+        let mut picks = vec![false; chrs.len()];
+        let mut lengths: HashMap<usize, HashSet<String>> = HashMap::new();
+
+        search(0, 0, 0, &chrs, &mut picks, &mut lengths);
+
+        println!("-> {lengths:?}");
+
+        match lengths.keys().max() {
+            Some(length) => lengths[length].clone().into_iter().collect(),
+            _ => vec![],
+        }
+    }
+}
+
 /// 1079m Letter Tile Possibilities
 struct Sol1079;
 
