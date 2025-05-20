@@ -395,6 +395,33 @@ impl Sol3169 {
     }
 }
 
+/// 3392 Count Subarrays of Length Three With a Condition
+struct Sol3392;
+
+impl Sol3392 {
+    pub fn count_subarrays(nums: Vec<i32>) -> i32 {
+        println!(
+            ":: {}",
+            nums.to_vec().windows(3).fold(0, |count, v| {
+                if 2 * (v[0] + v[2]) == v[1] {
+                    count + 1
+                } else {
+                    count
+                }
+            })
+        );
+
+        let mut count = 0;
+        for i in 2..nums.len() {
+            if 2 * (nums[i - 2] + nums[i]) == nums[i - 1] {
+                count += 1;
+            }
+        }
+
+        count
+    }
+}
+
 /// 3394m Check if Grid can be Cut into Sections
 struct Sol3394;
 

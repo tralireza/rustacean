@@ -206,6 +206,13 @@ fn test_3169() {
 }
 
 #[test]
+fn test_3392() {
+    for (rst, nums) in [(1, vec![1, 2, 1, 4, 1]), (0, vec![1, 1, 1])] {
+        assert_eq!(Sol3392::count_subarrays(nums), rst);
+    }
+}
+
+#[test]
 fn test_3394() {
     for (rst, n, rectangles) in [
         (
