@@ -175,6 +175,41 @@ impl Sol2033 {
     }
 }
 
+/// 2094 Finding 3-Digit Even Numbers
+struct Sol2094;
+
+impl Sol2094 {
+    pub fn find_even_numbers(digits: Vec<i32>) -> Vec<i32> {
+        let mut freq = [0; 10];
+        digits.iter().for_each(|&d| freq[d as usize] += 1);
+
+        println!("-> {:?}", freq);
+
+        let mut evens = vec![];
+        for h in 1..=9 {
+            if freq[h] == 0 {
+                continue;
+            }
+            freq[h] -= 1;
+            for t in 0..=9 {
+                if freq[t] == 0 {
+                    continue;
+                }
+                freq[t] -= 1;
+                for o in (0..=8).step_by(2) {
+                    if freq[o] > 0 {
+                        evens.push((100 * h + 10 * t + o) as i32);
+                    }
+                }
+                freq[t] += 1;
+            }
+            freq[h] += 1;
+        }
+
+        evens
+    }
+}
+
 /// 2145m Count the Hidden Sequences
 struct Sol2145;
 

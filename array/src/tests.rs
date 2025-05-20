@@ -120,6 +120,20 @@ fn test_2033() {
 }
 
 #[test]
+fn test_2094() {
+    for (rst, digits) in [
+        (
+            vec![102, 120, 130, 132, 210, 230, 302, 310, 312, 320],
+            vec![2, 1, 3, 0],
+        ),
+        (vec![222, 228, 282, 288, 822, 828, 882], vec![2, 2, 8, 8, 2]),
+        (vec![], vec![3, 7, 5]),
+    ] {
+        assert_eq!(Sol2094::find_even_numbers(digits), rst);
+    }
+}
+
+#[test]
 fn test_2145() {
     for (rst, differences, lower, upper) in [
         (2, vec![1, -3, 4], 1, 6),
