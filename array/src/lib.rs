@@ -431,6 +431,32 @@ impl Sol3169 {
     }
 }
 
+/// 3355m Zero Array Transformation I
+struct Sol3355 {}
+
+impl Sol3355 {
+    pub fn is_zero_array(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> bool {
+        let mut diffs = vec![0; nums.len() + 1];
+        for query in queries {
+            diffs[query[0] as usize] += 1;
+            diffs[query[1] as usize + 1] -= 1;
+        }
+
+        let mut diffs_sum = vec![];
+        let mut sum = 0;
+        for diff in diffs {
+            sum += diff;
+            diffs_sum.push(sum);
+        }
+
+        println!("-> {diffs_sum:?}");
+
+        nums.into_iter()
+            .zip(diffs_sum)
+            .all(|(num, diff_sum)| num <= diff_sum)
+    }
+}
+
 /// 3392 Count Subarrays of Length Three With a Condition
 struct Sol3392;
 

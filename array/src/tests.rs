@@ -220,6 +220,16 @@ fn test_3169() {
 }
 
 #[test]
+fn test_3355() {
+    for (rst, nums, queries) in [
+        (true, vec![1, 0, 1], vec![vec![0, 2]]),
+        (false, vec![4, 3, 2, 1], vec![vec![1, 3], vec![0, 2]]),
+    ] {
+        assert_eq!(Sol3355::is_zero_array(nums, queries), rst);
+    }
+}
+
+#[test]
 fn test_3392() {
     for (rst, nums) in [(1, vec![1, 2, 1, 4, 1]), (0, vec![1, 1, 1])] {
         assert_eq!(Sol3392::count_subarrays(nums), rst);
