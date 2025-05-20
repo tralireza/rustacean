@@ -290,7 +290,8 @@ impl Sol2780 {
         -1
     }
 
-    /// Majority Voting Algorithm
+    /// Majority Voting Algorithm: Boyer-Moore
+    #[expect(non_snake_case)]
     fn Boyer_Moore(nums: Vec<i32>) -> i32 {
         nums.iter()
             .fold((nums[0], 0), |(mut majority, mut frq), &n| {
