@@ -286,22 +286,22 @@ impl Sol301 {
 
             match chrs[start] {
                 '(' => {
-                    search(start + 1, opens, closes, chrs, picks, lengths);
-
-                    if opens < chrs.len() - start + closes {
-                        picks[start] = true;
-                        search(start + 1, opens + 1, closes, chrs, picks, lengths);
-                        picks[start] = false;
+                    if opens > 0 {
+                        search(start + 1, opens - 1, closes, chrs, picks, lengths);
                     }
+
+                    picks[start] = true;
+                    search(start + 1, opens, closes, chrs, picks, lengths);
+                    picks[start] = false;
                 }
                 ')' => {
-                    search(start + 1, opens, closes, chrs, picks, lengths);
-
-                    if closes < opens {
-                        picks[start] = true;
-                        search(start + 1, opens, closes + 1, chrs, picks, lengths);
-                        picks[start] = false;
+                    if closes > 0 {
+                        search(start + 1, opens, closes - 1, chrs, picks, lengths);
                     }
+
+                    picks[start] = true;
+                    search(start + 1, opens, closes, chrs, picks, lengths);
+                    picks[start] = false;
                 }
                 _ => {
                     picks[start] = true;
@@ -313,12 +313,28 @@ impl Sol301 {
         let mut picks = vec![false; chrs.len()];
         let mut lengths: HashMap<usize, HashSet<String>> = HashMap::new();
 
-        search(0, 0, 0, &chrs, &mut picks, &mut lengths);
+        let (mut opens, mut closes) = (0, 0);
+        for chr in chrs.iter() {
+            match chr {
+                '(' => opens += 1,
+                ')' => {
+                    if opens > 0 {
+                        opens -= 1;
+                    } else {
+                        closes += 1;
+                    }
+                }
+                _ => (),
+            }
+        }
+        println!("-> Extra# (Must Remove): {opens} (   {closes} )");
+
+        search(0, opens, closes, &chrs, &mut picks, &mut lengths);
 
         println!("-> {lengths:?}");
 
         match lengths.keys().max() {
-            Some(length) => lengths[length].clone().into_iter().collect(),
+            Some(lmax) => lengths[lmax].clone().into_iter().collect(),
             _ => vec![],
         }
     }
