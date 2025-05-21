@@ -1,6 +1,23 @@
 use super::*;
 
 #[test]
+fn test_73() {
+    for (rst, mut matrix) in [
+        (
+            vec![vec![1, 0, 1], vec![0, 0, 0], vec![1, 0, 1]],
+            vec![vec![1, 1, 1], vec![1, 0, 1], vec![1, 1, 1]],
+        ),
+        (
+            vec![vec![0, 0, 0, 0], vec![0, 4, 5, 0], vec![0, 3, 1, 0]],
+            vec![vec![0, 1, 2, 0], vec![3, 4, 5, 2], vec![1, 3, 1, 5]],
+        ),
+    ] {
+        Sol73::set_zeroes(&mut matrix);
+        assert_eq!(rst, matrix);
+    }
+}
+
+#[test]
 fn test_1184() {
     assert_eq!(
         Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 1),

@@ -4,6 +4,47 @@
 
 extern crate test;
 
+/// 73m Set Matrix Zeroes
+struct Sol73 {}
+
+impl Sol73 {
+    /// -2^31 <= M_ij <= 2^31-1
+    /// 1 <= M, N <= 200
+    pub fn set_zeroes(matrix: &mut [Vec<i32>]) {
+        let (rows, cols) = (matrix.len(), matrix[0].len());
+
+        let zero_row0 = matrix[0].contains(&0);
+        let zero_col0 = matrix.iter().any(|row| row[0] == 0);
+
+        for r in 1..rows {
+            for c in 1..cols {
+                if matrix[r][c] == 0 {
+                    (matrix[0][c], matrix[r][0]) = (0, 0);
+                }
+            }
+        }
+
+        for r in 1..rows {
+            for c in 1..cols {
+                if matrix[0][c] == 0 || matrix[r][0] == 0 {
+                    matrix[r][c] = 0;
+                }
+            }
+        }
+
+        if zero_col0 {
+            for row in matrix.iter_mut() {
+                row[0] = 0;
+            }
+        }
+        if zero_row0 {
+            for v in matrix[0].iter_mut() {
+                *v = 0;
+            }
+        }
+    }
+}
+
 /// 1184 Distance Between Bus Stops
 struct Sol1184;
 
