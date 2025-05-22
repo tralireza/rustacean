@@ -34,14 +34,14 @@ impl Sol407 {
             }
         }
 
-        println!(" -> {:?}", pq);
-        println!(" -> {:?}", visited);
+        println!(" -> {pq:?}");
+        println!(" -> {visited:?}");
 
         let mut trap_water = 0;
         let dirs = [-1, 0, 1, 0, -1];
 
         while let Some(Reverse(cell)) = pq.pop() {
-            println!(" -> {:?}", cell);
+            println!(" -> {cell:?}");
 
             (0..4).for_each(|i| {
                 let (r, c) = (cell.r + dirs[i], cell.c + dirs[i + 1]);
@@ -67,7 +67,7 @@ impl Sol407 {
             });
         }
 
-        println!(" -> {:?}", visited);
+        println!(" -> {visited:?}");
 
         trap_water
     }
