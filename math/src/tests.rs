@@ -8,6 +8,18 @@ fn test_29() {
 }
 
 #[test]
+fn test_335() {
+    for (rst, distance) in [
+        (true, vec![2, 1, 1, 2]),
+        (false, vec![1, 2, 3, 4]),
+        (true, vec![1, 1, 1, 2, 1]),
+        (true, vec![1, 1, 1, 1]),
+    ] {
+        assert_eq!(Sol335::is_self_crossing(distance), rst);
+    }
+}
+
+#[test]
 fn test_838() {
     for (rst, dominoes) in [
         ("RR.L".to_string(), "RR.L".to_string()),

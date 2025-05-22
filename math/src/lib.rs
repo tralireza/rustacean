@@ -44,6 +44,33 @@ impl Sol29 {
     }
 }
 
+/// 335h Self Crossing
+struct Sol335 {}
+
+impl Sol335 {
+    pub fn is_self_crossing(distance: Vec<i32>) -> bool {
+        if distance.windows(4).any(|w| w[0] >= w[2] && w[3] >= w[1]) {
+            return true;
+        }
+
+        if distance
+            .windows(5)
+            .any(|w| w[1] == w[3] && w[0] + w[4] >= w[2])
+        {
+            return true;
+        }
+
+        if distance
+            .windows(6)
+            .any(|w| w[3] >= w[1] && w[2] > w[4] && w[0] + w[4] >= w[2] && w[1] + w[5] >= w[3])
+        {
+            return true;
+        }
+
+        false
+    }
+}
+
 /// 838m Push Dominoes
 struct Sol838;
 
