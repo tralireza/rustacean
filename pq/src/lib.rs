@@ -99,7 +99,7 @@ impl Sol3066 {
             ops += 1;
         }
 
-        println!("-> {:?}", pq);
+        println!("-> {pq:?}");
 
         ops
     }

@@ -28,12 +28,13 @@ fn test_407() {
 
 #[test]
 fn test_3066() {
-    assert_eq!(Sol3066::min_operations(vec![2, 11, 10, 1, 3], 10), 2);
-    assert_eq!(Sol3066::min_operations(vec![1, 1, 2, 4, 9], 20), 4);
-    assert_eq!(
-        Sol3066::min_operations(vec![999999999, 999999999, 999999999], 1000000000),
-        2
-    );
+    for (rst, nums, k) in [
+        (2, vec![2, 11, 10, 1, 3], 10),
+        (4, vec![1, 1, 2, 4, 9], 20),
+        (2, vec![999999999, 999999999, 999999999], 1000000000),
+    ] {
+        assert_eq!(Sol3066::min_operations(nums, k), rst);
+    }
 }
 
 #[test]
