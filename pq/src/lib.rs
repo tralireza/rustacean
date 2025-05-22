@@ -114,6 +114,44 @@ impl Sol3362 {
     pub fn max_removal(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> i32 {
         use std::collections::BinaryHeap;
 
+        #[derive(Debug)]
+        struct Fenwick {
+            tree: Vec<i32>,
+        }
+
+        impl Fenwick {
+            fn new(size: usize) -> Self {
+                Fenwick {
+                    tree: vec![0; size + 1],
+                }
+            }
+
+            fn update(&mut self, mut i: usize, diff: i32) {
+                while i < self.tree.len() {
+                    self.tree[i] += diff;
+                    i += i & (!i + 1);
+                }
+            }
+
+            fn query(&self, mut i: usize) -> i32 {
+                let mut r = 0;
+                while i > 0 {
+                    r += self.tree[i];
+                    i -= i & (!i + 1);
+                }
+                r
+            }
+        }
+
+        let mut fwt = Fenwick::new(nums.len() + 2);
+        for query in &queries {
+            fwt.update(query[0] as usize + 1, 1);
+            fwt.update(query[1] as usize + 1 + 1, -1);
+        }
+        println!(
+            "-> {:?} {fwt:?}",
+            (1..=nums.len()).map(|i| fwt.query(i)).collect::<Vec<_>>()
+        );
 
         let mut queries = queries;
         queries.sort_by(|q1, q2| {
