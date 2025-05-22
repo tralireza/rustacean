@@ -105,39 +105,58 @@ impl Sol3066 {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// 3362m Zero Array Transformation III
+struct Sol3362;
 
-    #[test]
-    fn test_407() {
-        assert_eq!(
-            Sol407::trap_rain_water(vec![
-                vec![1, 4, 3, 1, 3, 2],
-                vec![3, 2, 1, 3, 2, 4],
-                vec![2, 3, 3, 2, 3, 1]
-            ]),
-            4
-        );
-        assert_eq!(
-            Sol407::trap_rain_water(vec![
-                vec![3, 3, 3, 3, 3],
-                vec![3, 2, 2, 2, 3],
-                vec![3, 2, 1, 2, 3],
-                vec![3, 2, 2, 2, 3],
-                vec![3, 3, 3, 3, 3]
-            ]),
-            10
-        );
-    }
+impl Sol3362 {
+    /// 1 <= N, Q <= 10^5
+    /// 0 <= N_ij <= 10^5
+    pub fn max_removal(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> i32 {
+        use std::collections::BinaryHeap;
 
-    #[test]
-    fn test_3066() {
-        assert_eq!(Sol3066::min_operations(vec![2, 11, 10, 1, 3], 10), 2);
-        assert_eq!(Sol3066::min_operations(vec![1, 1, 2, 4, 9], 20), 4);
-        assert_eq!(
-            Sol3066::min_operations(vec![999999999, 999999999, 999999999], 1000000000),
-            2
-        );
+
+        let mut queries = queries;
+        queries.sort_by(|q1, q2| {
+            if q1[0] == q2[0] {
+                q2[1].cmp(&q1[1])
+            } else {
+                q1[0].cmp(&q2[0])
+            }
+        });
+        println!("-> {queries:?}");
+
+        let mut pq = BinaryHeap::new();
+
+        let (mut diff, mut diffs) = (0, vec![0; nums.len() + 1]);
+        let mut q = 0;
+        for (i, &n) in nums.iter().enumerate() {
+            diff += diffs[i];
+
+            while q < queries.len() && queries[q][0] as usize == i {
+                pq.push(queries[q][1]);
+                q += 1;
+            }
+
+            while diff < n {
+                match pq.peek() {
+                    Some(&right) if right >= i as i32 => {
+                        diff += 1;
+                        diffs[right as usize + 1] -= 1;
+
+                        pq.pop();
+                    }
+                    _ => break,
+                }
+            }
+
+            if diff < n {
+                return -1;
+            }
+        }
+
+        pq.len() as _
     }
 }
+
+#[cfg(test)]
+mod tests;
