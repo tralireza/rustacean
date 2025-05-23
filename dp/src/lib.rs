@@ -871,7 +871,7 @@ impl Sol3068 {
         changes
             .chunks(2)
             .take_while(|chunk| chunk.len() == 2)
-            .inspect(|v| println!("{v:?}"))
+            .inspect(|chunk| println!("-> {chunk:?}"))
             .map(|v| (v[0] + v[1]) as i64)
             .take_while(|&diff| diff > 0)
             .sum::<i64>()
