@@ -858,6 +858,27 @@ impl Sol2999 {
     }
 }
 
+/// 3068h Find the Maximum Sum of Node Values
+struct Sol3068 {}
+
+impl Sol3068 {
+    pub fn maximum_value_sum(nums: Vec<i32>, k: i32, edges: Vec<Vec<i32>>) -> i64 {
+        println!("-> {edges:?}");
+
+        let mut changes: Vec<_> = nums.iter().map(|&n| (n ^ k) - n).collect();
+        changes.sort_unstable_by_key(|&n| std::cmp::Reverse(n));
+
+        changes
+            .chunks(2)
+            .take_while(|chunk| chunk.len() == 2)
+            .inspect(|v| println!("{v:?}"))
+            .map(|v| (v[0] + v[1]) as i64)
+            .take_while(|&diff| diff > 0)
+            .sum::<i64>()
+            + nums.iter().map(|&n| n as i64).sum::<i64>()
+    }
+}
+
 /// 3335m Total Characters in String After Transformations I
 struct Sol3335;
 

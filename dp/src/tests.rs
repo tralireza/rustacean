@@ -221,6 +221,23 @@ fn test_2999() {
 }
 
 #[test]
+fn test_3068() {
+    for (rst, nums, k, edges) in [
+        (6, vec![1, 2, 1], 3, vec![vec![0, 1], vec![0, 2]]),
+        (9, vec![2, 3], 7, vec![vec![0, 1]]),
+        (
+            42,
+            vec![7, 7, 7, 7, 7, 7],
+            3,
+            vec![vec![0, 1], vec![0, 2], vec![0, 3], vec![0, 4]],
+        ),
+    ] {
+        assert_eq!(Sol3068::maximum_value_sum(nums, k, edges), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3335() {
     for (rst, s, t) in [(7, "abcyy".to_string(), 2), (5, "azbk".to_string(), 1)] {
         assert_eq!(Sol3335::length_after_transformations(s, t), rst);
