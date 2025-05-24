@@ -865,6 +865,33 @@ impl Sol3068 {
     pub fn maximum_value_sum(nums: Vec<i32>, k: i32, edges: Vec<Vec<i32>>) -> i64 {
         println!("-> {edges:?}");
 
+        fn recursive(
+            start: usize,
+            xors: usize,
+            nums: &[i32],
+            k: i32,
+            memo: &mut [[i64; 2]],
+        ) -> i64 {
+            if start == nums.len() {
+                return match xors & 1 {
+                    0 => 0,
+                    _ => i64::MIN,
+                };
+            }
+
+            if memo[start][xors] != -1 {
+                return memo[start][xors];
+            }
+
+            let xsum = (nums[start] as i64 + recursive(start + 1, xors, nums, k, memo))
+                .max((nums[start] ^ k) as i64 + recursive(start + 1, xors ^ 1, nums, k, memo));
+            memo[start][xors] = xsum;
+            xsum
+        }
+
+        let mut memo = vec![[-1, -1]; nums.len() + 1];
+        println!(":: {}", recursive(0, 0, &nums, k, &mut memo));
+
         let mut changes: Vec<_> = nums.iter().map(|&n| (n ^ k) - n).collect();
         changes.sort_unstable_by_key(|&n| std::cmp::Reverse(n));
 
