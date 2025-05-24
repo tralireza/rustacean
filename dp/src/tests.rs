@@ -36,6 +36,19 @@ fn test_312() {
 }
 
 #[test]
+fn test_329() {
+    for (rst, matrix) in [
+        (4, vec![vec![9, 9, 4], vec![6, 6, 8], vec![2, 1, 1]]),
+        (4, vec![vec![3, 4, 5], vec![3, 2, 6], vec![2, 2, 1]]),
+        (1, vec![vec![1]]),
+    ] {
+        println!("* {matrix:?}");
+        assert_eq!(Sol329::longest_increasing_path(matrix), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_368() {
     for (rst, nums) in [
         (vec![1, 2], vec![1, 2, 3]),

@@ -153,6 +153,67 @@ impl Sol312 {
     }
 }
 
+/// 329h Longest Increasing Path in a Matrix
+struct Sol329 {}
+
+impl Sol329 {
+    // 1 <= M, N <= 2000
+    // 0 <= M_ij <= 2^31 - 1
+    pub fn longest_increasing_path(matrix: Vec<Vec<i32>>) -> i32 {
+        let mut dp = vec![vec![0; matrix[0].len()]; matrix.len()];
+
+        fn dfs((r, c): (usize, usize), matrix: &[Vec<i32>], dp: &mut [Vec<i32>]) {
+            println!("-> {:?}", (r, c));
+
+            if dp[r][c] != 0 {
+                return;
+            }
+
+            let v = matrix[r][c];
+
+            let mut steps = 1;
+            dp[r][c] = steps;
+
+            let dirs = [-1, 0, 1, 0, -1];
+            for d in 0..4 {
+                let (r, c) = (
+                    r.wrapping_add_signed(dirs[d]),
+                    c.wrapping_add_signed(dirs[d + 1]),
+                );
+
+                if r < matrix.len() && c < matrix[r].len() {
+                    println!("-> . {:?}", (r, c));
+
+                    if matrix[r][c] > v {
+                        if dp[r][c] == 0 {
+                            dfs((r, c), matrix, dp);
+                        }
+
+                        steps = steps.max(dp[r][c] + 1);
+                    }
+                }
+            }
+
+            dp[r][c] = steps;
+        }
+
+        for (r, rows) in matrix.iter().enumerate() {
+            for c in 0..rows.len() {
+                if dp[r][c] == 0 {
+                    dfs((r, c), &matrix, &mut dp);
+                }
+            }
+        }
+
+        println!("-> {dp:?}");
+
+        if let Some(&max) = dp.iter().flatten().max() {
+            return max as i32;
+        }
+        1
+    }
+}
+
 /// 368m Largest Divisible Subset
 struct Sol368;
 
