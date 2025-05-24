@@ -889,7 +889,7 @@ impl Sol3068 {
             xsum
         }
 
-        let mut memo = vec![[-1, -1]; nums.len() + 1];
+        let mut memo = vec![[-1, -1]; nums.len()];
         println!(":: {}", recursive(0, 0, &nums, k, &mut memo));
 
         let mut changes: Vec<_> = nums.iter().map(|&n| (n ^ k) - n).collect();
