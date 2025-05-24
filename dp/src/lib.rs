@@ -892,6 +892,21 @@ impl Sol3068 {
         let mut memo = vec![[-1, -1]; nums.len()];
         println!(":: {}", recursive(0, 0, &nums, k, &mut memo));
 
+        let tabulation = || {
+            let mut dp = vec![[-1, -1]; nums.len() + 1];
+            (dp[nums.len()][0], dp[nums.len()][1]) = (0, i64::MIN);
+
+            for i in (0..nums.len()).rev() {
+                for xor in [0, 1] {
+                    dp[i][xor] = (dp[i + 1][xor] + nums[i] as i64)
+                        .max(dp[i + 1][xor ^ 1] + (nums[i] ^ k) as i64);
+                }
+            }
+
+            dp[0][0]
+        };
+        println!(":: {}", tabulation());
+
         let mut changes: Vec<_> = nums.iter().map(|&n| (n ^ k) - n).collect();
         changes.sort_unstable_by_key(|&n| std::cmp::Reverse(n));
 
