@@ -393,10 +393,23 @@ struct Sol2942 {}
 
 impl Sol2942 {
     pub fn find_words_containing(words: Vec<String>, x: char) -> Vec<i32> {
+        println!(
+            ":: {:?}",
+            words
+                .iter()
+                .enumerate()
+                .filter_map(|(i, word)| if word.contains(x) {
+                    Some(i as i32)
+                } else {
+                    None
+                })
+                .collect::<Vec<_>>()
+        );
+
         words
             .iter()
             .enumerate()
-            .filter(|(_, &ref word)| word.contains(x))
+            .filter(|(_, word)| word.contains(x))
             .map(|(i, _)| i as i32)
             .collect()
     }
