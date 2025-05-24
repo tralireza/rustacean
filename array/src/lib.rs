@@ -388,6 +388,20 @@ impl Sol2874 {
     }
 }
 
+/// 2942 Find Words Containing Character
+struct Sol2942 {}
+
+impl Sol2942 {
+    pub fn find_words_containing(words: Vec<String>, x: char) -> Vec<i32> {
+        words
+            .iter()
+            .enumerate()
+            .filter(|(_, &ref word)| word.contains(x))
+            .map(|(i, _)| i as i32)
+            .collect()
+    }
+}
+
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
 struct Sol3105;
 

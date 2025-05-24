@@ -204,6 +204,32 @@ fn test_2874() {
         assert_eq!(Sol2874::maximum_triplet_value(nums), rst);
     }
 }
+
+#[test]
+fn test_2942() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, words, x) in [
+        (vec![0, 1], vec![s!("leet"), s!("code")], 'e'),
+        (
+            vec![0, 2],
+            vec![s!("abc"), s!("bcd"), s!("aaaa"), s!("cbc")],
+            'a',
+        ),
+        (
+            vec![],
+            vec![s!("abc"), s!("bcd"), s!("aaaa"), s!("cbc")],
+            'z',
+        ),
+    ] {
+        assert_eq!(Sol2942::find_words_containing(words, x), rst);
+    }
+}
+
 #[test]
 fn test_3105() {
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
