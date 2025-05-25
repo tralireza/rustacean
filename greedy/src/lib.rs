@@ -52,6 +52,49 @@ impl Sol1007 {
     }
 }
 
+/// 2131m Longest Palindrome by Concatenating Two Letter Words
+struct Sol2131 {}
+
+impl Sol2131 {
+    pub fn longest_palindrome(words: Vec<String>) -> i32 {
+        use std::collections::HashMap;
+
+        let mut fwords = HashMap::new();
+        for word in &words {
+            fwords.entry(word).and_modify(|f| *f += 1).or_insert(1);
+        }
+
+        println!("-> {fwords:?}");
+
+        let mut extra = 0;
+        fwords.keys().fold(0, |length, &w| match fwords.get(&w) {
+            Some(&f) => {
+                let chrs: Vec<_> = w.chars().collect();
+                length
+                    + match chrs
+                        .iter()
+                        .zip(chrs.iter().rev())
+                        .all(|(chr1, chr2)| chr1 == chr2)
+                    {
+                        true => match f & 1 {
+                            1 => {
+                                extra = 2;
+                                f - 1
+                            }
+                            _ => f,
+                        },
+                        _ => match fwords.get(&String::from_iter(chrs.iter().rev())) {
+                            Some(&p) => f.min(p),
+                            _ => 0,
+                        },
+                    }
+            }
+            _ => length,
+        }) * 2
+            + extra
+    }
+}
+
 /// 2900 Longest Unequal Adjacent Groups Subsequence I
 struct Sol2900;
 

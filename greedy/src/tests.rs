@@ -18,6 +18,27 @@ fn test_1007() {
 }
 
 #[test]
+fn test_2131() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, words) in [
+        (6, vec![s!("lc"), s!("cl"), s!("gg")]),
+        (
+            8,
+            vec![s!("ab"), s!("ty"), s!("yt"), s!("lc"), s!("cl"), s!("ab")],
+        ),
+        (2, vec![s!("cc"), s!("ll"), s!("xx")]),
+    ] {
+        println!("* {words:?}");
+        assert_eq!(Sol2131::longest_palindrome(words), rst);
+    }
+}
+
+#[test]
 fn test_2900() {
     for (rst, words, groups) in [
         (
