@@ -1,5 +1,9 @@
 //! # Dynamic Programming
 
+#![feature(test)]
+
+extern crate test;
+
 /// 115h Distinct Subsequences
 struct Sol115;
 
