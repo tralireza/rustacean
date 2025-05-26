@@ -131,6 +131,22 @@ fn test_1749() {
 }
 
 #[test]
+fn test_1857() {
+    for (rst, colors, edges) in [
+        (
+            3,
+            "abaca".to_string(),
+            vec![vec![0, 1], vec![0, 2], vec![2, 3], vec![3, 4]],
+        ),
+        (-1, "a".to_string(), vec![vec![0, 0]]),
+    ] {
+        println!("* {edges:?}");
+        assert_eq!(Sol1857::largest_path_value(colors, edges), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_1931() {
     for (rst, m, n) in [(3, 1, 1), (6, 1, 2), (580986, 5, 5), (408208448, 5, 1000)] {
         assert_eq!(Sol1931::color_the_grid(m, n), rst);

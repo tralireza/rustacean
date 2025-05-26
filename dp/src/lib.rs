@@ -575,6 +575,99 @@ impl Sol1749 {
     }
 }
 
+/// 1857h Largest Color Value in a Directed Graph
+struct Sol1857 {}
+
+impl Sol1857 {
+    /// 1 <= V <= 10^5
+    /// 0 <= E <= 10^5
+    pub fn largest_path_value(colors: String, edges: Vec<Vec<i32>>) -> i32 {
+        use std::collections::{HashMap, HashSet};
+
+        let mut gadj: HashMap<usize, HashSet<usize>> = HashMap::new();
+        for edge in edges.iter() {
+            gadj.entry(edge[0] as usize)
+                .or_default()
+                .insert(edge[1] as usize);
+        }
+        println!("-> {gadj:?}");
+
+        let colors = colors.as_bytes();
+        let mut dp = vec![[0; 26]; colors.len()];
+
+        #[derive(Clone, PartialEq, Debug)]
+        enum OpColor {
+            NotVisited, // White
+            Visiting,   // Gray
+            Visited,    // Black
+        }
+
+        fn search(
+            v: usize,
+            dp: &mut [[usize; 26]],
+            colors: &[u8],
+            gadj: &HashMap<usize, HashSet<usize>>,
+            coloring: &mut [OpColor],
+        ) -> bool {
+            if coloring[v] != OpColor::NotVisited {
+                return true;
+            }
+
+            coloring[v] = OpColor::Visiting;
+
+            if let Some(uset) = gadj.get(&v) {
+                for &u in uset.iter() {
+                    match coloring[u] {
+                        OpColor::Visited => {
+                            for color in 0..26 {
+                                dp[v][color] = dp[v][color].max(dp[u][color]);
+                            }
+                        }
+                        OpColor::Visiting => return true,
+                        OpColor::NotVisited => {
+                            if search(u, dp, colors, gadj, coloring) {
+                                return true;
+                            }
+
+                            for color in 0..26 {
+                                dp[v][color] = dp[v][color].max(dp[u][color]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            dp[v][(colors[v] - b'a') as usize] += 1;
+
+            coloring[v] = OpColor::Visited;
+            return false;
+        }
+
+        let mut coloring = vec![OpColor::NotVisited; colors.len()];
+        for src in 0..colors.len() {
+            if coloring[src] == OpColor::NotVisited {
+                if search(src, &mut dp, &colors, &gadj, &mut coloring) {
+                    return -1;
+                }
+            }
+        }
+
+        println!("-> {dp:?}");
+
+        match dp
+            .iter()
+            .map(|row| match row.iter().max() {
+                Some(&xrow) => xrow,
+                _ => 0,
+            })
+            .max()
+        {
+            Some(xgraph) => xgraph as i32,
+            _ => 0,
+        }
+    }
+}
+
 /// 1931h Painting a Grid With Three Different Colors
 struct Sol1931;
 
