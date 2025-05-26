@@ -7,11 +7,11 @@ impl Sol336 {
     pub fn palindrome_pairs(words: Vec<String>) -> Vec<Vec<i32>> {
         use std::collections::{HashMap, HashSet};
 
-        let mut hwords = HashMap::new();
-        for (i, word) in words.iter().enumerate() {
-            let rword: String = word.chars().rev().collect();
-            hwords.insert(rword, i);
-        }
+        let hwords: HashMap<_, _> = words
+            .iter()
+            .enumerate()
+            .map(|(i, word)| (word.chars().rev().collect::<String>(), i))
+            .collect();
         println!("-> {hwords:?}");
 
         let is_palindrome = |s: &str| {
