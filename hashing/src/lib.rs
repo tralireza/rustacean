@@ -1,5 +1,56 @@
 //! # Hashing
 
+/// 336h Palindrome Pairs
+struct Sol336 {}
+
+impl Sol336 {
+    pub fn palindrome_pairs(words: Vec<String>) -> Vec<Vec<i32>> {
+        use std::collections::{HashMap, HashSet};
+
+        let mut hwords = HashMap::new();
+        for (i, word) in words.iter().enumerate() {
+            let rword: String = word.chars().rev().collect();
+            hwords.insert(rword, i);
+        }
+        println!("-> {hwords:?}");
+
+        let is_palindrome = |s: &str| {
+            let (mut l, mut r) = (0, s.len().saturating_sub(1));
+            while l < r {
+                if s[l..l + 1] != s[r..r + 1] {
+                    return false;
+                }
+                l += 1;
+                r = r.saturating_sub(1);
+            }
+            true
+        };
+
+        let mut spairs = HashSet::new();
+        for (i, word) in words.iter().enumerate() {
+            for p in 0..=word.len() {
+                let lword = &word[..p];
+
+                if let Some(&j) = hwords.get(lword) {
+                    if i != j && is_palindrome(&word[p..]) {
+                        spairs.insert(vec![i as i32, j as i32]);
+                    }
+                }
+
+                let rword = &word[word.len() - p..];
+                if let Some(&j) = hwords.get(rword) {
+                    if j != i && is_palindrome(&word[..word.len() - p]) {
+                        spairs.insert(vec![j as i32, i as i32]);
+                    }
+                }
+            }
+        }
+        println!("-> {spairs:?}");
+
+        spairs.drain().collect()
+    }
+}
+
 /// 599 Minimum Index Sum of Two Lists
 struct Sol599;
 

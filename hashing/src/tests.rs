@@ -1,6 +1,40 @@
 use super::*;
 
 #[test]
+fn test_336() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, words) in [
+        (
+            vec![vec![0, 1], vec![1, 0], vec![3, 2], vec![2, 4]],
+            vec![s!("abcd"), s!("dcba"), s!("lls"), s!("s"), s!("sssll")],
+        ),
+        (
+            vec![vec![0, 1], vec![1, 0]],
+            vec![s!("bat"), s!("tab"), s!("cat")],
+        ),
+        (vec![vec![0, 1], vec![1, 0]], vec![s!("a"), s!("")]),
+        (
+            vec![vec![0, 3], vec![3, 0], vec![2, 3], vec![3, 2]],
+            vec![s!("a"), s!("abc"), s!("aba"), s!("")],
+        ),
+    ] {
+        println!("* {words:?}");
+        let mut count = 0;
+        for pair in Sol336::palindrome_pairs(words) {
+            assert!(rst.contains(&pair));
+            count += 1;
+        }
+        assert_eq!(rst.len(), count);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_599() {
     assert_eq!(
         Sol599::find_restaurant(
