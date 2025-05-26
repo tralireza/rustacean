@@ -139,6 +139,28 @@ fn test_1857() {
             vec![vec![0, 1], vec![0, 2], vec![2, 3], vec![3, 4]],
         ),
         (-1, "a".to_string(), vec![vec![0, 0]]),
+        (
+            3,
+            "hhqhuqhqff".to_string(),
+            vec![
+                vec![0, 1],
+                vec![0, 2],
+                vec![2, 3],
+                vec![3, 4],
+                vec![3, 5],
+                vec![5, 6],
+                vec![2, 7],
+                vec![6, 7],
+                vec![7, 8],
+                vec![3, 8],
+                vec![5, 8],
+                vec![8, 9],
+                vec![3, 9],
+                vec![6, 9],
+            ],
+        ),
+        (1, "c".to_string(), vec![]),
+        (1, "abcz".to_string(), vec![]),
     ] {
         println!("* {edges:?}");
         assert_eq!(Sol1857::largest_path_value(colors, edges), rst);
