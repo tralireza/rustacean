@@ -618,21 +618,17 @@ impl Sol1857 {
             if let Some(uset) = gadj.get(&v) {
                 for &u in uset.iter() {
                     match coloring[u] {
-                        OpColor::Visited => {
-                            for color in 0..26 {
-                                dp[v][color] = dp[v][color].max(dp[u][color]);
-                            }
-                        }
+                        OpColor::Visited => {}
                         OpColor::Visiting => return true,
                         OpColor::NotVisited => {
                             if search(u, dp, colors, gadj, coloring) {
                                 return true;
                             }
-
-                            for color in 0..26 {
-                                dp[v][color] = dp[v][color].max(dp[u][color]);
-                            }
                         }
+                    }
+
+                    for color in 0..26 {
+                        dp[v][color] = dp[v][color].max(dp[u][color]);
                     }
                 }
             }
