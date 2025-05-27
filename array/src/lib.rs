@@ -388,6 +388,15 @@ impl Sol2874 {
     }
 }
 
+/// 2894 Divisible and Non-divisible Sums Difference
+struct Sol2894 {}
+
+impl Sol2894 {
+    pub fn difference_of_sums(n: i32, m: i32) -> i32 {
+        2 * (1..=n).filter(|&v| v % m != 0).sum::<i32>() - n * (n + 1) / 2
+    }
+}
+
 /// 2942 Find Words Containing Character
 struct Sol2942 {}
 

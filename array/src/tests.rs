@@ -206,6 +206,13 @@ fn test_2874() {
 }
 
 #[test]
+fn test_2894() {
+    for (rst, n, m) in [(19, 10, 3), (15, 5, 6), (-15, 5, 1)] {
+        assert_eq!(Sol2894::difference_of_sums(n, m), rst);
+    }
+}
+
+#[test]
 fn test_2942() {
     macro_rules! s {
         ($s:expr) => {
