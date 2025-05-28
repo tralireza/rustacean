@@ -1158,5 +1158,70 @@ impl Sol3342 {
     }
 }
 
+/// 3372m Maximize the Number of Target Nodes After Connecting Trees I
+struct Sol3372 {}
+
+impl Sol3372 {
+    /// 2 <= M, N <= 1000
+    /// 0 <= K <= 1000
+    pub fn max_target_nodes(edges1: Vec<Vec<i32>>, edges2: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
+        let (mut tree1, mut tree2) = (
+            vec![vec![]; edges1.len() + 1],
+            vec![vec![]; edges2.len() + 1],
+        );
+
+        let mk_adjs = |tree: &mut [Vec<usize>], edges: &[Vec<i32>]| {
+            for edge in edges {
+                tree[edge[0] as usize].push(edge[1] as usize);
+                tree[edge[1] as usize].push(edge[0] as usize);
+            }
+        };
+
+        for (tree, edges) in [(&mut tree1, &edges1), (&mut tree2, &edges2)] {
+            mk_adjs(tree, edges);
+        }
+
+        fn dfs(v: usize, p: usize, k: i32, tree: &[Vec<usize>], dists: &mut [i32]) {
+            for &u in &tree[v] {
+                if u == p {
+                    continue;
+                }
+
+                dists[u] = dists[v] + 1;
+                if dists[u] < k {
+                    dfs(u, v, k, tree, dists);
+                }
+            }
+        }
+
+        let mut targets = vec![];
+        for src in 0..=edges2.len() {
+            let mut dists = vec![i32::MAX; edges2.len() + 1];
+            dists[src] = 0;
+            dfs(src, usize::MAX, k - 1, &tree2, &mut dists);
+
+            println!("-> {src} {dists:?}");
+
+            targets.push(dists.iter().filter(|&&d| d <= k - 1).count());
+        }
+        println!("-> {targets:?}");
+
+        let mut xtrgs = vec![];
+        if let Some(&target) = targets.iter().max() {
+            for src in 0..=edges1.len() {
+                let mut dists = vec![i32::MAX; edges1.len() + 1];
+                dists[src] = 0;
+                dfs(src, usize::MAX, k, &tree1, &mut dists);
+
+                println!("-> {src} {dists:?}");
+
+                xtrgs.push((dists.iter().filter(|&&d| d <= k).count() + target) as i32);
+            }
+        }
+
+        xtrgs
+    }
+}
+
 #[cfg(test)]
 mod tests;

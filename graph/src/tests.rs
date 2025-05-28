@@ -362,3 +362,33 @@ fn test_3342() {
         assert_eq!(Sol3342::min_time_to_reach(move_time), rst);
     }
 }
+
+#[test]
+fn test_3372() {
+    for (rst, edges1, edges2, k) in [
+        (
+            vec![9, 7, 9, 8, 8],
+            vec![vec![0, 1], vec![0, 2], vec![2, 3], vec![2, 4]],
+            vec![
+                vec![0, 1],
+                vec![0, 2],
+                vec![0, 3],
+                vec![2, 7],
+                vec![1, 4],
+                vec![4, 5],
+                vec![4, 6],
+            ],
+            2,
+        ),
+        (
+            vec![6, 3, 3, 3, 3],
+            vec![vec![0, 1], vec![0, 2], vec![0, 3], vec![0, 4]],
+            vec![vec![0, 1], vec![1, 2], vec![2, 3]],
+            1,
+        ),
+    ] {
+        println!("* {k}");
+        assert_eq!(Sol3372::max_target_nodes(edges1, edges2, k), rst);
+        println!(":: {rst:?}");
+    }
+}
