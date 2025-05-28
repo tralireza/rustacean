@@ -1179,43 +1179,40 @@ impl Sol3372 {
 
         for (tree, edges) in [(&mut tree1, &edges1), (&mut tree2, &edges2)] {
             mk_adjs(tree, edges);
+            println!("-> {edges:?} => {tree:?}");
         }
 
         fn dfs(v: usize, p: usize, k: i32, tree: &[Vec<usize>], dists: &mut [i32]) {
             for &u in &tree[v] {
-                if u == p {
-                    continue;
-                }
-
-                dists[u] = dists[v] + 1;
-                if dists[u] < k {
-                    dfs(u, v, k, tree, dists);
+                if u != p {
+                    dists[u] = dists[v] + 1;
+                    if dists[u] < k {
+                        dfs(u, v, k, tree, dists);
+                    }
                 }
             }
         }
 
-        let mut targets = vec![];
+        let mut trgs = vec![];
         for src in 0..=edges2.len() {
             let mut dists = vec![i32::MAX; edges2.len() + 1];
             dists[src] = 0;
             dfs(src, usize::MAX, k - 1, &tree2, &mut dists);
-
             println!("-> {src} {dists:?}");
 
-            targets.push(dists.iter().filter(|&&d| d <= k - 1).count());
+            trgs.push(dists.iter().filter(|&&d| d <= k - 1).count());
         }
-        println!("-> {targets:?}");
+        println!("-> {trgs:?}");
 
         let mut xtrgs = vec![];
-        if let Some(&target) = targets.iter().max() {
+        if let Some(&xtrg) = trgs.iter().max() {
             for src in 0..=edges1.len() {
                 let mut dists = vec![i32::MAX; edges1.len() + 1];
                 dists[src] = 0;
                 dfs(src, usize::MAX, k, &tree1, &mut dists);
-
                 println!("-> {src} {dists:?}");
 
-                xtrgs.push((dists.iter().filter(|&&d| d <= k).count() + target) as i32);
+                xtrgs.push((dists.iter().filter(|&&d| d <= k).count() + xtrg) as i32);
             }
         }
 
