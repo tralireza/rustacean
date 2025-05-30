@@ -181,9 +181,26 @@ fn test_1976() {
 
 #[test]
 fn test_2127() {
-    assert_eq!(Sol2127::maximum_invitations(vec![2, 2, 1, 2]), 3);
-    assert_eq!(Sol2127::maximum_invitations(vec![1, 2, 0]), 3);
-    assert_eq!(Sol2127::maximum_invitations(vec![3, 0, 1, 4, 1]), 4);
+    for (rst, favorite) in [
+        (3, vec![2, 2, 1, 2]),
+        (3, vec![1, 2, 0]),
+        (4, vec![3, 0, 1, 4, 1]),
+    ] {
+        assert_eq!(Sol2127::maximum_invitations(favorite), rst);
+    }
+}
+
+#[test]
+fn test_2359() {
+    for (rst, edges, node1, node2) in [
+        (2, vec![2, 2, 3, -1], 0, 1),
+        (2, vec![1, 2, -1], 0, 2),
+        (0, vec![1, 0], 0, 1),
+        (4, vec![4, 3, 0, 5, 3, -1], 4, 0),
+    ] {
+        println!("* {edges:?}");
+        assert_eq!(Sol2359::closest_meeting_node(edges, node1, node2), rst);
+    }
 }
 
 #[test]
