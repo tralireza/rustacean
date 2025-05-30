@@ -1220,5 +1220,69 @@ impl Sol3372 {
     }
 }
 
+/// 3373m Maximize the Number of Target Nodes After Connecting Trees II
+struct Sol3373 {}
+
+impl Sol3373 {
+    pub fn max_target_nodes(edges1: Vec<Vec<i32>>, edges2: Vec<Vec<i32>>) -> Vec<i32> {
+        let (mut tree1, mut tree2) = (
+            vec![vec![]; edges1.len() + 1],
+            vec![vec![]; edges2.len() + 1],
+        );
+
+        let mk_adjs = |tree: &mut [Vec<usize>], edges: &[Vec<i32>]| {
+            for edge in edges {
+                tree[edge[0] as usize].push(edge[1] as usize);
+                tree[edge[1] as usize].push(edge[0] as usize);
+            }
+        };
+
+        for (tree, edges) in [(&mut tree1, &edges1), (&mut tree2, &edges2)] {
+            mk_adjs(tree, edges);
+            println!("-> {edges:?} => {tree:?}");
+        }
+
+        fn color_nodes(
+            v: usize,
+            p: usize,
+            depth: usize,
+            colors: &mut [usize],
+            tree: &[Vec<usize>],
+        ) {
+            colors[v] = depth & 1;
+            for &u in &tree[v] {
+                if u != p {
+                    color_nodes(u, v, depth + 1, colors, tree);
+                }
+            }
+        }
+
+        let mut colors1 = vec![0; tree1.len()];
+        color_nodes(0, usize::MAX, 0, &mut colors1, &tree1);
+
+        let mut counts1 = [0; 2];
+        counts1[0] = colors1.iter().filter(|&&color| color == 0).count();
+        counts1[1] = tree1.len() - counts1[0];
+
+        println!("-> {counts1:?} {colors1:?}");
+
+        let mut colors2 = vec![0; tree2.len()];
+        color_nodes(0, usize::MAX, 0, &mut colors2, &tree2);
+
+        let mut counts2 = [0; 2];
+        counts2[0] = colors2.iter().filter(|&&color| color == 0).count();
+        counts2[1] = tree2.len() - counts2[0];
+
+        println!("-> {counts2:?} {colors2:?}");
+
+        let mut xtrgs = vec![];
+        for color in colors1 {
+            xtrgs.push((counts1[color] + counts2[0].max(counts2[1])) as i32);
+        }
+
+        xtrgs
+    }
+}
+
 #[cfg(test)]
 mod tests;
