@@ -1257,6 +1257,20 @@ impl Sol3373 {
             }
         }
 
+        fn color_nodes_iterative(colors: &mut [usize], tree: &[Vec<usize>]) {
+            use std::collections::VecDeque;
+
+            let mut q_bfs = VecDeque::from([(0, usize::MAX, 0)]);
+            while let Some((v, p, depth)) = q_bfs.pop_front() {
+                colors[v] = depth & 1;
+                for &u in &tree[v] {
+                    if u != p {
+                        q_bfs.push_back((u, v, depth + 1));
+                    }
+                }
+            }
+        }
+
         let mut colors1 = vec![0; tree1.len()];
         color_nodes(0, usize::MAX, 0, &mut colors1, &tree1);
 
@@ -1267,7 +1281,7 @@ impl Sol3373 {
         println!("-> {counts1:?} {colors1:?}");
 
         let mut colors2 = vec![0; tree2.len()];
-        color_nodes(0, usize::MAX, 0, &mut colors2, &tree2);
+        color_nodes_iterative(&mut colors2, &tree2);
 
         let mut counts2 = [0; 2];
         counts2[0] = colors2.iter().filter(|&&color| color == 0).count();
