@@ -627,14 +627,29 @@ impl Sol2359 {
             }
         }
 
+        fn bfs(src: usize, dists: &mut [i32], edges: &[i32]) {
+            use std::collections::VecDeque;
+
+            let mut queue = VecDeque::from([src]);
+            dists[src] = 0;
+
+            while let Some(v) = queue.pop_front() {
+                let u = edges[v];
+                if u != -1 && dists[u as usize] == i32::MAX {
+                    dists[u as usize] = dists[v] + 1;
+                    queue.push_back(u as usize);
+                }
+            }
+        }
+
         let (mut dists1, mut dists2) = (vec![i32::MAX; edges.len()], vec![i32::MAX; edges.len()]);
         (dists1[node1 as usize], dists2[node2 as usize]) = (0, 0);
 
         dfs(node1 as usize, &mut dists1, &edges);
         println!("-> {node1} ~ {dists1:?}");
 
-        dfs(node2 as usize, &mut dists2, &edges);
-        println!("-> {node2} ~ {dists1:?}");
+        bfs(node2 as usize, &mut dists2, &edges);
+        println!("-> {node2} ~ {dists2:?}");
 
         (0..edges.len())
             .fold((-1, i32::MAX), |(m_node, m_dist), v| {
