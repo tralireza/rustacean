@@ -280,6 +280,64 @@ impl Sol827 {
     }
 }
 
+/// 909m Snakes and Ladders
+struct Sol909 {}
+
+impl Sol909 {
+    /// 2 <= N <= 20
+    pub fn snakes_and_ladders(board: Vec<Vec<i32>>) -> i32 {
+        use std::collections::VecDeque;
+
+        let n = board.len();
+        let barray: Vec<i32> = board
+            .into_iter()
+            .rev()
+            .enumerate()
+            .map(|(i, row)| {
+                if i & 1 == 0 {
+                    row
+                } else {
+                    row.into_iter().rev().collect()
+                }
+            })
+            .flatten()
+            .collect();
+
+        println!("-> Boustrophedon :: {barray:?}");
+
+        let mut dists = vec![i32::MAX; n * n];
+
+        let mut queue = VecDeque::from([0]);
+        dists[0] = 0;
+        while let Some(v) = queue.pop_front() {
+            println!("-> {v:>2} {queue:?}");
+
+            if v == n * n - 1 {
+                continue;
+            }
+
+            for n in v + 1..=(v + 6).min(n * n - 1) as usize {
+                let mut u = n;
+                if barray[n] != -1 {
+                    u = barray[n] as usize - 1;
+                }
+
+                if dists[u] > dists[v] + 1 {
+                    dists[u] = dists[v] + 1;
+                    queue.push_back(u);
+                }
+            }
+        }
+
+        println!("-> Distances :: {dists:?}");
+
+        if dists[n * n - 1] == i32::MAX {
+            return -1;
+        }
+        dists[n * n - 1]
+    }
+}
+
 /// 1267m Count Servers that Communicate
 struct Sol1267;
 
