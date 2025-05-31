@@ -85,9 +85,15 @@ fn test_802() {
 
 #[test]
 fn test_827() {
-    assert_eq!(Sol827::largest_island(vec![vec![1, 0], vec![0, 1]]), 3);
-    assert_eq!(Sol827::largest_island(vec![vec![1, 1], vec![1, 0]]), 4);
-    assert_eq!(Sol827::largest_island(vec![vec![1, 1], vec![1, 1]]), 4);
+    for (rst, grid) in [
+        (3, vec![vec![1, 0], vec![0, 1]]),
+        (4, vec![vec![1, 1], vec![1, 0]]),
+        (4, vec![vec![1, 1], vec![1, 1]]),
+    ] {
+        println!("* {grid:?}");
+        assert_eq!(Sol827::largest_island(grid), rst);
+        println!(":: {rst}");
+    }
 }
 
 #[test]

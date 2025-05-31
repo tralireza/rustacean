@@ -211,24 +211,18 @@ struct Sol827;
 
 impl Sol827 {
     pub fn largest_island(grid: Vec<Vec<i32>>) -> i32 {
-        use std::collections::HashSet;
-
-        println!("* {:?}", grid);
         let mut grid = grid;
-
         let (rows, cols) = (grid.len(), grid[0].len());
+        let dirs = [-1, 0, 1, 0, -1];
 
         let mut areas = vec![0, 0];
         let mut islands = 0;
-
-        let dirs = [-1, 0, 1, 0, -1];
         for r in 0..rows {
             for c in 0..cols {
                 if grid[r][c] == 1 {
-                    let mut q = vec![];
                     let mut area = 0;
 
-                    q.push((r, c));
+                    let mut q = Vec::from([(r, c)]);
                     while let Some((r, c)) = q.pop() {
                         if grid[r][c] != 1 {
                             continue;
@@ -254,8 +248,10 @@ impl Sol827 {
             }
         }
 
-        println!("-> grid :: {:?}", grid);
-        println!("-> island areas :: {:?}", areas);
+        println!("-> Grid: {grid:?}");
+        println!("-> Island Areas: {areas:?}");
+
+        use std::collections::HashSet;
 
         let mut xarea = 0;
         for r in 0..rows {
