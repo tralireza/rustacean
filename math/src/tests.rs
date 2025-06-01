@@ -127,6 +127,14 @@ fn test_2843() {
 }
 
 #[test]
+fn test_2929() {
+    for (rst, n, limit) in [(3, 5, 2), (10, 3, 3)] {
+        println!("* {n} {limit}");
+        assert_eq!(Sol2929::distribute_candies(n, limit), rst);
+    }
+}
+
+#[test]
 fn test_3024() {
     for (rst, nums) in [
         ("equilateral".to_string(), vec![3, 3, 3]),

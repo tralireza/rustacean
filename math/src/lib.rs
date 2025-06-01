@@ -540,6 +540,29 @@ impl Sol2843 {
     }
 }
 
+/// 2929m Distribute Candies Among Children II
+struct Sol2929 {}
+
+impl Sol2929 {
+    /// 1 <= N, L <= 10^6
+    pub fn distribute_candies(n: i32, limit: i32) -> i64 {
+        let mut ways = 0;
+        for candy1 in 0..=limit.min(n) {
+            if n - candy1 <= 2 * limit {
+                println!(
+                    "-> Candy1: {candy1} | Candy2: {} ~ {}",
+                    (n - candy1).min(limit),
+                    0.max(n - candy1 - limit)
+                );
+
+                ways += ((n - candy1).min(limit) - (n - candy1 - limit).max(0) + 1) as i64
+            }
+        }
+
+        ways
+    }
+}
+
 /// 3024 Type of Triangle
 struct Sol3024;
 
