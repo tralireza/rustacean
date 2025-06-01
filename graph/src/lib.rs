@@ -163,6 +163,46 @@ impl Sol695 {
     }
 }
 
+/// 753h Cracking the Safe
+struct Sol753 {}
+impl Sol753 {
+    pub fn crack_safe(n: i32, k: i32) -> String {
+        use std::collections::HashSet;
+
+        fn dfs(v: String, k: usize, euler_path: &mut Vec<char>, visited: &mut HashSet<String>) {
+            for chr in ('0'..='9').take(k) {
+                let mut u: String = v.chars().collect();
+                u.push(chr);
+
+                if !visited.contains(&u) {
+                    visited.insert(u.clone());
+                    dfs(u.chars().skip(1).collect(), k, euler_path, visited);
+
+                    euler_path.push(chr);
+                }
+            }
+        }
+
+        let mut visited: HashSet<String> = HashSet::new();
+        let mut euler_path: Vec<char> = vec![];
+
+        dfs(
+            vec!['0'; n as usize - 1].iter().collect(),
+            k as usize,
+            &mut euler_path,
+            &mut visited,
+        );
+
+        for _ in 0..n as usize - 1 {
+            euler_path.push('0');
+        }
+
+        println!("-> {visited:?}");
+
+        euler_path.iter().collect()
+    }
+}
+
 /// 802m Find Eventual Safe States
 struct Sol802;
 
