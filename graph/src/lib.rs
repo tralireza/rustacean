@@ -331,14 +331,13 @@ impl Sol909 {
             .into_iter()
             .rev()
             .enumerate()
-            .map(|(i, row)| {
+            .flat_map(|(i, row)| {
                 if i & 1 == 0 {
                     row
                 } else {
                     row.into_iter().rev().collect()
                 }
             })
-            .flatten()
             .collect();
 
         println!("-> Boustrophedon :: {barray:?}");
@@ -354,10 +353,14 @@ impl Sol909 {
                 continue;
             }
 
-            for n in v + 1..=(v + 6).min(n * n - 1) as usize {
-                let mut u = n;
-                if barray[n] != -1 {
-                    u = barray[n] as usize - 1;
+            for (mut u, &jump) in barray
+                .iter()
+                .enumerate()
+                .take((v + 7).min(n * n))
+                .skip(v + 1)
+            {
+                if jump != -1 {
+                    u = jump as usize - 1;
                 }
 
                 if dists[u] > dists[v] + 1 {
