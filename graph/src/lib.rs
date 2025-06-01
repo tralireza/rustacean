@@ -193,9 +193,7 @@ impl Sol753 {
             &mut visited,
         );
 
-        for _ in 0..n as usize - 1 {
-            euler_path.push('0');
-        }
+        (0..n - 1).for_each(|_| euler_path.push('0'));
 
         println!("-> {visited:?}");
 
