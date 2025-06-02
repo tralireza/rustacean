@@ -1,6 +1,15 @@
 use super::*;
 
 #[test]
+fn test_135() {
+    for (rst, ratings) in [(5, vec![1, 0, 2]), (4, vec![1, 2, 2])] {
+        println!("* {ratings:?}");
+        assert_eq!(Sol135::candy(ratings), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_781() {
     for (rst, answers) in [(5, vec![1, 1, 2]), (11, vec![10, 10, 10])] {
         assert_eq!(Sol781::num_rabbits(answers), rst);

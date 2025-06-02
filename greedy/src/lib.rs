@@ -1,5 +1,30 @@
 //! # Rust Greedy
 
+/// 135h Candy
+struct Sol135 {}
+
+impl Sol135 {
+    pub fn candy(ratings: Vec<i32>) -> i32 {
+        let mut candies = vec![1; ratings.len()];
+
+        for i in 0..candies.len() - 1 {
+            if ratings[i] < ratings[i + 1] {
+                candies[i + 1] = candies[i + 1].max(candies[i] + 1);
+            }
+        }
+
+        for i in (1..candies.len()).rev() {
+            if ratings[i - 1] > ratings[i] {
+                candies[i - 1] = candies[i - 1].max(candies[i] + 1);
+            }
+        }
+
+        println!("-> {candies:?}");
+
+        candies.iter().sum()
+    }
+}
+
 /// 781m Rabbits in Forest
 struct Sol781;
 
