@@ -403,6 +403,57 @@ impl Sol1267 {
     }
 }
 
+/// 1298h Maximum Candies You Can Get from Boxes
+struct Sol1298 {}
+
+impl Sol1298 {
+    pub fn max_candies(
+        status: Vec<i32>,
+        candies: Vec<i32>,
+        keys: Vec<Vec<i32>>,
+        contained_boxes: Vec<Vec<i32>>,
+        initial_boxes: Vec<i32>,
+    ) -> i32 {
+        let mut gots = vec![false; status.len()];
+        let mut opened = vec![false; status.len()];
+        let mut can_open: Vec<_> = status.iter().map(|&v| v == 1).collect();
+
+        use std::collections::VecDeque;
+
+        let mut queue = VecDeque::new();
+        for ibox in initial_boxes.iter().map(|&v| v as usize) {
+            gots[ibox] = true;
+            if can_open[ibox] {
+                queue.push_back(ibox);
+                opened[ibox] = true;
+            }
+        }
+
+        let mut total = 0;
+        while let Some(qbox) = queue.pop_front() {
+            total += candies[qbox];
+
+            for kbox in keys[qbox].iter().map(|&v| v as usize) {
+                can_open[kbox] = true;
+                if gots[kbox] && !opened[kbox] {
+                    queue.push_back(kbox);
+                    opened[kbox] = true;
+                }
+            }
+
+            for gbox in contained_boxes[qbox].iter().map(|&v| v as usize) {
+                gots[gbox] = true;
+                if can_open[gbox] && !opened[gbox] {
+                    queue.push_back(gbox);
+                    opened[gbox] = true;
+                }
+            }
+        }
+
+        total
+    }
+}
+
 /// 1368h Minimum Cost to Make at Least One Valid Path in a Grid
 struct Sol1368;
 

@@ -167,6 +167,33 @@ fn test_1267() {
 }
 
 #[test]
+fn test_1298() {
+    for (rst, status, candies, keys, contained_boxes, initial_boxes) in [
+        (
+            16,
+            vec![1, 0, 1, 0],
+            vec![7, 5, 4, 100],
+            vec![vec![], vec![], vec![1], vec![]],
+            vec![vec![1, 2], vec![3], vec![], vec![]],
+            vec![0],
+        ),
+        (
+            6,
+            vec![1, 0, 0, 0, 0, 0],
+            vec![1, 1, 1, 1, 1, 1],
+            vec![vec![1, 2, 3, 4, 5], vec![], vec![], vec![], vec![], vec![]],
+            vec![vec![1, 2, 3, 4, 5], vec![], vec![], vec![], vec![], vec![]],
+            vec![0],
+        ),
+    ] {
+        assert_eq!(
+            Sol1298::max_candies(status, candies, keys, contained_boxes, initial_boxes),
+            rst
+        );
+    }
+}
+
+#[test]
 fn test_1368h() {
     for f in [Sol1368::min_cost, Sol1368::min_cost_bfs01] {
         assert_eq!(
