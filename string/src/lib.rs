@@ -163,6 +163,7 @@ impl Sol1163 {
 
         use std::cmp::Ordering::*;
         while j + k < n {
+            println!("-> {i} {k} {j}   {} ~ {}", s[i + k], s[j + k]);
             match s[i + k].cmp(&s[j + k]) {
                 Equal => k += 1,
                 Greater => {
