@@ -35,3 +35,13 @@ fn test_1154() {
     assert_eq!(Sol1154::day_of_year("2019-01-09".to_string()), 9);
     assert_eq!(Sol1154::day_of_year("2019-02-10".to_string()), 41);
 }
+
+#[test]
+fn test_1163() {
+    for (rst, s) in [
+        ("bab".to_string(), "abab".to_string()),
+        ("tcode".to_string(), "leetcode".to_string()),
+    ] {
+        assert_eq!(Sol1163::last_substring(s), rst);
+    }
+}
