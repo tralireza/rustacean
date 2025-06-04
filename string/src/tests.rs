@@ -53,6 +53,7 @@ fn test_3403() {
     for (rst, word, num_friends) in [
         ("dbc".to_string(), "dbca".to_string(), 2),
         ("g".to_string(), "gggg".to_string(), 4),
+        ("gh".to_string(), "gh".to_string(), 1), // 694/785
     ] {
         assert_eq!(Sol3403::answer_string(word, num_friends), rst);
     }

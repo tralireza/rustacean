@@ -194,7 +194,7 @@ impl Sol3403 {
         let n = word.len();
         let mut answer = String::new();
         for i in 0..n {
-            let s = &word[i..n.min(i + n + 1 - num_friends as usize)];
+            let s = &word[i..n.min(i + n - (num_friends as usize - 1))];
             if &answer[..] < s {
                 answer = s.to_string();
             }
