@@ -182,5 +182,27 @@ impl Sol1163 {
     }
 }
 
+/// 3403h Find the Lexicographically Largest String From the Box I
+struct Sol3403 {}
+
+impl Sol3403 {
+    pub fn answer_string(word: String, num_friends: i32) -> String {
+        if num_friends == 1 {
+            return word;
+        }
+
+        let n = word.len();
+        let mut answer = String::new();
+        for i in 0..n {
+            let s = &word[i..n.min(i + n + 1 - num_friends as usize)];
+            if &answer[..] < s {
+                answer = s.to_string();
+            }
+        }
+
+        answer
+    }
+}
+
 #[cfg(test)]
 mod tests;
