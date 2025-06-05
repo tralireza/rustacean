@@ -159,22 +159,18 @@ impl Sol1163 {
     pub fn last_substring(s: String) -> String {
         let s: Vec<_> = s.chars().collect();
         let n = s.len();
-        let (mut i, mut j, mut k) = (0, 1, 0);
 
-        use std::cmp::Ordering::*;
-        while j + k < n {
-            println!("-> {i} {k} {j}   {} ~ {}", s[i + k], s[j + k]);
-            match s[i + k].cmp(&s[j + k]) {
-                Equal => k += 1,
-                Greater => {
-                    j += k + 1;
-                    k = 0;
-                }
-                Less => {
-                    i = (i + k + 1).max(j);
-                    j = i + 1;
-                    k = 0;
-                }
+        let (mut i, mut j) = (0, 1);
+        while j < n {
+            let mut k = 0;
+            while j + k < n && s[i + k] == s[j + k] {
+                k += 1;
+            }
+
+            if j + k < n && s[i + k] < s[j + k] {
+                (i, j) = (j, (j + 1).max(i + k + 1));
+            } else {
+                j += k + 1;
             }
         }
 
