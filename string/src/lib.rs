@@ -122,6 +122,45 @@ impl Sol917 {
     }
 }
 
+/// 1061m Lexicographically Smallest Equivalent String
+struct Sol1061 {}
+
+impl Sol1061 {
+    pub fn smallest_equivalent_string(s1: String, s2: String, base_str: String) -> String {
+        let mut djset: Vec<_> = (0..26).collect();
+
+        let mut union = |v1, v2| {
+            let (v1, v2) = (find(v1, &mut djset), find(v2, &mut djset));
+            if v1 != v2 {
+                if v1 < v2 {
+                    djset[v2] = v1;
+                } else {
+                    djset[v1] = v2;
+                }
+            }
+        };
+
+        fn find(v: usize, djset: &mut [usize]) -> usize {
+            if djset[v] != v {
+                djset[v] = find(djset[v], djset);
+            }
+            djset[v]
+        }
+
+        for (chr1, chr2) in s1.as_bytes().iter().zip(s2.as_bytes().iter()) {
+            union((chr1 - b'a') as usize, (chr2 - b'a') as usize);
+        }
+
+        println!("-> {djset:?}");
+
+        base_str
+            .as_bytes()
+            .iter()
+            .map(|&chr| (find((chr - b'a') as usize, &mut djset) as u8 + b'a') as char)
+            .collect()
+    }
+}
+
 /// 1154 Days of the Year
 struct Sol1154;
 

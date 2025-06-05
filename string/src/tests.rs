@@ -31,6 +31,30 @@ fn test_917() {
 }
 
 #[test]
+fn test_1061() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, s1, s2, base_str) in [
+        (s!("makkek"), s!("parker"), s!("morris"), s!("parser")),
+        (s!("hdld"), s!("hello"), s!("world"), s!("hold")),
+        (
+            s!("aauaaaaada"),
+            s!("leetcode"),
+            s!("programs"),
+            s!("sourcecode"),
+        ),
+    ] {
+        println!("* {s1} ~ {s2}");
+        assert_eq!(Sol1061::smallest_equivalent_string(s1, s2, base_str), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_1154() {
     assert_eq!(Sol1154::day_of_year("2019-01-09".to_string()), 9);
     assert_eq!(Sol1154::day_of_year("2019-02-10".to_string()), 41);
