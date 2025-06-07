@@ -131,12 +131,10 @@ impl Sol1061 {
 
         let mut union = |v1, v2| {
             let (v1, v2) = (find(v1, &mut djset), find(v2, &mut djset));
-            if v1 != v2 {
-                if v1 < v2 {
-                    djset[v2] = v1;
-                } else {
-                    djset[v1] = v2;
-                }
+            match v1.cmp(&v2) {
+                std::cmp::Ordering::Greater => djset[v1] = v2,
+                std::cmp::Ordering::Less => djset[v2] = v1,
+                _ => {}
             }
         };
 
