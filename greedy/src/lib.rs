@@ -208,5 +208,36 @@ impl Sol2918 {
     }
 }
 
+/// 3170m Lexicographically Minimum String After Removing Stars
+struct Sol3170 {}
+
+impl Sol3170 {
+    pub fn clear_stars(s: String) -> String {
+        let mut data = vec![vec![]; 26];
+        let mut buffer: Vec<_> = s.chars().collect();
+
+        for (i, chr) in s.as_bytes().iter().enumerate() {
+            match chr {
+                b'*' => {
+                    for chr_data in data.iter_mut() {
+                        if !chr_data.is_empty() {
+                            if let Some(last) = chr_data.pop() {
+                                buffer[last] = '*';
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                _ => data[(chr - b'a') as usize].push(i),
+            }
+        }
+
+        println!("-> {buffer:?}");
+
+        buffer.iter().filter(|&chr| chr != &'*').collect()
+    }
+}
+
 #[cfg(test)]
 mod tests;

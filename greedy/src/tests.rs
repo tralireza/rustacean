@@ -142,3 +142,18 @@ fn test_2918() {
         assert_eq!(Sol2918::min_sum(nums1, nums2), rst);
     }
 }
+
+#[test]
+fn test_3170() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, s) in [(s!("aab"), s!("aaba*")), (s!("abc"), s!("abc"))] {
+        println!("* {s}");
+        assert_eq!(Sol3170::clear_stars(s), rst);
+        println!(":: {rst}");
+    }
+}
