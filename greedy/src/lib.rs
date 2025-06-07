@@ -143,13 +143,11 @@ impl Sol2434 {
 
             if let Some(marker) = ('a'..='z').find(|chr| freqs.contains_key(chr) && freqs[chr] != 0)
             {
-                while let Some(&chr) = stack.last() {
-                    if chr <= marker {
-                        prints.push(chr);
-                        stack.pop();
-                    } else {
-                        break;
-                    }
+                while let Some(&chr) = stack.last()
+                    && chr <= marker
+                {
+                    prints.push(chr);
+                    stack.pop();
                 }
             }
         }
