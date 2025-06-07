@@ -48,6 +48,26 @@ fn test_2131() {
 }
 
 #[test]
+fn test_2434() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, s) in [
+        (s!("azz"), s!("zza")),
+        (s!("abc"), s!("bac")),
+        (s!("addb"), s!("bdda")),
+        (s!("eekstrlpmomwzqummz"), s!("mmuqezwmomeplrtskz")),
+    ] {
+        println!("* {s}");
+        assert_eq!(Sol2434::robot_with_string(s), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_2900() {
     for (rst, words, groups) in [
         (

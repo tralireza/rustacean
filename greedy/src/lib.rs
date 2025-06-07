@@ -120,6 +120,48 @@ impl Sol2131 {
     }
 }
 
+/// 2434m Using a Robot to Print the Lexicographically Smallest String
+struct Sol2434 {}
+
+impl Sol2434 {
+    pub fn robot_with_string(s: String) -> String {
+        use std::collections::HashMap;
+
+        let mut freqs: HashMap<char, usize> = HashMap::new();
+        for chr in s.chars() {
+            freqs.entry(chr).and_modify(|f| *f += 1).or_insert(1);
+        }
+
+        let mut prints = vec![];
+
+        let mut stack = vec![];
+        for chr in s.chars() {
+            println!("-> {chr} {freqs:?} {stack:?}");
+
+            stack.push(chr);
+            freqs.entry(chr).and_modify(|f| *f -= 1);
+
+            if let Some(marker) = ('a'..='z').find(|chr| freqs.contains_key(chr) && freqs[chr] != 0)
+            {
+                while let Some(&chr) = stack.last() {
+                    if chr <= marker {
+                        prints.push(chr);
+                        stack.pop();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        while let Some(chr) = stack.pop() {
+            prints.push(chr);
+        }
+
+        prints.iter().collect()
+    }
+}
+
 /// 2900 Longest Unequal Adjacent Groups Subsequence I
 struct Sol2900;
 
