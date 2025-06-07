@@ -67,6 +67,44 @@ fn test_2434() {
     }
 }
 
+#[bench]
+fn bench_2434_hashmap(b: &mut test::Bencher) {
+    b.iter(|| test::black_box(Sol2434::robot_with_string("eekstrlpmomwzqummz".to_string())));
+}
+
+#[bench]
+fn bench_2434_array(b: &mut test::Bencher) {
+    b.iter(|| test::black_box(robot_with_string("eekstrlpmomwzqummz".to_string())));
+
+    fn robot_with_string(s: String) -> String {
+        let mut freqs = [0; 26];
+        for chr in s.as_bytes().iter() {
+            freqs[(chr - b'a') as usize] += 1;
+        }
+
+        let mut prints = vec![];
+
+        let mut marker = 0;
+        let mut stack = vec![];
+        for &chr in s.as_bytes().iter() {
+            stack.push(chr);
+            freqs[(chr - b'a') as usize] -= 1;
+
+            while marker < 25 && freqs[marker] == 0 {
+                marker += 1;
+            }
+
+            while !stack.is_empty() && marker + b'a' as usize >= stack[stack.len() - 1] as usize {
+                if let Some(chr) = stack.pop() {
+                    prints.push(chr as char);
+                }
+            }
+        }
+
+        prints.iter().collect()
+    }
+}
+
 #[test]
 fn test_2900() {
     for (rst, words, groups) in [

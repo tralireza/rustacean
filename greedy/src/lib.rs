@@ -1,5 +1,9 @@
 //! # Rust Greedy
 
+#![feature(test)]
+
+extern crate test;
+
 /// 135h Candy
 struct Sol135 {}
 
@@ -136,8 +140,6 @@ impl Sol2434 {
 
         let mut stack = vec![];
         for chr in s.chars() {
-            println!("-> {chr} {freqs:?} {stack:?}");
-
             stack.push(chr);
             freqs.entry(chr).and_modify(|f| *f -= 1);
 
