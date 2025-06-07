@@ -151,7 +151,11 @@ fn test_3170() {
         };
     }
 
-    for (rst, s) in [(s!("aab"), s!("aaba*")), (s!("abc"), s!("abc"))] {
+    for (rst, s) in [
+        (s!("aab"), s!("aaba*")),
+        (s!("abc"), s!("abc")),
+        (s!("yz"), s!("xyz*")),
+    ] {
         println!("* {s}");
         assert_eq!(Sol3170::clear_stars(s), rst);
         println!(":: {rst}");
