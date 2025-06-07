@@ -213,23 +213,21 @@ struct Sol3170 {}
 
 impl Sol3170 {
     pub fn clear_stars(s: String) -> String {
-        let mut data = vec![vec![]; 26];
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
         let mut buffer: Vec<_> = s.chars().collect();
+        let mut pq = BinaryHeap::new();
 
-        for (i, chr) in s.as_bytes().iter().enumerate() {
+        for (i, chr) in s.chars().enumerate() {
+            println!("-> {pq:?}");
             match chr {
-                b'*' => {
-                    for chr_data in data.iter_mut() {
-                        if !chr_data.is_empty() {
-                            if let Some(last) = chr_data.pop() {
-                                buffer[last] = '*';
-                            }
-
-                            break;
-                        }
+                '*' => {
+                    if let Some((_, i)) = pq.pop() {
+                        buffer[i] = '*';
                     }
                 }
-                _ => data[(chr - b'a') as usize].push(i),
+                _ => pq.push((Reverse(chr), i)),
             }
         }
 
