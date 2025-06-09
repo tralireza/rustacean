@@ -1,5 +1,26 @@
 //! # Rust :: Prefix Sum
 
+/// 363h Max Sum of Rectangle No Larger Than K
+struct Sol363 {}
+
+impl Sol363 {
+    pub fn max_sum_submatrix(matrix: Vec<Vec<i32>>, k: i32) -> i32 {
+        let mut pfxsum = vec![vec![0; matrix[0].len() + 1]; matrix.len()];
+        let mut xsum = i32::MIN;
+
+        for r in 0..matrix.len() {
+            println!("-> {pfxsum:?}");
+
+            for c in 0..matrix[r].len() {
+                pfxsum[r][c + 1] = pfxsum[r][c] + matrix[r][c];
+                xsum = xsum.max(pfxsum[r][c + 1]).min(k);
+            }
+        }
+
+        xsum
+    }
+}
+
 /// 1352m Product of the Last K Numbers
 #[derive(Debug)]
 struct ProductOfNumbers {
