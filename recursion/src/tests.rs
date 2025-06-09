@@ -83,6 +83,24 @@ fn test_301() {
 }
 
 #[test]
+fn test_386() {
+    for (rst, n) in [
+        (vec![1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9], 13),
+        (vec![1, 2], 2),
+        (
+            vec![
+                1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 3, 4, 5, 6, 7, 8, 9,
+            ],
+            21,
+        ),
+    ] {
+        println!("* {n}");
+        assert_eq!(Sol386::lexical_order(n), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1079() {
     assert_eq!(Sol1079::num_tile_possibilities("AAB".to_string()), 8);
     assert_eq!(Sol1079::num_tile_possibilities("AAABBC".to_string()), 188);

@@ -340,6 +340,28 @@ impl Sol301 {
     }
 }
 
+/// 386m Lexicographical Numbers
+struct Sol386 {}
+
+impl Sol386 {
+    pub fn lexical_order(n: i32) -> Vec<i32> {
+        let mut lorder = vec![];
+
+        fn dfs(v: i32, n: i32, lorder: &mut Vec<i32>) {
+            lorder.push(v);
+            (0..=9)
+                .take_while(|d| 10 * v + d <= n)
+                .for_each(|d| dfs(10 * v + d, n, lorder));
+        }
+
+        for v in 1..=9.min(n) {
+            dfs(v, n, &mut lorder);
+        }
+
+        lorder
+    }
+}
+
 /// 1079m Letter Tile Possibilities
 struct Sol1079;
 
