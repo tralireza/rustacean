@@ -82,3 +82,10 @@ fn test_3403() {
         assert_eq!(Sol3403::answer_string(word, num_friends), rst);
     }
 }
+
+#[test]
+fn test_3442() {
+    for (rst, s) in [(3, "aaaaabbc".to_string()), (1, "abcabcab".to_string())] {
+        assert_eq!(Sol3442::max_difference(s), rst);
+    }
+}

@@ -237,5 +237,30 @@ impl Sol3403 {
     }
 }
 
+/// 3442 Maximum Difference Between Even and Odd Frequency I
+struct Sol3442 {}
+
+impl Sol3442 {
+    pub fn max_difference(s: String) -> i32 {
+        use std::collections::HashMap;
+
+        let mut freqs = HashMap::new();
+        for chr in s.chars() {
+            freqs.entry(chr).and_modify(|f| *f += 1).or_insert(1);
+        }
+
+        println!("-> {freqs:?}");
+
+        if let (Some(omax), Some(emin)) = (
+            freqs.values().filter(|&f| f & 1 == 1).max(),
+            freqs.values().filter(|&f| f & 1 == 0).min(),
+        ) {
+            return omax - emin;
+        }
+
+        0
+    }
+}
+
 #[cfg(test)]
 mod tests;
