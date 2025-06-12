@@ -594,6 +594,15 @@ struct Sol3423 {}
 
 impl Sol3423 {
     pub fn max_adjacent_distance(nums: Vec<i32>) -> i32 {
+        println!(
+            ":: {}",
+            nums.iter()
+                .zip(nums.iter().cycle().skip(1))
+                .map(|(a, b)| (a - b).abs())
+                .max()
+                .unwrap()
+        );
+
         nums.windows(2)
             .fold((nums[0] - nums[nums.len() - 1]).abs(), |r, w| {
                 ((w[0] - w[1]).abs()).max(r)
