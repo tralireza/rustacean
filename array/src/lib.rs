@@ -593,6 +593,7 @@ impl Sol3394 {
 struct Sol3423 {}
 
 impl Sol3423 {
+    /// 2 <= N <= 100
     pub fn max_adjacent_distance(nums: Vec<i32>) -> i32 {
         println!(
             ":: {}",
