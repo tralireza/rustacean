@@ -324,3 +324,10 @@ fn test_3394() {
         assert_eq!(Sol3394::check_valid_cuts(n, rectangles), rst);
     }
 }
+
+#[test]
+fn test_3423() {
+    for (rst, nums) in [(3, vec![1, 2, 4]), (5, vec![-5, -10, -5])] {
+        assert_eq!(Sol3423::max_adjacent_distance(nums), rst);
+    }
+}

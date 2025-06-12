@@ -589,5 +589,17 @@ impl Sol3394 {
     }
 }
 
+//// 3423 Maximum Difference Between Adjacent Elements in a Circular Array
+struct Sol3423 {}
+
+impl Sol3423 {
+    pub fn max_adjacent_distance(nums: Vec<i32>) -> i32 {
+        nums.windows(2)
+            .fold((nums[0] - nums[nums.len() - 1]).abs(), |r, w| {
+                ((w[0] - w[1]).abs()).max(r)
+            })
+    }
+}
+
 #[cfg(test)]
 mod tests;
