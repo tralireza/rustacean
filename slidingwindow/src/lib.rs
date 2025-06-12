@@ -160,9 +160,8 @@ impl Sol2444 {
                     i_x = Some(r);
                 }
 
-                match (i_m, i_x) {
-                    (Some(m), Some(x)) => count += x.min(m) - l + 1,
-                    _ => (),
+                if let (Some(m), Some(x)) = (i_m, i_x) {
+                    count += x.min(m) - l + 1;
                 }
             }
         }
