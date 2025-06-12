@@ -351,5 +351,60 @@ impl Sol3306 {
     }
 }
 
+/// 3445h Maximum Difference Between Even and Odd Frequency II
+struct Sol3445 {}
+
+impl Sol3445 {
+    pub fn max_difference(s: String, k: i32) -> i32 {
+        let mut xdiff = i32::MIN;
+        let chrs: Vec<_> = s.chars().collect();
+
+        for a in '0'..='4' {
+            for b in '0'..='4' {
+                if a != b {
+                    println!("-> '{a}' '{b}'");
+
+                    let (mut a_right, mut b_right) = (0, 0);
+                    let (mut a_left, mut b_left) = (0, 0);
+
+                    let mut map = [i32::MAX; 4];
+                    let mut left = -1;
+
+                    for (right, &chr) in chrs.iter().enumerate() {
+                        if chr == a {
+                            a_right += 1;
+                        } else if chr == b {
+                            b_right += 1;
+                        }
+
+                        while right as i32 - left >= k && b_right - b_left >= 2 {
+                            let l_map = ((a_left & 1) << 1 | b_left & 1) as usize;
+                            map[l_map] = map[l_map].min(a_left - b_left);
+
+                            left += 1;
+                            if chrs[left as usize] == a {
+                                a_left += 1;
+                            } else if chrs[left as usize] == b {
+                                b_left += 1;
+                            }
+
+                            println!("-> (L) {left} @ {l_map} ({a_left} {b_left}) {map:?}");
+                        }
+
+                        let r_map = ((a_right & 1) << 1 | b_right & 1) as usize;
+                        if map[r_map ^ 2] != i32::MAX {
+                            xdiff = xdiff.max(a_right - b_right - map[r_map ^ 2]);
+                        }
+
+                        println!("-> (R) {right} @ {r_map} ({a_right} {b_right}) {map:?}");
+                    }
+                }
+            }
+        }
+
+        xdiff
+    }
+}
+
 #[cfg(test)]
 mod tests;

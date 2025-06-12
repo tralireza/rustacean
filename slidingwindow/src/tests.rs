@@ -90,3 +90,15 @@ fn test_3306() {
         assert_eq!(Sol3306::count_of_substrings(word, k), rst);
     }
 }
+
+#[test]
+fn test_3445() {
+    for (rst, s, k) in [
+        (-1, "12233".to_string(), 4),
+        (1, "1122211".to_string(), 3),
+        (-1, "110".to_string(), 3),
+    ] {
+        println!("* '{s}' @ {k}");
+        assert_eq!(Sol3445::max_difference(s, k), rst);
+    }
+}
