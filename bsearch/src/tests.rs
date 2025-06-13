@@ -95,6 +95,18 @@ fn test_2594() {
 }
 
 #[test]
+fn test_2616() {
+    for (rst, nums, p) in [
+        (1, vec![10, 1, 2, 7, 1, 3], 2),
+        (0, vec![4, 2, 1, 2], 1),
+        (1, vec![3, 4, 2, 3, 2, 1, 2], 3),
+        (2, vec![2, 6, 2, 4, 2, 2, 0, 2], 4),
+    ] {
+        assert_eq!(Sol2616::minimize_max(nums, p), rst);
+    }
+}
+
+#[test]
 fn test_3356() {
     for (rst, nums, queries) in [
         (

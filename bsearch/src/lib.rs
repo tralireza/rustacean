@@ -416,6 +416,44 @@ impl Sol2594 {
     }
 }
 
+/// 2616m Minimize the Maximum Difference of Pairs
+struct Sol2616 {}
+
+impl Sol2616 {
+    /// 1 <= N <= 10^5, 0 <= N_i <= 10^9
+    /// 0 <= p <= N/2
+    pub fn minimize_max(nums: Vec<i32>, p: i32) -> i32 {
+        let mut nums = nums;
+        nums.sort_unstable();
+
+        let count_pairs = |m| {
+            let mut count = 0;
+            let mut i = 0;
+            while i < nums.len() - 1 {
+                if nums[i + 1] - nums[i] <= m {
+                    count += 1;
+                    i += 1;
+                }
+                i += 1;
+            }
+
+            count
+        };
+
+        let (mut l, mut r) = (0, nums.last().unwrap() - nums[0]);
+        while l < r {
+            let m = l + ((r - l) >> 1);
+            if count_pairs(m) >= p {
+                r = m;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        l
+    }
+}
+
 /// 3356m Zero Array Transformation II
 struct Sol3356;
 
