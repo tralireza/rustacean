@@ -102,6 +102,7 @@ fn test_2616() {
         (1, vec![3, 4, 2, 3, 2, 1, 2], 3),
         (2, vec![2, 6, 2, 4, 2, 2, 0, 2], 4),
     ] {
+        println!("* {nums:?} {p}");
         assert_eq!(Sol2616::minimize_max(nums, p), rst);
     }
 }

@@ -443,6 +443,9 @@ impl Sol2616 {
         let (mut l, mut r) = (0, nums.last().unwrap() - nums[0]);
         while l < r {
             let m = l + ((r - l) >> 1);
+
+            println!("-> {l} {m} {r}");
+
             if count_pairs(m) >= p {
                 r = m;
             } else {
