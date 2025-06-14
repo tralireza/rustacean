@@ -109,6 +109,46 @@ impl Sol65 {
     }
 }
 
+/// 466h Count The Repetition
+struct Sol466 {}
+
+impl Sol466 {
+    /// 1 <= L1, L2 <= 100
+    pub fn get_max_repetitions(s1: String, n1: i32, s2: String, n2: i32) -> i32 {
+        let (mut counts, mut marks) = (vec![0; s2.len() + 1], vec![0; s2.len() + 1]);
+
+        let s2: Vec<_> = s2.chars().collect();
+
+        let (mut count, mut mark) = (0, 0);
+        for i in 0..n1 as usize {
+            for chr in s1.chars() {
+                if chr == s2[mark] {
+                    mark += 1;
+                }
+                if mark == s2.len() {
+                    mark = 0;
+                    count += 1;
+                }
+            }
+
+            (counts[i], marks[i]) = (count, mark);
+            println!("-> {i} {counts:?} {marks:?}");
+
+            for k in 0..i {
+                if marks[k] == mark {
+                    let prv = counts[k];
+                    let pattern = (counts[i] - counts[k]) * ((n1 - 1 - k as i32) / (i - k) as i32);
+                    let rest = counts[k + (n1 as usize - 1 - k) % (i - k)] - counts[k];
+
+                    return (prv + pattern + rest) / n2;
+                }
+            }
+        }
+
+        counts[n1 as usize - 1] / n2
+    }
+}
+
 /// 917 Reverse Only Letters
 struct Sol917;
 

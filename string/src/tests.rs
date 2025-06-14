@@ -26,6 +26,18 @@ fn test_65() {
 }
 
 #[test]
+fn test_466() {
+    for (rst, s1, n1, s2, n2) in [
+        (2, "abc".to_string(), 4, "ab".to_string(), 2),
+        (1, "acb".to_string(), 1, "acb".to_string(), 1),
+        (12, "aaa".to_string(), 20, "aaaaa".to_string(), 1),
+    ] {
+        println!("* {s1}:{n1} {s2}:{n2}");
+        assert_eq!(Sol466::get_max_repetitions(s1, n1, s2, n2), rst);
+    }
+}
+
+#[test]
 fn test_917() {
     assert_eq!(
         Sol917::reverse_only_letters("a-bC-dEf-ghIj".to_string()),
