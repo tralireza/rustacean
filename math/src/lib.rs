@@ -405,6 +405,34 @@ impl Sol2523 {
     }
 }
 
+/// 2566 Maximum Difference by Remapping a Digit
+struct Sol2566 {}
+
+impl Sol2566 {
+    /// 1 <= N <= 10^8
+    pub fn min_max_difference(num: i32) -> i32 {
+        let nstr: Vec<_> = num.to_string().chars().collect();
+
+        if let Some(p) = num.to_string().chars().position(|chr| chr != '9') {
+            let xval: String = nstr
+                .iter()
+                .map(|&chr| if chr == nstr[p] { '9' } else { chr })
+                .collect();
+
+            let mval: String = nstr
+                .iter()
+                .map(|&chr| if chr == nstr[0] { '0' } else { chr })
+                .collect();
+
+            println!("-> {mval} {xval}");
+
+            return xval.parse::<i32>().unwrap() - mval.parse::<i32>().unwrap();
+        }
+
+        num
+    }
+}
+
 /// 2579m Count Total Number of Colored Cells
 struct Sol2578;
 
