@@ -414,19 +414,31 @@ impl Sol2566 {
         let nstr: Vec<_> = num.to_string().chars().collect();
 
         if let Some(p) = num.to_string().chars().position(|chr| chr != '9') {
-            let xval: String = nstr
+            let vmax = nstr
                 .iter()
-                .map(|&chr| if chr == nstr[p] { '9' } else { chr })
-                .collect();
+                .map(|&chr| {
+                    if chr == nstr[p] {
+                        9
+                    } else {
+                        chr.to_digit(10).unwrap_or(0)
+                    }
+                })
+                .fold(0, |r, d| r * 10 + d);
 
-            let mval: String = nstr
+            let vmin = nstr
                 .iter()
-                .map(|&chr| if chr == nstr[0] { '0' } else { chr })
-                .collect();
+                .map(|&chr| {
+                    if chr == nstr[0] {
+                        0
+                    } else {
+                        chr.to_digit(10).unwrap_or_default()
+                    }
+                })
+                .fold(0, |r, d| r * 10 + d);
 
-            println!("-> {mval} {xval}");
+            println!("-> {vmin} ~ {vmax}");
 
-            return xval.parse::<i32>().unwrap() - mval.parse::<i32>().unwrap();
+            return (vmax - vmin) as i32;
         }
 
         num
