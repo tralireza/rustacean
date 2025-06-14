@@ -14,11 +14,14 @@ fn test_38() {
 #[test]
 fn test_65() {
     for f in [Sol65::is_number, Sol65::is_number_enum] {
-        assert!(f("0".to_string()));
-        assert!(!f("e".to_string()));
-        assert!(!f(".".to_string()));
-
-        assert!(f("2e0".to_string()));
+        for (rst, s) in [
+            (true, "0".to_string()),
+            (false, "e".to_string()),
+            (false, ".".to_string()),
+            (true, "2e0".to_string()),
+        ] {
+            assert_eq!(f(s), rst);
+        }
     }
 }
 
