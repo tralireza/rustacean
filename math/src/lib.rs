@@ -78,13 +78,16 @@ impl Sol587 {
     /// 1 <= N <= 3000
     /// 0 <= x_i, y_i <= 100
     pub fn outer_trees(mut trees: Vec<[i32; 2]>) -> Vec<[i32; 2]> {
+        if trees.len() <= 3 {
+            return trees;
+        }
+
         trees.sort_unstable();
 
         // Cross-Product
         // OA-> X OB->
-        fn cross_prd(o: &[i32; 2], a: &[i32; 2], b: &[i32; 2]) -> i64 {
-            (a[0] - o[0]) as i64 * (b[1] - o[1]) as i64
-                - (a[1] - o[1]) as i64 * (b[0] - o[0]) as i64
+        fn cross_prd(o: &[i32; 2], a: &[i32; 2], b: &[i32; 2]) -> i32 {
+            (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
         }
 
         let mut lower = vec![];
@@ -110,7 +113,7 @@ impl Sol587 {
         let mut convex_hull: Vec<_> = lower[..lower.len() - 1]
             .into_iter()
             .chain(upper[..upper.len() - 1].into_iter())
-            .map(|e| [e[0], e[1]])
+            .map(|&&p| p)
             .collect();
 
         convex_hull.sort();
