@@ -1,6 +1,23 @@
 use super::*;
 
 #[test]
+fn test_493() {
+    for (rst, nums) in [
+        (2, vec![1, 3, 2, 3, 1]),
+        (3, vec![2, 4, 3, 5, 1]),
+        (
+            0,
+            vec![
+                2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647,
+            ],
+        ), // 136/140
+    ] {
+        println!("* {nums:?}");
+        assert_eq!(Sol493::reverse_pairs(nums), rst);
+    }
+}
+
+#[test]
 fn test_218() {
     for (rst, buildings) in [
         (

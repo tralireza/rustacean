@@ -1,5 +1,71 @@
 //! # BIT Binary Indexed Tree, Segment Tree, Ordered Set
 
+/// 493h Reverse Pairs
+struct Sol493 {}
+
+impl Sol493 {
+    /// 1 <= N <= 5*10^4
+    /// -2^31 <= N_i <= 2^31-1
+    pub fn reverse_pairs(nums: Vec<i32>) -> i32 {
+        let brute_force = || {
+            nums.iter()
+                .map(|&n| 2 * n as i64)
+                .enumerate()
+                .fold(0, |r, (i, rval)| {
+                    r + nums
+                        .iter()
+                        .take(i)
+                        .fold(0, |r, &n| if n as i64 > rval { r + 1 } else { r })
+                })
+        };
+
+        println!(":: {} (Brute Force)", brute_force());
+
+        let mut bits = vec![0; nums.len() + 1];
+        fn bits_update(bits: &mut [i64], i: usize, diff: i32) {
+            let mut i = i;
+            while i > 0 {
+                bits[i] += diff as i64;
+                i -= i & (!i + 1);
+            }
+        }
+        fn bits_query(bits: &[i64], i: usize) -> i64 {
+            let mut v = 0;
+            let mut i = i;
+            while i < bits.len() {
+                v += bits[i];
+                i += i & (!i + 1);
+            }
+            v
+        }
+
+        let mut sorted: Vec<_> = nums.iter().map(|&n| n as i64).collect();
+        sorted.sort_unstable();
+
+        fn bsearch(sorted: &[i64], t: i64) -> usize {
+            let (mut l, mut r) = (0, sorted.len());
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if sorted[m] < t {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+
+            l
+        }
+
+        let mut count = 0;
+        for n in nums {
+            count += bits_query(&mut bits, bsearch(&sorted, 2 * n as i64 + 1) + 1);
+            bits_update(&mut bits, bsearch(&sorted, n as i64) + 1, 1);
+        }
+
+        count as _
+    }
+}
+
 /// 218h The Skyline Problems
 struct Sol218;
 
