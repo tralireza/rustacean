@@ -364,10 +364,15 @@ impl Sol2338 {
                 }
             }
         }
-        println!("-> Sieve :: {:?}", sieve);
+        println!("-> Sieve :: {sieve:?}");
 
         let mut factors = vec![vec![]; max_value as usize + 1];
-        for n in 2..=max_value as usize {
+        for (n, _) in sieve
+            .iter()
+            .enumerate()
+            .take(max_value as usize + 1)
+            .skip(2)
+        {
             let mut x = n;
             while x > 1 {
                 let factor = sieve[x];
@@ -379,12 +384,12 @@ impl Sol2338 {
                 factors[n].push(count);
             }
         }
-        println!("-> Factors Counts: {:?}", factors);
+        println!("-> Factors Counts: {factors:?}");
 
         let mut c = vec![vec![0; P + 1]; n as usize + P + 1];
         c[0][0] = 1;
 
-        const M: i64 = 1000_000_007;
+        const M: i64 = 1_000_000_007;
         for n in 1..c.len() {
             c[n][0] = 1;
             for k in 1..=n.min(P) {
