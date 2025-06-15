@@ -268,7 +268,7 @@ impl Sol1432 {
         let mut vmin = num;
         match darr[0] {
             1 => {
-                if let Some(&m) = darr[1..].iter().skip_while(|&&d| d == 1 || d == 0).next() {
+                if let Some(&m) = darr[1..].iter().find(|&&d| d != 1 && d != 0) {
                     vmin = 1;
                     for &d in &darr[1..] {
                         vmin = 10 * vmin + if d == m { 0 } else { d };
@@ -284,7 +284,7 @@ impl Sol1432 {
         }
 
         let mut vmax = num;
-        if let Some(&x) = darr.iter().skip_while(|&d| d == &9).next() {
+        if let Some(&x) = darr.iter().find(|&d| d != &9) {
             vmax = 0;
             for &d in &darr {
                 vmax = 10 * vmax + if d == x { 9 } else { d };
