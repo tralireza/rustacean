@@ -116,7 +116,7 @@ fn test_2523() {
 
 #[test]
 fn test_2566() {
-    for (rst, num) in [(99009, 11891), (99, 90), (99, 99)] {
+    for (rst, num) in [(99009, 11891), (99, 90), (999, 999), (9, 0)] {
         println!("* {num}");
         assert_eq!(Sol2566::min_max_difference(num), rst);
         println!(":: {rst}");
