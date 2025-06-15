@@ -71,6 +71,54 @@ impl Sol335 {
     }
 }
 
+/// 587h Erect the Fence
+struct Sol587 {}
+
+impl Sol587 {
+    /// 1 <= N <= 3000
+    /// 0 <= x_i, y_i <= 100
+    pub fn outer_trees(mut trees: Vec<[i32; 2]>) -> Vec<[i32; 2]> {
+        trees.sort_unstable();
+
+        // Cross-Product
+        // OA-> X OB->
+        fn cross_prd(o: &[i32; 2], a: &[i32; 2], b: &[i32; 2]) -> i64 {
+            (a[0] - o[0]) as i64 * (b[1] - o[1]) as i64
+                - (a[1] - o[1]) as i64 * (b[0] - o[0]) as i64
+        }
+
+        let mut lower = vec![];
+        for p in trees.iter() {
+            while lower.len() >= 2
+                && cross_prd(lower[lower.len() - 2], lower[lower.len() - 1], p) < 0
+            {
+                lower.pop();
+            }
+            lower.push(p);
+        }
+
+        let mut upper = vec![];
+        for p in trees.iter().rev() {
+            while upper.len() >= 2
+                && cross_prd(upper[upper.len() - 2], upper[upper.len() - 1], p) < 0
+            {
+                upper.pop();
+            }
+            upper.push(p);
+        }
+
+        let mut convex_hull: Vec<_> = lower[..lower.len() - 1]
+            .into_iter()
+            .chain(upper[..upper.len() - 1].into_iter())
+            .map(|e| [e[0], e[1]])
+            .collect();
+
+        convex_hull.sort();
+        convex_hull.dedup();
+        convex_hull
+    }
+}
+
 /// 838m Push Dominoes
 struct Sol838;
 

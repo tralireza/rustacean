@@ -20,6 +20,19 @@ fn test_335() {
 }
 
 #[test]
+fn test_587() {
+    for (rst, trees) in [
+        (
+            vec![[1, 1], [2, 0], [2, 4], [3, 3], [4, 2]],
+            vec![[1, 1], [2, 2], [2, 0], [2, 4], [3, 3], [4, 2]],
+        ),
+        (vec![[1, 2], [2, 2], [4, 2]], vec![[1, 2], [2, 2], [4, 2]]),
+    ] {
+        assert_eq!(Sol587::outer_trees(trees), rst);
+    }
+}
+
+#[test]
 fn test_838() {
     for (rst, dominoes) in [
         ("RR.L".to_string(), "RR.L".to_string()),
