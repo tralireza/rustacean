@@ -22,16 +22,14 @@ impl Sol493 {
         println!(":: {} (Brute Force)", brute_force());
 
         let mut bits = vec![0; nums.len() + 1];
-        fn bits_update(bits: &mut [i64], i: usize, diff: i32) {
-            let mut i = i;
+        fn bits_update(bits: &mut [i64], mut i: usize, diff: i32) {
             while i > 0 {
                 bits[i] += diff as i64;
                 i -= i & (!i + 1);
             }
         }
-        fn bits_query(bits: &[i64], i: usize) -> i64 {
+        fn bits_query(bits: &[i64], mut i: usize) -> i64 {
             let mut v = 0;
-            let mut i = i;
             while i < bits.len() {
                 v += bits[i];
                 i += i & (!i + 1);
