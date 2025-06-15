@@ -253,6 +253,50 @@ impl Sol1295 {
     }
 }
 
+/// 1432m Max Difference You Can Get From Changing an Integer
+struct Sol1432 {}
+
+impl Sol1432 {
+    pub fn max_diff(num: i32) -> i32 {
+        let darr: Vec<_> = num
+            .to_string()
+            .as_bytes()
+            .iter()
+            .map(|&chr| (chr - b'0') as i32)
+            .collect();
+
+        let mut vmin = num;
+        match darr[0] {
+            1 => {
+                if let Some(&m) = darr[1..].iter().skip_while(|&&d| d == 1 || d == 0).next() {
+                    vmin = 1;
+                    for &d in &darr[1..] {
+                        vmin = 10 * vmin + if d == m { 0 } else { d };
+                    }
+                }
+            }
+            _ => {
+                vmin = 0;
+                for &d in &darr {
+                    vmin = 10 * vmin + if d == darr[0] { 1 } else { d };
+                }
+            }
+        }
+
+        let mut vmax = num;
+        if let Some(&x) = darr.iter().skip_while(|&d| d == &9).next() {
+            vmax = 0;
+            for &d in &darr {
+                vmax = 10 * vmax + if d == x { 9 } else { d };
+            }
+        }
+
+        println!("-> {vmin} {vmax}");
+
+        vmax - vmin
+    }
+}
+
 /// 1780m Check if Number is a Sum of Powers of Three
 struct Sol1780;
 

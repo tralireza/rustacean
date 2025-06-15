@@ -75,6 +75,20 @@ fn test_1295() {
 }
 
 #[test]
+fn test_1432() {
+    for (rst, num) in [
+        (888, 555),
+        (8, 9),
+        (820000, 123456),
+        (888, 111),         // 205/211
+        (8808050, 1101057), // 207/211
+    ] {
+        println!("* {num}");
+        assert_eq!(Sol1432::max_diff(num), rst);
+    }
+}
+
+#[test]
 fn test_1780() {
     for f in [
         Sol1780::check_powers_of_three,
