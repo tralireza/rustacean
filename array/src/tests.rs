@@ -116,6 +116,17 @@ fn test_1920() {
 }
 
 #[test]
+fn test_2016() {
+    for (rst, nums) in [
+        (4, vec![7, 1, 5, 4]),
+        (-1, vec![9, 4, 3, 2]),
+        (9, vec![1, 5, 2, 10]),
+    ] {
+        assert_eq!(Sol2016::maximum_difference(nums), rst);
+    }
+}
+
+#[test]
 fn test_2017() {
     assert_eq!(Sol2017::grid_game(vec![vec![2, 5, 4], vec![1, 5, 1]]), 4);
     assert_eq!(Sol2017::grid_game(vec![vec![3, 3, 1], vec![8, 5, 2]]), 4);

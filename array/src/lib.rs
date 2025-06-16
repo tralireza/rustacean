@@ -170,6 +170,25 @@ impl Sol1920 {
     }
 }
 
+/// 2016 Maximum Difference Between Increasing Elements
+struct Sol2016 {}
+
+impl Sol2016 {
+    pub fn maximum_difference(nums: Vec<i32>) -> i32 {
+        let mut vmin = nums[0];
+        let mut xdiff = -1;
+
+        for n in nums.into_iter().skip(1) {
+            if n > vmin {
+                xdiff = xdiff.max(n - vmin);
+            }
+            vmin = vmin.min(n);
+        }
+
+        xdiff
+    }
+}
+
 /// 2017m Grid Game
 struct Sol2017;
 
