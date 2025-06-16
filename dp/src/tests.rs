@@ -73,8 +73,10 @@ fn test_377() {
 
 #[test]
 fn test_516() {
-    assert_eq!(Sol516::longest_palindrome_subseq("bbbab".to_string()), 4);
-    assert_eq!(Sol516::longest_palindrome_subseq("cbbd".to_string()), 2);
+    for (rst, s) in [(4, "bbbab".to_string()), (2, "cbbd".to_string())] {
+        assert_eq!(Sol516::longest_palindrome_subseq(s), rst);
+    }
+}
 }
 
 #[test]
