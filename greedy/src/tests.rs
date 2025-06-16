@@ -10,6 +10,26 @@ fn test_135() {
 }
 
 #[test]
+fn test_630() {
+    for (rst, courses) in [
+        (
+            3,
+            vec![
+                vec![100, 200],
+                vec![200, 1300],
+                vec![1000, 1250],
+                vec![2000, 3200],
+            ],
+        ),
+        (1, vec![vec![1, 2]]),
+        (0, vec![vec![3, 2], vec![4, 3]]),
+        (2, vec![vec![1, 2], vec![2, 3]]),
+    ] {
+        assert_eq!(Sol630::schedule_course(courses), rst);
+    }
+}
+
+#[test]
 fn test_781() {
     for (rst, answers) in [(5, vec![1, 1, 2]), (11, vec![10, 10, 10])] {
         assert_eq!(Sol781::num_rabbits(answers), rst);

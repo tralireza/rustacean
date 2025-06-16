@@ -29,6 +29,32 @@ impl Sol135 {
     }
 }
 
+/// 630h Course Schedule III
+struct Sol630 {}
+impl Sol630 {
+    pub fn schedule_course(courses: Vec<Vec<i32>>) -> i32 {
+        use std::collections::BinaryHeap;
+
+        let mut courses = courses;
+        courses.sort_by_key(|course| course[1]);
+
+        let mut start = 0;
+        let mut pq = BinaryHeap::new();
+        for course in courses {
+            start += course[0];
+            pq.push(course[0]);
+
+            if start > course[1] {
+                if let Some(days) = pq.pop() {
+                    start -= days;
+                }
+            }
+        }
+
+        pq.len() as _
+    }
+}
+
 /// 781m Rabbits in Forest
 struct Sol781;
 
