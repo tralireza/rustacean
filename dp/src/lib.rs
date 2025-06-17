@@ -319,6 +319,56 @@ impl Sol516 {
     }
 }
 
+/// 639h Decode Ways II
+struct Sol639 {}
+
+impl Sol639 {
+    /// 1 <= N <= 10^5
+    pub fn num_decodings(s: String) -> i32 {
+        let s: Vec<_> = s.chars().collect();
+        const M: i64 = 1e9 as i64 + 7;
+
+        let mut dp = vec![0; s.len() + 1];
+        dp[0] = 1;
+        dp[1] = match s[0] {
+            '*' => 9,
+            '0' => 0,
+            _ => 1,
+        };
+
+        for (i, &chr) in s.iter().enumerate().skip(1) {
+            match chr {
+                '*' => {
+                    dp[i + 1] = 9 * dp[i] % M;
+                    dp[i + 1] += match s[i - 1] {
+                        '1' => 9 * dp[i - 1] % M,
+                        '2' => 6 * dp[i - 1] % M,
+                        '*' => 15 * dp[i - 1] % M,
+                        _ => 0,
+                    };
+                }
+                _ => {
+                    dp[i + 1] = if chr != '0' { dp[i] } else { 0 };
+                    dp[i + 1] += match s[i - 1] {
+                        '1' => dp[i - 1],
+                        '2' => {
+                            if s[i] <= '6' {
+                                dp[i - 1]
+                            } else {
+                                0
+                            }
+                        }
+                        '*' => (if s[i] <= '6' { 2 } else { 1 }) * dp[i - 1] % M,
+                        _ => 0,
+                    };
+                }
+            }
+        }
+
+        println!("-> {dp:?}");
+        (dp[s.len()] % M) as _
+    }
+}
 /// 790m Domino and Tromino Tiling
 struct Sol790;
 

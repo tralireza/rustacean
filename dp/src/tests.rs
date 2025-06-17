@@ -77,6 +77,18 @@ fn test_516() {
         assert_eq!(Sol516::longest_palindrome_subseq(s), rst);
     }
 }
+
+#[test]
+fn test_639() {
+    for (rst, s) in [
+        (9, "*".to_string()),
+        (18, "1*".to_string()),
+        (15, "2*".to_string()),
+        (3, "126".to_string()),
+    ] {
+        assert_eq!(Sol639::num_decodings(s), rst);
+    }
+}
 }
 
 #[test]
