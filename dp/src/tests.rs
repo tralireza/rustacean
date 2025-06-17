@@ -89,6 +89,19 @@ fn test_639() {
         assert_eq!(Sol639::num_decodings(s), rst);
     }
 }
+
+#[test]
+fn test_730() {
+    for (rst, s) in [
+        (6, "bccb".to_string()),
+        (
+            104860361,
+            "abcdabcdabcdabcdabcdabcdabcdabcddcbadcbadcbadcbadcbadcbadcbadcba".to_string(),
+        ),
+    ] {
+        println!("* {s}");
+        assert_eq!(Sol730::count_palindromic_subsequences(s), rst);
+    }
 }
 
 #[test]

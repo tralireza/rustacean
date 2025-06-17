@@ -369,6 +369,66 @@ impl Sol639 {
         (dp[s.len()] % M) as _
     }
 }
+
+/// 730h Count Different Palindromic Subsequences
+struct Sol730;
+
+impl Sol730 {
+    /// 1 <= N <= 1000
+    /// 'a'|'b'|'c'|'d'
+    pub fn count_palindromic_subsequences(s: String) -> i32 {
+        use std::collections::HashMap;
+
+        let mut mem = HashMap::new();
+        let chrs: Vec<_> = s.chars().collect();
+
+        const M: i64 = 1e9 as i64 + 7;
+
+        fn search(
+            start: usize,
+            end: usize,
+            chrs: &[char],
+            mem: &mut HashMap<[usize; 2], i64>,
+        ) -> i64 {
+            if start >= end {
+                return 0;
+            }
+
+            if let Some(&count) = mem.get(&[start, end]) {
+                return count;
+            }
+
+            let mut count = 0;
+            for chr in 'a'..='d' {
+                match (
+                    chrs[start..end].iter().position(|&v| v == chr),
+                    chrs[start..end].iter().rev().position(|&v| v == chr),
+                ) {
+                    (None, None) => continue,
+                    (Some(l), Some(r)) => {
+                        let r = end - start - r - 1;
+                        println!("{start}   {l} {chr} {r}   {end}");
+                        if l == r {
+                            count += 1;
+                        } else {
+                            count += 2 + search(start + l + 1, start + r, chrs, mem);
+                        }
+                    }
+                    (_, _) => {}
+                }
+                count %= M;
+            }
+
+            mem.insert([start, end], count);
+            println!("-> {mem:?}");
+
+            count
+        }
+
+        search(0, chrs.len(), &chrs, &mut mem) as _
+    }
+}
+
 /// 790m Domino and Tromino Tiling
 struct Sol790;
 
