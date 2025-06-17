@@ -777,5 +777,46 @@ impl Sol3272 {
     }
 }
 
+/// 3405h Count the Number of Arrays with K Matching Adjacent Elements
+struct Sol3450 {}
+
+impl Sol3450 {
+    pub fn count_good_arrays(n: i32, m: i32, k: i32) -> i32 {
+        const M: i64 = 1e9 as i64 + 7;
+
+        let mut facts = vec![0; n as usize];
+        let mut ifacts = vec![0; n as usize];
+
+        let power = |mut b, mut e| {
+            let mut power = 1;
+            while e > 0 {
+                if e & 1 == 1 {
+                    power = power * b % M;
+                }
+                b = b * b % M;
+                e >>= 1;
+            }
+
+            power
+        };
+
+        facts[0] = 1;
+        for i in 1..facts.len() {
+            facts[i] = facts[i - 1] * i as i64 % M;
+        }
+
+        ifacts[n as usize - 1] = power(facts[n as usize - 1], M - 2);
+        for i in (1..ifacts.len()).rev() {
+            ifacts[i - 1] = ifacts[i] * i as i64 % M;
+        }
+
+        let n_choose_k = |n, k| facts[n] * ifacts[k] % M * ifacts[n - k] % M;
+
+        (m as i64 * n_choose_k(n as usize - 1, k as usize) % M
+            * power(m as i64 - 1, (n - k - 1) as i64)
+            % M) as _
+    }
+}
+
 #[cfg(test)]
 mod tests;

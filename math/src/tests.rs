@@ -187,3 +187,10 @@ fn test_3272() {
         assert_eq!(Sol3272::count_good_integers(n, k), rst)
     }
 }
+
+#[test]
+fn test_3450() {
+    for (rst, n, m, k) in [(4, 3, 2, 1), (6, 4, 2, 2), (2, 5, 2, 0)] {
+        assert_eq!(Sol3450::count_good_arrays(n, m, k), rst);
+    }
+}
