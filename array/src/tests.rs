@@ -249,6 +249,33 @@ fn test_2942() {
 }
 
 #[test]
+fn test_2966() {
+    for (rst, nums, k) in [
+        (
+            vec![vec![1, 1, 3], vec![3, 4, 5], vec![7, 8, 9]],
+            vec![1, 3, 4, 8, 7, 9, 3, 5, 1],
+            2,
+        ),
+        (vec![], vec![2, 4, 2, 2, 5, 2], 2),
+        (
+            vec![
+                vec![2, 2, 12],
+                vec![4, 8, 5],
+                vec![5, 9, 7],
+                vec![7, 8, 5],
+                vec![5, 9, 10],
+                vec![11, 12, 2],
+            ],
+            vec![4, 2, 9, 8, 2, 12, 7, 12, 10, 5, 8, 5, 5, 7, 9, 2, 5, 11],
+            14,
+        ),
+    ] {
+        println!("* {nums:?} {k}");
+        assert_eq!(Sol2966::divide_array(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_3105() {
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![1, 4, 3, 3, 2]), 2);
     assert_eq!(Sol3105::longest_monotonic_subarray(vec![3, 3, 3, 3]), 1);

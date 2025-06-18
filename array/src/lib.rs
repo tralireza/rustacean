@@ -443,6 +443,24 @@ impl Sol2942 {
     }
 }
 
+/// 2966m Divide Array Into Arrays With Max Difference
+struct Sol2966 {}
+impl Sol2966 {
+    pub fn divide_array(mut nums: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
+        nums.sort_unstable();
+        nums.chunks(3)
+            .map(|chk| {
+                if chk[2] - chk[0] > k {
+                    None
+                } else {
+                    Some(chk.to_vec())
+                }
+            })
+            .collect::<Option<Vec<Vec<i32>>>>()
+            .unwrap_or_default()
+    }
+}
+
 /// 3105 Longest Strictly Increasing or Strictly Decreasing Subarray
 struct Sol3105;
 
