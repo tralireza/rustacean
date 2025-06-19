@@ -68,6 +68,17 @@ fn test_2131() {
 }
 
 #[test]
+fn test_2294() {
+    for (rst, nums, k) in [
+        (2, vec![3, 6, 1, 2, 5], 2),
+        (2, vec![1, 2, 3], 1),
+        (3, vec![2, 2, 4, 5], 0),
+    ] {
+        assert_eq!(Sol2294::partition_array(nums, k), rst);
+    }
+}
+
+#[test]
 fn test_2434() {
     macro_rules! s {
         ($s:expr) => {

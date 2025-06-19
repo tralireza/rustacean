@@ -150,6 +150,26 @@ impl Sol2131 {
     }
 }
 
+/// 2294m Partition Array Such That Maximum Difference Is K
+struct Sol2294 {}
+
+impl Sol2294 {
+    /// 1 <= N, k <= 10^5
+    pub fn partition_array(mut nums: Vec<i32>, k: i32) -> i32 {
+        nums.sort_unstable();
+
+        let mut start = nums[0];
+        nums[1..].into_iter().fold(0, |r, &n| {
+            if n - start > k {
+                start = n;
+                r + 1
+            } else {
+                r
+            }
+        }) + 1
+    }
+}
+
 /// 2434m Using a Robot to Print the Lexicographically Smallest String
 struct Sol2434 {}
 
