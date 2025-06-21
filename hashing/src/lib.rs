@@ -489,6 +489,37 @@ impl Sol2965 {
     }
 }
 
+/// 3085m Minimum Deletions to Make String K-Special
+struct Sol3085 {}
+
+impl Sol3085 {
+    pub fn minimum_deletions(word: String, k: i32) -> i32 {
+        use std::collections::HashMap;
+
+        let mut fmap = HashMap::new();
+        for chr in word.chars() {
+            fmap.entry(chr).and_modify(|f| *f += 1).or_insert(1);
+        }
+        println!("-> {fmap:?}");
+
+        let freqs: Vec<_> = fmap.values().map(|&n| n).collect();
+        println!("-> {freqs:?}");
+
+        fmap.iter().fold(word.len() as i32, |mdels, (_, &f)| {
+            let mut dels = 0;
+            for &frq in &freqs {
+                if f > frq {
+                    dels += frq;
+                } else if f + k < frq {
+                    dels += frq - (f + k);
+                }
+            }
+
+            mdels.min(dels)
+        })
+    }
+}
+
 /// 3160m Find the Number of Distinct Colors Among the Balls
 struct Sol3160;
 

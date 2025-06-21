@@ -205,6 +205,17 @@ fn test_2965() {
 }
 
 #[test]
+fn test_3085() {
+    for (rst, word, k) in [
+        (3, "aabcaba".to_string(), 0),
+        (2, "dabdcbdcdcd".to_string(), 2),
+        (1, "aaabaaa".to_string(), 2),
+    ] {
+        assert_eq!(Sol3085::minimum_deletions(word, k), rst);
+    }
+}
+
+#[test]
 fn test_3160() {
     assert_eq!(
         Sol3160::query_results(4, vec![vec![1, 4], vec![2, 5], vec![1, 3], vec![3, 4]]),
