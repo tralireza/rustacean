@@ -211,6 +211,7 @@ fn test_3085() {
         (2, "dabdcbdcdcd".to_string(), 2),
         (1, "aaabaaa".to_string(), 2),
     ] {
+        println!("-> '{word}' {k}");
         assert_eq!(Sol3085::minimum_deletions(word, k), rst);
     }
 }
