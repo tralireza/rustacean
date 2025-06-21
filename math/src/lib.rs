@@ -818,5 +818,25 @@ impl Sol3405 {
     }
 }
 
+/// 3443m Maximum Manhattan Distance After K Changes
+struct Sol3443 {}
+
+impl Sol3443 {
+    pub fn max_distance(s: String, k: i32) -> i32 {
+        let (mut lat, mut long) = (0i32, 0i32);
+        s.chars().enumerate().fold(0, |xdist, (i, dir)| {
+            match dir {
+                'N' => lat += 1,
+                'S' => lat -= 1,
+                'W' => long += 1,
+                'E' => long -= 1,
+                _ => (),
+            }
+
+            xdist.max((i as i32 + 1).min(lat.abs() + long.abs() + 2 * k))
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests;

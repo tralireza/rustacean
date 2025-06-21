@@ -194,3 +194,10 @@ fn test_3405() {
         assert_eq!(Sol3405::count_good_arrays(n, m, k), rst);
     }
 }
+
+#[test]
+fn test_3443() {
+    for (rst, s, k) in [(3, "NWSE".to_string(), 1), (6, "NSWWEW".to_string(), 3)] {
+        assert_eq!(Sol3443::max_distance(s, k), rst);
+    }
+}
