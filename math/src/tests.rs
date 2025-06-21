@@ -189,8 +189,8 @@ fn test_3272() {
 }
 
 #[test]
-fn test_3450() {
+fn test_3405() {
     for (rst, n, m, k) in [(4, 3, 2, 1), (6, 4, 2, 2), (2, 5, 2, 0)] {
-        assert_eq!(Sol3450::count_good_arrays(n, m, k), rst);
+        assert_eq!(Sol3405::count_good_arrays(n, m, k), rst);
     }
 }

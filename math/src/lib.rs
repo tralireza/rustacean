@@ -778,9 +778,9 @@ impl Sol3272 {
 }
 
 /// 3405h Count the Number of Arrays with K Matching Adjacent Elements
-struct Sol3450 {}
+struct Sol3405 {}
 
-impl Sol3450 {
+impl Sol3405 {
     pub fn count_good_arrays(n: i32, m: i32, k: i32) -> i32 {
         const M: i64 = 1e9 as i64 + 7;
 
