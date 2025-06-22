@@ -114,6 +114,21 @@ fn test_2138() {
         println!(":: {rst:?}");
     }
 
+    println!("---");
+    let chrs: Vec<_> = "abcdefghij".to_string().chars().collect();
+    println!("-> {} :: {chrs:?}", std::any::type_name_of_val(&chrs));
+
+    let chks: Vec<_> = chrs.chunks(3).collect();
+    println!("-> {} :: {chks:?}", std::any::type_name_of_val(&chks));
+
+    let divs: Vec<_> = chks
+        .iter()
+        .map(|chk| chk.iter().collect::<String>())
+        .collect();
+    println!("-> {} :: {divs:?}", std::any::type_name_of_val(&divs));
+    println!("---");
+}
+
 #[bench]
 fn bench_2138(b: &mut test::Bencher) {
     b.iter(|| test::black_box(Sol2138::divide_string("abcdefghij".to_string(), 3, 'x')));
