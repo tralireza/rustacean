@@ -88,6 +88,34 @@ fn test_1163() {
 }
 
 #[test]
+fn test_2138() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, s, k, fill) in [
+        (
+            vec![s!("abc"), s!("def"), s!("ghi")],
+            "abcdefghi".to_string(),
+            3,
+            'x',
+        ),
+        (
+            vec![s!("abc"), s!("def"), s!("ghi"), s!("jxx")],
+            "abcdefghij".to_string(),
+            3,
+            'x',
+        ),
+    ] {
+        println!("* {s:?} {k} {fill:?}");
+        assert_eq!(Sol2138::divide_string(s, k, fill), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3403() {
     for (rst, word, num_friends) in [
         ("dbc".to_string(), "dbca".to_string(), 2),

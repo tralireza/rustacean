@@ -255,6 +255,30 @@ impl Sol1163 {
     }
 }
 
+/// 2138 Divide a String Into Group of Size K
+struct Sol2138 {}
+
+impl Sol2138 {
+    pub fn divide_string(s: String, k: i32, fill: char) -> Vec<String> {
+        let mut divs = vec![];
+
+        let k = k as usize;
+        for start in (0..=s.len() - k).step_by(k) {
+            divs.push(s[start..start + k].to_string());
+        }
+
+        if s.len() % k != 0 {
+            let mut last = s[s.len() / k * k..].to_string();
+            for _ in 0..k - s.len() % k {
+                last.push(fill);
+            }
+            divs.push(last);
+        }
+
+        divs
+    }
+}
+
 /// 3403h Find the Lexicographically Largest String From the Box I
 struct Sol3403 {}
 
