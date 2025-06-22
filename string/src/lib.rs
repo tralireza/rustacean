@@ -1,5 +1,9 @@
 //! # String :: Rusty
 
+#![feature(test)]
+
+extern crate test;
+
 /// 38m Count and Say
 struct Sol38;
 
