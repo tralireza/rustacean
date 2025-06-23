@@ -407,8 +407,20 @@ impl Sol2081 {
     pub fn k_mirror(k: i32, mut n: i32) -> i64 {
         let k = k as i64;
 
-        let k_palindrome = |mut p| {
+        let k_palindrome_fast = |n| {
+            let (mut p, mut t) = (0, n);
+            while t > 0 {
+                p *= k;
+                p += t % k;
+                t /= k;
+            }
+            p == n
+        };
+
+        let k_palindrome = |n| {
             let mut digits = vec![];
+
+            let mut p = n;
             while p > 0 {
                 digits.push(p % k);
                 p /= k;
@@ -423,7 +435,7 @@ impl Sol2081 {
                 r -= 1;
             }
 
-            println!("-> + {digits:?}");
+            println!("-> {digits:?}   {n}   {}", k_palindrome_fast(n));
             true
         };
 
@@ -438,7 +450,6 @@ impl Sol2081 {
                     p += t % 10;
                     t /= 10;
                 }
-                println!("-> (O) {p}");
 
                 if k_palindrome(p) {
                     total += p;
@@ -456,7 +467,6 @@ impl Sol2081 {
                     p += t % 10;
                     t /= 10;
                 }
-                println!("-> (E) {p}");
 
                 if k_palindrome(p) {
                     total += p;
