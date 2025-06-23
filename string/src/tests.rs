@@ -113,6 +113,45 @@ fn test_2138() {
         assert_eq!(Sol2138::divide_string(s, k, fill), rst);
         println!(":: {rst:?}");
     }
+
+    println!("---");
+    let chrs: Vec<_> = "abcdefghij".to_string().chars().collect();
+    println!("-> {} :: {chrs:?}", std::any::type_name_of_val(&chrs));
+
+    let chks: Vec<_> = chrs.chunks(3).collect();
+    println!("-> {} :: {chks:?}", std::any::type_name_of_val(&chks));
+
+    let divs: Vec<_> = chks
+        .iter()
+        .map(|chk| chk.iter().collect::<String>())
+        .collect();
+    println!("-> {} :: {divs:?}", std::any::type_name_of_val(&divs));
+    println!("---");
+}
+
+#[bench]
+fn bench_2138(b: &mut test::Bencher) {
+    b.iter(|| test::black_box(Sol2138::divide_string("abcdefghij".to_string(), 3, 'x')));
+}
+
+#[bench]
+fn bench_2138_rusty(b: &mut test::Bencher) {
+    fn rusty(s: String, k: i32, fill: char) -> Vec<String> {
+        let chrs: Vec<_> = s.chars().collect();
+        let chks: Vec<_> = chrs.chunks(3).collect();
+        let mut divs: Vec<_> = chks
+            .iter()
+            .map(|chk| chk.iter().collect::<String>())
+            .collect();
+
+        if let Some(last) = divs.last_mut() {
+            *last += &fill.to_string().repeat(k as usize - last.len());
+        }
+
+        divs
+    }
+
+    b.iter(|| test::black_box(rusty("abcdefghij".to_string(), 3, 'x')));
 }
 
 #[bench]
