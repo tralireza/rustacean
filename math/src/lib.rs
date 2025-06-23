@@ -398,6 +398,80 @@ impl Sol1780 {
     }
 }
 
+/// 2081h Count of k-Mirror Numbers
+struct Sol2081 {}
+
+impl Sol2081 {
+    /// 2 <= k <= 9
+    /// 1 <= n <= 30
+    pub fn k_mirror(k: i32, mut n: i32) -> i64 {
+        let k = k as i64;
+
+        let k_palindrome = |mut p| {
+            let mut digits = vec![];
+            while p > 0 {
+                digits.push(p % k);
+                p /= k;
+            }
+
+            let (mut l, mut r) = (0, digits.len() - 1);
+            while l < r {
+                if digits[l] != digits[r] {
+                    return false;
+                }
+                l += 1;
+                r -= 1;
+            }
+
+            println!("-> + {digits:?}");
+            true
+        };
+
+        let mut total = 0;
+
+        let mut start = 1;
+        loop {
+            for mut p in start..start * 10 {
+                let mut t = p / 10;
+                while t > 0 {
+                    p *= 10;
+                    p += t % 10;
+                    t /= 10;
+                }
+                println!("-> (O) {p}");
+
+                if k_palindrome(p) {
+                    total += p;
+                    n -= 1;
+                    if n == 0 {
+                        return total;
+                    }
+                }
+            }
+
+            for mut p in start..start * 10 {
+                let mut t = p;
+                while t > 0 {
+                    p *= 10;
+                    p += t % 10;
+                    t /= 10;
+                }
+                println!("-> (E) {p}");
+
+                if k_palindrome(p) {
+                    total += p;
+                    n -= 1;
+                    if n == 0 {
+                        return total;
+                    }
+                }
+            }
+
+            start *= 10;
+        }
+    }
+}
+
 /// 2338h Count the Number of Ideal Arrays
 struct Sol2338;
 

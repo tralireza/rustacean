@@ -115,6 +115,14 @@ fn test_1780() {
 }
 
 #[test]
+fn test_2081() {
+    for (rst, k, n) in [(25, 2, 5), (499, 3, 7), (20379000, 7, 17)] {
+        println!("* {k} {n}");
+        assert_eq!(Sol2081::k_mirror(k, n), rst);
+    }
+}
+
+#[test]
 fn test_2338() {
     for (rst, n, max_value) in [(10, 2, 5), (11, 5, 3), (27, 2, 10), (510488787, 184, 389)] {
         assert_eq!(Sol2338::ideal_arrays(n, max_value), rst);
