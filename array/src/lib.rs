@@ -170,6 +170,27 @@ impl Sol1920 {
     }
 }
 
+/// 2200 Find All K-Distant Indices in an Array
+struct Sol2200 {}
+
+impl Sol2200 {
+    pub fn find_k_distant_indices(nums: Vec<i32>, key: i32, k: i32) -> Vec<i32> {
+        let k = k as usize;
+        let mut l = 0;
+        nums.iter()
+            .enumerate()
+            .filter(|(_, &n)| n == key)
+            .fold(vec![], |mut kdists, (r, _)| {
+                for i in l.max(r.saturating_sub(k))..=(r + k).min(nums.len() - 1) {
+                    kdists.push(i as i32);
+                }
+                l = r + k + 1;
+
+                kdists
+            })
+    }
+}
+
 /// 2016 Maximum Difference Between Increasing Elements
 struct Sol2016 {}
 

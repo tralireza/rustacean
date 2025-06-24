@@ -116,6 +116,16 @@ fn test_1920() {
 }
 
 #[test]
+fn test_2200() {
+    for (rst, nums, key, k) in [
+        (vec![1, 2, 3, 4, 5, 6], vec![3, 4, 9, 1, 3, 9, 5], 9, 1),
+        (vec![0, 1, 2, 3, 4], vec![2, 2, 2, 2, 2], 2, 2),
+    ] {
+        assert_eq!(Sol2200::find_k_distant_indices(nums, key, k), rst);
+    }
+}
+
+#[test]
 fn test_2016() {
     for (rst, nums) in [
         (4, vec![7, 1, 5, 4]),
