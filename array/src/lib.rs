@@ -647,7 +647,7 @@ impl Sol3394 {
     }
 }
 
-//// 3423 Maximum Difference Between Adjacent Elements in a Circular Array
+/// 3423 Maximum Difference Between Adjacent Elements in a Circular Array
 struct Sol3423 {}
 
 impl Sol3423 {
