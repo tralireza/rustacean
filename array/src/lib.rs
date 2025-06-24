@@ -55,12 +55,10 @@ impl Sol1184 {
             (src, dst) = (dst, src);
         }
 
-        distance[src..dst].iter().fold(0, |r, v| r + v).min(
-            distance[dst..]
-                .iter()
-                .chain(distance[..src].iter())
-                .fold(0, |r, v| r + v),
-        )
+        distance[src..dst]
+            .iter()
+            .sum::<i32>()
+            .min(distance[dst..].iter().chain(distance[..src].iter()).sum())
     }
 }
 
