@@ -153,8 +153,8 @@ impl Sol1920 {
             for i in 0..nums.len() {
                 nums[i] += 1000 * (nums[nums[i] as usize] % 1000);
             }
-            for i in 0..nums.len() {
-                nums[i] /= 1000;
+            for n in nums.iter_mut() {
+                *n /= 1000;
             }
 
             nums
