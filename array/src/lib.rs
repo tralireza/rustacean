@@ -128,7 +128,7 @@ impl Sol1800 {
         nums.windows(2)
             .fold((nums[0], nums[0]), |mut kadan, v| {
                 if v[1] > v[0] {
-                    kadan.0 = kadan.0 + v[1];
+                    kadan.0 += v[1];
                 } else {
                     kadan.0 = v[1];
                 }
