@@ -182,6 +182,47 @@ impl Sol704 {
     }
 }
 
+/// 2040h Kth Smallest Product of Two Sorted Arrays
+struct Sol2040 {}
+
+impl Sol2040 {
+    /// 1 <= N <= 5*10^4
+    /// -10^5 <= N_i <= 10^5
+    pub fn kth_smallest_product(nums1: Vec<i32>, nums2: Vec<i32>, k: i64) -> i64 {
+        let count_smaller = |v| {
+            let mut count = 0;
+            for &n in &nums1 {
+                let (mut l, mut r) = (0, nums2.len() as i32 - 1);
+                while l <= r {
+                    let m = l + ((r - l) >> 1);
+                    let p = nums2[m as usize] as i64 * n as i64;
+                    if n >= 0 && p <= v || n < 0 && p > v {
+                        l = m + 1;
+                    } else {
+                        r = m - 1;
+                    }
+                }
+
+                count += if n >= 0 { l } else { nums2.len() as i32 - l } as i64;
+            }
+
+            count
+        };
+
+        let (mut l, mut r) = (-1e10 as i64, 1e10 as i64);
+        while l <= r {
+            let m = l + ((r - l) >> 1);
+            if count_smaller(m) < k {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+
+        l
+    }
+}
+
 /// 2071h Maximum Number of Tasks You Can Assign
 struct Sol2071;
 

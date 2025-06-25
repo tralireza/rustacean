@@ -38,6 +38,18 @@ fn test_704() {
 }
 
 #[test]
+fn test_2040() {
+    for (rst, nums1, nums2, k) in [
+        (8, vec![2, 5], vec![3, 4], 2),
+        (0, vec![-4, -2, 0, 3], vec![2, 4], 6),
+        (-6, vec![-2, -1, 0, 1, 2], vec![-3, -1, 2, 4, 5], 3),
+    ] {
+        println!("* {nums1:?} {nums2:?} {k}",);
+        assert_eq!(Sol2040::kth_smallest_product(nums1, nums2, k), rst);
+    }
+}
+
+#[test]
 fn test_2071() {
     for (rst, tasks, workers, pills, strength) in [
         (3, vec![3, 2, 1], vec![0, 3, 3], 1, 1),
