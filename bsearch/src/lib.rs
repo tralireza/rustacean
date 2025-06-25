@@ -192,33 +192,36 @@ impl Sol2040 {
         let count_smaller = |v| {
             let mut count = 0;
             for &n in &nums1 {
-                let (mut l, mut r) = (0, nums2.len() as i32 - 1);
-                while l <= r {
+                let (mut l, mut r) = (0, nums2.len());
+                while l < r {
                     let m = l + ((r - l) >> 1);
-                    let p = nums2[m as usize] as i64 * n as i64;
+                    let p = nums2[m] as i64 * n as i64;
                     if n >= 0 && p <= v || n < 0 && p > v {
                         l = m + 1;
                     } else {
-                        r = m - 1;
+                        r = m;
                     }
                 }
 
-                count += if n >= 0 { l } else { nums2.len() as i32 - l } as i64;
+                count += if n >= 0 { l } else { nums2.len() - l } as i64;
             }
 
             count
         };
 
         let (mut l, mut r) = (-1e10 as i64, 1e10 as i64);
-        while l <= r {
+        while l < r {
             let m = l + ((r - l) >> 1);
+            println!("-> {l} {m} {r}");
+
             if count_smaller(m) < k {
                 l = m + 1;
             } else {
-                r = m - 1;
+                r = m;
             }
         }
 
+        println!(":: {l}");
         l
     }
 }
