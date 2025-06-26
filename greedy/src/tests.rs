@@ -79,6 +79,17 @@ fn test_2294() {
 }
 
 #[test]
+fn test_2311() {
+    for (rst, s, k) in [
+        (5, "1001010".to_string(), 5),
+        (6, "00101001".to_string(), 1),
+    ] {
+        println!("* {s:?} {k}");
+        assert_eq!(Sol2311::longest_subsequence(s, k), rst);
+    }
+}
+
+#[test]
 fn test_2434() {
     macro_rules! s {
         ($s:expr) => {

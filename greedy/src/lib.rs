@@ -170,6 +170,33 @@ impl Sol2294 {
     }
 }
 
+/// 2311m Longest Binary Subsequence Less Than or Equal to K
+struct Sol2311 {}
+
+impl Sol2311 {
+    pub fn longest_subsequence(s: String, k: i32) -> i32 {
+        let mut sval = 0;
+        let bits = k.ilog2() as usize + 1;
+
+        s.chars()
+            .rev()
+            .enumerate()
+            .fold(0, |mut longest, (i, chr)| {
+                match chr {
+                    '1' => {
+                        if i < bits && sval + (1 << i) <= k {
+                            sval += 1 << i;
+                            longest += 1
+                        }
+                    }
+                    _ => longest += 1,
+                }
+
+                longest
+            })
+    }
+}
+
 /// 2434m Using a Robot to Print the Lexicographically Smallest String
 struct Sol2434 {}
 
