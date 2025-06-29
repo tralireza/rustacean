@@ -182,6 +182,46 @@ impl Sol704 {
     }
 }
 
+/// 1498m Number of Subsequences That Satisfy the Give Sum Condition
+struct Sol1498 {}
+
+impl Sol1498 {
+    pub fn num_subseq(mut nums: Vec<i32>, target: i32) -> i32 {
+        const M: i64 = 1e9 as i64 + 7;
+
+        let mpower = |mut exponent| {
+            let mut mpower = 1;
+            let mut base = 2;
+            while exponent > 0 {
+                if exponent & 1 == 1 {
+                    mpower = (base * mpower) % M;
+                }
+                base = (base * base) % M;
+                exponent >>= 1;
+            }
+            return mpower;
+        };
+
+        nums.sort_unstable();
+
+        let mut count = 0;
+        let (mut left, mut right) = (0, nums.len() - 1);
+        while left <= right {
+            if nums[left] + nums[right] <= target {
+                count = (count + mpower(right - left)) % M;
+                left += 1;
+            } else {
+                if right == 0 {
+                    break;
+                }
+                right -= 1;
+            }
+        }
+
+        count as _
+    }
+}
+
 /// 2040h Kth Smallest Product of Two Sorted Arrays
 struct Sol2040 {}
 
