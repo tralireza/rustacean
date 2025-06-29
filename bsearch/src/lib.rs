@@ -201,6 +201,12 @@ impl Sol1498 {
             }
             return mpower;
         };
+        let _ = mpower(0);
+
+        let mut powers = vec![1; nums.len()];
+        for x in 1..powers.len() {
+            powers[x] = (powers[x - 1] * 2) % M;
+        }
 
         nums.sort_unstable();
 
@@ -208,7 +214,7 @@ impl Sol1498 {
         let (mut left, mut right) = (0, nums.len() - 1);
         while left <= right {
             if nums[left] + nums[right] <= target {
-                count = (count + mpower(right - left)) % M;
+                count = (count + powers[right - left]) % M;
                 left += 1;
             } else {
                 if right == 0 {
