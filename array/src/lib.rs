@@ -289,6 +289,24 @@ impl Sol2094 {
     }
 }
 
+/// 2099 Find Subsequence of Length K With the Largest Sum
+struct Sol2099 {}
+
+impl Sol2099 {
+    pub fn max_subsequence(nums: Vec<i32>, k: i32) -> Vec<i32> {
+        use std::cmp::Reverse;
+
+        let mut sorted: Vec<_> = nums.iter().enumerate().collect();
+        sorted.sort_by_key(|(_, &n)| Reverse(n));
+        println!("-> {sorted:?}");
+
+        sorted[0..k as usize].sort();
+        println!("-> {sorted:?}");
+
+        sorted[0..k as usize].into_iter().map(|(_, &n)| n).collect()
+    }
+}
+
 /// 2145m Count the Hidden Sequences
 struct Sol2145;
 

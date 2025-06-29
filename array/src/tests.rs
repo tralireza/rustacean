@@ -112,6 +112,7 @@ fn test_1920() {
         (vec![4, 5, 0, 1, 2, 3], vec![5, 0, 1, 2, 3, 4]),
     ] {
         assert_eq!(Sol1920::build_array(nums), rst);
+        println!(":: {rst:?}");
     }
 }
 
@@ -168,6 +169,19 @@ fn test_2094() {
         (vec![], vec![3, 7, 5]),
     ] {
         assert_eq!(Sol2094::find_even_numbers(digits), rst);
+    }
+}
+
+#[test]
+fn test_2099() {
+    for (rst, nums, k) in [
+        (vec![3, 3], vec![2, 1, 3, 3], 2),
+        (vec![1, 3, 4], vec![1, -2, 3, 4], 3),
+        (vec![3, 4], vec![3, 4, 3, 3], 2),
+    ] {
+        println!("* {nums:?} {k}");
+        assert_eq!(Sol2099::max_subsequence(nums, k), rst);
+        println!(":: {rst:?}");
     }
 }
 
