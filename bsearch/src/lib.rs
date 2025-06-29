@@ -186,6 +186,8 @@ impl Sol704 {
 struct Sol1498 {}
 
 impl Sol1498 {
+    /// 1 <= N <= 10^5
+    /// 1 <= N_i, target <= 10^6
     pub fn num_subseq(mut nums: Vec<i32>, target: i32) -> i32 {
         const M: i64 = 1e9 as i64 + 7;
 
