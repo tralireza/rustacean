@@ -199,7 +199,8 @@ impl Sol1498 {
                 base = (base * base) % M;
                 exponent >>= 1;
             }
-            return mpower;
+
+            mpower
         };
         let _ = mpower(0);
 
