@@ -182,6 +182,37 @@ impl Sol704 {
     }
 }
 
+/// 793h Preimage Size of Factorial Zeroes Function
+struct Sol793 {}
+
+impl Sol793 {
+    pub fn preimage_size_fzf(k: i32) -> i32 {
+        let fzf = |mut n| {
+            let mut count = 0;
+            while n / 5 > 0 {
+                count += n / 5;
+                n /= 5;
+            }
+            count
+        };
+
+        let lsearch = |target| {
+            let (mut l, mut r) = (0, i64::MAX);
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if fzf(m) < target {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+            l
+        };
+
+        (lsearch(k as i64 + 1) - lsearch(k as i64)) as _
+    }
+}
+
 /// 1498m Number of Subsequences That Satisfy the Give Sum Condition
 struct Sol1498 {}
 

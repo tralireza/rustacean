@@ -38,6 +38,20 @@ fn test_704() {
 }
 
 #[test]
+fn test_793() {
+    for (rst, k) in [
+        (5, 0),
+        (0, 5),
+        (5, 3),
+        (5, 1000000000), // 43/44
+    ] {
+        println!("* {k}");
+        assert_eq!(Sol793::preimage_size_fzf(k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1498() {
     for (rst, nums, target) in [
         (4, vec![3, 5, 6, 7], 9),
