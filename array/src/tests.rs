@@ -18,6 +18,15 @@ fn test_73() {
 }
 
 #[test]
+fn test_798() {
+    for (rst, nums) in [(3, vec![2, 3, 1, 4, 0]), (0, vec![1, 3, 0, 2, 4])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol798::best_rotation(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1184() {
     assert_eq!(
         Sol1184::distance_between_bus_stops(vec![1, 2, 3, 4], 0, 1),

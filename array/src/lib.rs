@@ -45,6 +45,38 @@ impl Sol73 {
     }
 }
 
+/// 798h Smallest Rotation with Highest Score
+struct Sol798 {}
+
+impl Sol798 {
+    /// 1 <= L <= 10^5
+    /// 0 <= N_i < L
+    pub fn best_rotation(nums: Vec<i32>) -> i32 {
+        let n = nums.len();
+
+        let mut scores = vec![0; n];
+        for (i, &p) in nums.iter().enumerate() {
+            let (left, right) = ((n + i - p as usize + 1) % n, (i + 1) % n);
+            scores[left] -= 1;
+            scores[right] += 1;
+            if left > right {
+                scores[0] -= 1;
+            }
+        }
+
+        let (mut cur, mut best) = (0, -(n as i32));
+        scores.into_iter().enumerate().fold(0, |x, (i, score)| {
+            cur += score;
+            if cur > best {
+                best = cur;
+                i
+            } else {
+                x
+            }
+        }) as _
+    }
+}
+
 /// 1184 Distance Between Bus Stops
 struct Sol1184;
 
