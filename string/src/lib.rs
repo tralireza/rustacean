@@ -283,6 +283,17 @@ impl Sol2138 {
     }
 }
 
+/// 3330 Find the Original Typed String I
+struct Sol3330;
+
+impl Sol3330 {
+    pub fn possible_string_count(word: String) -> i32 {
+        word.as_bytes()
+            .windows(2)
+            .fold(1, |count, w| if w[0] == w[1] { count + 1 } else { count })
+    }
+}
+
 /// 3403h Find the Lexicographically Largest String From the Box I
 struct Sol3403 {}
 

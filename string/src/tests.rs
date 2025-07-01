@@ -154,29 +154,17 @@ fn bench_2138_rusty(b: &mut test::Bencher) {
     b.iter(|| test::black_box(rusty("abcdefghij".to_string(), 3, 'x')));
 }
 
-#[bench]
-fn bench_2138(b: &mut test::Bencher) {
-    b.iter(|| test::black_box(Sol2138::divide_string("abcdefghij".to_string(), 3, 'x')));
-}
-
-#[bench]
-fn bench_2138_rusty(b: &mut test::Bencher) {
-    fn rusty(s: String, k: i32, fill: char) -> Vec<String> {
-        let chrs: Vec<_> = s.chars().collect();
-        let chks: Vec<_> = chrs.chunks(3).collect();
-        let mut divs: Vec<_> = chks
-            .iter()
-            .map(|chk| chk.iter().collect::<String>())
-            .collect();
-
-        if let Some(last) = divs.last_mut() {
-            *last += &fill.to_string().repeat(k as usize - last.len());
-        }
-
-        divs
+#[test]
+fn test_3330() {
+    for (rst, word) in [
+        (5, "abbcccc".to_string()),
+        (1, "abcd".to_string()),
+        (4, "aaaa".to_string()),
+    ] {
+        println!("* {word:?}");
+        assert_eq!(Sol3330::possible_string_count(word), rst);
+        println!(":: {rst:?}");
     }
-
-    b.iter(|| test::black_box(rusty("abcdefghij".to_string(), 3, 'x')));
 }
 
 #[test]
