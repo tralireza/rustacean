@@ -107,6 +107,74 @@ impl Sol1007 {
     }
 }
 
+/// 2014h Longest Subsequence Repeated K Times
+struct Sol2014 {}
+
+impl Sol2014 {
+    pub fn longest_subsequence_repeated_k(s: String, k: i32) -> String {
+        use std::collections::{HashMap, VecDeque};
+
+        let mut freqs = HashMap::new();
+        for chr in s.chars() {
+            *freqs.entry(chr).or_insert(0) += 1;
+        }
+        println!("-> {freqs:?}");
+
+        let mut chrs = vec![];
+        for chr in ('a'..='z').rev() {
+            if let Some(&f) = freqs.get(&chr)
+                && f >= k
+            {
+                chrs.push(chr);
+            }
+        }
+        println!("-> {chrs:?}");
+
+        let mut queue = VecDeque::new();
+        for chr in chrs.iter() {
+            queue.push_back(chr.to_string());
+        }
+
+        let check = |p: &str| {
+            let p: Vec<_> = p.chars().collect();
+
+            let (mut fcount, mut i) = (0, 0);
+            for chr in s.chars() {
+                if chr == p[i] {
+                    i += 1;
+                    if i == p.len() {
+                        fcount += 1;
+                        if fcount == k {
+                            return true;
+                        }
+                        i = 0;
+                    }
+                }
+            }
+
+            false
+        };
+
+        let mut lsr = String::new();
+        while let Some(cur) = queue.pop_front() {
+            println!("-> {cur:?}   {queue:?}");
+
+            if cur.len() > lsr.len() {
+                lsr = cur.clone();
+            }
+
+            for &chr in chrs.iter() {
+                let cur = cur.clone() + &chr.to_string();
+                if check(&cur) {
+                    queue.push_back(cur);
+                }
+            }
+        }
+
+        lsr
+    }
+}
+
 /// 2131m Longest Palindrome by Concatenating Two Letter Words
 struct Sol2131 {}
 

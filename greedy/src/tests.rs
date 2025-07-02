@@ -47,6 +47,18 @@ fn test_1007() {
 }
 
 #[test]
+fn test_2014() {
+    for (rst, s, k) in [
+        ("let".to_string(), "letsleetcode".to_string(), 2),
+        ("".to_string(), "ab".to_string(), 2),
+    ] {
+        println!("* {s:?} {k}");
+        assert_eq!(Sol2014::longest_subsequence_repeated_k(s, k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2131() {
     macro_rules! s {
         ($s:expr) => {
