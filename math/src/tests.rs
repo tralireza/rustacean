@@ -197,6 +197,15 @@ fn test_3272() {
 }
 
 #[test]
+fn test_3304() {
+    for (rst, k) in [('b', 5), ('c', 10)] {
+        println!("* {k}");
+        assert_eq!(Sol3304::kth_character(k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3307() {
     for (rst, k, operations) in [('a', 5, vec![0, 0, 0]), ('b', 10, vec![0, 1, 0, 1])] {
         println!("* {k} {operations:?}");
