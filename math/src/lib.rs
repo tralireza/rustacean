@@ -851,6 +851,28 @@ impl Sol3272 {
     }
 }
 
+/// 3307h Find the K-th Character in a String Game II
+struct Sol3307 {}
+
+impl Sol3307 {
+    pub fn kth_character(mut k: i64, operations: Vec<i32>) -> char {
+        let mut offset = 0;
+
+        k -= 1;
+        for p in (0..64 - k.leading_zeros()).rev() {
+            if (k >> p) & 1 == 1 {
+                offset += operations[p as usize];
+            }
+        }
+
+        ('a'..='z')
+            .skip((offset % 26) as usize)
+            .take(1)
+            .next()
+            .unwrap_or('a')
+    }
+}
+
 /// 3405h Count the Number of Arrays with K Matching Adjacent Elements
 struct Sol3405 {}
 

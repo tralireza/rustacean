@@ -197,6 +197,15 @@ fn test_3272() {
 }
 
 #[test]
+fn test_3307() {
+    for (rst, k, operations) in [('a', 5, vec![0, 0, 0]), ('b', 10, vec![0, 1, 0, 1])] {
+        println!("* {k} {operations:?}");
+        assert_eq!(Sol3307::kth_character(k, operations), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3405() {
     for (rst, n, m, k) in [(4, 3, 2, 1), (6, 4, 2, 2), (2, 5, 2, 0)] {
         assert_eq!(Sol3405::count_good_arrays(n, m, k), rst);
