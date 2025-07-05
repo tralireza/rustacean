@@ -878,6 +878,15 @@ struct Sol3307 {}
 
 impl Sol3307 {
     pub fn kth_character(mut k: i64, operations: Vec<i32>) -> char {
+        println!(
+            ":? {:?}",
+            ('a'..='z')
+                .skip((k - 1).count_ones() as usize - 1)
+                .take(1)
+                .next()
+                .unwrap_or('a')
+        );
+
         let mut offset = 0;
 
         k -= 1;
