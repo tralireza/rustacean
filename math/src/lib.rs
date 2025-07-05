@@ -111,8 +111,8 @@ impl Sol587 {
         }
 
         let mut convex_hull: Vec<_> = lower[..lower.len() - 1]
-            .into_iter()
-            .chain(upper[..upper.len() - 1].into_iter())
+            .iter()
+            .chain(upper[..upper.len() - 1].iter())
             .map(|&&p| p)
             .collect();
 

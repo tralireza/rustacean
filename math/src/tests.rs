@@ -29,7 +29,9 @@ fn test_587() {
         (vec![[1, 2], [2, 2], [4, 2]], vec![[1, 2], [2, 2], [4, 2]]),
         (vec![[1, 5]], vec![[1, 5]]), //87/88
     ] {
+        println!("* {trees:?}");
         assert_eq!(Sol587::outer_trees(trees), rst);
+        println!(":: {rst:?}");
     }
 }
 
