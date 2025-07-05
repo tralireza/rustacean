@@ -43,6 +43,19 @@ fn test_1184() {
 }
 
 #[test]
+fn test_1394() {
+    for (rst, arr) in [
+        (2, vec![2, 2, 3, 4]),
+        (3, vec![1, 2, 2, 3, 3, 3]),
+        (-1, vec![2, 2, 2, 3, 3]),
+    ] {
+        println!("* {arr:?}");
+        assert_eq!(Sol1394::find_lucky(arr), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1534() {
     for (rst, arr, a, b, c) in [
         (4, vec![3, 0, 1, 1, 9, 7], 7, 2, 3),

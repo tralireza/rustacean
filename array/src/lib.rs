@@ -94,6 +94,28 @@ impl Sol1184 {
     }
 }
 
+/// 1394 Find Lucky Integer in an Array
+struct Sol1394;
+
+impl Sol1394 {
+    /// 1 <= N, N_i <= 500
+    pub fn find_lucky(arr: Vec<i32>) -> i32 {
+        let mut freqs = [0; 500 + 1];
+        for n in arr {
+            freqs[n as usize] += 1;
+        }
+
+        freqs
+            .iter()
+            .enumerate()
+            .rev()
+            .filter(|(_, &f)| f > 0)
+            .find(|(n, f)| *f == n)
+            .map(|(n, _)| n as i32)
+            .unwrap_or(-1)
+    }
+}
+
 /// 1534 Count Good Triplets
 struct Sol1534;
 
