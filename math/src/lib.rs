@@ -816,7 +816,7 @@ impl Sol3272 {
 
             let palindrome = format!("{}{}", left, right);
             match palindrome.parse::<u64>() {
-                Ok(v) if v % k as u64 == 0 => {
+                Ok(v) if v.is_multiple_of(k as u64) => {
                     let mut chrs: Vec<char> = palindrome.chars().collect();
                     chrs.sort_unstable();
                     set.insert(chrs.iter().collect());
