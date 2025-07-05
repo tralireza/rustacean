@@ -502,7 +502,7 @@ impl Sol2338 {
             while x > 1 {
                 let factor = sieve[x];
                 let mut count = 0;
-                while x % factor == 0 {
+                while x.is_multiple_of(factor) {
                     x /= factor;
                     count += 1;
                 }
