@@ -254,9 +254,12 @@ impl Sol1865 {
     fn add(&mut self, index: i32, val: i32) {
         let index = index as usize;
 
-        *self.m.entry(self.nums2[index]).or_insert(0) -= 1;
+        self.m.entry(self.nums2[index]).and_modify(|f| *f -= 1);
         self.nums2[index] += val;
-        *self.m.entry(self.nums2[index]).or_insert(0) += 1;
+        self.m
+            .entry(self.nums2[index])
+            .and_modify(|f| *f += 1)
+            .or_insert(1);
     }
 
     fn count(&self, total: i32) -> i32 {
