@@ -18,6 +18,15 @@ fn test_73() {
 }
 
 #[test]
+fn test_747() {
+    for (rst, nums) in [(1, vec![3, 6, 1, 0]), (-1, vec![1, 2, 3, 4])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol747::dominant_index(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_798() {
     for (rst, nums) in [(3, vec![2, 3, 1, 4, 0]), (0, vec![1, 3, 0, 2, 4])] {
         println!("* {nums:?}");

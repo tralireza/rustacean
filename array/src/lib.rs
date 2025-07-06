@@ -45,6 +45,22 @@ impl Sol73 {
     }
 }
 
+/// 747 Largest Number At Least Twice of Others
+struct Sol747 {}
+
+impl Sol747 {
+    /// 0 <= N_i <= 100
+    pub fn dominant_index(nums: Vec<i32>) -> i32 {
+        let xv = nums.iter().max().unwrap_or(&-1);
+
+        if nums.iter().filter(|&n| n != xv).all(|n| 2 * n <= *xv) {
+            return nums.iter().position(|n| n == xv).unwrap() as i32;
+        }
+
+        -1
+    }
+}
+
 /// 798h Smallest Rotation with Highest Score
 struct Sol798 {}
 
