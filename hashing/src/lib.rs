@@ -233,6 +233,7 @@ impl Sol1790 {
 }
 
 /// 1865m Finding Pairs With a Certain Sum
+#[derive(Debug)]
 struct Sol1865 {
     nums1: Vec<i32>,
     nums2: Vec<i32>,

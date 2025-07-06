@@ -122,6 +122,7 @@ fn test_1790() {
 #[test]
 fn test_1865() {
     let mut o = Sol1865::new(vec![1, 1, 2, 2, 2, 3], vec![1, 4, 5, 2, 5, 4]);
+    println!("* {o:?}");
 
     assert_eq!(o.count(7), 8);
     o.add(3, 2);
@@ -133,6 +134,7 @@ fn test_1865() {
     o.add(1, 1);
 
     assert_eq!(o.count(7), 11);
+    println!(":: {o:?}");
 }
 
 #[test]
