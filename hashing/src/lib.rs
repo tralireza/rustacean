@@ -232,6 +232,39 @@ impl Sol1790 {
     }
 }
 
+/// 1865m Finding Pairs With a Certain Sum
+struct Sol1865 {
+    nums1: Vec<i32>,
+    nums2: Vec<i32>,
+    m: std::collections::HashMap<i32, i32>,
+}
+
+impl Sol1865 {
+    fn new(nums1: Vec<i32>, nums2: Vec<i32>) -> Self {
+        let mut m = std::collections::HashMap::new();
+        for &n in nums2.iter() {
+            *m.entry(n).or_insert(0) += 1;
+        }
+        println!("-> {m:?}");
+
+        Sol1865 { nums1, nums2, m }
+    }
+
+    fn add(&mut self, index: i32, val: i32) {
+        let index = index as usize;
+
+        *self.m.entry(self.nums2[index]).or_insert(0) -= 1;
+        self.nums2[index] += val;
+        *self.m.entry(self.nums2[index]).or_insert(0) += 1;
+    }
+
+    fn count(&self, total: i32) -> i32 {
+        self.nums1.iter().fold(0, |count, &n| {
+            count + self.m.get(&(total - n)).unwrap_or(&0)
+        })
+    }
+}
+
 /// 2206 Divide Array Into Equal Pairs
 struct Sol2206;
 

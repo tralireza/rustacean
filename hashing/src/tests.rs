@@ -120,6 +120,22 @@ fn test_1790() {
 }
 
 #[test]
+fn test_1865() {
+    let mut o = Sol1865::new(vec![1, 1, 2, 2, 2, 3], vec![1, 4, 5, 2, 5, 4]);
+
+    assert_eq!(o.count(7), 8);
+    o.add(3, 2);
+
+    assert_eq!(o.count(8), 2);
+    assert_eq!(o.count(4), 1);
+
+    o.add(0, 1);
+    o.add(1, 1);
+
+    assert_eq!(o.count(7), 11);
+}
+
+#[test]
 fn test_2206() {
     for (rst, nums) in [(true, vec![3, 2, 3, 2, 2, 2]), (false, vec![1, 2, 3, 4])] {
         assert_eq!(Sol2206::divide_array(nums), rst);
