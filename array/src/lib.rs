@@ -407,7 +407,7 @@ impl Sol2176 {
         let mut count = 0;
         for (i, &x) in nums.iter().enumerate().take(nums.len() - 1) {
             for (j, &y) in nums.iter().enumerate().skip(i + 1) {
-                if x == y && (i * j) % k as usize == 0 {
+                if x == y && (i * j).is_multiple_of(k as usize) {
                     count += 1;
                 }
             }
