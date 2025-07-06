@@ -373,7 +373,7 @@ impl Sol2099 {
         sorted[0..k as usize].sort();
         println!("-> {sorted:?}");
 
-        sorted[0..k as usize].into_iter().map(|(_, &n)| n).collect()
+        sorted[0..k as usize].iter().map(|(_, &n)| n).collect()
     }
 }
 
