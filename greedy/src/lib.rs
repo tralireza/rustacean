@@ -111,12 +111,12 @@ impl Sol1007 {
 struct Sol1353 {}
 
 impl Sol1353 {
-    /// 1 <= Start_i, End_i <= 10^5
+    /// 1 <= N, Start_i, End_i <= 10^5
     pub fn max_events(mut events: Vec<Vec<i32>>) -> i32 {
         use std::cmp::Reverse;
         use std::collections::BinaryHeap;
 
-        let final_day = events.iter().map(|v| v[1]).max().unwrap_or(1e5 as i32);
+        let final_day = events.iter().map(|v| v[1]).max().unwrap_or(0);
 
         events.sort_by_key(|v| v[0]);
         println!("-> {events:?}");
