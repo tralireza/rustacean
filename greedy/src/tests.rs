@@ -47,6 +47,18 @@ fn test_1007() {
 }
 
 #[test]
+fn test_1353() {
+    for (rst, nums) in [
+        (3, vec![vec![1, 2], vec![2, 3], vec![3, 4]]),
+        (4, vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![1, 2]]),
+    ] {
+        println!("* {nums:?}");
+        assert_eq!(Sol1353::max_events(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2014() {
     for (rst, s, k) in [
         ("let".to_string(), "letsleetcode".to_string(), 2),

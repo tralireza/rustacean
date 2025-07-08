@@ -107,6 +107,47 @@ impl Sol1007 {
     }
 }
 
+/// 1353m Maximum Number of Events That Can Be Attended
+struct Sol1353 {}
+
+impl Sol1353 {
+    /// 1 <= Start_i, End_i <= 10^5
+    pub fn max_events(mut events: Vec<Vec<i32>>) -> i32 {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let final_day = events.iter().map(|v| v[1]).max().unwrap_or(1e5 as i32);
+
+        events.sort_by_key(|v| v[0]);
+        println!("-> {events:?}");
+
+        let mut pq = BinaryHeap::new();
+
+        let mut count = 0;
+        let mut p = 0;
+        for day in 1..=final_day {
+            while p < events.len() && events[p][0] <= day {
+                pq.push(Reverse(events[p][1]));
+                p += 1;
+            }
+
+            while let Some(&Reverse(end)) = pq.peek() {
+                if end < day {
+                    pq.pop();
+                    continue;
+                }
+                break;
+            }
+
+            if let Some(Reverse(_)) = pq.pop() {
+                count += 1;
+            }
+        }
+
+        count
+    }
+}
+
 /// 2014h Longest Subsequence Repeated K Times
 struct Sol2014 {}
 
