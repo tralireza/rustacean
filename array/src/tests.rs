@@ -27,6 +27,21 @@ fn test_747() {
 }
 
 #[test]
+fn test_766() {
+    for (rst, matrix) in [
+        (
+            true,
+            vec![vec![1, 2, 3, 4], vec![5, 1, 2, 3], vec![9, 5, 1, 2]],
+        ),
+        (false, vec![vec![1, 2], vec![2, 2]]),
+    ] {
+        println!("* {matrix:?}");
+        assert_eq!(Sol766::is_toeplitz_matrix(matrix), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_798() {
     for (rst, nums) in [(3, vec![2, 3, 1, 4, 0]), (0, vec![1, 3, 0, 2, 4])] {
         println!("* {nums:?}");

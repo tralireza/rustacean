@@ -61,6 +61,18 @@ impl Sol747 {
     }
 }
 
+/// 766 Toeplitz Matrix
+struct Sol766 {}
+
+impl Sol766 {
+    pub fn is_toeplitz_matrix(matrix: Vec<Vec<i32>>) -> bool {
+        matrix
+            .iter()
+            .zip(matrix.iter().skip(1))
+            .all(|(tr, br)| tr.iter().zip(br.iter().skip(1)).all(|(lv, rv)| lv == rv))
+    }
+}
+
 /// 798h Smallest Rotation with Highest Score
 struct Sol798 {}
 
