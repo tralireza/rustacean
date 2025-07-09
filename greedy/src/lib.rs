@@ -268,7 +268,7 @@ impl Sol2294 {
         nums.sort_unstable();
 
         let mut start = nums[0];
-        nums[1..].into_iter().fold(0, |r, &n| {
+        nums[1..].iter().fold(0, |r, &n| {
             if n - start > k {
                 start = n;
                 r + 1
