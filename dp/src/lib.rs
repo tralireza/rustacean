@@ -685,6 +685,40 @@ impl Sol1749 {
     }
 }
 
+/// 1751h Maximum Number of Events That Can Be Attended
+struct Sol1751 {}
+
+impl Sol1751 {
+    pub fn max_values(mut events: Vec<Vec<i32>>, k: i32) -> i32 {
+        events.sort_by_key(|v| v[0]);
+        println!("-> {events:?}");
+
+        let rsearch = |target| {
+            let (mut l, mut r) = (0, events.len());
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if events[m][0] <= target {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+
+            l
+        };
+
+        let mut dp = vec![vec![0; events.len() + 1]; 1 + k as usize];
+        for start in (0..events.len()).rev() {
+            let x = rsearch(events[start][1]);
+            for k in 1..=k as usize {
+                dp[k][start] = (dp[k][start + 1]).max(dp[k - 1][x] + events[start][2]);
+            }
+        }
+
+        dp[k as usize][0]
+    }
+}
+
 /// 1857h Largest Color Value in a Directed Graph
 struct Sol1857 {}
 

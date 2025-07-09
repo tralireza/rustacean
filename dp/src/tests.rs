@@ -158,6 +158,23 @@ fn test_1749() {
 }
 
 #[test]
+fn test_1751() {
+    for (rst, events, k) in [
+        (7, vec![vec![1, 2, 4], vec![3, 4, 3], vec![2, 3, 1]], 2),
+        (10, vec![vec![1, 2, 4], vec![3, 4, 3], vec![2, 3, 10]], 2),
+        (
+            9,
+            vec![vec![1, 1, 1], vec![2, 2, 2], vec![3, 3, 3], vec![4, 4, 4]],
+            3,
+        ),
+    ] {
+        println!("* {events:?} {k}");
+        assert_eq!(Sol1751::max_values(events, k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1857() {
     for (rst, colors, edges) in [
         (
