@@ -227,3 +227,19 @@ fn test_3170() {
         println!(":: {rst}");
     }
 }
+
+#[test]
+fn test_3439() {
+    for (rst, event_time, k, start_time, end_time) in [
+        (2, 5, 1, vec![1, 3], vec![2, 5]),
+        (6, 10, 1, vec![0, 2, 9], vec![1, 4, 10]),
+        (0, 5, 2, vec![0, 1, 2, 3, 4], vec![1, 2, 3, 4, 5]),
+    ] {
+        println!("* {event_time} {k} {start_time:?} {end_time:?}");
+        assert_eq!(
+            Sol3439::max_free_time(event_time, k, start_time, end_time),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
