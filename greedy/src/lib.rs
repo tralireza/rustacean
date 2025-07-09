@@ -44,10 +44,10 @@ impl Sol630 {
             start += course[0];
             pq.push(course[0]);
 
-            if start > course[1] {
-                if let Some(days) = pq.pop() {
-                    start -= days;
-                }
+            if start > course[1]
+                && let Some(days) = pq.pop()
+            {
+                start -= days;
             }
         }
 
