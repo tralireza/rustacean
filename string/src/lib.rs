@@ -301,7 +301,7 @@ impl Sol2138 {
             divs.push(s[start..start + k].to_string());
         }
 
-        if s.len() % k != 0 {
+        if !s.len().is_multiple_of(k) {
             let mut last = s[s.len() / k * k..].to_string();
             for _ in 0..k - s.len() % k {
                 last.push(fill);
