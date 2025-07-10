@@ -47,7 +47,7 @@ fn test_804() {
 
     for (rst, words) in [
         (2, vec![s!("gin"), s!("zen"), s!("gig"), s!("msg")]),
-        (1, vec![s!("a")]),
+        (1, vec!["a".to_string()]),
     ] {
         println!("* {words:?}");
         assert_eq!(Sol804::unique_morse_representations(words), rst);
