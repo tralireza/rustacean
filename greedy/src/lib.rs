@@ -464,7 +464,7 @@ impl Sol3440 {
                 fits[j] = true;
             }
             rgap = rgap.max(
-                if i == 0 {
+                if j == n - 1 {
                     event_time
                 } else {
                     start_time[j + 1]
