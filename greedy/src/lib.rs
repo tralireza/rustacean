@@ -445,5 +445,49 @@ impl Sol3439 {
     }
 }
 
+/// 3440m Reschedule Meetings for Maximum Free Time II
+struct Sol3440 {}
+impl Sol3440 {
+    pub fn max_free_time(event_time: i32, start_time: Vec<i32>, end_time: Vec<i32>) -> i32 {
+        let n = start_time.len() & end_time.len();
+
+        let mut fits = vec![false; n];
+        let (mut l, mut r) = (0, 0);
+        for i in 0..n {
+            if end_time[i] - start_time[i] <= l {
+                fits[i] = true;
+            }
+            l = l.max(start_time[i] - if i == 0 { 0 } else { end_time[i - 1] });
+
+            let j = n - i - 1;
+            if end_time[j] - start_time[j] <= r {
+                fits[j] = true;
+            }
+            r = r.max(
+                if i == 0 {
+                    event_time
+                } else {
+                    start_time[n - i]
+                } - end_time[j],
+            );
+        }
+
+        (0..n).fold(0, |xfree, i| {
+            let l = if i == 0 { 0 } else { end_time[i - 1] };
+            let r = if i == n - 1 {
+                event_time
+            } else {
+                start_time[i + 1]
+            };
+
+            if fits[i] {
+                xfree.max(r - l)
+            } else {
+                xfree.max(r - l - (end_time[i] - start_time[i]))
+            }
+        }) as _
+    }
+}
+
 #[cfg(test)]
 mod tests;
