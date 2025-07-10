@@ -153,6 +153,36 @@ impl Sol466 {
     }
 }
 
+/// 804 Unique Morse Code Words
+struct Sol804 {}
+
+impl Sol804 {
+    pub fn unique_morse_representations(words: Vec<String>) -> i32 {
+        use std::collections::HashSet;
+
+        const MORSE: [&str; 26] = [
+            ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
+            "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
+            "-.--", "--..",
+        ];
+
+        let mut codes: HashSet<String> = HashSet::new();
+        for word in words.iter() {
+            let mut code = String::new();
+            for chr in word.chars() {
+                if let Some(i) = ('a'..='z').position(|x| x == chr) {
+                    code.push_str(MORSE[i]);
+                }
+            }
+
+            codes.insert(code);
+        }
+        println!("-> {codes:?}");
+
+        codes.len() as _
+    }
+}
+
 /// 917 Reverse Only Letters
 struct Sol917;
 

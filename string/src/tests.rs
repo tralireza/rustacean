@@ -38,6 +38,24 @@ fn test_466() {
 }
 
 #[test]
+fn test_804() {
+    macro_rules! s {
+        ($s:expr) => {
+            $s.to_string()
+        };
+    }
+
+    for (rst, words) in [
+        (2, vec![s!("gin"), s!("zen"), s!("gig"), s!("msg")]),
+        (1, vec![s!("a")]),
+    ] {
+        println!("* {words:?}");
+        assert_eq!(Sol804::unique_morse_representations(words), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_917() {
     assert_eq!(
         Sol917::reverse_only_letters("a-bC-dEf-ghIj".to_string()),
