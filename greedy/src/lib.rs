@@ -452,22 +452,22 @@ impl Sol3440 {
         let n = start_time.len() & end_time.len();
 
         let mut fits = vec![false; n];
-        let (mut l, mut r) = (0, 0);
+        let (mut lgap, mut rgap) = (0, 0);
         for i in 0..n {
-            if end_time[i] - start_time[i] <= l {
+            if end_time[i] - start_time[i] <= lgap {
                 fits[i] = true;
             }
-            l = l.max(start_time[i] - if i == 0 { 0 } else { end_time[i - 1] });
+            lgap = lgap.max(start_time[i] - if i == 0 { 0 } else { end_time[i - 1] });
 
-            let j = n - i - 1;
-            if end_time[j] - start_time[j] <= r {
+            let j = n - 1 - i;
+            if end_time[j] - start_time[j] <= rgap {
                 fits[j] = true;
             }
-            r = r.max(
+            rgap = rgap.max(
                 if i == 0 {
                     event_time
                 } else {
-                    start_time[n - i]
+                    start_time[j + 1]
                 } - end_time[j],
             );
         }

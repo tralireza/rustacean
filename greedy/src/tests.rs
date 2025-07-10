@@ -249,6 +249,7 @@ fn test_3440() {
     for (rst, event_time, start_time, end_time) in [
         (2, 5, vec![1, 3], vec![2, 5]),
         (6, 10, vec![0, 2, 9], vec![1, 4, 10]),
+        (6, 10, vec![0, 3, 7, 9], vec![1, 4, 8, 10]),
         (0, 5, vec![0, 1, 2, 3, 4], vec![1, 2, 3, 4, 5]),
     ] {
         println!("* {event_time} {start_time:?} {end_time:?}");
