@@ -44,7 +44,7 @@ impl Sol2402 {
         meetings.sort_unstable();
         for meeting in meetings {
             while let Some(&(Reverse(end), Reverse(room), count)) = ongoings.peek() {
-                if end <= meeting[0] {
+                if end <= meeting[0] as i64 {
                     ongoings.pop();
                     frees.push((Reverse(room), count));
                 } else {
@@ -53,10 +53,10 @@ impl Sol2402 {
             }
 
             if let Some((Reverse(room), count)) = frees.pop() {
-                ongoings.push((Reverse(meeting[1]), Reverse(room), count + 1));
+                ongoings.push((Reverse(meeting[1] as i64), Reverse(room), count + 1));
             } else if let Some((Reverse(end), Reverse(room), count)) = ongoings.pop() {
                 ongoings.push((
-                    Reverse(end + meeting[1] - meeting[0]),
+                    Reverse(end + (meeting[1] - meeting[0]) as i64),
                     Reverse(room),
                     count + 1,
                 ));
