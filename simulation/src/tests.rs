@@ -13,6 +13,22 @@ fn test_2161() {
 }
 
 #[test]
+fn test_2402() {
+    for (rst, n, meetings) in [
+        (0, 2, vec![vec![0, 10], vec![1, 5], vec![2, 7], vec![3, 4]]),
+        (
+            1,
+            3,
+            vec![vec![1, 20], vec![2, 10], vec![3, 5], vec![4, 9], vec![6, 8]],
+        ),
+    ] {
+        println!("* {n} {meetings:?}");
+        assert_eq!(Sol2402::most_booked(n, meetings), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2460() {
     assert_eq!(
         Sol2460::apply_operations(vec![1, 2, 2, 1, 1, 0]),
