@@ -46,6 +46,18 @@ fn test_838() {
 }
 
 #[test]
+fn test_892() {
+    for (rst, grid) in [
+        (34, vec![vec![1, 2], vec![3, 4]]),
+        (32, vec![vec![1, 1, 1], vec![1, 0, 1], vec![1, 1, 1]]),
+    ] {
+        println!("* {grid:?}");
+        assert_eq!(Sol892::surface_area(grid), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_908() {
     assert_eq!(Sol908::smallest_range_i(vec![1], 0), 0);
     assert_eq!(Sol908::smallest_range_i(vec![0, 10], 2), 6);

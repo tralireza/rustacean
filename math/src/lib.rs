@@ -165,6 +165,36 @@ impl Sol838 {
     }
 }
 
+/// 892 Surface Area of 3D Shapes
+struct Sol892 {}
+
+impl Sol892 {
+    pub fn surface_area(grid: Vec<Vec<i32>>) -> i32 {
+        let mut area = 0;
+
+        for (x, row) in grid.iter().enumerate() {
+            for (y, &height) in row.iter().enumerate() {
+                if height > 0 {
+                    area += 2; // Top & Bottom
+
+                    // Sides
+                    for (dx, dy) in [(0, 1), (0, -1), (1, 0), (-1, 0)] {
+                        let x = x.wrapping_add_signed(dx);
+                        let y = y.wrapping_add_signed(dy);
+                        if x < grid.len() && y < grid.len() {
+                            area += 0.max(height - grid[x][y]);
+                        } else {
+                            area += height;
+                        }
+                    }
+                }
+            }
+        }
+
+        area
+    }
+}
+
 /// 908 Smallest Range I
 struct Sol908;
 
