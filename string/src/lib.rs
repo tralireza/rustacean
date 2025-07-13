@@ -238,6 +238,16 @@ struct Sol1078 {}
 
 impl Sol1078 {
     pub fn find_ocurrences(text: String, first: String, second: String) -> Vec<String> {
+        println!(
+            ":? {:?}",
+            text.split(" ")
+                .collect::<Vec<_>>()
+                .windows(3)
+                .filter(|w| w[0] == first && w[1] == second)
+                .map(|w| w[2].to_string())
+                .collect::<Vec<_>>()
+        );
+
         text.split(" ")
             .collect::<Vec<_>>()
             .windows(3)
