@@ -38,6 +38,18 @@ fn test_905() {
 }
 
 #[test]
+fn test_2410() {
+    for (rst, players, trainers) in [
+        (2, vec![4, 7, 9], vec![8, 2, 5, 8]),
+        (1, vec![1, 1, 1], vec![10]),
+    ] {
+        println!("* {players:?} {trainers:?}");
+        assert_eq!(Sol2410::match_players_and_trainers(players, trainers), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2551() {
     for (rst, weights, k) in [(4, vec![1, 3, 5, 1], 2), (0, vec![1, 3], 2)] {
         assert_eq!(Sol2551::put_marbles(weights, k), rst);

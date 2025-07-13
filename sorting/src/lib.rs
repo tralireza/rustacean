@@ -118,6 +118,28 @@ impl Sol905 {
     }
 }
 
+/// 2410m Maximum Matching of Players With Trainers
+struct Sol2410 {}
+
+impl Sol2410 {
+    pub fn match_players_and_trainers(mut players: Vec<i32>, mut trainers: Vec<i32>) -> i32 {
+        players.sort_unstable();
+        trainers.sort();
+
+        let mut matches = 0;
+        let (mut p, mut t) = (0, 0);
+        while p < players.len() && t < trainers.len() {
+            if players[p] <= trainers[t] {
+                matches += 1;
+                p += 1;
+            }
+            t += 1;
+        }
+
+        matches
+    }
+}
+
 /// 2551h Put Marbles in Bags
 struct Sol2551;
 
