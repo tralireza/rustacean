@@ -27,6 +27,15 @@ fn test_407() {
 }
 
 #[test]
+fn test_1046() {
+    for (rst, stones) in [(1, vec![2, 7, 4, 1, 8, 1]), (1, vec![1])] {
+        println!("* {stones:?}");
+        assert_eq!(Sol1046::last_stone_weight(stones), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3066() {
     for (rst, nums, k) in [
         (2, vec![2, 11, 10, 1, 3], 10),

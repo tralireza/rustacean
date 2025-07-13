@@ -73,6 +73,30 @@ impl Sol407 {
     }
 }
 
+/// 1046 Last Stone Weight
+struct Sol1046 {}
+
+impl Sol1046 {
+    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {
+        use std::collections::BinaryHeap;
+
+        let mut hvs = BinaryHeap::new();
+        for stone in stones {
+            hvs.push(stone);
+        }
+
+        while hvs.len() > 1 {
+            let w1 = hvs.pop().unwrap();
+            let w2 = hvs.pop().unwrap();
+            if w1 > w2 {
+                hvs.push(w1 - w2);
+            }
+        }
+
+        hvs.pop().unwrap_or(0)
+    }
+}
+
 /// 3066m Minimum Operations to Exceed Threshold Value II
 struct Sol3066;
 
