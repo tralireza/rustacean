@@ -233,6 +233,23 @@ impl Sol1061 {
     }
 }
 
+/// 1078 Occurrences After Bigram
+struct Sol1078 {}
+
+impl Sol1078 {
+    pub fn find_ocurrences(text: String, first: String, second: String) -> Vec<String> {
+        text.split(" ")
+            .collect::<Vec<_>>()
+            .windows(3)
+            .fold(vec![], |mut v, w| {
+                if w[0] == first && w[1] == second {
+                    v.push(w[2].to_string());
+                }
+                v
+            })
+    }
+}
+
 /// 1154 Days of the Year
 struct Sol1154;
 

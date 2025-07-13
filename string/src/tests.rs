@@ -88,6 +88,26 @@ fn test_1061() {
 }
 
 #[test]
+fn test_1078() {
+    for (rst, text, first, second) in [
+        (
+            vec!["girl", "student"],
+            "alice is a good girl she is a good student",
+            "a",
+            "good",
+        ),
+        (vec!["we", "rock"], "we will we will rock you", "we", "will"),
+    ] {
+        println!("* {text:?} {first:?} {second:?}");
+        assert_eq!(
+            Sol1078::find_ocurrences(text.to_string(), first.to_string(), second.to_string()),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1154() {
     assert_eq!(Sol1154::day_of_year("2019-01-09".to_string()), 9);
     assert_eq!(Sol1154::day_of_year("2019-02-10".to_string()), 41);
