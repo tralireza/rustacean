@@ -144,6 +144,23 @@ impl Sol1394 {
     }
 }
 
+/// 1450 Number of Students Doing Homework at a Given Time
+struct Sol1450 {}
+impl Sol1450 {
+    pub fn busy_student(start_time: Vec<i32>, end_time: Vec<i32>, query_time: i32) -> i32 {
+        start_time
+            .iter()
+            .zip(end_time.iter())
+            .fold(0, |count, (s, e)| {
+                if *s <= query_time && query_time <= *e {
+                    count + 1
+                } else {
+                    count
+                }
+            })
+    }
+}
+
 /// 1534 Count Good Triplets
 struct Sol1534;
 

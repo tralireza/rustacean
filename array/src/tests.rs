@@ -80,6 +80,18 @@ fn test_1394() {
 }
 
 #[test]
+fn test_1450() {
+    for (rst, start_time, end_time, query_time) in [
+        (1, vec![1, 2, 3], vec![3, 2, 7], 4),
+        (1, vec![4], vec![4], 4),
+    ] {
+        println!("* {start_time:?} {end_time:?} {query_time}");
+        assert_eq!(Sol1450::busy_student(start_time, end_time, query_time), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1534() {
     for (rst, arr, a, b, c) in [
         (4, vec![3, 0, 1, 1, 9, 7], 7, 2, 3),
