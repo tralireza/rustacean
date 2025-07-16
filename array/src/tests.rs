@@ -154,6 +154,15 @@ fn test_1752() {
 }
 
 #[test]
+fn test_1796() {
+    for (rst, s) in [(2, "dfa12321afd"), (-1, "abc1111")] {
+        println!("* {s:?}");
+        assert_eq!(Sol1796::second_highest(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1800() {
     assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 5, 10, 50]), 65);
     assert_eq!(Sol1800::max_ascending_sum(vec![10, 20, 30, 40, 50]), 150);

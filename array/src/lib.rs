@@ -219,6 +219,31 @@ impl Sol1752 {
     }
 }
 
+/// 1796 Second Largest Digit in a String
+struct Sol1796 {}
+
+impl Sol1796 {
+    pub fn second_highest(s: String) -> i32 {
+        s.chars()
+            .fold((-1, -1), |(x, x2), chr| match chr {
+                '0'..='9' => {
+                    let d = ('0'..='9').position(|x| x == chr).unwrap() as i32;
+                    if d == x {
+                        (x, x2)
+                    } else if x < d {
+                        (d, x)
+                    } else if x2 < d {
+                        (x, d)
+                    } else {
+                        (x, x2)
+                    }
+                }
+                _ => (x, x2),
+            })
+            .1
+    }
+}
+
 /// 1800 Maximum Possible Ascending Subarray Sum
 struct Sol1800;
 
