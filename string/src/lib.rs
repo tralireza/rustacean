@@ -316,6 +316,24 @@ impl Sol1163 {
     }
 }
 
+/// 1876 Substrings of Size Three with Distinct Characters
+struct Sol1876 {}
+
+impl Sol1876 {
+    pub fn count_good_substrings(s: String) -> i32 {
+        s.chars()
+            .collect::<Vec<_>>()
+            .windows(3)
+            .fold(0, |count, w| {
+                if w[0] == w[1] || w[1] == w[2] || w[2] == w[0] {
+                    count
+                } else {
+                    count + 1
+                }
+            }) as _
+    }
+}
+
 /// 2138 Divide a String Into Group of Size K
 struct Sol2138 {}
 

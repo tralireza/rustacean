@@ -126,6 +126,15 @@ fn test_1163() {
 }
 
 #[test]
+fn test_1876() {
+    for (rst, s) in [(1, "xyzzaz"), (4, "aababcabc")] {
+        println!("* {s:?}");
+        assert_eq!(Sol1876::count_good_substrings(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2138() {
     macro_rules! s {
         ($s:expr) => {
