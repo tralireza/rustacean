@@ -471,6 +471,25 @@ impl Sol2176 {
     }
 }
 
+/// 2190 Most Frequent Number Following Key In an Array
+struct Sol2190 {}
+
+impl Sol2190 {
+    pub fn most_frequent(nums: Vec<i32>, key: i32) -> i32 {
+        use std::collections::HashMap;
+
+        let mut freqs = HashMap::new();
+        for w in nums.windows(2) {
+            if w[0] == key {
+                freqs.entry(w[1]).and_modify(|f| *f += 1).or_insert(1);
+            }
+        }
+
+        let xfreq = freqs.values().max().unwrap();
+        *freqs.iter().find(|(_, f)| *f == xfreq).unwrap().0
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

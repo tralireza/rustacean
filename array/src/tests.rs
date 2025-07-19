@@ -271,6 +271,18 @@ fn test_2176() {
 }
 
 #[test]
+fn test_2190() {
+    for (rst, nums, key) in [
+        (100, vec![1, 100, 200, 1, 100], 1),
+        (2, vec![2, 2, 2, 2, 3], 2),
+    ] {
+        println!("* {nums:?} {key}");
+        assert_eq!(Sol2190::most_frequent(nums, key), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
