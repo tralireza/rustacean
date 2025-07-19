@@ -1,6 +1,15 @@
 use super::*;
 
 #[test]
+fn test_2154() {
+    for (rst, nums, original) in [(24, vec![5, 3, 6, 1, 12], 3), (4, vec![2, 7, 9], 4)] {
+        println!("* {nums:?} {original}");
+        assert_eq!(Sol2154::find_final_value(nums, original), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2161() {
     assert_eq!(
         Sol2161::pivot_array(vec![9, 12, 5, 10, 14, 3, 10], 10),

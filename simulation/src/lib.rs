@@ -1,5 +1,30 @@
 //! # Rust :: Simulation
 
+/// 2154 Keep Multiplying Found Values by Two
+struct Sol2154 {}
+
+impl Sol2154 {
+    pub fn find_final_value(nums: Vec<i32>, original: i32) -> i32 {
+        use std::collections::HashSet;
+        use std::iter::successors;
+
+        let mut hs = HashSet::new();
+        for n in nums {
+            hs.insert(n);
+        }
+
+        successors(Some(original), |o| {
+            if hs.contains(o) {
+                Some(o << 1)
+            } else {
+                None
+            }
+        })
+        .last()
+        .unwrap()
+    }
+}
+
 /// 2161m Partition Array According to Given Pivot
 struct Sol2161;
 
