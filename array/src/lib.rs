@@ -485,6 +485,11 @@ impl Sol2190 {
             }
         }
 
+        println!(
+            ":? {}",
+            freqs.iter().max_by_key(|&(_, f)| f).map_or(0, |(&n, _)| n)
+        );
+
         let xfreq = freqs.values().max().unwrap();
         *freqs.iter().find(|(_, f)| *f == xfreq).unwrap().0
     }
