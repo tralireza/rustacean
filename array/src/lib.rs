@@ -495,6 +495,26 @@ impl Sol2190 {
     }
 }
 
+/// 2210 Count Hills and Valleys in an Array
+struct Sol2210 {}
+
+impl Sol2210 {
+    pub fn count_hill_valley(mut nums: Vec<i32>) -> i32 {
+        nums.dedup();
+        println!("-> {nums:?}");
+
+        nums.windows(3).fold(0, |count, w| {
+            if w[0] < w[1] && w[1] > w[2] {
+                count + 1
+            } else if w[0] > w[1] && w[1] < w[2] {
+                count + 1
+            } else {
+                count
+            }
+        })
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

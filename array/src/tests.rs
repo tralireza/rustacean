@@ -283,6 +283,15 @@ fn test_2190() {
 }
 
 #[test]
+fn test_2210() {
+    for (rst, nums) in [(3, vec![2, 4, 1, 1, 6, 5]), (0, vec![6, 6, 5, 5, 4, 1])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2210::count_hill_valley(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
