@@ -22,6 +22,15 @@ fn test_2161() {
 }
 
 #[test]
+fn test_2243() {
+    for (rst, s, k) in [("135", "11111222223", 3), ("000", "00000000", 3)] {
+        println!("* {s:?} {k}");
+        assert_eq!(Sol2243::digit_sum(s.to_string(), k), rst.to_string());
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2402() {
     for (rst, n, meetings) in [
         (0, 2, vec![vec![0, 10], vec![1, 5], vec![2, 7], vec![3, 4]]),

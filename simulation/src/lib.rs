@@ -50,6 +50,38 @@ impl Sol2161 {
     }
 }
 
+/// 2243 Calculate Digit Sum of a String
+struct Sol2243 {}
+
+impl Sol2243 {
+    pub fn digit_sum(s: String, k: i32) -> String {
+        let k = k as usize;
+        let mut source: Vec<_> = s.as_bytes().iter().map(|n| (n - b'0') as u16).collect();
+
+        while source.len() > k {
+            let mut target = vec![];
+            for chunk in source.chunks(k) {
+                let mut dsum: u16 = chunk.iter().sum();
+                if dsum == 0 {
+                    target.push(0);
+                } else {
+                    let mut digits = vec![];
+                    while dsum > 0 {
+                        digits.push(dsum % 10);
+                        dsum /= 10;
+                    }
+                    digits.reverse();
+                    target.extend_from_slice(&digits);
+                }
+            }
+
+            source = target;
+        }
+
+        String::from_utf8(source.iter().map(|&n| n as u8 + b'0').collect()).unwrap()
+    }
+}
+
 /// 2402h Meeting Room III
 struct Sol2402 {}
 
