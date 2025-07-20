@@ -56,6 +56,26 @@ struct Sol2243 {}
 impl Sol2243 {
     pub fn digit_sum(s: String, k: i32) -> String {
         let k = k as usize;
+
+        println!(":? {:?}", {
+            let mut s = s.clone();
+            while s.len() > k {
+                s = s
+                    .as_bytes()
+                    .chunks(k)
+                    .map(|chars| {
+                        chars
+                            .into_iter()
+                            .map(|chr| (chr - b'0') as u32)
+                            .sum::<u32>()
+                            .to_string()
+                    })
+                    .collect::<Vec<String>>()
+                    .join("");
+            }
+            s
+        });
+
         let mut source: Vec<_> = s.as_bytes().iter().map(|n| (n - b'0') as u16).collect();
 
         while source.len() > k {
