@@ -23,3 +23,19 @@ fn test_1123() {
         );
     }
 }
+
+#[test]
+fn test_2236() {
+    for (rst, root) in [(
+        true,
+        TreeNode {
+            val: 10,
+            left: Some(Rc::new(RefCell::new(TreeNode::new(4)))),
+            right: Some(Rc::new(RefCell::new(TreeNode::new(6)))),
+        },
+    )] {
+        println!("* {root:?}");
+        assert_eq!(Sol2236::check_tree(Some(Rc::new(RefCell::new(root)))), rst);
+        println!(":: {rst:?}");
+    }
+}

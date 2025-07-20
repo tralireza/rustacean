@@ -52,5 +52,19 @@ impl Sol1123 {
     }
 }
 
+/// 2236 Root Equals Sum of Children
+struct Sol2236 {}
+
+impl Sol2236 {
+    pub fn check_tree(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        let root = root.unwrap();
+        let n = root.borrow();
+        let l = n.left.as_ref().unwrap().borrow();
+        let r = n.right.as_ref().unwrap().borrow();
+
+        n.val == l.val + r.val
+    }
+}
+
 #[cfg(test)]
 mod tests;
