@@ -515,6 +515,28 @@ impl Sol2210 {
     }
 }
 
+/// 2248 Intersection of Multiple Array
+struct Sol2248 {}
+
+impl Sol2248 {
+    pub fn intersection(nums: Vec<Vec<i32>>) -> Vec<i32> {
+        use std::collections::BTreeMap;
+
+        let mut freqs = BTreeMap::new();
+        for nums in &nums {
+            for n in nums {
+                freqs.entry(n).and_modify(|f| *f += 1).or_insert(1);
+            }
+        }
+
+        freqs
+            .into_iter()
+            .filter(|(_, f)| *f == nums.len())
+            .map(|(&n, _)| n)
+            .collect::<Vec<_>>()
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

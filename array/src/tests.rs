@@ -292,6 +292,18 @@ fn test_2210() {
 }
 
 #[test]
+fn test_2248() {
+    for (rst, nums) in [(
+        vec![3, 4],
+        vec![vec![3, 1, 2, 4, 5], vec![1, 2, 3, 4], vec![3, 4, 5, 6]],
+    )] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2248::intersection(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
