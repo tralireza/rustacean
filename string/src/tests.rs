@@ -202,6 +202,21 @@ fn bench_2138_rusty(b: &mut test::Bencher) {
 }
 
 #[test]
+fn test_2273() {
+    for (rst, words) in [
+        (vec!["abba", "cd"], vec!["abba", "baba", "bbaa", "cd", "cd"]),
+        (vec!["a", "b", "c", "d", "e"], vec!["a", "b", "c", "d", "e"]),
+    ] {
+        println!("* {words:?}");
+        assert_eq!(
+            Sol2273::remove_anagrams(words.into_iter().map(|w| w.to_string()).collect()),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3330() {
     for (rst, word) in [
         (5, "abbcccc".to_string()),

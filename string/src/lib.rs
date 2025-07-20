@@ -358,6 +358,32 @@ impl Sol2138 {
     }
 }
 
+/// 2273 Find Resultant Array After Removing Anagrams
+struct Sol2273 {}
+
+impl Sol2273 {
+    pub fn remove_anagrams(words: Vec<String>) -> Vec<String> {
+        let mut fs_prv = [0; 26];
+        println!("-> {:p} {fs_prv:?}", &fs_prv);
+
+        words.into_iter().fold(vec![], |mut ls, word| {
+            let mut fs = [0; 26];
+            word.chars()
+                .for_each(|chr| fs[chr.to_digit(36).unwrap() as usize - 10] += 1);
+
+            println!("-> {:p} {fs:?}", &fs);
+
+            if fs_prv != fs {
+                ls.push(word);
+            }
+            fs_prv = fs;
+            println!("-> {:p}", &fs_prv);
+
+            ls
+        })
+    }
+}
+
 /// 3330 Find the Original Typed String I
 struct Sol3330;
 
