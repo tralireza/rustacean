@@ -504,9 +504,7 @@ impl Sol2210 {
         println!("-> {nums:?}");
 
         nums.windows(3).fold(0, |count, w| {
-            if w[0] < w[1] && w[1] > w[2] {
-                count + 1
-            } else if w[0] > w[1] && w[1] < w[2] {
+            if w[0] < w[1] && w[1] > w[2] || w[0] > w[1] && w[1] < w[2] {
                 count + 1
             } else {
                 count
