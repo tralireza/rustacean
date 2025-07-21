@@ -334,6 +334,29 @@ impl Sol1876 {
     }
 }
 
+/// 1957 Delete Characters to Make Fancy String
+struct Sol1957 {}
+
+impl Sol1957 {
+    pub fn make_fancy_string(s: String) -> String {
+        if s.len() < 3 {
+            return s;
+        }
+
+        let mut chars: Vec<_> = s.chars().collect();
+
+        let mut p = 2;
+        for x in 2..chars.len() {
+            if chars[x] != chars[p - 1] || chars[x] != chars[p - 2] {
+                chars[p] = chars[x];
+                p += 1;
+            }
+        }
+
+        chars[..p].iter().collect()
+    }
+}
+
 /// 2138 Divide a String Into Group of Size K
 struct Sol2138 {}
 

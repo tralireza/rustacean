@@ -135,6 +135,15 @@ fn test_1876() {
 }
 
 #[test]
+fn test_1957() {
+    for (rst, s) in [("aabaa", "aaabaaaa"), ("aab", "aab")] {
+        println!("* {s:?}");
+        assert_eq!(Sol1957::make_fancy_string(s.to_string()), rst.to_string());
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2138() {
     macro_rules! s {
         ($s:expr) => {
