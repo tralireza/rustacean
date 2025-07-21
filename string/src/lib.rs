@@ -343,6 +343,16 @@ impl Sol1957 {
             return s;
         }
 
+        println!(
+            ":? {:?}",
+            s.chars()
+                .collect::<Vec<_>>()
+                .chunk_by(|&a, &b| a == b)
+                .map(|chunk| chunk.iter().take(2.min(chunk.len())).collect::<Vec<_>>())
+                .flatten()
+                .collect::<Vec<_>>()
+        );
+
         let mut chars: Vec<_> = s.chars().collect();
 
         let mut p = 2;
