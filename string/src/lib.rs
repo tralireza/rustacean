@@ -384,6 +384,28 @@ impl Sol2273 {
     }
 }
 
+/// 2315 Count Asterisks
+struct Sol2315 {}
+
+impl Sol2315 {
+    pub fn count_asterisks(s: String) -> i32 {
+        println!(
+            ":? {}",
+            s.split('|').step_by(2).fold(0, |count, pair| {
+                count + pair.chars().filter(|&chr| chr == '*').count()
+            })
+        );
+
+        s.split('|')
+            .enumerate()
+            .filter(|(i, _)| i & 1 == 0)
+            .map(|(_, pair)| pair)
+            .fold(0, |count, pair| {
+                count + pair.chars().filter(|&chr| chr == '*').count()
+            }) as _
+    }
+}
+
 /// 3330 Find the Original Typed String I
 struct Sol3330;
 

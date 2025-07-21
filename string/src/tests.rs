@@ -217,6 +217,15 @@ fn test_2273() {
 }
 
 #[test]
+fn test_2315() {
+    for (rst, s) in [(5, "yo|uar|e**|b|e***au|tifu|l"), (0, "iamprogrammer")] {
+        println!("* {s:?}");
+        assert_eq!(Sol2315::count_asterisks(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3330() {
     for (rst, word) in [
         (5, "abbcccc".to_string()),
