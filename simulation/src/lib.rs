@@ -102,6 +102,27 @@ impl Sol2243 {
     }
 }
 
+/// 2303 Calculate Amount Paid in Taxes
+struct Sol2303 {}
+
+impl Sol2303 {
+    pub fn calculate_tax(brackets: Vec<Vec<i32>>, mut income: i32) -> f64 {
+        let mut rates = vec![vec![0, 0]];
+        rates.extend_from_slice(&brackets);
+
+        rates
+            .windows(2)
+            .map(|w| {
+                let diff = w[1][0] - w[0][0];
+                let tax = diff.min(income) as f64 * w[1][1] as f64 / 100.0;
+                income -= diff.min(income);
+
+                tax
+            })
+            .sum()
+    }
+}
+
 /// 2402h Meeting Room III
 struct Sol2402 {}
 

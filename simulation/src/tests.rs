@@ -31,6 +31,19 @@ fn test_2243() {
 }
 
 #[test]
+fn test_2303() {
+    for (rst, brackets, income) in [
+        (2.65, vec![vec![3, 50], vec![7, 10], vec![12, 25]], 10),
+        (0.25, vec![vec![1, 0], vec![4, 25], vec![5, 50]], 2),
+        (0.0, vec![vec![2, 50]], 0),
+    ] {
+        println!("* {brackets:?} {income}");
+        assert_eq!(Sol2303::calculate_tax(brackets, income), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2402() {
     for (rst, n, meetings) in [
         (0, 2, vec![vec![0, 10], vec![1, 5], vec![2, 7], vec![3, 4]]),
