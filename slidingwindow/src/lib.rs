@@ -14,7 +14,7 @@ impl Sol1358 {
         for (right, chr) in s.chars().enumerate() {
             frq.entry(chr).and_modify(|f| *f += 1).or_insert(1);
 
-            println!("-> {:?}", frq);
+            println!("-> {frq:?}");
 
             while frq.len() == 3 {
                 count += s.len() - right;
@@ -232,7 +232,7 @@ impl Sol2537 {
             }
         }
 
-        println!("-> {:?}", freq);
+        println!("-> {freq:?}");
 
         count as i64
     }
@@ -246,7 +246,7 @@ impl Sol2799 {
         use std::collections::{HashMap, HashSet};
 
         let uset: HashSet<i32> = HashSet::from_iter(nums.to_vec());
-        println!("-> {:?}", uset);
+        println!("-> {uset:?}");
 
         let mut left = 0;
         let mut w = 0;
@@ -349,7 +349,7 @@ impl Sol3306 {
                     }
                 }
 
-                println!("-> {:?}", frq);
+                println!("-> {frq:?}");
 
                 while k <= 0 && frq.len() == 5 {
                     count += (word.len() - r) as i64;
