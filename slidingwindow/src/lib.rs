@@ -33,6 +33,37 @@ impl Sol1358 {
     }
 }
 
+/// 1695m Maximum Erasure Value
+struct Sol1695 {}
+
+impl Sol1695 {
+    pub fn maximum_unique_subarray(nums: Vec<i32>) -> i32 {
+        use std::collections::HashSet;
+
+        let mut wset = HashSet::new();
+        let (mut xsum, mut cur_sum) = (0, 0);
+
+        let mut l = 0;
+        for n in &nums {
+            if !wset.contains(n) {
+                cur_sum += n;
+                xsum = xsum.max(cur_sum);
+                wset.insert(n);
+            } else {
+                while nums[l] != *n {
+                    cur_sum -= nums[l];
+                    wset.remove(&nums[l]);
+
+                    l += 1;
+                }
+                l += 1;
+            }
+        }
+
+        xsum
+    }
+}
+
 /// 2302h Count Subarrays With Score Less Than K
 struct Sol2302;
 
