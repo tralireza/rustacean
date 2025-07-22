@@ -45,19 +45,15 @@ impl Sol1695 {
 
         let mut l = 0;
         for n in &nums {
-            if !wset.contains(n) {
-                cur_sum += n;
-                xsum = xsum.max(cur_sum);
-                wset.insert(n);
-            } else {
-                while nums[l] != *n {
-                    cur_sum -= nums[l];
-                    wset.remove(&nums[l]);
-
-                    l += 1;
-                }
+            while wset.contains(n) {
+                cur_sum -= nums[l];
+                wset.remove(&nums[l]);
                 l += 1;
             }
+
+            cur_sum += n;
+            xsum = xsum.max(cur_sum);
+            wset.insert(n);
         }
 
         xsum
