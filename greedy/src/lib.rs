@@ -107,6 +107,45 @@ impl Sol1007 {
     }
 }
 
+/// 1717m Maximum Score From Removing Substrings
+struct Sol1717 {}
+
+impl Sol1717 {
+    pub fn maximum_gain(s: String, mut x: i32, mut y: i32) -> i32 {
+        let (mut a, mut b) = ('a', 'b');
+        if x < y {
+            (a, b) = ('b', 'a');
+            (x, y) = (y, x);
+        }
+
+        let mut s: Vec<_> = s.chars().collect();
+
+        let mut gain = 0;
+        for g in [x, y] {
+            let mut stack = vec![];
+            gain += s.iter().fold(0, |mut gain, &chr| {
+                if let Some(&prv) = stack.last() {
+                    if prv == a && chr == b {
+                        stack.pop();
+                        gain += g;
+                    } else {
+                        stack.push(chr);
+                    }
+                } else {
+                    stack.push(chr);
+                }
+
+                gain
+            });
+
+            s = stack;
+            (a, b) = (b, a);
+        }
+
+        gain
+    }
+}
+
 /// 1353m Maximum Number of Events That Can Be Attended
 struct Sol1353 {}
 

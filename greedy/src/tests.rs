@@ -47,6 +47,15 @@ fn test_1007() {
 }
 
 #[test]
+fn test_1717() {
+    for (rst, s, x, y) in [(19, "cdbcbbaaabab", 4, 5), (20, "aabbaaxybbaabb", 5, 4)] {
+        println!("* {s:?} {x} {y}");
+        assert_eq!(Sol1717::maximum_gain(s.to_string(), x, y), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1353() {
     for (rst, nums) in [
         (3, vec![vec![1, 2], vec![2, 3], vec![3, 4]]),
