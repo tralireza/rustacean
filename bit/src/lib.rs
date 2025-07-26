@@ -236,5 +236,50 @@ impl Sol2179 {
     }
 }
 
+/// 3480h Maximize Subarrays After Removing One Conflicting Pair
+struct Sol3480 {}
+
+impl Sol3480 {
+    pub fn max_subarrays(n: i32, mut conflicting_pairs: Vec<Vec<i32>>) -> i64 {
+        use std::cmp::Reverse;
+
+        for pair in conflicting_pairs.iter_mut() {
+            if pair[0] > pair[1] {
+                pair.swap(0, 1);
+            }
+        }
+
+        conflicting_pairs.sort_unstable_by_key(|p| Reverse(p[0]));
+        println!("-> {conflicting_pairs:?}");
+
+        let mut conflicting_pairs = conflicting_pairs.into_iter().peekable();
+
+        let mut right = n + 1;
+        let mut correction = 0;
+        let (mut x_penalty, mut penalty) = (0, 0);
+
+        let mut subarray = 0;
+
+        for b in (1..=n).rev() {
+            while let Some(p) = conflicting_pairs.next_if(|p| p[0] >= b) {
+                if right > p[1] {
+                    correction = right - p[1];
+                    right = p[1];
+                    penalty = 0;
+                } else {
+                    correction = correction.min(p[1] - right);
+                }
+            }
+
+            subarray += (right - b) as i64;
+
+            penalty += correction as i64;
+            x_penalty = x_penalty.max(penalty);
+        }
+
+        subarray + x_penalty
+    }
+}
+
 #[cfg(test)]
 mod tests;

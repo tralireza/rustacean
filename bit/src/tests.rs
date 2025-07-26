@@ -71,3 +71,27 @@ fn test_2179() {
         assert_eq!(Sol2179::good_triplets(nums1, nums2), rst);
     }
 }
+
+#[test]
+fn test_3480() {
+    for (rst, n, conflicting_pairs) in [
+        (9, 4, vec![vec![2, 3], vec![1, 4]]),
+        (12, 5, vec![vec![1, 2], vec![2, 5], vec![3, 5]]),
+        (
+            209,
+            25,
+            vec![
+                vec![4, 18],
+                vec![7, 13],
+                vec![9, 17],
+                vec![16, 25],
+                vec![9, 10],
+                vec![9, 23],
+            ],
+        ),
+    ] {
+        println!("* {n} {conflicting_pairs:?}");
+        assert_eq!(Sol3480::max_subarrays(n, conflicting_pairs), rst);
+        println!(":: {rst:?}");
+    }
+}
