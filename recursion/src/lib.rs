@@ -492,23 +492,17 @@ impl Sol2044 {
     pub fn count_max_or_subsets(nums: Vec<i32>) -> i32 {
         let x_or = nums.iter().fold(0, |x_or, &n| x_or | n);
 
-        let mut x_count = 0;
-
-        fn search(start: usize, or: i32, x_or: i32, x_count: &mut i32, nums: &[i32]) {
+        fn search(start: usize, or: i32, x_or: i32, nums: &[i32]) -> i32 {
             if start == nums.len() {
-                return;
+                return 0;
             }
 
-            if or | nums[start] == x_or {
-                *x_count += 1;
-            }
-            search(start + 1, or, x_or, x_count, nums);
-            search(start + 1, or | nums[start], x_or, x_count, nums);
+            (if or | nums[start] == x_or { 1 } else { 0 })
+                + search(start + 1, or, x_or, nums)
+                + search(start + 1, or | nums[start], x_or, nums)
         }
 
-        search(0, 0, x_or, &mut x_count, &nums);
-
-        x_count
+        search(0, 0, x_or, &nums)
     }
 }
 
