@@ -138,6 +138,15 @@ fn test_1922() {
 }
 
 #[test]
+fn test_2044() {
+    for (rst, nums) in [(2, vec![3, 1]), (7, vec![2, 2, 2]), (6, vec![3, 2, 1, 5])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2044::count_max_or_subsets(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2375() {
     assert_eq!(
         Sol2375::smallest_number("IIIDIDDD".to_string()),
