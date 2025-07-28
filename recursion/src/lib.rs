@@ -254,7 +254,7 @@ impl Sol301 {
                 let s: String = chrs
                     .iter()
                     .zip(picks.iter())
-                    .filter(|(_, &pick)| pick)
+                    .filter(|(_, pick)| **pick)
                     .map(|(&chr, _)| chr)
                     .collect();
 
