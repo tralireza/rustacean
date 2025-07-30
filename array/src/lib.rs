@@ -552,6 +552,30 @@ impl Sol2341 {
     }
 }
 
+/// 2419m Longest Subarray With Maximum Bitwise AND
+struct Sol2419 {}
+
+impl Sol2419 {
+    pub fn longest_subarray(nums: Vec<i32>) -> i32 {
+        let (mut x, mut cur) = (0, 0);
+
+        nums.iter().fold(0, |mut x_len, &n| {
+            if x < n {
+                x = n;
+                (x_len, cur) = (0, 0);
+            }
+
+            if x == n {
+                cur += 1;
+            } else {
+                cur = 0;
+            }
+
+            x_len.max(cur)
+        })
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

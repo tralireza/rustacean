@@ -318,6 +318,15 @@ fn test_2341() {
 }
 
 #[test]
+fn test_2419() {
+    for (rst, nums) in [(2, vec![1, 2, 3, 3, 2, 2]), (1, vec![1, 2, 3, 4])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2419::longest_subarray(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
