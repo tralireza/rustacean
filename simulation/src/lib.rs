@@ -214,5 +214,28 @@ impl Sol2460 {
     }
 }
 
+/// 2739 Total Distance Traveled
+struct Sol2739 {}
+
+impl Sol2739 {
+    pub fn distance_traveled(main_tank: i32, additional_tank: i32) -> i32 {
+        let mut distance = 0;
+
+        let (mut fuel, mut reserve) = (main_tank, additional_tank);
+        loop {
+            if fuel >= 5 {
+                distance += 50;
+                fuel -= 5;
+                if reserve > 0 {
+                    reserve -= 1;
+                    fuel += 1;
+                }
+            } else {
+                break distance + fuel * 10;
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests;

@@ -73,3 +73,12 @@ fn test_2460() {
         vec![1694, 399, 832, 1758, 412, 206, 272, 0, 0, 0, 0, 0, 0, 0]
     );
 }
+
+#[test]
+fn test_2739() {
+    for (rst, main_tank, additional_tank) in [(60, 5, 10), (10, 1, 2)] {
+        println!("* {main_tank} {additional_tank}");
+        assert_eq!(Sol2739::distance_traveled(main_tank, additional_tank), rst);
+        println!(":: {rst:?}");
+    }
+}
