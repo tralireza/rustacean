@@ -137,7 +137,7 @@ impl Sol1394 {
             .iter()
             .enumerate()
             .rev()
-            .filter(|(_, &f)| f > 0)
+            .filter(|(_, f)| **f > 0)
             .find(|(n, f)| *f == n)
             .map(|(n, _)| n as i32)
             .unwrap_or(-1)
@@ -400,13 +400,13 @@ impl Sol2099 {
         use std::cmp::Reverse;
 
         let mut sorted: Vec<_> = nums.iter().enumerate().collect();
-        sorted.sort_by_key(|(_, &n)| Reverse(n));
+        sorted.sort_by_key(|(_, n)| Reverse(*n));
         println!("-> {sorted:?}");
 
         sorted[0..k as usize].sort();
         println!("-> {sorted:?}");
 
-        sorted[0..k as usize].iter().map(|(_, &n)| n).collect()
+        sorted[0..k as usize].iter().map(|(_, n)| **n).collect()
     }
 }
 
@@ -483,7 +483,7 @@ impl Sol2200 {
         let mut l = 0;
         nums.iter()
             .enumerate()
-            .filter(|(_, &n)| n == key)
+            .filter(|(_, n)| **n == key)
             .fold(vec![], |mut kdists, (r, _)| {
                 for i in l.max(r.saturating_sub(k))..=(r + k).min(nums.len() - 1) {
                     kdists.push(i as i32);
@@ -532,6 +532,23 @@ impl Sol2248 {
             .filter(|(_, f)| *f == nums.len())
             .map(|(&n, _)| n)
             .collect::<Vec<_>>()
+    }
+}
+
+/// 2341 Maximum Number of Pairs in Array
+struct Sol2341 {}
+
+impl Sol2341 {
+    pub fn number_of_pairs(mut nums: Vec<i32>) -> Vec<i32> {
+        nums.sort_unstable();
+
+        let (pairs, leftovers) = nums
+            .chunk_by(PartialEq::eq)
+            .fold((0, 0), |(pairs, leftovers), chunk| {
+                (pairs + chunk.len() / 2, leftovers + (chunk.len() & 1))
+            });
+
+        vec![pairs as i32, leftovers as i32]
     }
 }
 

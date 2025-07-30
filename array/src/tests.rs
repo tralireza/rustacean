@@ -304,6 +304,20 @@ fn test_2248() {
 }
 
 #[test]
+fn test_2341() {
+    for (rst, nums) in [
+        (vec![3, 1], vec![1, 3, 2, 1, 3, 2, 2]),
+        (vec![1, 0], vec![1, 1]),
+        (vec![0, 1], vec![0]),
+        (vec![0, 5], vec![1, 2, 3, 4, 5]), // 18/128
+    ] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2341::number_of_pairs(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
