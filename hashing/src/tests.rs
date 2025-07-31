@@ -180,6 +180,31 @@ fn test_2349() {
 }
 
 #[test]
+fn test_2363() {
+    for (rst, items1, items2) in [
+        (
+            vec![vec![1, 6], vec![3, 9], vec![4, 5]],
+            vec![vec![1, 1], vec![4, 5], vec![3, 8]],
+            vec![vec![3, 1], vec![1, 5]],
+        ),
+        (
+            vec![vec![1, 4], vec![2, 4], vec![3, 4]],
+            vec![vec![1, 1], vec![3, 2], vec![2, 3]],
+            vec![vec![2, 1], vec![3, 2], vec![1, 3]],
+        ),
+        (
+            vec![vec![1, 7], vec![2, 4], vec![7, 1]],
+            vec![vec![1, 3], vec![2, 2]],
+            vec![vec![7, 1], vec![2, 2], vec![1, 4]],
+        ),
+    ] {
+        println!("* {items1:?} {items2:?}");
+        assert_eq!(Sol2363::merge_similar_items(items1, items2), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2364() {
     assert_eq!(Sol2364::count_bad_pairs(vec![4, 1, 3, 3]), 5);
     assert_eq!(Sol2364::count_bad_pairs(vec![1, 2, 3, 4, 5]), 0);

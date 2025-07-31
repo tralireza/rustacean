@@ -403,6 +403,28 @@ impl NumberContainers {
     }
 }
 
+/// 2363m Merge Similar Items
+struct Sol2363 {}
+
+impl Sol2363 {
+    pub fn merge_similar_items(items1: Vec<Vec<i32>>, items2: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        use std::collections::BTreeMap;
+
+        let mut merged = BTreeMap::new();
+        for item in items1 {
+            merged.insert(item[0], item[1]);
+        }
+        for item in items2 {
+            merged
+                .entry(item[0])
+                .and_modify(|w| *w += item[1])
+                .or_insert(item[1]);
+        }
+
+        merged.iter().map(|(&i, &w)| vec![i, w]).collect()
+    }
+}
+
 /// 2364m Count Number of Bad Pairs
 struct Sol2364;
 
