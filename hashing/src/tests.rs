@@ -73,6 +73,15 @@ fn test_763() {
 }
 
 #[test]
+fn test_898() {
+    for (rst, arr) in [(1, vec![0]), (3, vec![1, 1, 2]), (6, vec![1, 2, 4])] {
+        println!("* {arr:?}");
+        assert_eq!(Sol898::subarray_bitwise_o_rs(arr), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1128() {
     for (rst, dominoes) in [
         (1, vec![vec![1, 2], vec![2, 1], vec![3, 4], vec![5, 6]]),

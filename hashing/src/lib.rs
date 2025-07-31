@@ -107,6 +107,27 @@ impl Sol763 {
     }
 }
 
+/// 898m Bitwise ORs of Subarrays
+struct Sol898 {}
+
+impl Sol898 {
+    pub fn subarray_bitwise_o_rs(arr: Vec<i32>) -> i32 {
+        use std::collections::HashSet;
+        use std::iter::once;
+
+        let mut cur = HashSet::new();
+
+        arr.iter()
+            .fold(HashSet::<i32>::new(), |mut ors, &n| {
+                cur = cur.iter().map(|&x| n | x).chain(once(n)).collect();
+                ors.extend(&cur);
+
+                ors
+            })
+            .len() as _
+    }
+}
+
 /// 1128 Number of Equivalent Domino Pairs
 struct Sol1128;
 
