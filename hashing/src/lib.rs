@@ -539,7 +539,7 @@ impl Sol3085 {
         }
         println!("-> {fmap:?}");
 
-        let freqs: Vec<_> = fmap.values().map(|&n| n).collect();
+        let freqs: Vec<_> = fmap.values().copied().collect();
         println!("-> {freqs:?}");
 
         fmap.iter().fold(word.len() as i32, |mdels, (_, &f)| {
