@@ -211,6 +211,15 @@ fn bench_2138_rusty(b: &mut test::Bencher) {
 }
 
 #[test]
+fn test_2269() {
+    for (rst, num, k) in [(2, 240, 2), (2, 430043, 2)] {
+        println!("* {num} {k}");
+        assert_eq!(Sol2269::divisor_substrings(num, k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2273() {
     for (rst, words) in [
         (vec!["abba", "cd"], vec!["abba", "baba", "bbaa", "cd", "cd"]),

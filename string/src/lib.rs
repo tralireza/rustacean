@@ -391,6 +391,26 @@ impl Sol2138 {
     }
 }
 
+/// 2269 Find the K-Beauty of a Number
+struct Sol2269 {}
+
+impl Sol2269 {
+    pub fn divisor_substrings(num: i32, k: i32) -> i32 {
+        let k = k as usize;
+
+        let mut count = 0;
+        let s = num.to_string();
+        for start in 0..=s.len() - k {
+            let n = s[start..start + k].parse::<i32>().unwrap();
+            if n != 0 && num % n == 0 {
+                count += 1;
+            }
+        }
+
+        count as _
+    }
+}
+
 /// 2273 Find Resultant Array After Removing Anagrams
 struct Sol2273 {}
 
