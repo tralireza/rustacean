@@ -38,6 +38,24 @@ fn test_905() {
 }
 
 #[test]
+fn test_1356() {
+    for (rst, arr) in [
+        (
+            vec![0, 1, 2, 4, 8, 3, 5, 6, 7],
+            vec![0, 1, 2, 3, 4, 5, 6, 7, 8],
+        ),
+        (
+            vec![1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024],
+            vec![1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1],
+        ),
+    ] {
+        println!("* {arr:?}");
+        assert_eq!(Sol1356::sort_by_bits(arr), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2410() {
     for (rst, players, trainers) in [
         (2, vec![4, 7, 9], vec![8, 2, 5, 8]),

@@ -118,6 +118,29 @@ impl Sol905 {
     }
 }
 
+/// 1356 Sort Integers by The Number of 1 Bits
+struct Sol1356 {}
+
+impl Sol1356 {
+    pub fn sort_by_bits(mut arr: Vec<i32>) -> Vec<i32> {
+        let mut arr_copy = arr.clone();
+        arr_copy.sort_by_key(|&n| (n.count_ones(), n));
+        println!(":? {arr_copy:?}");
+
+        arr.sort_by_key(|&n| {
+            let mut bits = 0;
+            let mut x = n;
+            while x > 0 {
+                bits += x & 1;
+                x >>= 1;
+            }
+            (bits, n)
+        });
+
+        arr
+    }
+}
+
 /// 2410m Maximum Matching of Players With Trainers
 struct Sol2410 {}
 
