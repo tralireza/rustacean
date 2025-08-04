@@ -1,5 +1,40 @@
 //! # Rust :: Sliding Window
 
+/// 904m Fruit Into Baskests
+struct Sol904 {}
+
+impl Sol904 {
+    pub fn total_fruit(fruits: Vec<i32>) -> i32 {
+        use std::collections::HashMap;
+
+        let mut types = HashMap::new();
+
+        let mut cur_picks = 0;
+        let mut left = 0;
+
+        fruits.iter().fold(0, |picks, &fruit| {
+            cur_picks += 1;
+            types.entry(fruit).and_modify(|f| *f += 1).or_insert(1);
+
+            println!("-> {types:?}");
+
+            while types.len() > 2 {
+                if let Some(f) = types.get_mut(&fruits[left]) {
+                    *f -= 1;
+                    if *f == 0 {
+                        types.remove(&fruits[left]);
+                    }
+
+                    cur_picks -= 1;
+                    left += 1;
+                }
+            }
+
+            picks.max(cur_picks)
+        })
+    }
+}
+
 /// 1358m Number of Substrings Containing All Three Characters
 struct Sol1358;
 

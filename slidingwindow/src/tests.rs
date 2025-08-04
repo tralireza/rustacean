@@ -1,6 +1,20 @@
 use super::*;
 
 #[test]
+fn test_904() {
+    for (rst, fruits) in [
+        (3, vec![1, 2, 1]),
+        (3, vec![0, 1, 2, 2]),
+        (4, vec![1, 2, 3, 2, 2]),
+        (5, vec![3, 3, 3, 1, 2, 1, 1, 2, 3, 3, 4]), // 36/92
+    ] {
+        println!("* {fruits:?}");
+        assert_eq!(Sol904::total_fruit(fruits), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1358() {
     for (rst, s) in [
         (10, "abcabc".to_string()),
