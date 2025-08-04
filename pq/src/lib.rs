@@ -97,6 +97,37 @@ impl Sol1046 {
     }
 }
 
+/// 2231 Largest Number After Digit Swaps by Parity
+struct Sol2231 {}
+
+impl Sol2231 {
+    pub fn largest_integer(mut num: i32) -> i32 {
+        use std::collections::BinaryHeap;
+
+        let mut qs = [BinaryHeap::new(), BinaryHeap::new()];
+        let mut pars = vec![];
+
+        while num > 0 {
+            let parity = (num % 10) as usize & 1;
+
+            pars.push(parity);
+            qs[parity].push(num % 10);
+
+            num /= 10;
+        }
+        println!("-> {qs:?}");
+
+        let mut x = 0;
+        for &parity in pars.iter().rev() {
+            if let Some(digit) = qs[parity].pop() {
+                x = 10 * x + digit;
+            }
+        }
+
+        x
+    }
+}
+
 /// 3066m Minimum Operations to Exceed Threshold Value II
 struct Sol3066;
 

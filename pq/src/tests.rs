@@ -36,6 +36,19 @@ fn test_1046() {
 }
 
 #[test]
+fn test_2231() {
+    for (rst, num) in [
+        (3412, 1234),
+        (87655, 65875),
+        (427, 247), // 62/238
+    ] {
+        println!("* {num}");
+        assert_eq!(Sol2231::largest_integer(num), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3066() {
     for (rst, nums, k) in [
         (2, vec![2, 11, 10, 1, 3], 10),
