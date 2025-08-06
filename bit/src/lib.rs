@@ -236,6 +236,54 @@ impl Sol2179 {
     }
 }
 
+/// 3479m Fruits Into Baskets III
+struct Sol3479 {}
+
+impl Sol3479 {
+    pub fn num_of_unplaced_fruits(fruits: Vec<i32>, mut baskets: Vec<i32>) -> i32 {
+        let n = fruits.len();
+        let m = n.isqrt();
+
+        let sections = (n + m - 1) / m;
+        let mut x_secs = vec![0; sections];
+        for (i, &basket) in baskets.iter().enumerate() {
+            x_secs[i / m] = x_secs[i / m].max(basket);
+        }
+
+        println!("-> {x_secs:?}");
+
+        let mut count = 0;
+        for &fruit in fruits.iter() {
+            let mut unpicked = true;
+
+            for s in 0..sections {
+                if x_secs[s] < fruit {
+                    continue;
+                }
+                x_secs[s] = 0;
+
+                let mut picked = false;
+                for p in s * m..((s + 1) * m).min(n) {
+                    if baskets[p] >= fruit && !picked {
+                        picked = true;
+                        baskets[p] = 0;
+                    }
+                    x_secs[s] = x_secs[s].max(baskets[p]);
+                }
+
+                unpicked = false;
+                break;
+            }
+
+            if unpicked {
+                count += 1;
+            }
+        }
+
+        count
+    }
+}
+
 /// 3480h Maximize Subarrays After Removing One Conflicting Pair
 struct Sol3480 {}
 

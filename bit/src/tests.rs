@@ -95,3 +95,15 @@ fn test_3480() {
         println!(":: {rst:?}");
     }
 }
+
+#[test]
+fn test_3479() {
+    for (rst, fruits, baskets) in [
+        (1, vec![4, 2, 5], vec![3, 5, 4]),
+        (0, vec![3, 6, 1], vec![6, 4, 7]),
+    ] {
+        println!("* {fruits:?} {baskets:?}");
+        assert_eq!(Sol3479::num_of_unplaced_fruits(fruits, baskets), rst);
+        println!(":: {rst:?}");
+    }
+}
