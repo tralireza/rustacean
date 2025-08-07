@@ -1360,8 +1360,8 @@ impl Sol3363 {
             let mut prv = vec![i32::MIN; n];
             prv[n - 1] = fruits[0][n - 1];
 
-            for r in 1..n - 1 {
-                let mut cur = vec![i32::MIN; n];
+            let mut cur = vec![i32::MIN; n];
+            for (r, fruits) in fruits.iter().enumerate().skip(1).take(fruits.len() - 2) {
                 for c in (n - 1 - r).max(r + 1)..n {
                     let mut best = prv[c];
                     if c > 0 {
@@ -1370,9 +1370,9 @@ impl Sol3363 {
                     if c < n - 1 {
                         best = best.max(prv[c + 1]);
                     }
-                    cur[c] = best + fruits[r][c];
+                    cur[c] = best + fruits[c];
                 }
-                prv = cur;
+                (0..n).for_each(|i| prv[i] = cur[i]);
             }
 
             prv[n - 1]
