@@ -1378,12 +1378,7 @@ impl Sol3363 {
             prv[n - 1]
         }
 
-        let mut xcolls = fruits
-            .iter()
-            .enumerate()
-            .flat_map(|(i, row)| row.iter().nth(i))
-            .sum::<i32>();
-
+        let mut xcolls = (0..fruits.len()).map(|d| fruits[d][d]).sum();
         xcolls += walk(&fruits);
         for r in 0..fruits.len() {
             for c in 0..r {
