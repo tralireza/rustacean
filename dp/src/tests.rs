@@ -370,3 +370,23 @@ fn test_3337() {
         assert_eq!(Sol3337::length_after_transformations(s, t, nums), rst);
     }
 }
+
+#[test]
+fn test_3363() {
+    for (rst, fruits) in [
+        (
+            100,
+            vec![
+                vec![1, 2, 3, 4],
+                vec![5, 6, 8, 7],
+                vec![9, 10, 11, 12],
+                vec![13, 14, 15, 16],
+            ],
+        ),
+        (4, vec![vec![1, 1], vec![1, 1]]),
+    ] {
+        println!("* {fruits:?}");
+        assert_eq!(Sol3363::max_collected_fruits(fruits), rst);
+        println!(":: {rst:?}");
+    }
+}

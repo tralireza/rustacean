@@ -1350,5 +1350,51 @@ impl Sol3337 {
     }
 }
 
+/// 3363h Find the Maximum Number of Fruits Collected
+struct Sol3363 {}
+
+impl Sol3363 {
+    pub fn max_collected_fruits(mut fruits: Vec<Vec<i32>>) -> i32 {
+        fn walk(fruits: &[Vec<i32>]) -> i32 {
+            let n = fruits.len();
+            let mut prv = vec![i32::MIN; n];
+            prv[n - 1] = fruits[0][n - 1];
+
+            for r in 1..n - 1 {
+                let mut cur = vec![i32::MIN; n];
+                for c in (n - 1 - r).max(r + 1)..n {
+                    let mut best = prv[c];
+                    if c > 0 {
+                        best = best.max(prv[c - 1]);
+                    }
+                    if c < n - 1 {
+                        best = best.max(prv[c + 1]);
+                    }
+                    cur[c] = best + fruits[r][c];
+                }
+                prv = cur;
+            }
+
+            prv[n - 1]
+        }
+
+        let mut xcolls = fruits
+            .iter()
+            .enumerate()
+            .flat_map(|(i, row)| row.iter().nth(i))
+            .sum::<i32>();
+
+        xcolls += walk(&fruits);
+        for r in 0..fruits.len() {
+            for c in 0..r {
+                (fruits[r][c], fruits[c][r]) = (fruits[c][r], fruits[r][c]);
+            }
+        }
+        xcolls += walk(&fruits);
+
+        xcolls
+    }
+}
+
 #[cfg(test)]
 mod tests;
