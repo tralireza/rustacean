@@ -112,6 +112,19 @@ fn test_790() {
 }
 
 #[test]
+fn test_808() {
+    for (rst, n) in [
+        (0.625, 50),
+        (0.71875, 100),
+        (0.625, 1), // 39/43
+    ] {
+        println!("* {n}");
+        assert_eq!(Sol808::soup_servings(n), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_873() {
     assert_eq!(
         Sol873::len_longest_fib_subseq(vec![1, 2, 3, 4, 5, 6, 7, 8]),

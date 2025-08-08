@@ -473,6 +473,51 @@ impl Sol790 {
     }
 }
 
+/// 808m Soup Servings
+struct Sol808 {}
+
+impl Sol808 {
+    pub fn soup_servings(n: i32) -> f64 {
+        use std::collections::HashMap;
+
+        let n = (n + 24) / 25;
+        let mut memo = HashMap::new();
+
+        fn search(a: i32, b: i32, memo: &mut HashMap<(i32, i32), f64>) -> f64 {
+            if a <= 0 && b <= 0 {
+                return 0.5;
+            }
+            if a <= 0 {
+                return 1.0;
+            }
+            if b <= 0 {
+                return 0.0;
+            }
+
+            if let Some(&p) = memo.get(&(a, b)) {
+                return p;
+            }
+
+            let p = (search(a - 4, b, memo)
+                + search(a - 3, b - 1, memo)
+                + search(a - 2, b - 2, memo)
+                + search(a - 1, b - 3, memo))
+                / 4.0;
+            memo.insert((a, b), p);
+
+            p
+        }
+
+        for n in 1..=n {
+            if search(n, n, &mut memo) > 1.0 - 0.00001 {
+                return 1.0;
+            }
+        }
+
+        search(n, n, &mut memo)
+    }
+}
+
 /// 873m Length of Longest Fibonacci Subsequence
 struct Sol873;
 
