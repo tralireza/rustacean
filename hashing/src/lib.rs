@@ -107,6 +107,38 @@ impl Sol763 {
     }
 }
 
+/// 869m Reordered Power of 2
+struct Sol869 {}
+
+impl Sol869 {
+    pub fn reordered_power_of2(n: i32) -> bool {
+        let mut nfreqs = [0; 10];
+        let mut n = n;
+        while n > 0 {
+            nfreqs[(n % 10) as usize] += 1;
+            n /= 10;
+        }
+
+        let mut p = 1;
+        while p <= 1e9 as i64 {
+            let mut pfreqs = [0; 10];
+            let mut n = p as i32;
+            while n > 0 {
+                pfreqs[(n % 10) as usize] += 1;
+                n /= 10;
+            }
+
+            if (0..=9).all(|d| pfreqs[d] == nfreqs[d]) {
+                return true;
+            }
+
+            p <<= 1;
+        }
+
+        false
+    }
+}
+
 /// 898m Bitwise ORs of Subarrays
 struct Sol898 {}
 

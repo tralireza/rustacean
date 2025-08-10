@@ -73,6 +73,15 @@ fn test_763() {
 }
 
 #[test]
+fn test_869() {
+    for (rst, n) in [(true, 1), (false, 10)] {
+        println!("* {n}");
+        assert_eq!(Sol869::reordered_power_of2(n), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_898() {
     for (rst, arr) in [(1, vec![0]), (3, vec![1, 1, 2]), (6, vec![1, 2, 4])] {
         println!("* {arr:?}");
