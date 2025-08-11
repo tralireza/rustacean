@@ -47,5 +47,41 @@ impl Sol1863 {
     }
 }
 
+/// 2438m Range Product Queries of Powers
+struct Sol2438 {}
+
+impl Sol2438 {
+    pub fn product_queries(n: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
+        let mut powers = vec![];
+
+        let mut p = 1;
+        let mut x = n;
+        while x > 0 {
+            if x & 1 == 1 {
+                powers.push(p);
+            }
+            p <<= 1;
+            x >>= 1;
+        }
+
+        powers.sort();
+        println!("-> {powers:?}");
+
+        const M: i64 = 1e9 as i64 + 7;
+        queries
+            .iter()
+            .map(|query| (query[0] as usize, query[1] as usize))
+            .map(|(l, r)| {
+                powers
+                    .iter()
+                    .take(r + 1)
+                    .skip(l)
+                    .fold(1, |prd, &n| prd * n % M)
+            })
+            .map(|prd| prd as i32)
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod tests;

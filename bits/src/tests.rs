@@ -19,3 +19,15 @@ fn test_1863() {
         }
     }
 }
+
+#[test]
+fn test_2438() {
+    for (rst, n, queries) in [
+        (vec![2, 4, 64], 15, vec![vec![0, 1], vec![2, 2], vec![0, 3]]),
+        (vec![2], 2, vec![vec![0, 0]]),
+    ] {
+        println!("* {n} {queries:?}");
+        assert_eq!(Sol2438::product_queries(n, queries), rst);
+        println!(":: {rst:?}");
+    }
+}
