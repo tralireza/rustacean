@@ -51,17 +51,16 @@ impl Sol1863 {
 struct Sol2438 {}
 
 impl Sol2438 {
-    pub fn product_queries(n: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
+    pub fn product_queries(mut n: i32, queries: Vec<Vec<i32>>) -> Vec<i32> {
         let mut powers = vec![];
 
-        let mut p = 1;
-        let mut x = n;
-        while x > 0 {
-            if x & 1 == 1 {
-                powers.push(p);
+        let mut power = 1;
+        while n > 0 {
+            if n & 1 == 1 {
+                powers.push(power);
             }
-            p <<= 1;
-            x >>= 1;
+            power <<= 1;
+            n >>= 1;
         }
 
         powers.sort();
