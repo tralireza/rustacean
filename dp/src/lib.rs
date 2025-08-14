@@ -1294,6 +1294,59 @@ impl Sol3068 {
     }
 }
 
+/// 3333h Find the Original Typed String II
+struct Sol3333 {}
+
+impl Sol3333 {
+    /// 1 <= N <= 10^5
+    /// 1 <= k <= 2000
+    pub fn possible_string_count(word: String, k: i32) -> i32 {
+        let mut f = 1;
+        let mut freqs = word
+            .chars()
+            .collect::<Vec<_>>()
+            .windows(2)
+            .fold(vec![], |mut freqs, w| {
+                if w[0] == w[1] {
+                    f += 1;
+                } else {
+                    freqs.push(f);
+                    f = 1;
+                }
+                freqs
+            });
+        freqs.push(f);
+        println!("-> {freqs:?}");
+
+        const M: i64 = 1e9 as i64 + 7;
+
+        let k = k as usize;
+        let total = freqs.iter().fold(1, |total, &f| f * total % M);
+        if freqs.len() >= k {
+            return total as _;
+        }
+
+        let mut counts = vec![vec![0; k]; freqs.len() + 1];
+        counts[0][0] = 1;
+
+        for g in 0..freqs.len() {
+            for l in 1..k as usize {
+                for x in 1..=freqs[g] as usize {
+                    if l >= x {
+                        counts[g + 1][l] = (counts[g + 1][l] + counts[g][l - x]) % M;
+                    }
+                }
+            }
+        }
+
+        counts
+            .last()
+            .unwrap()
+            .iter()
+            .fold(total, |total, &count| (total - count + M) % M) as _
+    }
+}
+
 /// 3335m Total Characters in String After Transformations I
 struct Sol3335;
 

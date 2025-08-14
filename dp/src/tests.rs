@@ -356,6 +356,24 @@ fn test_3068() {
 }
 
 #[test]
+fn test_3333() {
+    for (rst, word, k) in [
+        (5, "aabbccdd", 7),
+        (1, "aabbccdd", 8),
+        (8, "aaabbb", 3),
+        (
+            834168507,
+            "ggggggggaaaaallsssssaaaaaaaaaiiqqqqqqqqqqbbbbbbbvvfffffjjjjeeeeeefffmmiiiix",
+            34,
+        ), // 765/846
+    ] {
+        println!("* {word:?} {k}");
+        assert_eq!(Sol3333::possible_string_count(word.to_string(), k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3335() {
     for (rst, s, t) in [(7, "abcyy".to_string(), 2), (5, "azbk".to_string(), 1)] {
         assert_eq!(Sol3335::length_after_transformations(s, t), rst);
