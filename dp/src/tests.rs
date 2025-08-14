@@ -280,6 +280,15 @@ fn test_2140() {
 }
 
 #[test]
+fn test_2787() {
+    for (rst, n, x) in [(1, 10, 2), (2, 4, 1)] {
+        println!("* {n} {x}");
+        assert_eq!(Sol2787::number_of_ways(n, x), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2836() {
     // 1 <= Receiver.Length <= 10^5,  1 <= k <= 10^10
     assert_eq!(Sol2836::get_max_function_value(vec![2, 0, 1], 4), 6);

@@ -999,6 +999,36 @@ impl Sol2140 {
     }
 }
 
+/// 2787m Ways to Express an Integer as Sum of Powers
+struct Sol2787 {}
+
+impl Sol2787 {
+    pub fn number_of_ways(n: i32, x: i32) -> i32 {
+        const M: i64 = 1e9 as i64 + 7;
+
+        let n = n as usize;
+        let mut ks = vec![vec![0; n + 1]; n + 1]; // Knapsack
+
+        let items: Vec<_> = (0..=n).map(|p| (p as i64).pow(x as u32)).collect();
+        println!("-> {items:?}");
+
+        ks[0][0] = 1;
+        for item in 1..=n {
+            let power = items[item] as usize;
+            for capacity in 0..=n {
+                ks[item][capacity] = ks[item - 1][capacity];
+                if power <= capacity {
+                    ks[item][capacity] = (ks[item][capacity] + ks[item - 1][capacity - power]) % M
+                }
+            }
+        }
+
+        println!("-> {ks:?}");
+
+        ks[n][n] as _
+    }
+}
+
 /// 2836h Maximize Value of Function in a Ball Passing Game
 struct Sol2836;
 
