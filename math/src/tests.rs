@@ -81,15 +81,15 @@ fn test_970() {
 
 #[test]
 fn test_989() {
-    assert_eq!(
-        Sol989::add_to_array_form(vec![1, 2, 0, 0], 34),
-        vec![1, 2, 3, 4]
-    );
-    assert_eq!(Sol989::add_to_array_form(vec![2, 7, 4], 181), vec![4, 5, 5]);
-    assert_eq!(
-        Sol989::add_to_array_form(vec![2, 1, 5], 806),
-        vec![1, 0, 2, 1]
-    );
+    for (rst, num, k) in [
+        (vec![1, 2, 3, 4], vec![1, 2, 0, 0], 34),
+        (vec![4, 5, 5], vec![2, 7, 4], 181),
+        (vec![1, 0, 2, 1], vec![2, 1, 5], 806),
+    ] {
+        println!("* {num:?} {k}");
+        assert_eq!(Sol989::add_to_array_form(num, k), rst);
+        println!(":: {rst:?}");
+    }
 }
 
 #[test]

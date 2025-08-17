@@ -258,8 +258,8 @@ struct Sol989;
 impl Sol989 {
     pub fn add_to_array_form(num: Vec<i32>, k: i32) -> Vec<i32> {
         println!(
-            " -> {:?}",
-            std::iter::successors(Some((k, 0, num.len())), |(mut carry, _, mut p)| {
+            "-> {:?}",
+            std::iter::successors(Some((k, 0, num.len())), |&(mut carry, _, mut p)| {
                 match carry > 0 || p > 0 {
                     true => {
                         if p > 0 {
@@ -290,8 +290,6 @@ impl Sol989 {
             rst.push(carry % 10);
             carry /= 10;
         }
-
-        println!(" -> {rst:?}");
 
         rst.reverse();
         rst
