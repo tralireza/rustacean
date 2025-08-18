@@ -122,6 +122,31 @@ impl Sol587 {
     }
 }
 
+/// 837m New 21 Game
+struct Sol837 {}
+
+impl Sol837 {
+    pub fn new21_game(n: i32, k: i32, max_pts: i32) -> f64 {
+        let (n, k) = (n as usize, k as usize);
+
+        let max_pts = max_pts as usize;
+        let mut probs = vec![0.0; n + 1];
+        probs[0] = 1.0;
+
+        for pts in 1..=n {
+            for draw in 1..=max_pts {
+                if pts >= draw && pts < k + draw {
+                    probs[pts] += probs[pts - draw] / max_pts as f64;
+                }
+            }
+        }
+
+        println!("-> {probs:?}");
+
+        probs.iter().skip(k).sum()
+    }
+}
+
 /// 838m Push Dominoes
 struct Sol838;
 

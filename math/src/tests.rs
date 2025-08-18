@@ -36,6 +36,15 @@ fn test_587() {
 }
 
 #[test]
+fn test_837() {
+    for (rst, n, k, max_pts) in [(1.0, 10, 1, 10), (0.6, 6, 1, 10), (0.73278, 21, 17, 10)] {
+        println!("* {n} {k} {max_pts}");
+        assert!(Sol837::new21_game(n, k, max_pts) - rst <= 1e-5);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_838() {
     for (rst, dominoes) in [
         ("RR.L".to_string(), "RR.L".to_string()),
