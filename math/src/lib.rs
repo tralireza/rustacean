@@ -140,7 +140,22 @@ impl Sol837 {
                 }
             }
         }
+        println!("-> {probs:?}");
 
+        let mut probs = vec![0.0; n + 1];
+        probs[0] = 1.0;
+
+        let mut w_sum = if k > 0 { 1.0 } else { 0.0 };
+        for pts in 1..=n {
+            probs[pts] = w_sum / max_pts as f64;
+
+            if pts < k {
+                w_sum += probs[pts];
+            }
+            if pts >= max_pts && pts < max_pts + k {
+                w_sum -= probs[pts - max_pts];
+            }
+        }
         println!("-> {probs:?}");
 
         probs.iter().skip(k).sum()
