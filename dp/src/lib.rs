@@ -1508,7 +1508,7 @@ impl Sol3337 {
             freq[(chr - b'a') as usize] += 1;
         }
 
-        const MOD: i64 = 1000_000_007;
+        const MOD: i64 = 1e9 as i64 + 7;
 
         fn mcopy(t: &mut M, f: &M) {
             for i in 0..26 {
