@@ -212,7 +212,7 @@ impl Sol329 {
         println!("-> {dp:?}");
 
         if let Some(&max) = dp.iter().flatten().max() {
-            return max as i32;
+            return max;
         }
         1
     }
