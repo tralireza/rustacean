@@ -669,6 +669,38 @@ impl Sol1277 {
     }
 }
 
+/// 1504m Count Submatrices With All Ones
+struct Sol1504 {}
+
+impl Sol1504 {
+    pub fn num_submat(mat: Vec<Vec<i32>>) -> i32 {
+        let (rows, cols) = (mat.len(), mat[0].len());
+
+        let mut count = 0;
+        let mut counts = vec![0; cols * cols];
+
+        for r in 0..rows {
+            for c in 0..cols {
+                let mut flag = true;
+                for k in 0..=c {
+                    if flag && mat[r][c - k] == 0 {
+                        flag = false;
+                    }
+
+                    if flag {
+                        counts[c * cols + k] += 1;
+                        count += counts[c * cols + k];
+                    } else {
+                        counts[c * cols + k] = 0;
+                    }
+                }
+            }
+        }
+
+        count
+    }
+}
+
 /// 1524m Number of Sub-arrays With Odd Sum
 struct Sol1524;
 

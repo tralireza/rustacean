@@ -171,6 +171,21 @@ fn test_1277() {
 }
 
 #[test]
+fn test_1504() {
+    for (rst, mat) in [
+        (13, vec![vec![1, 0, 1], vec![1, 1, 0], vec![1, 1, 0]]),
+        (
+            24,
+            vec![vec![0, 1, 1, 0], vec![0, 1, 1, 1], vec![1, 1, 1, 0]],
+        ),
+    ] {
+        println!("* {mat:?}");
+        assert_eq!(Sol1504::num_submat(mat), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1524() {
     for f in [Sol1524::num_of_subarrays, Sol1524::num_of_subarrays_psum] {
         assert_eq!(f(vec![1, 3, 5]), 4);
