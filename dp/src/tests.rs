@@ -295,6 +295,15 @@ fn test_2140() {
 }
 
 #[test]
+fn test_2163() {
+    for (rst, nums) in [(-1, vec![3, 1, 2]), (1, vec![7, 9, 5, 8, 1, 3])] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2163::minimum_difference(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2787() {
     for (rst, n, x) in [(1, 10, 2), (2, 4, 1)] {
         println!("* {n} {x}");

@@ -1025,6 +1025,54 @@ impl Sol2140 {
     }
 }
 
+/// 2163h Minimum Difference in Sums After Removal of Elements
+struct Sol2163 {}
+
+impl Sol2163 {
+    pub fn minimum_difference(nums: Vec<i32>) -> i64 {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let n = nums.len() / 3;
+        let mut part1 = vec![0i64; n + 1];
+        let mut sum = 0i64;
+
+        let mut ql = BinaryHeap::new();
+        for i in 0..n {
+            sum += nums[i] as i64;
+            ql.push(nums[i]);
+        }
+
+        part1[0] = sum;
+        for i in n..2 * n {
+            sum += nums[i] as i64;
+            ql.push(nums[i]);
+            sum -= ql.pop().unwrap() as i64;
+            part1[i - (n - 1)] = sum;
+        }
+
+        let mut part2 = 0i64;
+
+        let mut qr = BinaryHeap::new();
+        for i in (2 * n..3 * n).rev() {
+            part2 += nums[i] as i64;
+            qr.push(Reverse(nums[i]));
+        }
+
+        let mut m_diff = part1[n] - part2;
+        for i in (n..2 * n).rev() {
+            part2 += nums[i] as i64;
+            qr.push(Reverse(nums[i]));
+            if let Some(Reverse(val)) = qr.pop() {
+                part2 -= val as i64;
+            }
+            m_diff = m_diff.min(part1[i - n] - part2);
+        }
+
+        m_diff
+    }
+}
+
 /// 2787m Ways to Express an Integer as Sum of Powers
 struct Sol2787 {}
 
