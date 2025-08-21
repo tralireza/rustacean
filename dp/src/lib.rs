@@ -883,15 +883,15 @@ impl Sol1857 {
             dp[v][(colors[v] - b'a') as usize] += 1;
 
             coloring[v] = OpColor::Visited;
-            return false;
+            false
         }
 
         let mut coloring = vec![OpColor::NotVisited; colors.len()];
         for src in 0..colors.len() {
-            if coloring[src] == OpColor::NotVisited {
-                if search(src, &mut dp, &colors, &gadj, &mut coloring) {
-                    return -1;
-                }
+            if coloring[src] == OpColor::NotVisited
+                && search(src, &mut dp, colors, &gadj, &mut coloring)
+            {
+                return -1;
             }
         }
 
