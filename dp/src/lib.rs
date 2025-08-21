@@ -1436,7 +1436,7 @@ impl Sol3333 {
         counts[0][0] = 1;
 
         for g in 0..freqs.len() {
-            for l in 1..k as usize {
+            for l in 1..k {
                 for x in 1..=freqs[g] as usize {
                     if l >= x {
                         counts[g + 1][l] = (counts[g + 1][l] + counts[g][l - x]) % M;
