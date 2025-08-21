@@ -643,6 +643,32 @@ impl Sol1092 {
     }
 }
 
+/// 1277m Count Square Submatrices with All Ones
+struct Sol1277 {}
+
+impl Sol1277 {
+    pub fn count_squares(matrix: Vec<Vec<i32>>) -> i32 {
+        use std::cmp::min;
+
+        let (cols, rows) = (matrix[0].len(), matrix.len());
+
+        let mut counts = vec![vec![0; cols + 1]; rows + 1];
+        let mut count = 0;
+
+        for r in 0..rows {
+            for c in 0..cols {
+                if matrix[r][c] == 1 {
+                    counts[r + 1][c + 1] =
+                        1 + min(counts[r][c], min(counts[r + 1][c], counts[r][c + 1]));
+                    count += counts[r + 1][c + 1];
+                }
+            }
+        }
+
+        count
+    }
+}
+
 /// 1524m Number of Sub-arrays With Odd Sum
 struct Sol1524;
 

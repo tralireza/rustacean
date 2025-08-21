@@ -156,6 +156,21 @@ fn test_1092() {
 }
 
 #[test]
+fn test_1277() {
+    for (rst, matrix) in [
+        (
+            15,
+            vec![vec![0, 1, 1, 1], vec![1, 1, 1, 1], vec![0, 1, 1, 1]],
+        ),
+        (7, vec![vec![1, 0, 1], vec![1, 1, 0], vec![1, 1, 0]]),
+    ] {
+        println!("* {matrix:?}");
+        assert_eq!(Sol1277::count_squares(matrix), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1524() {
     for f in [Sol1524::num_of_subarrays, Sol1524::num_of_subarrays_psum] {
         assert_eq!(f(vec![1, 3, 5]), 4);
