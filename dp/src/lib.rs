@@ -674,16 +674,16 @@ struct Sol1504 {}
 
 impl Sol1504 {
     pub fn num_submat(mat: Vec<Vec<i32>>) -> i32 {
-        let (rows, cols) = (mat.len(), mat[0].len());
+        let cols = mat[0].len();
 
         let mut count = 0;
         let mut counts = vec![0; cols * cols];
 
-        for r in 0..rows {
+        for row in mat.iter() {
             for c in 0..cols {
                 let mut flag = true;
                 for k in 0..=c {
-                    if flag && mat[r][c - k] == 0 {
+                    if flag && row[c - k] == 0 {
                         flag = false;
                     }
 
