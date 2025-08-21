@@ -951,7 +951,7 @@ impl Sol1931 {
 
         println!("-> Rows Adjacent: {adjacents:?}");
 
-        const M: i32 = 1000_000_007;
+        const M: i32 = 1_000_000_007;
 
         {
             let mut dp_cur = vec![0; [1, 3, 9, 27, 81, 243][m as usize]];
@@ -960,13 +960,13 @@ impl Sol1931 {
             }
             for _ in 1..n {
                 let mut dp_next = vec![0; dp_cur.len()];
-                for mask in 0..[1, 3, 9, 27, 81, 243][m as usize] as i32 {
-                    if dp_cur[mask as usize] > 0 {
-                        if let Some(adjacent) = adjacents.get(&mask) {
-                            dp_next[mask as usize] = adjacent
-                                .iter()
-                                .fold(0, |count, &mask| (count + dp_cur[mask as usize]) % M);
-                        }
+                for mask in 0..[1, 3, 9, 27, 81, 243][m as usize] {
+                    if dp_cur[mask as usize] > 0
+                        && let Some(adjacent) = adjacents.get(&mask)
+                    {
+                        dp_next[mask as usize] = adjacent
+                            .iter()
+                            .fold(0, |count, &mask| (count + dp_cur[mask as usize]) % M);
                     }
                 }
                 dp_cur = dp_next;
