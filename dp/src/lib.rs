@@ -1070,9 +1070,9 @@ impl Sol2163 {
         let mut sum = 0i64;
 
         let mut ql = BinaryHeap::new();
-        for i in 0..n {
-            sum += nums[i] as i64;
-            ql.push(nums[i]);
+        for &v in nums.iter().take(n) {
+            sum += v as i64;
+            ql.push(v);
         }
 
         part1[0] = sum;
