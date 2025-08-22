@@ -455,6 +455,18 @@ fn test_3169() {
 }
 
 #[test]
+fn test_3195() {
+    for (rst, grid) in [
+        (6, vec![vec![0, 1, 0], vec![1, 0, 1]]),
+        (1, vec![vec![1, 0], vec![0, 0]]),
+    ] {
+        println!("* {grid:?}");
+        assert_eq!(Sol3195::minimum_area(grid), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3355() {
     for (rst, nums, queries) in [
         (true, vec![1, 0, 1], vec![vec![0, 2]]),

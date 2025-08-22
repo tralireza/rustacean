@@ -811,6 +811,30 @@ impl Sol3169 {
     }
 }
 
+/// 3195m Find the Minimum Area to Cover All Ones I
+struct Sol3195 {}
+
+impl Sol3195 {
+    pub fn minimum_area(grid: Vec<Vec<i32>>) -> i32 {
+        let (mut left, mut right) = (grid[0].len(), 0);
+        let (mut top, mut bottom) = (grid.len(), 0);
+
+        for (r, row) in grid.iter().enumerate() {
+            for (c, &n) in row.iter().enumerate() {
+                if n == 1 {
+                    left = left.min(c);
+                    right = right.max(c);
+
+                    top = top.min(r);
+                    bottom = bottom.max(r);
+                }
+            }
+        }
+
+        ((right - left + 1) * (bottom - top + 1)) as _
+    }
+}
+
 /// 3355m Zero Array Transformation I
 struct Sol3355 {}
 
