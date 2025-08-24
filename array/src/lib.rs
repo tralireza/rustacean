@@ -709,8 +709,24 @@ impl Sol2942 {
     }
 }
 
+/// 2946 Matrix Similarity After Cyclic Shifts
+struct Sol2946 {}
+
+impl Sol2946 {
+    pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {
+        let k = k as usize % mat[0].len();
+
+        mat.iter().enumerate().all(|(r, row)| {
+            row.iter()
+                .enumerate()
+                .all(|(c, &n)| n == mat[r][(c + k) % mat[0].len()])
+        })
+    }
+}
+
 /// 2966m Divide Array Into Arrays With Max Difference
 struct Sol2966 {}
+
 impl Sol2966 {
     pub fn divide_array(mut nums: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
         nums.sort_unstable();

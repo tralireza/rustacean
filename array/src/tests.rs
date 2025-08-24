@@ -396,6 +396,23 @@ fn test_2942() {
 }
 
 #[test]
+fn test_2946() {
+    for (rst, mat, k) in [
+        (false, vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]], 4),
+        (
+            true,
+            vec![vec![1, 2, 1, 2], vec![5, 5, 5, 5], vec![6, 3, 6, 3]],
+            2,
+        ),
+        (true, vec![vec![2, 2], vec![2, 2]], 3),
+    ] {
+        println!("* {mat:?} {k}");
+        assert_eq!(Sol2946::are_similar(mat, k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2966() {
     for (rst, nums, k) in [
         (
