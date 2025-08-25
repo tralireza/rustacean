@@ -105,7 +105,7 @@ impl Sol2243 {
                     .chunks(k)
                     .map(|chars| {
                         chars
-                            .into_iter()
+                            .iter()
                             .map(|chr| (chr - b'0') as u32)
                             .sum::<u32>()
                             .to_string()
