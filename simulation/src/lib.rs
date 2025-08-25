@@ -10,34 +10,39 @@ impl Sol498 {
 
         let mut dwalk = vec![];
         let mut forward = true;
+
         for r in 0..rows {
-            let mut d = 0;
             let mut diag = vec![];
-            for row in mat.iter().rev().skip(rows - r - 1).take(cols) {
+            for (d, row) in mat
+                .iter()
+                .rev()
+                .skip(rows - r - 1)
+                .take(rows.min(cols))
+                .enumerate()
+            {
                 diag.push(row[d]);
-                d += 1;
             }
 
             if !forward {
                 diag.reverse();
             }
-            dwalk.extend(diag);
             forward = !forward;
+
+            dwalk.extend(diag);
         }
 
         for c in 1..cols {
-            let mut d = c;
             let mut diag = vec![];
-            for row in mat.iter().rev().take(rows.min(cols - c)) {
-                diag.push(row[d]);
-                d += 1;
+            for (d, row) in mat.iter().rev().take(rows.min(cols - c)).enumerate() {
+                diag.push(row[c + d]);
             }
 
             if !forward {
                 diag.reverse();
             }
-            dwalk.extend(diag);
             forward = !forward;
+
+            dwalk.extend(diag);
         }
 
         dwalk
