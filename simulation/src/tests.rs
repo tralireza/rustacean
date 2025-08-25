@@ -1,6 +1,22 @@
 use super::*;
 
 #[test]
+fn test_498() {
+    for (rst, mat) in [
+        (
+            vec![1, 2, 4, 7, 5, 3, 6, 8, 9],
+            vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]],
+        ),
+        (vec![1, 2, 3, 4], vec![vec![1, 2], vec![3, 4]]),
+        (vec![3, 2], vec![vec![3], vec![2]]), // 4/32
+    ] {
+        println!("* {mat:?}");
+        assert_eq!(Sol498::find_diagonal_order(mat), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2154() {
     for (rst, nums, original) in [(24, vec![5, 3, 6, 1, 12], 3), (4, vec![2, 7, 9], 4)] {
         println!("* {nums:?} {original}");

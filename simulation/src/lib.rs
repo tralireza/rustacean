@@ -1,5 +1,49 @@
 //! # Rust :: Simulation
 
+/// 498m Diagonal Traverse
+struct Sol498 {}
+
+impl Sol498 {
+    /// 1 <= R, C <= 10^4
+    pub fn find_diagonal_order(mat: Vec<Vec<i32>>) -> Vec<i32> {
+        let (rows, cols) = (mat.len(), mat[0].len());
+
+        let mut dwalk = vec![];
+        let mut forward = true;
+        for r in 0..rows {
+            let mut d = 0;
+            let mut diag = vec![];
+            for row in mat.iter().rev().skip(rows - r - 1).take(cols) {
+                diag.push(row[d]);
+                d += 1;
+            }
+
+            if !forward {
+                diag.reverse();
+            }
+            dwalk.extend(diag);
+            forward = !forward;
+        }
+
+        for c in 1..cols {
+            let mut d = c;
+            let mut diag = vec![];
+            for row in mat.iter().rev().take(rows.min(cols - c)) {
+                diag.push(row[d]);
+                d += 1;
+            }
+
+            if !forward {
+                diag.reverse();
+            }
+            dwalk.extend(diag);
+            forward = !forward;
+        }
+
+        dwalk
+    }
+}
+
 /// 2154 Keep Multiplying Found Values by Two
 struct Sol2154 {}
 
