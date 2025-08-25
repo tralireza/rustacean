@@ -58,11 +58,7 @@ impl Sol2154 {
         }
 
         successors(Some(original), |o| {
-            if hs.contains(o) {
-                Some(o << 1)
-            } else {
-                None
-            }
+            if hs.contains(o) { Some(o << 1) } else { None }
         })
         .last()
         .unwrap()
