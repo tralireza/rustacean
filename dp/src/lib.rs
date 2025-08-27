@@ -1625,5 +1625,64 @@ impl Sol3363 {
     }
 }
 
+/// 3459h Length of Longest V-Shaped Diagonal Segment
+struct Sol3459 {}
+
+impl Sol3459 {
+    pub fn len_of_v_diagonal(grid: Vec<Vec<i32>>) -> i32 {
+        use std::collections::HashMap;
+
+        const DIRS: [(isize, isize); 4] = [(1, 1), (1, -1), (-1, -1), (-1, 1)];
+        let mut cache: HashMap<(usize, usize, usize, bool), i32> = HashMap::new();
+
+        fn search(
+            grid: &[Vec<i32>],
+            y: usize,
+            x: usize,
+            dir: usize,
+            turned: bool,
+            target: i32,
+            cache: &mut HashMap<(usize, usize, usize, bool), i32>,
+        ) -> i32 {
+            let (r, c) = (
+                y.wrapping_add_signed(DIRS[dir].0),
+                x.wrapping_add_signed(DIRS[dir].1),
+            );
+
+            if r >= grid.len() || c >= grid[0].len() || grid[r][c] != target {
+                return 0;
+            }
+
+            if let Some(&steps) = cache.get(&(r, c, dir, turned)) {
+                return steps;
+            }
+
+            let mut steps = search(grid, r, c, dir, turned, 2 - grid[r][c], cache);
+            if !turned {
+                steps = search(grid, r, c, (dir + 1) % 4, true, 2 - grid[r][c], cache).max(steps);
+            }
+            cache.insert((r, c, dir, turned), steps + 1);
+
+            steps + 1
+        }
+
+        grid.iter().enumerate().fold(0, |x_steps, (r, row)| {
+            x_steps.max(
+                row.iter()
+                    .enumerate()
+                    .filter_map(|(c, &g)| if g == 1 { Some(c) } else { None })
+                    .map(|c| {
+                        (0..4)
+                            .map(|dir| search(&grid, r, c, dir, false, 2, &mut cache) + 1)
+                            .max()
+                            .unwrap_or(0)
+                    })
+                    .max()
+                    .unwrap_or(0),
+            )
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests;
