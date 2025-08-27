@@ -1,5 +1,5 @@
 [workspace]
 resolver = "3"
 members = [ 
-  "array", "binarytree", "bit", "bits", "bsearch", "dp", "graph", "greedy", "hashing", "math", "pfx", "pq", "recursion", "simulation", "slidingwindow", "sorting", "stack", "string", "trie",
+  "array", "binarytree", "bit", "bits", "bsearch", "dp", "enumeration", "graph", "greedy", "hashing", "math", "pfx", "pq", "recursion", "simulation", "slidingwindow", "sorting", "stack", "string", "trie",
 ]
