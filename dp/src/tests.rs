@@ -504,6 +504,17 @@ fn test_3459() {
                 vec![2, 0, 0, 2, 0],
             ],
         ),
+        (
+            5,
+            vec![
+                vec![1, 0, 0, 2],
+                vec![0, 2, 2, 2],
+                vec![0, 2, 1, 1],
+                vec![2, 2, 0, 2],
+                vec![0, 0, 1, 1],
+                vec![1, 0, 2, 2],
+            ],
+        ), // 495/561
     ] {
         println!("* {grid:?}");
         assert_eq!(Sol3459::len_of_v_diagonal(grid), rst);
