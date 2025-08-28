@@ -98,3 +98,19 @@ fn test_2739() {
         println!(":: {rst:?}");
     }
 }
+
+#[test]
+fn test_3446() {
+    for (rst, grid) in [
+        (
+            vec![vec![8, 2, 3], vec![9, 6, 7], vec![4, 5, 1]],
+            vec![vec![1, 7, 3], vec![9, 8, 2], vec![4, 5, 6]],
+        ),
+        (vec![vec![2, 1], vec![1, 0]], vec![vec![0, 1], vec![1, 2]]),
+        (vec![vec![1]], vec![vec![1]]),
+    ] {
+        println!("* {grid:?}");
+        assert_eq!(Sol3446::sort_matrix(grid), rst);
+        println!(":: {rst:?}");
+    }
+}

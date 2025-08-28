@@ -282,5 +282,33 @@ impl Sol2739 {
     }
 }
 
+/// 3446m Sort Matrix by Diagonals
+struct Sol3446 {}
+
+impl Sol3446 {
+    /// 1 <= N <= 10
+    pub fn sort_matrix(mut grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let n = grid.len();
+
+        for diag in 0..n {
+            let mut rdiag: Vec<_> = (0..n - diag).map(|d| grid[diag + d][d]).collect();
+            rdiag.sort_by(|a, b| b.cmp(a));
+            for d in 0..n - diag {
+                grid[diag + d][d] = rdiag[d];
+            }
+        }
+
+        for diag in 1..n {
+            let mut rdiag: Vec<_> = (0..n - diag).map(|d| grid[d][diag + d]).collect();
+            rdiag.sort();
+            for d in 0..n - diag {
+                grid[d][diag + d] = rdiag[d];
+            }
+        }
+
+        grid
+    }
+}
+
 #[cfg(test)]
 mod tests;
