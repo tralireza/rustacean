@@ -1663,6 +1663,8 @@ impl Sol3459 {
             }
             cache.insert((r, c, dir, turned), steps + 1);
 
+            println!("-> {cache:?}");
+
             steps + 1
         }
 
