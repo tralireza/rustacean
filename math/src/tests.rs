@@ -81,10 +81,15 @@ fn test_970() {
         (vec![2, 3, 5, 9], 2, 1, 10),
     ] {
         use std::collections::HashSet;
+
+        println!("* {x} {y}, {bound}");
         let set: HashSet<i32> = rst.into_iter().collect();
-        assert!(Sol970::powerful_integers(x, y, bound)
-            .iter()
-            .all(|x| set.contains(&x)));
+        assert!(
+            Sol970::powerful_integers(x, y, bound)
+                .iter()
+                .all(|x| set.contains(&x))
+        );
+        println!(":: {:?}", set.into_iter().collect::<Vec<_>>());
     }
 }
 
