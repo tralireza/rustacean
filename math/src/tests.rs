@@ -203,6 +203,15 @@ fn test_2929() {
 }
 
 #[test]
+fn test_3021() {
+    for (rst, n, m) in [(3, 3, 2), (0, 1, 1)] {
+        println!("* {n}, {m}");
+        assert_eq!(Sol3021::flower_game(n, m), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3024() {
     for (rst, nums) in [
         ("equilateral".to_string(), vec![3, 3, 3]),

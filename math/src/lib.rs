@@ -845,6 +845,15 @@ impl Sol2929 {
     }
 }
 
+/// 3021m Alice and Bob Playing Flower Game
+struct Sol3021 {}
+
+impl Sol3021 {
+    pub fn flower_game(n: i32, m: i32) -> i64 {
+        n as i64 * m as i64 / 2
+    }
+}
+
 /// 3024 Type of Triangle
 struct Sol3024;
 
