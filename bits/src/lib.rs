@@ -11,7 +11,7 @@ impl Sol36 {
                 .iter()
                 .enumerate()
                 .filter(|&(_, &chr)| chr != '.')
-                .map(|(c, chr)| (c, 1 << chr.to_digit(10).unwrap()))
+                .map(|(c, chr)| (c, 1 << chr.to_digit(10).unwrap() - 1))
             {
                 if rows[r] & mask == mask {
                     return false;
@@ -27,6 +27,11 @@ impl Sol36 {
                     return false;
                 }
                 cells[3 * (r / 3) + c / 3] |= mask;
+
+                println!(
+                    "-> {r},{c}:{} :: {rows:>3?} {cols:>3?} {cells:>3?}",
+                    3 * (r / 3) + c / 3
+                );
             }
         }
 
