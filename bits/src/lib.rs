@@ -7,28 +7,26 @@ impl Sol36 {
     pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {
         let (mut rows, mut cols, mut cells) = ([0; 9], [0; 9], [0; 9]);
         for (r, row) in board.iter().enumerate() {
-            for (c, n) in row
+            for (c, mask) in row
                 .iter()
                 .enumerate()
                 .filter(|&(_, &chr)| chr != '.')
-                .map(|(n, chr)| (n, chr.to_digit(10).unwrap()))
+                .map(|(c, chr)| (c, 1 << chr.to_digit(10).unwrap()))
             {
-                let mask = 1 << n;
-
                 if rows[r] & mask == mask {
                     return false;
                 }
                 rows[r] |= mask;
 
-                if cells[3 * (r / 3) + c / 3] & mask == mask {
-                    return false;
-                }
-                cells[3 * (r / 3) + c / 3] |= mask;
-
                 if cols[c] & mask == mask {
                     return false;
                 }
                 cols[c] |= mask;
+
+                if cells[3 * (r / 3) + c / 3] & mask == mask {
+                    return false;
+                }
+                cells[3 * (r / 3) + c / 3] |= mask;
             }
         }
 
