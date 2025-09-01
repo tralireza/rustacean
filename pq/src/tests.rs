@@ -36,6 +36,23 @@ fn test_1046() {
 }
 
 #[test]
+fn test_1792() {
+    for (rst, classes, extra_students) in [
+        (0.78333, vec![[1, 2], [3, 5], [2, 2]], 2),
+        (0.53485, vec![[2, 4], [3, 9], [4, 5], [2, 10]], 4),
+    ] {
+        let classes = classes
+            .into_iter()
+            .map(|a| a.into_iter().collect())
+            .collect();
+
+        println!("* {classes:?} {extra_students}");
+        assert!((Sol1792::max_average_ratio(classes, extra_students) - rst).abs() < 1e-5);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2231() {
     for (rst, num) in [
         (3412, 1234),

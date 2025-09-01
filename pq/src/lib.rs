@@ -97,6 +97,83 @@ impl Sol1046 {
     }
 }
 
+/// 1792m Maximum Average Pass Ratio
+struct Sol1792 {}
+
+impl Sol1792 {
+    pub fn max_average_ratio(classes: Vec<Vec<i32>>, extra_students: i32) -> f64 {
+        use std::cmp::Ordering;
+        use std::collections::BinaryHeap;
+
+        #[derive(Debug)]
+        struct Class {
+            gain: f64, // gain: (pass+1)/(total+1) - pass/total
+            pass: i32,
+            total: i32,
+        }
+
+        impl Ord for Class {
+            fn cmp(&self, other: &Self) -> Ordering {
+                self.gain.partial_cmp(&other.gain).unwrap()
+            }
+        }
+
+        impl PartialOrd for Class {
+            fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+                self.gain.partial_cmp(&other.gain)
+            }
+        }
+
+        impl Eq for Class {}
+        impl PartialEq for Class {
+            fn eq(&self, other: &Self) -> bool {
+                self.pass == other.pass && self.total == other.total
+            }
+        }
+
+        fn gain(pass: i32, total: i32) -> f64 {
+            (pass + 1) as f64 / (total + 1) as f64 - pass as f64 / total as f64
+        }
+
+        let mut pq = BinaryHeap::new();
+        for (pass, total) in classes.iter().map(|v| (v[0], v[1])) {
+            pq.push(Class {
+                gain: gain(pass, total),
+                pass,
+                total,
+            });
+        }
+        println!("-> {pq:?}");
+
+        for _ in 0..extra_students {
+            if let Some(Class {
+                gain: _,
+                pass,
+                total,
+            }) = pq.pop()
+            {
+                pq.push(Class {
+                    gain: gain(pass + 1, total + 1),
+                    pass: pass + 1,
+                    total: total + 1,
+                });
+            }
+        }
+        println!("-> {pq:?}");
+
+        pq.iter()
+            .map(
+                |&Class {
+                     gain: _,
+                     pass,
+                     total,
+                 }| pass as f64 / total as f64,
+            )
+            .sum::<f64>()
+            / pq.len() as f64
+    }
+}
+
 /// 2231 Largest Number After Digit Swaps by Parity
 struct Sol2231 {}
 
