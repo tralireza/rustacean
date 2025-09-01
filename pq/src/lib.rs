@@ -117,10 +117,9 @@ impl Sol1792 {
                 self.gain.partial_cmp(&other.gain).unwrap()
             }
         }
-
         impl PartialOrd for Class {
             fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-                self.gain.partial_cmp(&other.gain)
+                Some(self.cmp(other))
             }
         }
 
@@ -135,14 +134,15 @@ impl Sol1792 {
             (pass + 1) as f64 / (total + 1) as f64 - pass as f64 / total as f64
         }
 
-        let mut pq = BinaryHeap::new();
-        for (pass, total) in classes.iter().map(|v| (v[0], v[1])) {
-            pq.push(Class {
+        let mut pq: BinaryHeap<Class> = classes
+            .iter()
+            .map(|v| (v[0], v[1]))
+            .map(|(pass, total)| Class {
                 gain: gain(pass, total),
                 pass,
                 total,
-            });
-        }
+            })
+            .collect();
         println!("-> {pq:?}");
 
         for _ in 0..extra_students {
