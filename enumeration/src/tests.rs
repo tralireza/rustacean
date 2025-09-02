@@ -1,6 +1,26 @@
 use super::*;
 
 #[test]
+fn test_3025() {
+    for (rst, points) in [
+        (0, vec![[1, 1], [2, 2], [3, 3]]),
+        (2, vec![[6, 2], [4, 4], [2, 6]]),
+        (2, vec![[3, 1], [1, 3], [1, 1]]),
+        (0, vec![[0, 0], [2, 5]]), // 148/955
+        (1, vec![[0, 3], [6, 1]]), // 150/955
+    ] {
+        let points: Vec<_> = points
+            .into_iter()
+            .map(|a| a.into_iter().collect())
+            .collect();
+
+        println!("* {points:?}");
+        assert_eq!(Sol3025::number_of_pairs(points), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3197() {
     for (rst, grid) in [
         (5, vec![vec![1, 0, 1], vec![1, 1, 1]]),

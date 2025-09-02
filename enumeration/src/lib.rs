@@ -1,5 +1,34 @@
 //! # Enumeration
 
+/// 3025m Find the Number of Ways to Place People I
+struct Sol3025 {}
+
+impl Sol3025 {
+    pub fn number_of_pairs(points: Vec<Vec<i32>>) -> i32 {
+        (0..points.len())
+            .flat_map(|i| (0..points.len()).map(move |j| (i, j)))
+            .filter(|(i, j)| i != j)
+            .filter(|&(i, j)| points[i][0] <= points[j][0] && points[i][1] >= points[j][1])
+            .fold(0, |pairs, (i, j)| {
+                if points
+                    .iter()
+                    .enumerate()
+                    .filter(|&(k, _)| k != i && k != j)
+                    .map(|(_, point)| (point[0], point[1]))
+                    .inspect(|t| println!("-> {i} {j} {t:?}"))
+                    .all(|(x, y)| {
+                        (x < points[i][0] || x > points[j][0])
+                            || (y > points[i][1] || y < points[j][1])
+                    })
+                {
+                    pairs + 1
+                } else {
+                    pairs
+                }
+            })
+    }
+}
+
 /// 3197h Find the Minimum Area to Cover All Ones II
 struct Sol3197 {}
 
