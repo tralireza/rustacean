@@ -15,15 +15,15 @@ impl Sol3025 {
                     .enumerate()
                     .filter(|&(k, _)| k != i && k != j)
                     .map(|(_, point)| (point[0], point[1]))
-                    .inspect(|t| println!("-> {i} {j} {t:?}"))
-                    .all(|(x, y)| {
-                        (x < points[i][0] || x > points[j][0])
-                            || (y > points[i][1] || y < points[j][1])
+                    .inspect(|p| println!("-> {i} {j} {p:?}"))
+                    .any(|(x, y)| {
+                        (x >= points[i][0] && x <= points[j][0])
+                            && (y <= points[i][1] && y >= points[j][1])
                     })
                 {
-                    pairs + 1
-                } else {
                     pairs
+                } else {
+                    pairs + 1
                 }
             })
     }
