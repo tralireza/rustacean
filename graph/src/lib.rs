@@ -1394,7 +1394,7 @@ impl Sol3372 {
             dfs(src, usize::MAX, k - 1, &tree2, &mut dists);
             println!("-> {src} {dists:?}");
 
-            trgs.push(dists.iter().filter(|&&d| d <= k - 1).count());
+            trgs.push(dists.iter().filter(|&&d| d < k).count());
         }
         println!("-> {trgs:?}");
 
