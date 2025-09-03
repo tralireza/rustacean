@@ -478,8 +478,8 @@ impl Sol1368 {
             [(0, 1), (0, -1), (1, 0), (-1, 0)]
                 .into_iter()
                 .zip(1..=4)
-                .inspect(|o| print!(" {:?}", o))
                 .for_each(|((dx, dy), dir)| {
+                    print!(" {:?}", ((dx, dy), dir));
                     let w = w + (dir != grid[r as usize][c as usize]) as i32;
                     let (r, c) = (r + dx, c + dy);
                     if 0 <= r
