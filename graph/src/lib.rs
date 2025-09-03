@@ -1,7 +1,5 @@
 //! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
-#![feature(let_chains)]
-
 /// 684m Redundant Connection
 struct Sol684;
 
