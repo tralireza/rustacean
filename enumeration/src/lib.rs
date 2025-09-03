@@ -29,6 +29,37 @@ impl Sol3025 {
     }
 }
 
+/// 3027h Find the Number of Ways to Place People II
+struct Sol3027 {}
+
+impl Sol3027 {
+    pub fn number_of_pairs(mut points: Vec<Vec<i32>>) -> i32 {
+        points.sort_by(|p, q| p[0].cmp(&q[0]).then(q[1].cmp(&p[1])));
+        println!("-> {points:?}");
+
+        points
+            .iter()
+            .enumerate()
+            .take(points.len() - 1)
+            .fold(0, |pairs, (i, p)| {
+                let mut x_min = p[0] - 1;
+                let mut y_min = i32::MIN;
+
+                pairs
+                    + points.iter().skip(i + 1).fold(0, |pairs, q| {
+                        if q[0] > x_min && q[1] > y_min && q[1] <= p[1] {
+                            x_min = q[0];
+                            y_min = q[1];
+
+                            pairs + 1
+                        } else {
+                            pairs
+                        }
+                    })
+            }) as _
+    }
+}
+
 /// 3197h Find the Minimum Area to Cover All Ones II
 struct Sol3197 {}
 
