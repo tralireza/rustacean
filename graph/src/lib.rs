@@ -1340,11 +1340,12 @@ impl Sol3342 {
                 if let (Some(r), Some(c)) = (
                     r.checked_add_signed(dirs[d]),
                     c.checked_add_signed(dirs[d + 1]),
-                ) {
-                    if r < rows && c < cols && move_time[r][c].max(time) + delta < grid[r][c] {
-                        grid[r][c] = move_time[r][c].max(time) + delta;
-                        pq.push(Reverse((grid[r][c], r, c, !double)));
-                    }
+                ) && r < rows
+                    && c < cols
+                    && move_time[r][c].max(time) + delta < grid[r][c]
+                {
+                    grid[r][c] = move_time[r][c].max(time) + delta;
+                    pq.push(Reverse((grid[r][c], r, c, !double)));
                 }
             }
         }
