@@ -101,6 +101,19 @@ fn test_386() {
 }
 
 #[test]
+fn test_679() {
+    for (rst, cards) in [
+        (true, vec![4, 1, 8, 7]),
+        (false, vec![1, 2, 1, 2]),
+        (true, vec![1, 7, 4, 5]), // 62/71
+    ] {
+        println!("* {cards:?}");
+        assert_eq!(Sol679::judge_point24(cards), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1079() {
     assert_eq!(Sol1079::num_tile_possibilities("AAB".to_string()), 8);
     assert_eq!(Sol1079::num_tile_possibilities("AAABBC".to_string()), 188);

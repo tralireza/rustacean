@@ -362,6 +362,58 @@ impl Sol386 {
     }
 }
 
+/// 679h 24 Game
+struct Sol679 {}
+
+impl Sol679 {
+    /// L_cards = 4, 1 <= Cards_i <= 9
+    pub fn judge_point24(cards: Vec<i32>) -> bool {
+        fn possible_results(a: f64, b: f64) -> Vec<f64> {
+            let mut rs = vec![a + b, a - b, b - a, a * b];
+            if b != 0.0 {
+                rs.push(a / b);
+            }
+            if a != 0.0 {
+                rs.push(b / a);
+            }
+
+            println!("-> ({a}, {b}) :: {rs:?}");
+            rs
+        }
+
+        fn search(cards: &[f64]) -> bool {
+            println!("-> {cards:?}");
+
+            if cards.len() == 1 {
+                return (cards[0] - 24.0).abs() <= 1e-5;
+            }
+
+            for a in 0..cards.len() {
+                for b in a + 1..cards.len() {
+                    let mut n_cards: Vec<_> = cards
+                        .iter()
+                        .enumerate()
+                        .filter(|&(i, _)| i != a && i != b)
+                        .map(|(_, &v)| v)
+                        .collect();
+
+                    for v in possible_results(cards[a], cards[b]) {
+                        n_cards.push(v);
+                        if search(&n_cards) {
+                            return true;
+                        }
+                        n_cards.pop();
+                    }
+                }
+            }
+
+            false
+        }
+
+        search(&cards.iter().map(|&n| n as f64).collect::<Vec<_>>())
+    }
+}
+
 /// 1079m Letter Tile Possibilities
 struct Sol1079;
 
