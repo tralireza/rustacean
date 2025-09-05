@@ -1,6 +1,15 @@
 use super::*;
 
 #[test]
+fn test_2749() {
+    for (rst, num1, num2) in [(3, 3, -2), (-1, 5, 7)] {
+        println!("* {num1} {num2}");
+        assert_eq!(Sol2749::make_the_integer_zero(num1, num2), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3025() {
     for (rst, points) in [
         (0, vec![[1, 1], [2, 2], [3, 3]]),

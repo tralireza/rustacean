@@ -1,5 +1,26 @@
 //! # Enumeration
 
+/// 2749m Minimum Operations to Make Integer Zero
+struct Sol2749 {}
+
+impl Sol2749 {
+    pub fn make_the_integer_zero(num1: i32, num2: i32) -> i32 {
+        let mut x: i64 = 1;
+        loop {
+            let target = num1 as i64 - x * num2 as i64;
+
+            if target < x {
+                return -1;
+            }
+            if x >= target.count_ones() as i64 {
+                return x as _;
+            }
+
+            x += 1;
+        }
+    }
+}
+
 /// 3025m Find the Number of Ways to Place People I
 struct Sol3025 {}
 
