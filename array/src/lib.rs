@@ -954,5 +954,34 @@ impl Sol3423 {
     }
 }
 
+/// 3495m Minimum Operations to Make Array Elements Zero
+struct Sol3495 {}
+
+impl Sol3495 {
+    /// 1 <= Q <= 10^5
+    /// 1 <= Q_0, Q_1 <= 10^9
+    pub fn min_operations(queries: Vec<Vec<i32>>) -> i64 {
+        // [1, n]
+        let ops = |n| {
+            let mut i = 1;
+            let mut base = 1;
+
+            let mut ops = 0;
+            while base <= n {
+                ops += ((i + 1) >> 1) * (((base << 1) - 1).min(n) - base + 1);
+                i += 1;
+                base <<= 1;
+            }
+
+            ops
+        };
+
+        queries
+            .iter()
+            .map(|v| (v[0] as i64, v[1] as i64))
+            .fold(0, |m_ops, (l, r)| m_ops + (1 + ops(r) - ops(l - 1)) / 2)
+    }
+}
+
 #[cfg(test)]
 mod tests;

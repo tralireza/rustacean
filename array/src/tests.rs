@@ -547,3 +547,20 @@ fn test_3423() {
         println!(":: {rst}");
     }
 }
+
+#[test]
+fn test_3495() {
+    for (rst, queries) in [(3, vec![[1, 2], [2, 4]]), (4, vec![[2, 6]])] {
+        println!("* {queries:?}");
+        assert_eq!(
+            Sol3495::min_operations(
+                queries
+                    .into_iter()
+                    .map(|a| a.into_iter().collect())
+                    .collect()
+            ),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
