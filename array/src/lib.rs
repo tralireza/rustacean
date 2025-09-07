@@ -976,6 +976,30 @@ impl Sol3495 {
             ops
         };
 
+        println!(
+            ":? {}",
+            queries
+                .iter()
+                .map(|qry| (qry[0] as i64, qry[1] as i64))
+                .map(|(l, r)| (1..31)
+                    .scan(1i64, |prv, power| {
+                        let start = l.max(*prv);
+                        let end = r.min(4 * *prv - 1);
+                        *prv *= 4;
+
+                        let ops = if end >= start {
+                            (end - start + 1) * power
+                        } else {
+                            0
+                        };
+
+                        Some(ops)
+                    })
+                    .sum::<i64>())
+                .map(|ops| (ops + 1) / 2)
+                .sum::<i64>()
+        );
+
         queries
             .iter()
             .map(|v| (v[0] as i64, v[1] as i64))
