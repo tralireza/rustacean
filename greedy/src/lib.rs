@@ -153,17 +153,16 @@ impl Sol1733 {
     pub fn minimum_teachings(n: i32, languages: Vec<Vec<i32>>, friendships: Vec<Vec<i32>>) -> i32 {
         use std::collections::HashSet;
 
-        let mut lm: Vec<HashSet<i32>> = vec![];
+        let mut fls: Vec<HashSet<i32>> = vec![];
         for langs in languages.iter() {
-            let uset: HashSet<i32> = langs.iter().copied().collect();
-            lm.push(uset);
+            fls.push(langs.iter().copied().collect::<HashSet<_>>());
         }
-        println!("-> {lm:?}");
+        println!("-> Friends Language Set Vector: {fls:?}");
 
         let filter_cache: HashSet<(usize, usize)> = friendships
             .iter()
             .map(|v| (v[0] as usize - 1, v[1] as usize - 1))
-            .filter(|&(x, y)| lm[x].intersection(&lm[y]).count() == 0)
+            .filter(|&(x, y)| fls[x].intersection(&fls[y]).count() == 0)
             .collect();
         println!("-> Friends With No Common Language (0-Index): {filter_cache:?}");
 
@@ -175,10 +174,10 @@ impl Sol1733 {
                     .filter(|&(u, v)| filter_cache.contains(&(u, v)))
                     .flat_map(|(u, v)| {
                         let mut learners = vec![];
-                        if !lm[u].contains(&lang) {
+                        if !fls[u].contains(&lang) {
                             learners.push(u);
                         }
-                        if !lm[v].contains(&lang) {
+                        if !fls[v].contains(&lang) {
                             learners.push(v);
                         }
 
