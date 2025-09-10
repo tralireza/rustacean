@@ -56,6 +56,38 @@ fn test_1717() {
 }
 
 #[test]
+fn test_1733() {
+    for (rst, n, languages, friendships) in [
+        (
+            1,
+            2,
+            vec![vec![1], vec![2], vec![1, 2]],
+            vec![[1, 2], [1, 3], [2, 3]],
+        ),
+        (
+            2,
+            3,
+            vec![vec![2], vec![1, 3], vec![1, 2], vec![3]],
+            vec![[1, 4], [1, 2], [3, 4], [2, 3]],
+        ),
+    ] {
+        println!("* {n} {languages:?} {friendships:?}");
+        assert_eq!(
+            Sol1733::minimum_teachings(
+                n,
+                languages,
+                friendships
+                    .into_iter()
+                    .map(|a| a.into_iter().collect())
+                    .collect()
+            ),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1353() {
     for (rst, nums) in [
         (3, vec![vec![1, 2], vec![2, 3], vec![3, 4]]),

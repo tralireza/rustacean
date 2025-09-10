@@ -146,6 +146,52 @@ impl Sol1717 {
     }
 }
 
+/// 1733m Minimum Number of People to Teach
+struct Sol1733 {}
+
+impl Sol1733 {
+    pub fn minimum_teachings(n: i32, languages: Vec<Vec<i32>>, friendships: Vec<Vec<i32>>) -> i32 {
+        use std::collections::HashSet;
+
+        let mut lm: Vec<HashSet<i32>> = vec![];
+        for langs in languages.iter() {
+            let uset: HashSet<i32> = langs.iter().copied().collect();
+            lm.push(uset);
+        }
+        println!("-> {lm:?}");
+
+        let filter_cache: HashSet<(usize, usize)> = friendships
+            .iter()
+            .map(|v| (v[0] as usize - 1, v[1] as usize - 1))
+            .filter(|&(x, y)| lm[x].intersection(&lm[y]).count() == 0)
+            .collect();
+        println!("-> Friends With No Common Language (0-Index): {filter_cache:?}");
+
+        (1..=n)
+            .map(|lang| {
+                friendships
+                    .iter()
+                    .map(|v| (v[0] as usize - 1, v[1] as usize - 1))
+                    .filter(|&(u, v)| filter_cache.contains(&(u, v)))
+                    .flat_map(|(u, v)| {
+                        let mut learners = vec![];
+                        if !lm[u].contains(&lang) {
+                            learners.push(u);
+                        }
+                        if !lm[v].contains(&lang) {
+                            learners.push(v);
+                        }
+
+                        learners
+                    })
+                    .collect::<HashSet<_>>()
+                    .len()
+            })
+            .min()
+            .unwrap_or(0) as _
+    }
+}
+
 /// 1353m Maximum Number of Events That Can Be Attended
 struct Sol1353 {}
 
