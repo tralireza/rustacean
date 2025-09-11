@@ -459,6 +459,37 @@ impl Sol2315 {
     }
 }
 
+/// 2785m Sort Vowels in a String
+struct Sol2785 {}
+
+impl Sol2785 {
+    pub fn sort_vowels(s: String) -> String {
+        let mut vws: Vec<_> = s
+            .chars()
+            .filter(|&chr| "aAeEiIoOuU".contains(chr))
+            .collect();
+        vws.sort();
+        println!("-> {vws:?}");
+
+        let s: Vec<_> = s
+            .chars()
+            .map(|chr| if "aAeEiIoOuU".contains(chr) { '*' } else { chr })
+            .collect();
+        println!("-> {s:?}");
+
+        s.iter()
+            .scan(0, |i, &chr| {
+                if chr == '*' {
+                    *i += 1;
+                    Some(vws[*i - 1])
+                } else {
+                    Some(chr)
+                }
+            })
+            .collect()
+    }
+}
+
 /// 3330 Find the Original Typed String I
 struct Sol3330;
 

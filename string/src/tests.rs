@@ -244,6 +244,15 @@ fn test_2315() {
 }
 
 #[test]
+fn test_2785() {
+    for (rst, s) in [("lEOtcede", "lEetcOde"), ("lYmph", "lYmph")] {
+        println!("* {s}");
+        assert_eq!(Sol2785::sort_vowels(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3330() {
     for (rst, word) in [
         (5, "abbcccc".to_string()),
