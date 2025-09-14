@@ -224,7 +224,7 @@ impl Sol966 {
         println!("-> {words:?}");
 
         queries
-            .into_iter()
+            .iter()
             .map(|w| {
                 let key: String = w
                     .to_lowercase()
@@ -233,8 +233,8 @@ impl Sol966 {
                     .collect();
 
                 if let Some(lst) = words.get(&key) {
-                    if lst.contains(&&w) {
-                        w
+                    if lst.contains(&w) {
+                        w.to_string()
                     } else {
                         for lw in lst.iter() {
                             if lw.to_lowercase() == w.to_lowercase() {
