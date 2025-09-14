@@ -196,6 +196,61 @@ impl Sol917 {
     }
 }
 
+/// 966m Vowel Spellchecker
+struct Sol966 {}
+
+impl Sol966 {
+    pub fn spellchecker(wordlist: Vec<String>, queries: Vec<String>) -> Vec<String> {
+        use std::collections::HashMap;
+
+        let words: HashMap<String, Vec<_>> =
+            wordlist.iter().fold(HashMap::new(), |mut words, w| {
+                words
+                    .entry(
+                        w.to_string()
+                            .to_lowercase()
+                            .chars()
+                            .map(|chr| match chr {
+                                'a' | 'e' | 'i' | 'o' | 'u' => '*',
+                                _ => chr,
+                            })
+                            .collect(),
+                    )
+                    .and_modify(|lst| lst.push(w))
+                    .or_insert(vec![w]);
+
+                words
+            });
+        println!("-> {words:?}");
+
+        queries
+            .into_iter()
+            .map(|w| {
+                let key: String = w
+                    .to_lowercase()
+                    .chars()
+                    .map(|chr| if "aeiou".contains(chr) { '*' } else { chr })
+                    .collect();
+
+                if let Some(lst) = words.get(&key) {
+                    if lst.contains(&&w) {
+                        w
+                    } else {
+                        for lw in lst.iter() {
+                            if lw.to_lowercase() == w.to_lowercase() {
+                                return lw.to_string();
+                            }
+                        }
+                        lst.first().unwrap().to_string()
+                    }
+                } else {
+                    "".to_string()
+                }
+            })
+            .collect()
+    }
+}
+
 /// 1061m Lexicographically Smallest Equivalent String
 struct Sol1061 {}
 
