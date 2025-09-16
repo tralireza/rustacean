@@ -151,6 +151,22 @@ fn test_2081() {
 }
 
 #[test]
+fn test_2197() {
+    for (rst, nums) in [
+        (vec![12, 7, 6], vec![6, 4, 3, 2, 7, 6, 2]),
+        (vec![2, 1, 1, 3], vec![2, 2, 1, 1, 3, 3, 3]),
+        (
+            vec![31, 97561],
+            vec![31, 97561, 97561, 97561, 97561, 97561, 97561, 97561, 97561],
+        ), // 41/71
+    ] {
+        println!("* {nums:?}");
+        assert_eq!(Sol2197::replace_non_coprimes(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2338() {
     for (rst, n, max_value) in [(10, 2, 5), (11, 5, 3), (27, 2, 10), (510488787, 184, 389)] {
         assert_eq!(Sol2338::ideal_arrays(n, max_value), rst);
