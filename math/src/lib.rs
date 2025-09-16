@@ -557,7 +557,7 @@ impl Sol2197 {
             while let Some(&last) = stack.last() {
                 if gcd(last, n) > 1 {
                     stack.pop();
-                    n *= last / gcd(last, n);
+                    n *= last / gcd(last, n); // lcm(a,b) * gcd(a,b) = a * b
                 } else {
                     break;
                 }
