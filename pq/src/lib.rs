@@ -232,39 +232,35 @@ impl FoodRatings2353 {
             f_cuisine: foods
                 .iter()
                 .enumerate()
-                .fold(HashMap::new(), |mut m, (i, food)| {
-                    m.insert(food.clone(), cuisines[i].clone());
-                    m
-                }),
-            f_rating: foods.iter().zip(ratings.iter()).fold(
-                HashMap::new(),
-                |mut m, (food, &rating)| {
-                    m.insert(food.clone(), rating);
-                    m
-                },
-            ),
+                .map(|(i, food)| (food.clone(), cuisines[i].clone()))
+                .collect(),
+            f_rating: foods
+                .iter()
+                .zip(ratings.iter())
+                .map(|(food, &rating)| (food.clone(), rating))
+                .collect(),
         }
     }
 
     fn change_rating(&mut self, food: String, new_rating: i32) {
         if let Some(pq) = self.data.get_mut(&self.f_cuisine[&food]) {
             pq.push((new_rating, Reverse(food.to_string())));
+            self.f_rating.insert(food.to_string(), new_rating);
         }
-        self.f_rating.insert(food.to_string(), new_rating);
     }
 
     fn highest_rated(&mut self, cuisine: String) -> String {
-        loop {
-            if let Some(pq) = self.data.get_mut(&cuisine) {
-                while let Some((rating, Reverse(food))) = pq.peek() {
-                    if *rating == self.f_rating[food] {
-                        return food.clone();
-                    } else {
-                        pq.pop();
-                    }
+        if let Some(pq) = self.data.get_mut(&cuisine) {
+            while let Some((rating, Reverse(food))) = pq.peek() {
+                if *rating == self.f_rating[food] {
+                    return food.clone();
+                } else {
+                    pq.pop(); // old "Rating", throw away!
                 }
             }
         }
+
+        panic!()
     }
 }
 
