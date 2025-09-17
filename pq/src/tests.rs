@@ -89,6 +89,8 @@ fn test_2353() {
     }
 
     o.change_rating("sushi".to_string(), 16);
+    println!("-> {o:?}");
+
     for (rst, cuisine) in [("sushi", "japanese")] {
         println!("* {cuisine:?}");
         assert_eq!(o.highest_rated(cuisine.to_string()), rst);
@@ -96,6 +98,8 @@ fn test_2353() {
     }
 
     o.change_rating("ramen".to_string(), 16);
+    println!("-> {o:?}");
+
     for (rst, cuisine) in [("ramen", "japanese")] {
         println!("* {cuisine:?}");
         assert_eq!(o.highest_rated(cuisine.to_string()), rst);
