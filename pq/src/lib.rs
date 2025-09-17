@@ -205,6 +205,69 @@ impl Sol2231 {
     }
 }
 
+/// 2353m Design a Food Rating System
+use std::cmp::Reverse;
+use std::collections::{BinaryHeap, HashMap};
+
+#[derive(Debug)]
+struct FoodRatings2353 {
+    data: HashMap<String, BinaryHeap<(i32, Reverse<String>)>>,
+    f_cuisine: HashMap<String, String>,
+    f_rating: HashMap<String, i32>,
+}
+
+impl FoodRatings2353 {
+    fn new(foods: Vec<String>, cuisines: Vec<String>, ratings: Vec<i32>) -> Self {
+        FoodRatings2353 {
+            data: cuisines
+                .iter()
+                .enumerate()
+                .fold(HashMap::new(), |mut data, (i, cuisine)| {
+                    data.entry(cuisine.to_string())
+                        .and_modify(|pq| pq.push((ratings[i], Reverse(foods[i].clone()))))
+                        .or_insert(BinaryHeap::from([(ratings[i], Reverse(foods[i].clone()))]));
+
+                    data
+                }),
+            f_cuisine: foods
+                .iter()
+                .enumerate()
+                .fold(HashMap::new(), |mut m, (i, food)| {
+                    m.insert(food.clone(), cuisines[i].clone());
+                    m
+                }),
+            f_rating: foods.iter().zip(ratings.iter()).fold(
+                HashMap::new(),
+                |mut m, (food, &rating)| {
+                    m.insert(food.clone(), rating);
+                    m
+                },
+            ),
+        }
+    }
+
+    fn change_rating(&mut self, food: String, new_rating: i32) {
+        if let Some(pq) = self.data.get_mut(&self.f_cuisine[&food]) {
+            pq.push((new_rating, Reverse(food.to_string())));
+        }
+        self.f_rating.insert(food.to_string(), new_rating);
+    }
+
+    fn highest_rated(&mut self, cuisine: String) -> String {
+        loop {
+            if let Some(pq) = self.data.get_mut(&cuisine) {
+                while let Some((rating, Reverse(food))) = pq.peek() {
+                    if *rating == self.f_rating[food] {
+                        return food.clone();
+                    } else {
+                        pq.pop();
+                    }
+                }
+            }
+        }
+    }
+}
+
 /// 3066m Minimum Operations to Exceed Threshold Value II
 struct Sol3066;
 

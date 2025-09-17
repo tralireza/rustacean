@@ -66,6 +66,44 @@ fn test_2231() {
 }
 
 #[test]
+fn test_2353() {
+    let mut o = FoodRatings2353::new(
+        ["kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi"]
+            .into_iter()
+            .map(|s| s.to_string())
+            .collect(),
+        [
+            "korean", "japanese", "japanese", "greek", "japanese", "korean",
+        ]
+        .into_iter()
+        .map(|s| s.to_string())
+        .collect(),
+        vec![9, 12, 8, 15, 14, 7],
+    );
+    println!("-> {o:?}");
+
+    for (rst, cuisine) in [("kimchi", "korean"), ("ramen", "japanese")] {
+        println!("* {cuisine:?}");
+        assert_eq!(o.highest_rated(cuisine.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+
+    o.change_rating("sushi".to_string(), 16);
+    for (rst, cuisine) in [("sushi", "japanese")] {
+        println!("* {cuisine:?}");
+        assert_eq!(o.highest_rated(cuisine.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+
+    o.change_rating("ramen".to_string(), 16);
+    for (rst, cuisine) in [("ramen", "japanese")] {
+        println!("* {cuisine:?}");
+        assert_eq!(o.highest_rated(cuisine.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3066() {
     for (rst, nums, k) in [
         (2, vec![2, 11, 10, 1, 3], 10),
