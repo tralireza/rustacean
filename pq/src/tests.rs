@@ -156,3 +156,27 @@ fn test_3362() {
         println!(":: {rst}");
     }
 }
+
+#[test]
+fn test_3408() {
+    // [user, task, priority]
+    let mut o = TaskManager3408::new(
+        [[1, 101, 10], [2, 102, 20], [3, 103, 15]]
+            .into_iter()
+            .map(|a| a.into_iter().collect())
+            .collect(),
+    );
+    println!("-> {o:?}");
+
+    o.add(4, 104, 5);
+    o.edit(102, 8);
+    println!("-> {o:?}");
+
+    assert_eq!(o.exec_top(), 3);
+
+    o.rmv(101);
+    o.add(5, 105, 15);
+    println!("-> {o:?}");
+
+    assert_eq!(o.exec_top(), 5);
+}

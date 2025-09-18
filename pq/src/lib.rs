@@ -1,5 +1,8 @@
 //! # PQ (aka Heap) :: Rusty
 
+use std::cmp::Reverse;
+use std::collections::{BTreeSet, BinaryHeap, HashMap};
+
 /// 407h Trapping Rain Water II
 struct Sol407;
 
@@ -206,9 +209,6 @@ impl Sol2231 {
 }
 
 /// 2353m Design a Food Rating System
-use std::cmp::Reverse;
-use std::collections::{BinaryHeap, HashMap};
-
 #[derive(Debug)]
 struct FoodRatings2353 {
     data: HashMap<String, BinaryHeap<(i32, Reverse<String>)>>,
@@ -384,6 +384,56 @@ impl Sol3362 {
         }
 
         pq.len() as _
+    }
+}
+
+/// 3408m Design Task Manager
+#[derive(Debug)]
+struct TaskManager3408 {
+    oset: BTreeSet<(i32, i32, i32)>, // (Priority, Task, User)
+    task: HashMap<i32, (i32, i32)>,  // Task: -> (User, Priority)
+}
+
+impl TaskManager3408 {
+    fn new(tasks: Vec<Vec<i32>>) -> Self {
+        TaskManager3408 {
+            oset: tasks
+                .iter()
+                .map(|task| (task[2], task[1], task[0]))
+                .collect(),
+            task: tasks
+                .iter()
+                .map(|task| (task[1], (task[0], task[2])))
+                .collect(),
+        }
+    }
+
+    fn add(&mut self, user_id: i32, task_id: i32, priority: i32) {
+        self.oset.insert((priority, task_id, user_id));
+        self.task.insert(task_id, (user_id, priority));
+    }
+
+    fn edit(&mut self, task_id: i32, new_priority: i32) {
+        if let Some((user, priority)) = self.task.get_mut(&task_id) {
+            if let Some(_) = self.oset.take(&(*priority, task_id, *user)) {
+                self.oset.insert((new_priority, task_id, *user));
+                *priority = new_priority;
+            }
+        }
+    }
+
+    fn rmv(&mut self, task_id: i32) {
+        if let Some((user, priority)) = self.task.remove(&task_id) {
+            self.oset.take(&(priority, task_id, user));
+        }
+    }
+
+    fn exec_top(&mut self) -> i32 {
+        if let Some((_, task, user)) = self.oset.pop_last() {
+            self.task.remove(&task);
+            return user;
+        }
+        -1
     }
 }
 
