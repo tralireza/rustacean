@@ -699,5 +699,40 @@ impl Sol3375 {
     }
 }
 
+/// 3484m Design Spreadsheet
+#[derive(Debug)]
+struct Spreadsheet3484 {
+    cells: std::collections::HashMap<String, i32>,
+}
+
+impl Spreadsheet3484 {
+    fn new(rows: i32) -> Self {
+        Spreadsheet3484 {
+            cells: std::collections::HashMap::with_capacity(26 * rows as usize),
+        }
+    }
+
+    fn set_cell(&mut self, cell: String, value: i32) {
+        self.cells.insert(cell, value);
+    }
+
+    fn reset_cell(&mut self, cell: String) {
+        self.cells.insert(cell, 0);
+    }
+
+    fn get_value(&self, formula: String) -> i32 {
+        formula[1..]
+            .split('+')
+            .map(|cell| {
+                if cell.starts_with(|chr| "0123456789".contains(chr)) {
+                    cell.parse::<i32>().unwrap()
+                } else {
+                    *self.cells.get(cell).unwrap_or(&0)
+                }
+            })
+            .sum::<i32>()
+    }
+}
+
 #[cfg(test)]
 mod tests;

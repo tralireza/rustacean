@@ -302,3 +302,23 @@ fn test_3375() {
         assert_eq!(Sol3375::min_operations(nums, k), rst);
     }
 }
+
+#[test]
+fn test_3484() {
+    let mut o = Spreadsheet3484::new(3);
+    println!("-> {o:?}");
+
+    assert_eq!(o.get_value("=5+7".to_string()), 12);
+    o.set_cell("A1".to_string(), 10);
+    println!("-> {o:?}");
+
+    assert_eq!(o.get_value("=A1+6".to_string()), 16);
+    o.set_cell("B2".to_string(), 15);
+    println!("-> {o:?}");
+
+    assert_eq!(o.get_value("=A1+B2".to_string()), 25);
+    o.reset_cell("A1".to_string());
+    println!("-> {o:?}");
+
+    assert_eq!(o.get_value("=A1+B2".to_string()), 15);
+}
