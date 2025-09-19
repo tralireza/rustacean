@@ -724,7 +724,7 @@ impl Spreadsheet3484 {
         formula[1..]
             .split('+')
             .map(|cell| {
-                if cell.starts_with(|chr| "0123456789".contains(chr)) {
+                if cell.starts_with(char::is_numeric) {
                     cell.parse::<i32>().unwrap()
                 } else {
                     *self.cells.get(cell).unwrap_or(&0)
