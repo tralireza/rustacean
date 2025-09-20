@@ -734,5 +734,78 @@ impl Spreadsheet3484 {
     }
 }
 
+/// 3508m Implement Router
+#[derive(Debug)]
+struct Router3508 {
+    fifo: std::collections::VecDeque<(i32, i32, i32)>,
+    pkts: std::collections::HashSet<(i32, i32, i32)>,
+    dsts: std::collections::HashMap<i32, std::collections::BTreeMap<i32, i32>>,
+}
+
+impl Router3508 {
+    /// 1 <= Src, Dst <= 2*10^5
+    /// 1 <= T, T_start <= T_end <= 10^9
+    fn new(memory_limit: i32) -> Self {
+        Router3508 {
+            fifo: std::collections::VecDeque::with_capacity(memory_limit as usize),
+            pkts: std::collections::HashSet::with_capacity(memory_limit as usize),
+            dsts: std::collections::HashMap::new(),
+        }
+    }
+
+    fn add_packet(&mut self, source: i32, destination: i32, timestamp: i32) -> bool {
+        if self.pkts.contains(&(source, destination, timestamp)) {
+            false
+        } else {
+            if self.fifo.len() == self.fifo.capacity() {
+                if let Some((src, dst, ts)) = self.fifo.pop_front() {
+                    self.pkts.remove(&(src, dst, ts));
+                    self.dsts
+                        .get_mut(&dst)
+                        .unwrap()
+                        .entry(ts)
+                        .and_modify(|count| *count -= 1);
+                }
+            }
+
+            self.fifo.push_back((source, destination, timestamp));
+            self.pkts.insert((source, destination, timestamp));
+
+            self.dsts
+                .entry(destination)
+                .or_insert(std::collections::BTreeMap::new())
+                .entry(timestamp)
+                .and_modify(|count| *count += 1)
+                .or_insert(1);
+
+            true
+        }
+    }
+
+    fn forward_packet(&mut self) -> Vec<i32> {
+        if let Some((src, dst, ts)) = self.fifo.pop_front() {
+            self.pkts.remove(&(src, dst, ts));
+            self.dsts
+                .get_mut(&dst)
+                .unwrap()
+                .entry(ts)
+                .and_modify(|count| *count -= 1);
+
+            vec![src, dst, ts]
+        } else {
+            vec![]
+        }
+    }
+
+    fn get_count(&self, destination: i32, start_time: i32, end_time: i32) -> i32 {
+        self.dsts
+            .get(&destination)
+            .unwrap()
+            .range(start_time..=end_time)
+            .map(|(_, count)| count)
+            .sum::<i32>()
+    }
+}
+
 #[cfg(test)]
 mod tests;
