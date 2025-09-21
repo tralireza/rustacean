@@ -624,5 +624,99 @@ impl Sol3356 {
     }
 }
 
+/// 3508m Implement Router
+#[derive(Debug)]
+struct Router3508 {
+    fifo: std::collections::VecDeque<(i32, i32, i32)>,
+    pkts: std::collections::HashSet<(i32, i32, i32)>,
+    dsts: std::collections::HashMap<i32, std::collections::VecDeque<i32>>,
+}
+
+impl Router3508 {
+    /// 1 <= Src, Dst <= 2*10^5
+    /// 1 <= T, T_start <= T_end <= 10^9
+    fn new(memory_limit: i32) -> Self {
+        Router3508 {
+            fifo: std::collections::VecDeque::with_capacity(memory_limit as usize),
+            pkts: std::collections::HashSet::new(),
+            dsts: std::collections::HashMap::new(),
+        }
+    }
+
+    fn add_packet(&mut self, source: i32, destination: i32, timestamp: i32) -> bool {
+        if self.pkts.contains(&(source, destination, timestamp)) {
+            false
+        } else {
+            if self.fifo.len() == self.fifo.capacity() {
+                if let Some((src, dst, ts)) = self.fifo.pop_front() {
+                    self.pkts.remove(&(src, dst, ts));
+                    self.dsts.entry(dst).and_modify(|v| {
+                        v.pop_front();
+                    });
+                }
+            }
+
+            self.fifo.push_back((source, destination, timestamp));
+            self.pkts.insert((source, destination, timestamp));
+
+            self.dsts
+                .entry(destination)
+                .and_modify(|v| v.push_back(timestamp))
+                .or_insert(std::collections::VecDeque::from([timestamp]));
+
+            true
+        }
+    }
+
+    fn forward_packet(&mut self) -> Vec<i32> {
+        if let Some((src, dst, ts)) = self.fifo.pop_front() {
+            self.pkts.remove(&(src, dst, ts));
+            self.dsts.entry(dst).and_modify(|v| {
+                v.pop_front();
+            });
+
+            vec![src, dst, ts]
+        } else {
+            vec![]
+        }
+    }
+
+    fn get_count(&self, destination: i32, start_time: i32, end_time: i32) -> i32 {
+        if let Some(v) = self.dsts.get(&destination)
+            && !v.is_empty()
+        {
+            let (mut l, mut r) = (0, v.len());
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if v[m] < start_time {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+
+            if l == v.len() {
+                return 0;
+            }
+
+            let left = l;
+
+            r = v.len();
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if v[m] > end_time {
+                    r = m;
+                } else {
+                    l = m + 1;
+                }
+            }
+
+            (r - left) as _
+        } else {
+            0
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests;

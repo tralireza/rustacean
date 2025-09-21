@@ -167,3 +167,20 @@ fn test_3356() {
         assert_eq!(Sol3356::min_zero_array(nums, queries), rst);
     }
 }
+
+#[test]
+fn test_3508() {
+    let mut o = Router3508::new(3);
+
+    for [src, dst, ts] in [[1, 4, 90], [2, 5, 90], [1, 4, 90], [3, 5, 95], [4, 5, 105]] {
+        o.add_packet(src, dst, ts);
+    }
+    println!("-> {o:?}");
+
+    assert_eq!(o.forward_packet(), vec![2, 5, 90]);
+
+    o.add_packet(5, 2, 110);
+    println!("-> {o:?}");
+
+    assert_eq!(o.get_count(5, 100, 110), 1);
+}
