@@ -64,6 +64,38 @@ fn test_917() {
 }
 
 #[test]
+fn test_966() {
+    for (rst, wordlist, queries) in [
+        (
+            vec![
+                "kite", "KiTe", "KiTe", "Hare", "hare", "", "", "KiTe", "", "KiTe",
+            ],
+            vec!["KiTe", "kite", "hare", "Hare"],
+            vec![
+                "kite", "Kite", "KiTe", "Hare", "HARE", "Hear", "hear", "keti", "keet", "keto",
+            ],
+        ),
+        (vec!["Zuo"], vec!["zeo", "Zuo"], vec!["zuo"]), // 50/55
+    ] {
+        println!("* {wordlist:?} {queries:?}");
+        assert_eq!(
+            Sol966::spellchecker(
+                wordlist
+                    .into_iter()
+                    .map(|s| s.to_string())
+                    .collect::<Vec<_>>(),
+                queries
+                    .into_iter()
+                    .map(|s| s.to_string())
+                    .collect::<Vec<_>>()
+            ),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1061() {
     macro_rules! s {
         ($s:expr) => {
@@ -239,6 +271,15 @@ fn test_2315() {
     for (rst, s) in [(5, "yo|uar|e**|b|e***au|tifu|l"), (0, "iamprogrammer")] {
         println!("* {s:?}");
         assert_eq!(Sol2315::count_asterisks(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
+fn test_2785() {
+    for (rst, s) in [("lEOtcede", "lEetcOde"), ("lYmph", "lYmph")] {
+        println!("* {s}");
+        assert_eq!(Sol2785::sort_vowels(s.to_string()), rst);
         println!(":: {rst:?}");
     }
 }

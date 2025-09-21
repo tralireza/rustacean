@@ -540,6 +540,36 @@ impl Sol2081 {
     }
 }
 
+/// 2197h Replace Non-Coprime Numbers in Array
+struct Sol2197 {}
+
+impl Sol2197 {
+    pub fn replace_non_coprimes(nums: Vec<i32>) -> Vec<i32> {
+        fn gcd(mut a: i32, mut b: i32) -> i32 {
+            while b > 0 {
+                (a, b) = (b, a % b);
+            }
+            a
+        }
+
+        let mut stack = vec![];
+        for mut n in nums {
+            while let Some(&last) = stack.last() {
+                if gcd(last, n) > 1 {
+                    stack.pop();
+                    n *= last / gcd(last, n); // lcm(a,b) * gcd(a,b) = a * b
+                } else {
+                    break;
+                }
+            }
+
+            stack.push(n);
+        }
+
+        stack
+    }
+}
+
 /// 2338h Count the Number of Ideal Arrays
 struct Sol2338;
 

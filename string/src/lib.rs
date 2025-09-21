@@ -196,6 +196,61 @@ impl Sol917 {
     }
 }
 
+/// 966m Vowel Spellchecker
+struct Sol966 {}
+
+impl Sol966 {
+    pub fn spellchecker(wordlist: Vec<String>, queries: Vec<String>) -> Vec<String> {
+        use std::collections::HashMap;
+
+        let words: HashMap<String, Vec<_>> =
+            wordlist.iter().fold(HashMap::new(), |mut words, w| {
+                words
+                    .entry(
+                        w.to_string()
+                            .to_lowercase()
+                            .chars()
+                            .map(|chr| match chr {
+                                'a' | 'e' | 'i' | 'o' | 'u' => '*',
+                                _ => chr,
+                            })
+                            .collect(),
+                    )
+                    .and_modify(|lst| lst.push(w))
+                    .or_insert(vec![w]);
+
+                words
+            });
+        println!("-> {words:?}");
+
+        queries
+            .iter()
+            .map(|w| {
+                let key: String = w
+                    .to_lowercase()
+                    .chars()
+                    .map(|chr| if "aeiou".contains(chr) { '*' } else { chr })
+                    .collect();
+
+                if let Some(lst) = words.get(&key) {
+                    if lst.contains(&w) {
+                        w.to_string()
+                    } else {
+                        for lw in lst.iter() {
+                            if lw.to_lowercase() == w.to_lowercase() {
+                                return lw.to_string();
+                            }
+                        }
+                        lst.first().unwrap().to_string()
+                    }
+                } else {
+                    "".to_string()
+                }
+            })
+            .collect()
+    }
+}
+
 /// 1061m Lexicographically Smallest Equivalent String
 struct Sol1061 {}
 
@@ -456,6 +511,37 @@ impl Sol2315 {
             .fold(0, |count, pair| {
                 count + pair.chars().filter(|&chr| chr == '*').count()
             }) as _
+    }
+}
+
+/// 2785m Sort Vowels in a String
+struct Sol2785 {}
+
+impl Sol2785 {
+    pub fn sort_vowels(s: String) -> String {
+        let mut vws: Vec<_> = s
+            .chars()
+            .filter(|&chr| "aAeEiIoOuU".contains(chr))
+            .collect();
+        vws.sort();
+        println!("-> {vws:?}");
+
+        let s: Vec<_> = s
+            .chars()
+            .map(|chr| if "aAeEiIoOuU".contains(chr) { '*' } else { chr })
+            .collect();
+        println!("-> {s:?}");
+
+        s.iter()
+            .scan(0, |i, &chr| {
+                if chr == '*' {
+                    *i += 1;
+                    Some(vws[*i - 1])
+                } else {
+                    Some(chr)
+                }
+            })
+            .collect()
     }
 }
 
