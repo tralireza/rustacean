@@ -492,11 +492,11 @@ impl TaskManager3408 {
     }
 
     fn edit(&mut self, task_id: i32, new_priority: i32) {
-        if let Some((user, priority)) = self.task.get_mut(&task_id) {
-            if let Some(_) = self.oset.take(&(*priority, task_id, *user)) {
-                self.oset.insert((new_priority, task_id, *user));
-                *priority = new_priority;
-            }
+        if let Some((user, priority)) = self.task.get_mut(&task_id)
+            && self.oset.take(&(*priority, task_id, *user)).is_some()
+        {
+            self.oset.insert((new_priority, task_id, *user));
+            *priority = new_priority;
         }
     }
 
