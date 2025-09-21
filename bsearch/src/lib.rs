@@ -648,12 +648,7 @@ impl Router3508 {
             false
         } else {
             if self.fifo.len() == self.fifo.capacity() {
-                if let Some((src, dst, ts)) = self.fifo.pop_front() {
-                    self.pkts.remove(&(src, dst, ts));
-                    self.dsts.entry(dst).and_modify(|v| {
-                        v.pop_front();
-                    });
-                }
+                self.forward_packet();
             }
 
             self.fifo.push_back((source, destination, timestamp));
