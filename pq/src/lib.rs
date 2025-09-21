@@ -189,6 +189,7 @@ struct MovieRentingSystem1912 {
 impl MovieRentingSystem1912 {
     /// 0 <= Shop < 3*10^5
     /// 1 <= Movie, Price <= 10^4
+    #[allow(unused_variables)]
     fn new(n: i32, entries: Vec<Vec<i32>>) -> Self {
         MovieRentingSystem1912 {
             prices: entries.iter().map(|v| ((v[0], v[1]), v[2])).collect(),
