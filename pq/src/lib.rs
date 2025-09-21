@@ -181,9 +181,8 @@ impl Sol1792 {
 #[derive(Debug)]
 struct MovieRentingSystem1912 {
     prices: std::collections::HashMap<(i32, i32), i32>, // (Shop, Movie) -> Price
-    pq: std::collections::BTreeSet<(i32, i32, i32)>,    // (Price, Shop, Movie)
     movies: std::collections::HashMap<i32, std::collections::BTreeSet<(i32, i32)>>, // Movie -> (Price, Shop)
-    r_pq: std::collections::BTreeSet<(i32, i32, i32)>, // (Price, Shop, Movie)
+    pq: std::collections::BTreeSet<(i32, i32, i32)>, // (Price, Shop, Movie)
 }
 
 impl MovieRentingSystem1912 {
@@ -193,15 +192,6 @@ impl MovieRentingSystem1912 {
     fn new(n: i32, entries: Vec<Vec<i32>>) -> Self {
         MovieRentingSystem1912 {
             prices: entries.iter().map(|v| ((v[0], v[1]), v[2])).collect(),
-            pq: entries
-                .iter()
-                .map(|v| {
-                    let [shop, movie, price, ..] = v[..] else {
-                        panic!()
-                    };
-                    (price, shop, movie)
-                })
-                .collect(),
             movies: entries.iter().map(|v| (v[0], v[1], v[2])).fold(
                 HashMap::new(),
                 |mut movies, (shop, movie, price)| {
@@ -213,7 +203,7 @@ impl MovieRentingSystem1912 {
                     movies
                 },
             ),
-            r_pq: BTreeSet::new(),
+            pq: BTreeSet::new(),
         }
     }
 
@@ -225,28 +215,26 @@ impl MovieRentingSystem1912 {
 
     fn rent(&mut self, shop: i32, movie: i32) {
         if let Some(&price) = self.prices.get(&(shop, movie)) {
-            self.pq.remove(&(price, shop, movie));
             self.movies
                 .get_mut(&movie)
                 .map(|movies| movies.remove(&(price, shop)));
 
-            self.r_pq.insert((price, shop, movie));
+            self.pq.insert((price, shop, movie));
         }
     }
 
     fn drop(&mut self, shop: i32, movie: i32) {
         if let Some(&price) = self.prices.get(&(shop, movie)) {
-            self.pq.insert((price, shop, movie));
             self.movies
                 .get_mut(&movie)
                 .map(|movies| movies.insert((price, shop)));
 
-            self.r_pq.remove(&(price, shop, movie));
+            self.pq.remove(&(price, shop, movie));
         }
     }
 
     fn report(&self) -> Vec<Vec<i32>> {
-        self.r_pq
+        self.pq
             .iter()
             .take(5)
             .map(|&(_, shop, movie)| vec![shop, movie])
