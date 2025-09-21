@@ -207,10 +207,8 @@ impl MovieRentingSystem1912 {
                 |mut movies, (shop, movie, price)| {
                     movies
                         .entry(movie)
-                        .and_modify(|pq| {
-                            pq.insert((price, shop));
-                        })
-                        .or_insert(std::collections::BTreeSet::from([(price, shop)]));
+                        .or_insert_with(BTreeSet::new)
+                        .insert((price, shop));
 
                     movies
                 },
