@@ -664,14 +664,11 @@ impl Router3508 {
     }
 
     fn forward_packet(&mut self) -> Vec<i32> {
-        self.fifo
-            .pop_front()
-            .map(|pkt| {
-                self.pkts.remove(&pkt);
-                self.dsts.get_mut(&pkt.1).map(|vd| vd.pop_front());
-                vec![pkt.0, pkt.1, pkt.2]
-            })
-            .unwrap_or(vec![])
+        self.fifo.pop_front().map_or(vec![], |pkt| {
+            self.pkts.remove(&pkt);
+            self.dsts.get_mut(&pkt.1).map(|vd| vd.pop_front());
+            vec![pkt.0, pkt.1, pkt.2]
+        })
     }
 
     fn get_count(&self, destination: i32, start_time: i32, end_time: i32) -> i32 {
