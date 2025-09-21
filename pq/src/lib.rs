@@ -177,6 +177,84 @@ impl Sol1792 {
     }
 }
 
+/// 1912h Design Movie Rental System
+#[derive(Debug)]
+struct MovieRentingSystem1912 {
+    prices: std::collections::HashMap<(i32, i32), i32>, // (Shop, Movie) -> Price
+    pq: std::collections::BTreeSet<(i32, i32, i32)>,    // (Price, Shop, Movie)
+    movies: std::collections::HashMap<i32, std::collections::BTreeSet<(i32, i32)>>, // Movie -> (Price, Shop)
+    r_pq: std::collections::BTreeSet<(i32, i32, i32)>, // (Price, Shop, Movie)
+}
+
+impl MovieRentingSystem1912 {
+    /// 0 <= Shop < 3*10^5
+    /// 1 <= Movie, Price <= 10^4
+    fn new(n: i32, entries: Vec<Vec<i32>>) -> Self {
+        MovieRentingSystem1912 {
+            prices: entries.iter().map(|v| ((v[0], v[1]), v[2])).collect(),
+            pq: entries
+                .iter()
+                .map(|v| {
+                    let [shop, movie, price, ..] = v[..] else {
+                        panic!()
+                    };
+                    (price, shop, movie)
+                })
+                .collect(),
+            movies: entries.iter().map(|v| (v[0], v[1], v[2])).fold(
+                HashMap::new(),
+                |mut movies, (shop, movie, price)| {
+                    movies
+                        .entry(movie)
+                        .and_modify(|pq| {
+                            pq.insert((price, shop));
+                        })
+                        .or_insert(std::collections::BTreeSet::from([(price, shop)]));
+
+                    movies
+                },
+            ),
+            r_pq: BTreeSet::new(),
+        }
+    }
+
+    fn search(&self, movie: i32) -> Vec<i32> {
+        self.movies.get(&movie).map_or(vec![], |movies| {
+            movies.iter().take(5).map(|&(_, shop)| shop).collect()
+        })
+    }
+
+    fn rent(&mut self, shop: i32, movie: i32) {
+        if let Some(&price) = self.prices.get(&(shop, movie)) {
+            self.pq.remove(&(price, shop, movie));
+            self.movies
+                .get_mut(&movie)
+                .map(|movies| movies.remove(&(price, shop)));
+
+            self.r_pq.insert((price, shop, movie));
+        }
+    }
+
+    fn drop(&mut self, shop: i32, movie: i32) {
+        if let Some(&price) = self.prices.get(&(shop, movie)) {
+            self.pq.insert((price, shop, movie));
+            self.movies
+                .get_mut(&movie)
+                .map(|movies| movies.insert((price, shop)));
+
+            self.r_pq.remove(&(price, shop, movie));
+        }
+    }
+
+    fn report(&self) -> Vec<Vec<i32>> {
+        self.r_pq
+            .iter()
+            .take(5)
+            .map(|&(_, shop, movie)| vec![shop, movie])
+            .collect()
+    }
+}
+
 /// 2231 Largest Number After Digit Swaps by Parity
 struct Sol2231 {}
 

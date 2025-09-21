@@ -53,6 +53,45 @@ fn test_1792() {
 }
 
 #[test]
+fn test_1912() {
+    let mut o = MovieRentingSystem1912::new(
+        3,
+        [
+            [0, 1, 5], // [shop, movie, price]
+            [0, 2, 6],
+            [0, 3, 7],
+            [1, 1, 4],
+            [1, 2, 7],
+            [2, 1, 5],
+        ]
+        .into_iter()
+        .map(|a| a.into_iter().collect())
+        .collect(),
+    );
+    println!("-> {o:?}");
+
+    assert_eq!(o.search(1), vec![1, 0, 2]);
+
+    for (shop, movie) in [(0, 1), (1, 2)] {
+        o.rent(shop, movie);
+    }
+    println!("-> {o:?}");
+
+    assert_eq!(
+        o.report(),
+        [[0, 1], [1, 2]]
+            .into_iter()
+            .map(|a| a.into_iter().collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    );
+
+    o.drop(1, 2);
+    println!("-> {o:?}");
+
+    assert_eq!(o.search(2), vec![0, 1]);
+}
+
+#[test]
 fn test_2231() {
     for (rst, num) in [
         (3412, 1234),
