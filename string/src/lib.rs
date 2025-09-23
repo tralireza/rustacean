@@ -137,7 +137,8 @@ impl Sol165 {
 
         version1
             .iter()
-            .zip(version2.iter().chain([0].iter().cycle()))
+            .zip(version2.iter().chain(std::iter::repeat(&0)))
+            .inspect(|z| println!("-> {z:?}"))
             .filter(|&(rv1, rv2)| rv1 != rv2)
             .take(1)
             .next()
