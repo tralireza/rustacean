@@ -140,8 +140,7 @@ impl Sol165 {
             .zip(version2.iter().chain(std::iter::repeat(&0)))
             .inspect(|z| println!("-> {z:?}"))
             .filter(|&(rv1, rv2)| rv1 != rv2)
-            .take(1)
-            .next()
+            .nth(0)
             .map_or(0, |(rv1, rv2)| if rv1 > rv2 { dir } else { -dir })
     }
 }
