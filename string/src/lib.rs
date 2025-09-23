@@ -435,8 +435,7 @@ impl Sol1957 {
             s.chars()
                 .collect::<Vec<_>>()
                 .chunk_by(|&a, &b| a == b)
-                .map(|chunk| chunk.iter().take(2.min(chunk.len())).collect::<Vec<_>>())
-                .flatten()
+                .flat_map(|chunk| chunk.iter().take(2.min(chunk.len())).collect::<Vec<_>>())
                 .collect::<Vec<_>>()
         );
 
