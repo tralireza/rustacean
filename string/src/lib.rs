@@ -113,6 +113,38 @@ impl Sol65 {
     }
 }
 
+/// 165m Compare Version Numbers
+struct Sol165 {}
+
+impl Sol165 {
+    pub fn compare_version(version1: String, version2: String) -> i32 {
+        let mut version1: Vec<_> = version1
+            .split('.')
+            .flat_map(|rv| rv.parse::<i32>())
+            .collect();
+        let mut version2: Vec<_> = version2
+            .split('.')
+            .flat_map(|rv| rv.parse::<i32>())
+            .collect();
+
+        println!("-> {version1:?} {version2:?}");
+
+        let mut dir = 1;
+        if version1.len() < version2.len() {
+            (version1, version2) = (version2, version1);
+            dir = -1;
+        }
+
+        version1
+            .iter()
+            .zip(version2.iter().chain([0].iter().cycle()))
+            .filter(|&(rv1, rv2)| rv1 != rv2)
+            .take(1)
+            .next()
+            .map_or(0, |(rv1, rv2)| if rv1 > rv2 { dir } else { -dir })
+    }
+}
+
 /// 466h Count The Repetition
 struct Sol466 {}
 

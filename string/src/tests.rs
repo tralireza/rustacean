@@ -26,6 +26,22 @@ fn test_65() {
 }
 
 #[test]
+fn test_165() {
+    for (rst, version1, version2) in [
+        (-1, "1.2", "1.10"),
+        (0, "1.01", "1.001"),
+        (0, "1.0", "1.0.0.0"),
+    ] {
+        println!("* {version1:?} {version2:?}");
+        assert_eq!(
+            Sol165::compare_version(version1.to_string(), version2.to_string()),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_466() {
     for (rst, s1, n1, s2, n2) in [
         (2, "abc".to_string(), 4, "ab".to_string(), 2),
