@@ -8,6 +8,20 @@ fn test_29() {
 }
 
 #[test]
+fn test_166() {
+    for (rst, numerator, denominator) in [
+        ("0.5", 1, 2),
+        ("2", 2, 1),
+        ("0.(012)", 4, 333),
+        ("0.(003)", 1, 333), // 18/41
+    ] {
+        println!("* {numerator} {denominator}");
+        assert_eq!(Sol166::fraction_to_decimal(numerator, denominator), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_335() {
     for (rst, distance) in [
         (true, vec![2, 1, 1, 2]),

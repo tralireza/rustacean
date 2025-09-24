@@ -44,6 +44,58 @@ impl Sol29 {
     }
 }
 
+/// 166m Fraction to Recurring Decimal
+struct Sol166 {}
+
+impl Sol166 {
+    /// -2^31 <= N, D <= 2^31-1
+    pub fn fraction_to_decimal(numerator: i32, denominator: i32) -> String {
+        use std::collections::HashMap;
+
+        if numerator == 0 {
+            return "0".to_string();
+        }
+
+        let mut parts = vec![];
+        if (numerator < 0) ^ (denominator < 0) {
+            parts.push("-".to_string());
+        }
+
+        let mut numerator = (numerator as i64).abs();
+        let denominator = (denominator as i64).abs();
+
+        parts.push((numerator / denominator).to_string());
+
+        if numerator % denominator == 0 {
+            return parts.join("");
+        }
+
+        parts.push(".".to_string());
+
+        let mut rs = HashMap::new();
+
+        numerator %= denominator;
+        while numerator != 0 {
+            if let Some(&p) = rs.get(&numerator) {
+                parts.insert(p, "(".to_string());
+                parts.push(")".to_string());
+                break;
+            }
+
+            rs.insert(numerator, parts.len());
+
+            numerator *= 10;
+            parts.push((numerator / denominator).to_string());
+
+            numerator %= denominator;
+        }
+
+        println!("-> {rs:?} {parts:?}");
+
+        parts.join("")
+    }
+}
+
 /// 335h Self Crossing
 struct Sol335 {}
 
