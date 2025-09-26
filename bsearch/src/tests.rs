@@ -26,6 +26,21 @@ fn test_315() {
 }
 
 #[test]
+fn test_611() {
+    for (rst, nums) in [
+        (3, vec![2, 2, 3, 4]),
+        (4, vec![4, 2, 3, 4]),
+        (0, vec![1, 1, 3, 4]),                              // 17/241
+        (10, vec![24, 3, 82, 22, 35, 84, 19]),              // 39/241
+        (91, vec![61, 73, 62, 57, 46, 11, 33, 79, 79, 60]), // 127/241
+    ] {
+        println!("* {nums:?}");
+        assert_eq!(Sol611::triangle_number(nums), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_704() {
     for (rst, target, nums) in [
         (4, 9, vec![-1, 0, 3, 5, 9, 12]),

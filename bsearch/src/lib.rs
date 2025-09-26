@@ -162,6 +162,44 @@ impl Sol315 {
     }
 }
 
+/// 611m Valid Triangle Number
+struct Sol611 {}
+
+impl Sol611 {
+    pub fn triangle_number(mut nums: Vec<i32>) -> i32 {
+        nums.sort_unstable();
+        println!("-> {nums:?}");
+
+        let lsearch = |from, target| {
+            let (mut l, mut r) = (from, nums.len());
+            while l < r {
+                let m = l + ((r - l) >> 1);
+                if nums[m] < target {
+                    l = m + 1;
+                } else {
+                    r = m;
+                }
+            }
+
+            l
+        };
+
+        nums.iter()
+            .enumerate()
+            .filter(|&(_, &n)| n > 0)
+            .fold(0, |count, (i, &a)| {
+                count
+                    + nums
+                        .iter()
+                        .enumerate()
+                        .take(nums.len() - 1)
+                        .skip(i + 1)
+                        .map(|(j, &b)| lsearch(j + 1, a + b) - j - 1)
+                        .sum::<usize>() as i32
+            })
+    }
+}
+
 /// 704 Binary Search
 struct Sol704;
 
