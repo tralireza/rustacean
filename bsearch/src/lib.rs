@@ -187,16 +187,15 @@ impl Sol611 {
         nums.iter()
             .enumerate()
             .filter(|&(_, &n)| n > 0)
-            .fold(0, |count, (i, &a)| {
-                count
-                    + nums
-                        .iter()
-                        .enumerate()
-                        .take(nums.len() - 1)
-                        .skip(i + 1)
-                        .map(|(j, &b)| lsearch(j + 1, a + b) - j - 1)
-                        .sum::<usize>() as i32
+            .map(|(i, &a)| {
+                nums.iter()
+                    .enumerate()
+                    .take(nums.len() - 1)
+                    .skip(i + 1)
+                    .map(|(j, &b)| lsearch(j + 1, a + b) - (j + 1))
+                    .sum::<usize>()
             })
+            .sum::<usize>() as _
     }
 }
 
