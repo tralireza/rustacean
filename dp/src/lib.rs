@@ -589,7 +589,10 @@ impl Sol1039 {
             }
         }
 
-        search(&mut cache, 0, values.len() - 1, &values)
+        let score = search(&mut cache, 0, values.len() - 1, &values);
+        println!("-> {cache:?}");
+
+        score
     }
 }
 
