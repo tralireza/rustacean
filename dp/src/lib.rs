@@ -552,6 +552,47 @@ impl Sol873 {
     }
 }
 
+/// 1039m Minimum Score Triangulation of Polygon
+struct Sol1039 {}
+
+impl Sol1039 {
+    pub fn min_score_triangulation(values: Vec<i32>) -> i32 {
+        use std::collections::HashMap;
+
+        let mut cache = HashMap::new();
+        fn search(
+            cache: &mut HashMap<(usize, usize), i32>,
+            i: usize,
+            j: usize,
+            values: &[i32],
+        ) -> i32 {
+            if i + 2 > j {
+                return 0;
+            }
+            if i + 2 == j {
+                return values[i] * values[(i + 1) & (j - 1)] * values[j];
+            }
+
+            if let Some(&score) = cache.get(&(i, j)) {
+                score
+            } else {
+                let score = (i + 1..j)
+                    .map(|k| {
+                        search(cache, i, k, values)
+                            + values[i] * values[k] * values[j]
+                            + search(cache, k, j, values)
+                    })
+                    .min()
+                    .unwrap();
+                cache.insert((i, j), score);
+                score
+            }
+        }
+
+        search(&mut cache, 0, values.len() - 1, &values)
+    }
+}
+
 /// 1092h Shortest Common Supersequence
 struct Sol1092;
 

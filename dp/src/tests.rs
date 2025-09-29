@@ -138,6 +138,19 @@ fn test_873() {
 }
 
 #[test]
+fn test_1039() {
+    for (rst, values) in [
+        (6, vec![1, 2, 3]),
+        (144, vec![3, 7, 4, 5]),
+        (13, vec![1, 3, 1, 4, 1, 5]),
+    ] {
+        println!("* {values:?}");
+        assert_eq!(Sol1039::min_score_triangulation(values), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1092() {
     for f in [
         Sol1092::shortest_common_supersequence,
