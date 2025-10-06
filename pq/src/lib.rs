@@ -89,7 +89,11 @@ impl Sol778 {
 
         let mut t = 0;
         while let Some((Reverse(height), r, c)) = pq.pop() {
+            println!("-> {:?}", (height, r, c));
+
             if r + 1 == grid.len() && c + 1 == grid[r].len() {
+                println!("-> {pq:?}");
+
                 return t.max(height);
             }
 
@@ -104,9 +108,7 @@ impl Sol778 {
             }
         }
 
-        println!("-> {grid:?}");
-
-        t
+        -1
     }
 }
 
