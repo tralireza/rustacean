@@ -76,6 +76,40 @@ impl Sol407 {
     }
 }
 
+/// 778 Swim in Rising Water
+struct Sol778 {}
+
+impl Sol778 {
+    pub fn swim_in_water(mut grid: Vec<Vec<i32>>) -> i32 {
+        use std::cmp::Reverse;
+        use std::collections::BinaryHeap;
+
+        let mut pq = BinaryHeap::new();
+        pq.push((Reverse(grid[0][0]), 0, 0));
+
+        let mut t = 0;
+        while let Some((Reverse(height), r, c)) = pq.pop() {
+            if r + 1 == grid.len() && c + 1 == grid[r].len() {
+                return t.max(height);
+            }
+
+            t = t.max(height);
+
+            for (dr, dc) in [(1, 0), (-1, 0), (0, 1), (0, -1)] {
+                let (r, c) = (r.wrapping_add_signed(dr), c.wrapping_add_signed(dc));
+                if r < grid.len() && c < grid[r].len() && grid[r][c] != -1 {
+                    pq.push((Reverse(grid[r][c]), r, c));
+                    grid[r][c] = -1;
+                }
+            }
+        }
+
+        println!("-> {grid:?}");
+
+        t
+    }
+}
+
 /// 1046 Last Stone Weight
 struct Sol1046 {}
 

@@ -27,6 +27,27 @@ fn test_407() {
 }
 
 #[test]
+fn test_778() {
+    for (rst, grid) in [
+        (3, vec![vec![0, 2], vec![1, 3]]),
+        (
+            16,
+            vec![
+                vec![0, 1, 2, 3, 4],
+                vec![24, 23, 22, 21, 5],
+                vec![12, 13, 14, 15, 16],
+                vec![11, 17, 18, 19, 20],
+                vec![10, 9, 8, 7, 6],
+            ],
+        ),
+    ] {
+        println!("* {grid:?}");
+        assert_eq!(Sol778::swim_in_water(grid), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1046() {
     for (rst, stones) in [(1, vec![2, 7, 4, 1, 8, 1]), (1, vec![1])] {
         println!("* {stones:?}");
