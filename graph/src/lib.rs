@@ -1,5 +1,51 @@
 //! # Graph (DFS, BFS, Topological Sort, Kahn's)
 
+/// 417m Pacific Atlantic Water Flow
+struct Sol417 {}
+
+impl Sol417 {
+    pub fn pacific_atlantic(heights: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let mut vis = vec![vec![0; heights[0].len()]; heights.len()];
+
+        fn dfs(heights: &[Vec<i32>], r: usize, c: usize, vis: &mut [Vec<i32>], ocean: i32) {
+            vis[r][c] |= ocean;
+            for (dr, dc) in [(1, 0), (-1, 0), (0, 1), (0, -1)] {
+                let h_cur = heights[r][c];
+                let (r, c) = (r.wrapping_add_signed(dr), c.wrapping_add_signed(dc));
+                if r < heights.len()
+                    && c < heights[0].len()
+                    && heights[r][c] >= h_cur
+                    && vis[r][c] & ocean != ocean
+                {
+                    dfs(heights, r, c, vis, ocean);
+                }
+            }
+        }
+
+        for c in 0..heights[0].len() {
+            dfs(&heights, 0, c, &mut vis, 1);
+            dfs(&heights, heights.len() - 1, c, &mut vis, 2);
+        }
+        for r in 0..heights.len() {
+            dfs(&heights, r, 0, &mut vis, 1);
+            dfs(&heights, r, heights[0].len() - 1, &mut vis, 2);
+        }
+
+        println!("-> {vis:?}");
+
+        vis.iter()
+            .enumerate()
+            .flat_map(|(r, row)| {
+                row.iter()
+                    .enumerate()
+                    .filter(|&(_, ocean)| ocean & 3 == 3)
+                    .map(|(c, _)| vec![r as i32, c as i32])
+                    .collect::<Vec<_>>()
+            })
+            .collect()
+    }
+}
+
 /// 684m Redundant Connection
 struct Sol684;
 

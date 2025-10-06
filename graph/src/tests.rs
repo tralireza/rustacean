@@ -1,6 +1,27 @@
 use super::*;
 
 #[test]
+fn test_417() {
+    for (rst, heights) in [
+        (
+            vec![[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]],
+            vec![
+                vec![1, 2, 2, 3, 5],
+                vec![3, 2, 3, 4, 4],
+                vec![2, 4, 5, 3, 1],
+                vec![6, 7, 1, 4, 5],
+                vec![5, 1, 1, 2, 4],
+            ],
+        ),
+        (vec![[0, 0]], vec![vec![1]]),
+    ] {
+        println!("* {heights:?}");
+        assert_eq!(Sol417::pacific_atlantic(heights), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_684() {
     for f in [
         Sol684::find_redundant_connection,
