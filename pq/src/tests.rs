@@ -179,6 +179,15 @@ fn test_3066() {
 }
 
 #[test]
+fn test_3147() {
+    for (rst, energy, k) in [(3, vec![5, 2, -10, -5, 1], 3), (-1, vec![-2, -3, -1], 2)] {
+        println!("* {energy:?} {k}");
+        assert_eq!(Sol3147::maximum_energy(energy, k), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3362() {
     for (rst, nums, queries) in [
         (1, vec![2, 0, 2], vec![vec![0, 2], vec![0, 2], vec![1, 1]]),

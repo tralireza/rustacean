@@ -397,6 +397,23 @@ impl Sol3066 {
     }
 }
 
+/// 3147m Taking Maximum Energy From the Mystic Dungeon
+struct Sol3147 {}
+
+impl Sol3147 {
+    pub fn maximum_energy(energy: Vec<i32>, k: i32) -> i32 {
+        (0..k as usize).fold(i32::MIN, |mut e_max, start| {
+            let mut e_sum = 0;
+            for e in energy.iter().skip(start).step_by(k as usize).rev() {
+                e_sum += e;
+                e_max = e_max.max(e_sum);
+            }
+
+            e_max
+        })
+    }
+}
+
 /// 3362m Zero Array Transformation III
 struct Sol3362;
 
