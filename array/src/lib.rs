@@ -576,6 +576,51 @@ impl Sol2419 {
     }
 }
 
+/// 2536m Increment Submatrices by One
+struct Sol2536 {}
+
+impl Sol2536 {
+    pub fn range_add_queries(n: i32, queries: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let n = n as usize;
+
+        let diffs = queries
+            .iter()
+            .fold(vec![vec![0; n + 1]; n + 1], |mut diffs, query| {
+                let [r1, c1, r2, c2, ..] = query[..] else {
+                    panic!()
+                };
+
+                let (r1, r2, c1, c2) = (r1 as usize, r2 as usize, c1 as usize, c2 as usize);
+
+                diffs[r1][c1] += 1;
+                diffs[r2 + 1][c1] -= 1;
+                diffs[r1][c2 + 1] -= 1;
+                diffs[r2 + 1][c2 + 1] += 1;
+
+                diffs
+            });
+
+        println!("-> {diffs:?}");
+
+        let mut matrix = vec![vec![0; n as usize]; n as usize];
+        for r in 0..n {
+            for c in 0..n {
+                let left = if r == 0 { 0 } else { matrix[r - 1][c] };
+                let above = if c == 0 { 0 } else { matrix[r][c - 1] };
+                let diagonal = if r == 0 || c == 0 {
+                    0
+                } else {
+                    matrix[r - 1][c - 1]
+                };
+
+                matrix[r][c] = diffs[r][c] + left + above - diagonal;
+            }
+        }
+
+        matrix
+    }
+}
+
 /// 2780m Minimum Index of a Valid Split
 struct Sol2780;
 

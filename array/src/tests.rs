@@ -327,6 +327,31 @@ fn test_2419() {
 }
 
 #[test]
+fn test_2536() {
+    for (rst, n, queries) in [
+        (
+            vec![vec![1, 1, 0], vec![1, 2, 1], vec![0, 1, 1]],
+            3,
+            vec![[1, 1, 2, 2], [0, 0, 1, 1]],
+        ),
+        (vec![vec![1, 1], vec![1, 1]], 2, vec![[0, 0, 1, 1]]),
+    ] {
+        println!("* {n} {queries:?}");
+        assert_eq!(
+            Sol2536::range_add_queries(
+                n,
+                queries
+                    .into_iter()
+                    .map(|row| row.into_iter().collect())
+                    .collect()
+            ),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2780() {
     for (rst, nums) in [
         (2, vec![1, 2, 2, 2]),
