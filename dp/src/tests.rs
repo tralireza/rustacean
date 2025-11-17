@@ -72,6 +72,21 @@ fn test_377() {
 }
 
 #[test]
+fn test_474() {
+    for (rst, strs, m, n) in [
+        (4, vec!["10", "0001", "111001", "1", "0"], 5, 3),
+        (2, vec!["10", "0", "1"], 1, 1),
+    ] {
+        println!("* {strs:?} {m} {n}");
+        assert_eq!(
+            Sol474::find_max_form(strs.into_iter().map(|s| s.to_string()).collect(), m, n),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_516() {
     for (rst, s) in [(4, "bbbab".to_string()), (2, "cbbd".to_string())] {
         assert_eq!(Sol516::longest_palindrome_subseq(s), rst);

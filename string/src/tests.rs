@@ -174,6 +174,15 @@ fn test_1163() {
 }
 
 #[test]
+fn test_1513() {
+    for (rst, s) in [(9, "0110111"), (2, "101"), (21, "111111")] {
+        println!("* {s:?}");
+        assert_eq!(Sol1513::num_sub(s.to_string()), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_1876() {
     for (rst, s) in [(1, "xyzzaz"), (4, "aababcabc")] {
         println!("* {s:?}");

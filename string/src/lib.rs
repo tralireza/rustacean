@@ -399,6 +399,23 @@ impl Sol1163 {
     }
 }
 
+/// 1513m Number of Substrings With Only 1s
+struct Sol1513 {}
+
+impl Sol1513 {
+    pub fn num_sub(s: String) -> i32 {
+        const M: usize = 1e9 as usize + 7;
+
+        s.chars()
+            .collect::<Vec<char>>()
+            .chunk_by(|c, c_next| c == c_next)
+            .filter(|chk| chk[0] == '1')
+            .inspect(|e| println!("-> {e:?}"))
+            .map(|chk| (chk.len() * (chk.len() + 1) / 2) % M)
+            .fold(0, |total, n| (total + n) % M) as _
+    }
+}
+
 /// 1876 Substrings of Size Three with Distinct Characters
 struct Sol1876 {}
 
