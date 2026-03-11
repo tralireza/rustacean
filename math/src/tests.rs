@@ -158,6 +158,20 @@ fn test_1780() {
 }
 
 #[test]
+fn test_1980() {
+    use std::collections::HashSet;
+    for (rst, nums) in [(["00", "11"], ["01", "10"])] {
+        let rst: HashSet<_> = rst.into_iter().map(|s| s.to_string()).collect();
+
+        println!("* {nums:?}");
+        assert!(rst.contains(&Sol1980::find_different_binary_string(
+            nums.into_iter().map(|s| s.to_string()).collect()
+        )));
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_2081() {
     for (rst, k, n) in [(25, 2, 5), (499, 3, 7), (20379000, 7, 17)] {
         println!("* {k} {n}");

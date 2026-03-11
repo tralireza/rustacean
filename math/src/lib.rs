@@ -518,6 +518,22 @@ impl Sol1780 {
     }
 }
 
+/// 1980m Find Unique Binary String
+struct Sol1980;
+
+impl Sol1980 {
+    pub fn find_different_binary_string(nums: Vec<String>) -> String {
+        nums.iter()
+            .enumerate()
+            .filter_map(|(i, s)| s.chars().nth(i))
+            .map(|chr| match chr {
+                '1' => '0',
+                _ => '1',
+            })
+            .collect()
+    }
+}
+
 /// 2081h Count of k-Mirror Numbers
 struct Sol2081 {}
 
