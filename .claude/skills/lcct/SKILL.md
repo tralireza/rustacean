@@ -28,6 +28,16 @@ The body includes:
 2. Test execution output (debug prints, assertions)
 3. Test result summary
 
+## Scaffolding
+
+When creating scaffolding code (struct, impl, test), always run `rustfmt` on the files afterward:
+
+```bash
+source ~/.cargo/env && rustfmt <file_path>
+```
+
+This ensures consistent formatting and avoids linter-triggered reformats.
+
 ## Commit Command
 
 ```bash
