@@ -49,6 +49,27 @@ impl Sol498 {
     }
 }
 
+/// 657 Robot Return to Origin
+struct Sol657;
+
+impl Sol657 {
+    pub fn judge_circle(moves: String) -> bool {
+        let (x, y) = moves.chars().fold((0, 0), |(mut x, mut y), chr| {
+            match chr {
+                'L' => x -= 1,
+                'R' => x += 1,
+                'U' => y += 1,
+                'D' => y -= 1,
+                _ => (),
+            };
+
+            (x, y)
+        });
+
+        x == 0 && y == 0
+    }
+}
+
 /// 2154 Keep Multiplying Found Values by Two
 struct Sol2154 {}
 
@@ -63,7 +84,11 @@ impl Sol2154 {
         }
 
         successors(Some(original), |o| {
-            if hs.contains(o) { Some(o << 1) } else { None }
+            if hs.contains(o) {
+                Some(o << 1)
+            } else {
+                None
+            }
         })
         .last()
         .unwrap()

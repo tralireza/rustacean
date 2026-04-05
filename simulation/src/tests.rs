@@ -17,6 +17,19 @@ fn test_498() {
 }
 
 #[test]
+fn test_657() {
+    for (rst, moves) in [
+        (true, "UD"),
+        (false, "LL"),
+        (true, "LRUD"),
+    ] {
+        println!("* {moves:?}");
+        assert_eq!(Sol657::judge_circle(moves.to_string()), rst);
+        println!(":: {rst}");
+    }
+}
+
+#[test]
 fn test_2154() {
     for (rst, nums, original) in [(24, vec![5, 3, 6, 1, 12], 3), (4, vec![2, 7, 9], 4)] {
         println!("* {nums:?} {original}");
