@@ -310,6 +310,18 @@ fn test_2785() {
 }
 
 #[test]
+fn test_2833() {
+    for (rst, moves) in [(3, "L_RL__R"), (5, "_R__LL_"), (7, "_______"), (2, "LRR_")] {
+        println!("* {moves:?}");
+        assert_eq!(
+            Sol2833::furthest_distance_from_origin(moves.to_string()),
+            rst
+        );
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_3330() {
     for (rst, word) in [
         (5, "abbcccc".to_string()),

@@ -589,6 +589,25 @@ impl Sol2785 {
     }
 }
 
+/// 2833 Furthest Point From Origin
+struct Sol2833;
+
+impl Sol2833 {
+    pub fn furthest_distance_from_origin(moves: String) -> i32 {
+        let (mut dist, mut extra) = (0, 0);
+        for chr in moves.chars() {
+            match chr {
+                'L' => dist += 1,
+                'R' => dist -= 1,
+                _ => extra += 1,
+            }
+        }
+        println!("-> RΔL:{dist} _:{extra}");
+
+        (dist as i32).abs() + extra
+    }
+}
+
 /// 3330 Find the Original Typed String I
 struct Sol3330;
 
