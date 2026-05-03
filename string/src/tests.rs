@@ -54,6 +54,18 @@ fn test_466() {
 }
 
 #[test]
+fn test_796() {
+    for (rst, s, goal) in [
+        (true, "abcde".to_string(), "cdeab".to_string()),
+        (false, "abcde".to_string(), "abced".to_string()),
+    ] {
+        println!("* {s:?} {goal:?}");
+        assert_eq!(Sol796::rotate_string(s, goal), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_804() {
     macro_rules! s {
         ($s:expr) => {

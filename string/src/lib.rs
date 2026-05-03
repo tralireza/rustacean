@@ -181,6 +181,15 @@ impl Sol466 {
     }
 }
 
+/// 796 Rotate String
+struct Sol796 {}
+
+impl Sol796 {
+    pub fn rotate_string(s: String, goal: String) -> bool {
+        s.len() == goal.len() && s.repeat(2).contains(&goal)
+    }
+}
+
 /// 804 Unique Morse Code Words
 struct Sol804 {}
 
