@@ -38,6 +38,24 @@ source ~/.cargo/env && rustfmt <file_path>
 
 This ensures consistent formatting and avoids linter-triggered reformats.
 
+## Staging — only the new solution + its test
+
+The commit MUST contain exactly two hunks: the new `SolNNN` block in `<package>/src/lib.rs` and the new `test_NNN` function in `<package>/src/tests.rs`. Any other diff in those files (formatting drift, edits to other tests/structs, unrelated work) MUST be excluded.
+
+Procedure (run in order):
+
+1. **Inspect**: `git diff -- <package>/src/lib.rs <package>/src/tests.rs` — read every hunk.
+2. **Clean case** — diff contains only the new `SolNNN` block + new `test_NNN` function:
+   - `git add <package>/src/lib.rs <package>/src/tests.rs`
+3. **Mixed case** — diff contains unrelated hunks too:
+   - Build a patch with only the wanted hunks: write a `.patch` file containing the `diff --git` header plus exactly the hunks for the new struct/impl and the new test function.
+   - Apply it to the index: `git apply --cached <file>.patch`
+   - Do NOT `git add` the whole file in this case.
+4. **Verify**: `git diff --staged` — output must show ONLY the new struct/impl and the new test function. If anything else appears, `git restore --staged <file>` and redo step 3.
+5. **Commit** using the command below.
+
+Forbidden: `git add -A`, `git add .`, `git commit -a`, staging an entire file when other hunks are present.
+
 ## Commit Command
 
 ```bash
