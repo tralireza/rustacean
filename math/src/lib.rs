@@ -192,12 +192,8 @@ impl Sol788 {
                         5 => 2,
                         9 => 6,
                         6 => 9,
-                        _ => -1,
+                        _ => return None,
                     };
-
-                    if d < 0 {
-                        return None;
-                    }
 
                     n /= 10;
                     r += p * d;
