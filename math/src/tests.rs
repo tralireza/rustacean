@@ -51,6 +51,15 @@ fn test_587() {
 }
 
 #[test]
+fn test_788() {
+    for (rst, n) in [(4, 10), (0, 1), (247, 857)] {
+        println!("* {n}");
+        assert_eq!(Sol788::rotated_digits(n), rst);
+        println!(":: {rst:?}");
+    }
+}
+
+#[test]
 fn test_837() {
     for (rst, n, k, max_pts) in [(1.0, 10, 1, 10), (0.6, 6, 1, 10), (0.73278, 21, 17, 10)] {
         println!("* {n} {k} {max_pts}");

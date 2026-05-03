@@ -174,6 +174,44 @@ impl Sol587 {
     }
 }
 
+/// 788m Rotated Digits
+struct Sol788;
+
+impl Sol788 {
+    pub fn rotated_digits(n: i32) -> i32 {
+        (1..=n)
+            .filter_map(|x| {
+                let (mut r, mut p) = (0, 1);
+                let mut n = x;
+                while n > 0 {
+                    let d = match n % 10 {
+                        0 => 0,
+                        1 => 1,
+                        8 => 8,
+                        2 => 5,
+                        5 => 2,
+                        9 => 6,
+                        6 => 9,
+                        _ => -1,
+                    };
+
+                    if d < 0 {
+                        return None;
+                    }
+
+                    n /= 10;
+                    r += p * d;
+                    p *= 10;
+                }
+
+                Some((x, r))
+            })
+            .filter(|(n, r)| n != r)
+            .inspect(|t| println!("-> {t:?}"))
+            .count() as _
+    }
+}
+
 /// 837m New 21 Game
 struct Sol837 {}
 
